@@ -6,6 +6,9 @@
         @else if (isToggle(content)) {
             <app-toggle class="content" [toggle]="getAsToggle(content)"></app-toggle>
         }
+        @else if (isPointerToggle(content)) {
+            <app-pointer-mode-toggle class="content" [pointerToggle]="getAsPointerToggle(content)"></app-pointer-mode-toggle>
+        }
         @else {
             <app-divider class="content" [divider]="getAsDivider(content)"></app-divider>
         }

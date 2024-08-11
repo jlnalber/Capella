@@ -41,23 +41,23 @@ export class CanvasComponent {
       pointerStart: (p: Point, context: PointerContext) => {
         const rtx = this.whiteboardService.renderingContext;
         const newP = rtx.transformPointFromCanvasToField(p);
-        this.whiteboardService.mode?.pointerStart(this.whiteboardService, rtx, newP, context);
+        this.whiteboardService.getModeForPointerType(context.pointerType)?.pointerStart(this.whiteboardService, rtx, newP, context);
       },
       pointerEnd: (p: Point, context: PointerContext) => {
         const rtx = this.whiteboardService.renderingContext;
         const newP = rtx.transformPointFromCanvasToField(p);
-        this.whiteboardService.mode?.pointerEnd(this.whiteboardService, rtx, newP, context);
+        this.whiteboardService.getModeForPointerType(context.pointerType)?.pointerEnd(this.whiteboardService, rtx, newP, context);
       },
       pointerMove: (from: Point, to: Point, context: PointerContext) => {
         const rtx = this.whiteboardService.renderingContext;
         const fromNew = rtx.transformPointFromCanvasToField(from);
         const toNew: Point = rtx.transformPointFromCanvasToField(to);
-        this.whiteboardService.mode?.pointerMove(this.whiteboardService, rtx, fromNew, toNew, context);
+        this.whiteboardService.getModeForPointerType(context.pointerType)?.pointerMove(this.whiteboardService, rtx, fromNew, toNew, context);
       },
       click: (p: Point, context: PointerContext) => {
         const rtx = this.whiteboardService.renderingContext;
         const newP = rtx.transformPointFromCanvasToField(p);
-        this.whiteboardService.mode?.click(this.whiteboardService, rtx, newP, context);
+        this.whiteboardService.getModeForPointerType(context.pointerType)?.click(this.whiteboardService, rtx, newP, context);
       },
       scroll: (p: Point, delta: number) => {
         if (delta != 0) {

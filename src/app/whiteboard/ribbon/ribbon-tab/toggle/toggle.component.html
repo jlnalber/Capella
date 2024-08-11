@@ -1,4 +1,4 @@
-<div class="toggle control" [class]="this.toggle.active() ? 'active' : 'inactive'" [title]="this.toggle.title" (click)="this.toggle.click()">
+<div class="toggle control" [class]="this.toggle.active() ? 'active' : 'inactive'" [title]="this.toggle.title" (pointerup)="this.toggle.click($event)">
     <img [src]="'./assets/' + this.toggle.icon + '.svg'" class="icon"/>
     <p>{{ this.toggle.name }}</p>
 </div>

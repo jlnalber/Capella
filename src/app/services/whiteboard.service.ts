@@ -11,6 +11,7 @@ import { CanvasElement } from '../global/classes/abstract/canvasElement';
 import { CanvasClickerElement } from '../global/classes/abstract/canvasClickerElement';
 import { getColorAsRgbaFunction, WHITE } from '../global/interfaces/color';
 import { PenMode } from '../global/classes/modes/penMode';
+import { PointerType } from '../global/classes/pointerController';
 
 
 export const STORAGE_CACHE = 'serialized_whiteboard'
@@ -20,15 +21,56 @@ export const STORAGE_CACHE = 'serialized_whiteboard'
 })
 export class WhiteboardService {
   // #region the properties of the canvas --> bgColor, elements in canvas, transformations and config
-  private _mode: Mode | undefined = new PenMode();// TODO: set default
+  private _mouseMode: Mode | undefined = undefined;// TODO: set default
+  private _penMode: Mode | undefined = undefined;// TODO: set default
+  private _touchMode: Mode | undefined = undefined;// TODO: set default
 
-  public get mode(): Mode | undefined {
-    return this._mode;
+  public get mouseMode(): Mode | undefined {
+    return this._mouseMode;
   }
 
-  public set mode(value: Mode | undefined) {
-    this._mode = value;
+  public set mouseMode(value: Mode | undefined) {
+    this._mouseMode = value;
     this.onModeChanged.emit(value);
+  }
+
+  public get penMode(): Mode | undefined {
+    return this._penMode;
+  }
+
+  public set penMode(value: Mode | undefined) {
+    this._penMode = value;
+    this.onModeChanged.emit(value);
+  }
+
+  public get touchMode(): Mode | undefined {
+    return this._touchMode;
+  }
+
+  public set touchMode(value: Mode | undefined) {
+    this._touchMode = value;
+    this.onModeChanged.emit(value);
+  }
+
+  public getModeForPointerType(pointerType: PointerType): Mode | undefined {
+    if (pointerType === 'mouse') {
+      return this.mouseMode;
+    } else if (pointerType === 'touch') {
+      return this.touchMode;
+    } else if (pointerType === 'pen') {
+      return this.penMode;
+    }
+    return undefined;
+  }
+
+  public setModeForPointerType(pointerType: PointerType, mode: Mode | undefined): void {
+    if (pointerType === 'mouse') {
+      this.mouseMode = mode;
+    } else if (pointerType === 'touch') {
+      this.touchMode = mode;
+    } else if (pointerType === 'pen') {
+      this.penMode = mode;
+    }
   }
 
   /*private _backgroundColor: Color = {

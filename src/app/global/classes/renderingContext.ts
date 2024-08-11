@@ -7,6 +7,8 @@ import AbstractRenderingContext, { SizePoint } from "./abstractRenderingContext"
 
 const LINE_DASH = [10, 10]
 
+let noise: CanvasPattern | undefined = undefined;
+
 // export interface Config {
 //   showGrid?: boolean,
 //   gridColor?: Color,
@@ -78,9 +80,12 @@ export class RenderingContext extends AbstractRenderingContext {
     }
   }
 
-  public drawBezierPath(points: SizePoint[], lineWidth: number, stroke: Color, fill?: Color, dashed?: boolean): void {
-    let realPoints = points.map(p => {
-      return this.transformPointFromFieldToCanvasWithResolutionFactor(p);
+  public drawQuadraticPath(points: SizePoint[], lineWidth: number, stroke: Color, dashed?: boolean): void {
+    const realPoints: SizePoint[] = points.map(p => {
+      return {
+        ...this.transformPointFromFieldToCanvasWithResolutionFactor(p),
+        size: p.size
+      }
     });
 
     /*for (let p of realPoints) {
@@ -96,46 +101,71 @@ export class RenderingContext extends AbstractRenderingContext {
     this.ctx.strokeStyle = getColorAsRgbaFunction(this.getRightColor(stroke));
     this.ctx.lineWidth = lineWidth * this.resolutionFactor;
 
+    function createNoisePattern(): CanvasPattern {
+      if (!noise) {
+        const width = 100;
+        const height = 100;
+        const noiseCanvas = document.createElement('canvas');
+        noiseCanvas.width = width;
+        noiseCanvas.height = height;
+        const noiseCtx = noiseCanvas.getContext('2d') as CanvasRenderingContext2D;
+    
+        if (noiseCtx) {
+            const imageData = noiseCtx.createImageData(width, height);
+            const data = imageData.data;
+    
+            for (let i = 0; i < data.length; i += 4) {
+                const gray = Math.sqrt(Math.random()) * 255;
+                data[i] = gray;
+                data[i + 1] = gray;
+                data[i + 2] = gray;
+                data[i + 3] = 255;
+            }
+    
+            noiseCtx.putImageData(imageData, 0, 0);
+          }
+        noise = noiseCtx.createPattern(noiseCanvas, 'repeat')!;
+      }
+      return noise;
+  
+    }
+  
+
 
     if (realPoints.length != 0) {
       
+      this.ctx.lineCap = 'round'
       
       this.ctx.beginPath();
       
       let firstP = realPoints[0];
       this.ctx.moveTo(firstP.x, firstP.y);
-
-      let dx: number | undefined = undefined;
-      let dy: number | undefined = undefined;
       
-      for (let i = 1; i < realPoints.length; i++) {
+      for (let i = 1; i < realPoints.length - 1; i++) {
         const point = realPoints[i];
         const correct = realPoints.length < 2 || Math.sqrt((point.x - realPoints[realPoints.length - 1].x) ** 2 + (point.y - realPoints[realPoints.length - 1].y) ** 2) > 1;
         if (correct) {
+  
+          const nextP = realPoints[i + 1];
+          const dx = (point.x + nextP.x) / 2;
+          const dy = (point.y + nextP.y) / 2;
 
-          const lastP = realPoints[i - 1];
-          dx = (point.x + lastP.x) / 2;
-          dy = (point.y + lastP.y) / 2;
+          this.ctx.quadraticCurveTo(point.x, point.y, dx, dy);
+          this.ctx.lineWidth = point.size * lineWidth * this.resolutionFactor;
+          this.ctx.stroke();
 
-          this.ctx.quadraticCurveTo(lastP.x, lastP.y, dx, dy);
-          //this.ctx.quadraticCurveTo(dx, dy, point.x, point.y)
+          // begin the new path
+          this.ctx.beginPath();
+          this.ctx.moveTo(dx, dy);
         }
       }
 
       const lastP = realPoints[realPoints.length - 1];
-      if (dx !== undefined && dy !== undefined) {
-        this.ctx.quadraticCurveTo(dx, dy, lastP.x, lastP.y);
-      }
-      else {
-        this.ctx.lineTo(lastP.x, lastP.y);
-      }
+      this.ctx.lineTo(lastP.x, lastP.y);
+
+      //this.ctx.strokeStyle = createNoisePattern()
   
       this.ctx.stroke();
-
-      if (fill) {
-        this.ctx.fillStyle = getColorAsRgbaFunction(this.getRightColor(fill));
-        this.ctx.fill();
-      }
 
     }
   }

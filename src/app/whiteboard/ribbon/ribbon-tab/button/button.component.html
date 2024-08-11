@@ -1,4 +1,4 @@
-<div class="button control" [title]="this.button.title" (click)="this.button.click()">
+<div class="button control" [title]="this.button.title" (pointerup)="this.button.click($event)">
     <img [src]="'./assets/' + this.button.icon + '.svg'" class="icon"/>
     <p>{{ this.button.name }}</p>
 </div>

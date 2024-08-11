@@ -11,11 +11,16 @@ export interface PointerControllerEvents {
   pinchZoom?: (p: Point, factor: number) => void
 }
 
+export type PointerType = 'mouse' | 'pen' | 'touch';
+export const pointerTypes: PointerType[] = ['mouse', 'pen', 'touch'];
+
 export interface PointerContext {
   id: number,
   pointerCount: number,
   ctrlKey: boolean,
-  moveEventsFired?: number
+  moveEventsFired?: number,
+  pointerType: PointerType,
+  pressure: number
 }
 
 export class PointerController {
@@ -62,7 +67,9 @@ export class PointerController {
       id: e.pointerId,
       pointerCount: this.pointerCache.size,
       ctrlKey: e.ctrlKey,
-      moveEventsFired: this.pointerMoveCountCache.getItem(e.pointerId)
+      moveEventsFired: this.pointerMoveCountCache.getItem(e.pointerId),
+      pointerType: e.pointerType as PointerType,
+      pressure: e.pressure
     }
   }
 

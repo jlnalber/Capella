@@ -1,0 +1,20 @@
+@import url(../_control.scss);
+
+.activeBar {
+    width: 100%;
+    text-align: center;
+    height: 5px;
+}
+
+.pointerStatus {
+    border-radius: 50%;
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.control {
+    height: 94px;
+}

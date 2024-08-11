@@ -127,7 +127,7 @@ export default abstract class AbstractRenderingContext {
 
   public abstract drawPath(points: Point[], lineWidth: number, stroke: Color, fill?: Color, dashed?: boolean): void;
 
-  public abstract drawBezierPath(points: SizePoint[], lineWidth: number, stroke: Color, fill?: Color, dashed?: boolean): void;
+  public abstract drawQuadraticPath(points: SizePoint[], lineWidth: number, stroke: Color, dashed?: boolean): void;
 
   public drawLine(from: Point, to: Point, lineWidth: number, stroke: Color, dashed?: boolean): void {
     this.drawPath([ from, to ], lineWidth, stroke, undefined, dashed);

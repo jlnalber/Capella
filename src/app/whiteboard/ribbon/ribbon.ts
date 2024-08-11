@@ -21,13 +21,26 @@ export type Divider = {
 export abstract class RibbonView { }
 
 export class RibbonButton extends RibbonView {
-    constructor(public name: string, public icon: string, public title: string, public click: () => void) {
+    constructor(public name: string, public icon: string, public title: string, public click: (event: PointerEvent) => void) {
         super();
     }
 }
 
 export class RibbonToggle extends RibbonButton {
-    constructor(name: string, icon: string, title: string, click: () => void, public active: () => boolean) {
+    constructor(name: string, icon: string, title: string, click: (event: PointerEvent) => void, public active: () => boolean) {
         super(name, icon, title, click);
+    }
+}
+
+export class RibbonPointerModeToggle extends RibbonToggle {
+    constructor(name: string, icon: string, title: string, click: (event: PointerEvent) => void, public activePointers: (() => Color | undefined)[]) {
+        super(name, icon, title, click, () => {
+            for (let f of this.activePointers) {
+                if (f()) {
+                    return true;
+                }
+            }
+            return false;
+        })
     }
 }

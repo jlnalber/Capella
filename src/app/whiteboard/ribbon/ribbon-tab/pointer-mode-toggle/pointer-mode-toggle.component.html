@@ -1,0 +1,9 @@
+<div class="toggle control" [class]="this.pointerToggle.active() ? 'active' : 'inactive'" [title]="this.pointerToggle.title" (pointerup)="this.pointerToggle.click($event)">
+    <div class="activeBar">
+        @for (pointer of this.pointerToggle.activePointers; track pointer) {
+            <div class="pointerStatus" [style]="getStyleForPointer(pointer)"></div>
+        }
+    </div>
+    <img [src]="'./assets/' + this.pointerToggle.icon + '.svg'" class="icon"/>
+    <p>{{ this.pointerToggle.name }}</p>
+</div>

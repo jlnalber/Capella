@@ -1,0 +1,13 @@
+<div class="contentWrapper">
+    @for (content of this.content; track content) {
+        @if (isButton(content)) {
+            <app-button class="content" [button]="getAsButton(content)"></app-button>
+        }
+        @else if (isToggle(content)) {
+            <app-toggle class="content" [toggle]="getAsToggle(content)"></app-toggle>
+        }
+        @else {
+            <app-divider class="content" [divider]="getAsDivider(content)"></app-divider>
+        }
+    }
+</div>

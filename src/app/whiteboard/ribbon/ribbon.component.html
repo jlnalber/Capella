@@ -1,0 +1,15 @@
+<div class="container" [class]="this.activeRibbon === undefined ? 'noTab' : ''">
+    <div class="tabSelection">
+        @for (ribbonTab of this.ribbon.ribbonTabs; track ribbonTab; let count = $index) {
+            <div class="tabSelector" [style]="'color: ' + this.colorToString(ribbonTab.color) + ';'" [class]="this.activeRibbon === count ? 'active' : 'inactive'" (click)="this.activeRibbon === count ? this.activeRibbon = undefined : this.activeRibbon = count">
+                {{ ribbonTab.name }}
+                <div class="tabBar" [style]="this.activeRibbon === count ? 'background-color: ' + this.colorToString(ribbonTab.underlineColor) + ';' : ''"></div>
+            </div>
+        }
+    </div>
+    @if (this.activeRibbon !== undefined) {
+        <div class="tab">
+            <app-ribbon-tab [ribbonTab]="this.ribbon.ribbonTabs[this.activeRibbon]"></app-ribbon-tab>
+        </div>
+    }
+</div>

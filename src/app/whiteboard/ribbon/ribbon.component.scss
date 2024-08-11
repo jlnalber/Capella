@@ -1,0 +1,53 @@
+.container {
+    width: 100%;
+    height: max-content;
+    background-color: #ecedf0;
+    margin-bottom: 5px;
+}
+
+.tabSelection {
+    width: 100%;
+    height: max-content;
+}
+
+.tabSelector {
+    display: inline-block;
+    margin: 7px;
+    padding: 2px;
+}
+
+.tabBar {
+    height: 1.5px;
+    margin-top: 2px;
+    border-radius: 2px;
+    border-color: transparent;
+}
+
+.tabSelector.inactive .tabBar {
+    background-color: transparent;
+
+}
+
+.tabSelector.inactive:hover .tabBar {
+    background-color: #bbbbcc;
+}
+
+.tabSelector.active .tabBar {
+    // background-color: var(--tab-underline-color);
+}
+
+.tab {
+    background-color: white;
+    $marg: 7px;
+    margin-left: $marg;
+    margin-right: $marg;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    box-shadow: #bbbbcc 0px 0px 5px;
+    padding: $marg $marg 0 0;
+}
+
+.noTab {
+    box-shadow: #bbbbcc 0px 0px 5px;
+    border-bottom: 1px solid lightgray;
+}

@@ -1,0 +1,40 @@
+.control {
+    width: 80px;
+    height: 89px;
+    overflow: hidden;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    text-align: center;
+    font-size: 13px;
+}
+
+.control:hover, .control:focus {
+    border: 1px solid gray;
+    background-color: #eeeeee;
+}
+
+.control:active, .control.active {
+    border: 1px solid black;
+}
+
+.control.active {
+    background-color: #eee;
+}
+
+.control:active {
+    background-color: #ddd;
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    margin-top: 10px;
+    user-select: none;
+    pointer-events: none;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+    margin-top: 3px;
+}

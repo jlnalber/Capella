@@ -20,20 +20,34 @@ export type Divider = {
 
 export abstract class RibbonView { }
 
+export class RibbonText {
+    constructor(public text: () => string, public title: string) { }
+}
+
 export class RibbonButton extends RibbonView {
-    constructor(public name: string, public icon: string, public title: string, public click: (event: PointerEvent) => void) {
+    constructor(public name: string, public icon: string, public title: string, protected click: (event: PointerEvent) => void, protected enabled?: () => boolean) {
         super();
+    }
+
+    public isEnabled(): boolean {
+        return this.enabled === undefined || this.enabled();
+    }
+
+    public onClick(event: PointerEvent) {
+        if (this.isEnabled()) {
+            this.click(event);
+        }
     }
 }
 
 export class RibbonToggle extends RibbonButton {
-    constructor(name: string, icon: string, title: string, click: (event: PointerEvent) => void, public active: () => boolean) {
-        super(name, icon, title, click);
+    constructor(name: string, icon: string, title: string, click: (event: PointerEvent) => void, public active: () => boolean, enabled?: () => boolean) {
+        super(name, icon, title, click, enabled);
     }
 }
 
 export class RibbonPointerModeToggle extends RibbonToggle {
-    constructor(name: string, icon: string, title: string, click: (event: PointerEvent) => void, public activePointers: (() => Color | undefined)[]) {
+    constructor(name: string, icon: string, title: string, click: (event: PointerEvent) => void, public activePointers: (() => Color | undefined)[], enabled?: () => boolean) {
         super(name, icon, title, click, () => {
             for (let f of this.activePointers) {
                 if (f()) {
@@ -41,6 +55,6 @@ export class RibbonPointerModeToggle extends RibbonToggle {
                 }
             }
             return false;
-        })
+        }, enabled)
     }
 }

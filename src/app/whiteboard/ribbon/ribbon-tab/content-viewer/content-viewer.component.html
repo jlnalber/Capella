@@ -9,6 +9,9 @@
         @else if (isPointerToggle(content)) {
             <app-pointer-mode-toggle class="content" [pointerToggle]="getAsPointerToggle(content)"></app-pointer-mode-toggle>
         }
+        @else if (isText(content)) {
+            <app-ribbon-text class="content" [text]="getAsText(content)"></app-ribbon-text>
+        }
         @else {
             <app-divider class="content" [divider]="getAsDivider(content)"></app-divider>
         }

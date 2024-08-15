@@ -4,7 +4,7 @@ import { PointerContext, pointerTypes } from "../pointerController";
 import { RenderingContext } from '../renderingContext';
 import { RibbonTab } from 'src/app/whiteboard/ribbon/ribbon';
 import { Color, darken } from '../../interfaces/color';
-import { colors } from '../../interfaces/colors';
+import { colors } from '../../styles/colors';
 
 export abstract class Mode {
 

@@ -20,7 +20,7 @@ export class PenMode extends Mode {
   }
 
   public pointerMove(whiteboardService: WhiteboardService, renderingContext: RenderingContext, from: Point, to: Point, pointerContext: PointerContext): void {
-    const factor = 6;
+    const factor = 4;
     const distance = Math.sqrt((from.x - to.x) ** 2 + (to.y - from.y) ** 2) * renderingContext.zoom;
     const pressure = pointerContext.pressure + 0.5;
     const size = Math.max(0.5, Math.min(Math.sqrt(1 / distance) * factor, 2)) * pressure;

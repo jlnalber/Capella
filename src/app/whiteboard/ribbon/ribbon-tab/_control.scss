@@ -2,18 +2,32 @@
     width: 80px;
     height: 89px;
     overflow: hidden;
-    border: 1px solid lightgray;
     border-radius: 3px;
     text-align: center;
     font-size: 13px;
 }
 
-.control:hover, .control:focus {
+.control.enabled, .control.static {
+    border: 1px solid lightgray;
+}
+
+.control.static p {
+    line-height: 89px;
+    margin: 0;
+}
+
+.control.disabled {
+    border: 1px solid #ddd;
+    background-color: #eee;
+    filter: opacity(80%); 
+}
+
+.control.enabled:hover, .control.enabled:focus {
     border: 1px solid gray;
     background-color: #eeeeee;
 }
 
-.control:active, .control.active {
+.control.enabled:active, .control.active {
     border: 1px solid black;
 }
 
@@ -21,7 +35,7 @@
     background-color: #eee;
 }
 
-.control:active {
+.control.enabled:active {
     background-color: #ddd;
 }
 

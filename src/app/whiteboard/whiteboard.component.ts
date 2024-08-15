@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Ribbon, RibbonButton, RibbonPointerModeToggle, RibbonTab, RibbonToggle } from './ribbon/ribbon';
+import { Ribbon, RibbonButton, RibbonPointerModeToggle, RibbonTab, RibbonText, RibbonToggle } from './ribbon/ribbon';
 import { WhiteboardService } from '../services/whiteboard.service';
 import { TextMode } from '../global/classes/modes/textMode';
 import { PenMode } from '../global/classes/modes/penMode';
@@ -11,7 +11,10 @@ import { EraseMode } from '../global/classes/modes/eraseMode';
 import { BLACK, Color, DEEPBLUE } from '../global/interfaces/color';
 import { PointerType, pointerTypes } from '../global/classes/pointerController';
 import { Mode } from '../global/classes/modes/mode';
-import { colors } from '../global/interfaces/colors';
+import { colors } from '../global/styles/colors';
+import { SnackbarService } from '../snackbar/snackbar.service';
+import { DialogService } from '../dialog/dialog.service';
+import { ConfirmationDialogComponent } from '../dialog/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-whiteboard',
@@ -20,7 +23,7 @@ import { colors } from '../global/interfaces/colors';
 })
 export class WhiteboardComponent {
 
-  constructor(private readonly whiteboardService: WhiteboardService) { }
+  constructor(private readonly whiteboardService: WhiteboardService, private readonly snackBarService: SnackbarService, private readonly dialogService: DialogService) { }
 
   private getPointerActiveFunctionsForPointerToggle: (typechecker: (mode: Mode) => boolean) => (() => Color | undefined)[] = (typechecker: (mode: Mode) => boolean) => {
     const res: (() => Color | undefined)[] = [];
@@ -151,7 +154,10 @@ export class WhiteboardComponent {
           {
             title: 'Seite Hinzufügen',
             content: [
-              new RibbonButton('Hinzufügen', 'pen', 'Eine leere Seite hinzufügen', () => {}),
+              new RibbonButton('Hinzufügen', 'plus', 'Eine leere Seite hinzufügen', () => {
+                this.whiteboardService.addPage();
+                this.whiteboardService.activePageIndex = this.whiteboardService.numberOfPages - 1;
+              }),
               new RibbonButton('Datei', 'pen', 'Eine Datei importieren und anfügen', () => {}), // TODO: Dialog, in dem man Whiteboard, PDF oder Bild auswählen kann
               new RibbonButton('Scannen', 'pen', 'Seiten mit der Kamera einscannen und anfügen', () => {})
             ]
@@ -159,10 +165,22 @@ export class WhiteboardComponent {
           {
             title: 'Navigieren',
             content: [
-              new RibbonButton('Links', 'pen', 'Eine Seite nach links wechseln', () => {}),
-              // TODO: Seitenanzeige (z.B. 3/5)
-              new RibbonButton('Löschen', 'pen', 'Diese Seite löschen', () => {}),
-              new RibbonButton('Rechts', 'pen', 'Eine Seite nach rechts wechseln', () => {})
+              new RibbonButton('Links', 'left', 'Eine Seite nach links wechseln', () => {
+                this.whiteboardService.activePageIndex--;
+              }, () => this.whiteboardService.activePageIndex > 0),
+              new RibbonText(() => {
+                return `Seite\n${this.whiteboardService.activePageIndex + 1}/${this.whiteboardService.numberOfPages}`;
+              }, 'Seitenanzeige'),
+              new RibbonButton('Löschen', 'trash', 'Diese Seite löschen', () => {
+                ConfirmationDialogComponent.confirm(this.dialogService, {
+                  title: 'Wirklich löschen?',
+                  text: 'Die Seite kann nicht wiederhergestellt werden.',
+                  yes: () => this.whiteboardService.removePage(this.whiteboardService.activePageIndex)
+                });
+              }, () => this.whiteboardService.numberOfPages > 1),
+              new RibbonButton('Rechts', 'right', 'Eine Seite nach rechts wechseln', () => {
+                this.whiteboardService.activePageIndex++;
+              }, () => this.whiteboardService.activePageIndex < this.whiteboardService.numberOfPages - 1)
             ]
           }
         ]

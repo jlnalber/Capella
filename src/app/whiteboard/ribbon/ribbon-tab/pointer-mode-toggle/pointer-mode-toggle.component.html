@@ -1,4 +1,4 @@
-<div class="toggle control" [class]="this.pointerToggle.active() ? 'active' : 'inactive'" [title]="this.pointerToggle.title" (pointerup)="this.pointerToggle.click($event)">
+<div class="toggle control" [class]="(this.pointerToggle.active() ? 'active' : 'inactive') + ' ' + (this.pointerToggle.isEnabled() ? 'enabled' : 'disabled')" [title]="this.pointerToggle.title" (pointerup)="this.pointerToggle.onClick($event)">
     <div class="activeBar">
         @for (pointer of this.pointerToggle.activePointers; track pointer) {
             <div class="pointerStatus" [style]="getStyleForPointer(pointer)"></div>

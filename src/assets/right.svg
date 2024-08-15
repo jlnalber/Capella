@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1" baseProfile="full"
+     width="100px" height="100px">
+  <g transform="scale(0.75)" transform-origin="50% 50%" stroke="black">
+    <line x1="75" x2="25" y1="50" y2="0" stroke-linecap="round" stroke-width="8" ></line>
+    <line x1="25" x2="75" y1="100" y2="50" stroke-linecap="round" stroke-width="8" ></line>
+  </g>
+</svg>

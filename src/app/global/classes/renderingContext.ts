@@ -341,6 +341,7 @@ export class RenderingContext extends AbstractRenderingContext {
     this.ctx.fillStyle = getColorAsRgbaFunction(this.getRightColor(fill));
     const realRect = this.transformRectFromFieldToCanvasWithResolutionFactor(rect);
     this.ctx.fillRect(realRect.x, realRect.y, realRect.width, realRect.height);
+    this.ctx.strokeRect(realRect.x, realRect.y, realRect.width, realRect.height);
   }
 
   public drawImage(image: CanvasImageSource, p: Point, dw: number, dh: number) {

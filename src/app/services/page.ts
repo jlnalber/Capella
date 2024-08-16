@@ -7,7 +7,17 @@ import { WhiteboardService } from "./whiteboard.service";
 import Selection from "../global/essentials/selection";
 import { Event } from "../global/essentials/event";
 import { Rect } from "../global/interfaces/rect";
-import { getColorAsRgbaFunction, WHITE } from "../global/interfaces/color";
+import { Color, getColorAsRgbaFunction, TRANSPARENT, WHITE } from "../global/interfaces/color";
+import { Size } from "../global/interfaces/size";
+import { DINA4 } from "../global/styles/formats";
+
+export const PX_PER_MM = 1;
+
+export const BACKGROUND_COLOR: Color = {
+    r: 236,
+    g: 237,
+    b: 240
+}
 
 export default class Page {
 
@@ -104,6 +114,30 @@ export default class Page {
 
     public readonly selection: Selection<CanvasElement> = new Selection<CanvasElement>();
 
+    private _format: Size | undefined = DINA4;
+    
+    public set format(value: Size | undefined) {
+        this._format = value;
+        this.onFormatChanged.emit(value);
+    }
+
+    public get format(): Size | undefined {
+        if (this._format) {
+            return { ...this._format };
+        }
+        return undefined;
+    }
+
+    public getFormatInPX(): Size | undefined {
+        const format = this.format;
+        if (format) {
+            format.width *= PX_PER_MM;
+            format.height *= PX_PER_MM;
+            return format;
+        }
+        return undefined;
+    }
+
     // Events
     // public readonly onBackgroundColorChanged: Event<Color> = new Event<Color>();
     public readonly onCanvasElementChanged: Event<any> = new Event<any>();
@@ -113,6 +147,7 @@ export default class Page {
     public readonly onBeforeRedraw: Event<undefined> = new Event<undefined>();
     public readonly onBeforeElementsDraw: Event<RenderingContext> = new Event<RenderingContext>();
     public readonly onAfterRedraw: Event<undefined> = new Event<undefined>();
+    public readonly onFormatChanged: Event<Size | undefined> = new Event<Size | undefined>();
 
     private canvasElementOnChangeListener = (val: any) => {
         this.onCanvasElementChanged.emit(val);
@@ -146,6 +181,10 @@ export default class Page {
         //this.onMetaDrawersChanged.addListener(this.redrawListener);
         //this.onCanvasConfigChanged.addListener(this.redrawListener);
         this.selection.onSelectionChanged.addListener(this.redrawListener);
+        this.onFormatChanged.addListener(this.redrawListener);
+        this.onFormatChanged.addListener(() => {
+            this.center();
+        })
     }
 
 
@@ -166,6 +205,21 @@ export default class Page {
             this.drawToCanvas(this.whiteboardService.canvas.canvasEl, this.whiteboardService.canvas.wrapperEl.getBoundingClientRect(), this._transformations);
 
             this.onAfterRedraw.emit();
+        }
+    }
+
+    public center(): void {
+        const format = this.getFormatInPX();
+        if (format) {
+            const renderingContext = this.renderingContext;
+            const dy = -(-renderingContext.range.height * this.zoom - format.height) / 2;
+            const dx = (renderingContext.range.width * this.zoom - format.width) / 2;
+            const t: Transformations = {
+                zoom: 1,
+                translateY: Math.min(0, dy),
+                translateX: Math.max(0, dx)
+            }
+            this.transformations = t;
         }
     }
 
@@ -190,7 +244,7 @@ export default class Page {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         // then: draw the elements (first metaDrawers, then canvasElements)
-        let renderingContext = this.getRenderingContextFor(ctx, transformations);
+        const renderingContext = this.getRenderingContextFor(ctx, transformations);
         this.onBeforeElementsDraw.emit(renderingContext);
         /*for (let metaDrawer of this._metaDrawers) {
           metaDrawer.draw(renderingContext);
@@ -212,6 +266,60 @@ export default class Page {
             canvasElement.draw(renderingContext);
 
             //}
+        }
+
+        // draw the format:
+        const format = this.getFormatInPX();
+        if (format) {
+            const range = renderingContext.range;
+            const rectLeft = {
+                y: range.y,
+                x: range.x,
+                height: range.height,
+                width: -range.x
+            }
+            const rectBottom = {
+                x: range.x,
+                y: range.y + range.height,
+                height: -range.height - range.y - format.height,
+                width: range.width
+            }
+            const rectTop = {
+                x: range.x,
+                y: 0,
+                height: range.y,
+                width: range.width
+            }
+            const rectRight = {
+                y: range.y,
+                x: format.width,
+                height: range.height,
+                width: range.width + range.x - format.width
+            }
+            
+            if (rectLeft.width > 0) {
+                renderingContext.drawRect(rectLeft, BACKGROUND_COLOR)
+            }
+            if (rectBottom.height > 0) {
+                renderingContext.drawRect(rectBottom, BACKGROUND_COLOR)
+            }
+            if (rectTop.height > 0) {
+                renderingContext.drawRect(rectTop, BACKGROUND_COLOR)
+            }
+            if (rectRight.width > 0) {
+                renderingContext.drawRect(rectRight, BACKGROUND_COLOR)
+            }
+
+            renderingContext.drawRect({
+                x: 0,
+                y: 0,
+                height: -format.height,
+                width: format.width
+            }, TRANSPARENT, {
+                r: 200,
+                g: 200,
+                b: 200
+            }, 1)
         }
 
     }

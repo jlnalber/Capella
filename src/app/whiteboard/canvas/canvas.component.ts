@@ -27,9 +27,12 @@ export class CanvasComponent {
     this.ctx = this.canvasEl?.getContext('2d') as CanvasRenderingContext2D | undefined;
 
     // Listen for resizing
-    window.onresize = () => {
+    // window.onresize = () => {
+    //   this.whiteboardService.redraw();
+    // }
+    new ResizeObserver(() => {
       this.whiteboardService.redraw();
-    }
+    }).observe(this.wrapperEl)
 
     // Listen for resizing
     /*new ResizeObserver(() => {

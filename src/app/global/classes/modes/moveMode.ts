@@ -13,7 +13,6 @@ export class MoveMode extends Mode {
   }
 
   public click(whiteboardService: WhiteboardService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext): void {
-    whiteboardService.activePage.center();
     whiteboardService.activePage.setSelection(point, !pointerContext.ctrlKey);
   }
 

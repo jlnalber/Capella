@@ -186,6 +186,12 @@ export class WhiteboardComponent {
         ]
       },
       {
+        name: 'Ansicht',
+        color: BLACK,
+        underlineColor: DEEPBLUE,
+        content: [] // TODO: ZOOM, TRANSLATE, CENTER  FALLS FORMAT !== UNDEFINED
+      },
+      {
         name: 'Extras',
         color: BLACK,
         underlineColor: DEEPBLUE,

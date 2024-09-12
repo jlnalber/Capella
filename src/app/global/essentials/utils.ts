@@ -1,3 +1,4 @@
+import { Size } from './../interfaces/size';
 import {Rect} from "../interfaces/rect";
 import {Point} from "../interfaces/point";
 import {Color} from "../interfaces/color";
@@ -311,4 +312,14 @@ export function mapElement<T>(element: T, mapArray: [T, T][]): T {
     }
   }
   return element;
+}
+
+export function sizeToRect(size?: Size): Rect | undefined {
+  if (size === undefined) return undefined;
+  return {
+    x: 0,
+    y: 0,
+    width: size.width,
+    height: size.height
+  }
 }

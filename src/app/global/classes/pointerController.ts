@@ -18,6 +18,9 @@ export interface PointerContext {
   id: number,
   pointerCount: number,
   ctrlKey: boolean,
+  shiftKey: boolean,
+  altKey: boolean,
+  metaKey: boolean,
   moveEventsFired?: number,
   pointerType: PointerType,
   pressure: number
@@ -67,6 +70,9 @@ export class PointerController {
       id: e.pointerId,
       pointerCount: this.pointerCache.size,
       ctrlKey: e.ctrlKey,
+      shiftKey: e.shiftKey,
+      altKey: e.altKey,
+      metaKey: e.metaKey,
       moveEventsFired: this.pointerMoveCountCache.getItem(e.pointerId),
       pointerType: e.pointerType as PointerType,
       pressure: e.pressure

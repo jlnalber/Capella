@@ -10,8 +10,10 @@ import { Rect } from "../global/interfaces/rect";
 import { Color, getColorAsRgbaFunction, TRANSPARENT, WHITE } from "../global/interfaces/color";
 import { Size } from "../global/interfaces/size";
 import { DINA4 } from "../global/styles/formats";
+import TextBox from "../global/classes/textBox";
+import { sizeToRect } from "../global/essentials/utils";
 
-export const PX_PER_MM = 1;
+export const PX_PER_MM = 5.2;
 
 export const BACKGROUND_COLOR: Color = {
     r: 236,
@@ -138,6 +140,17 @@ export default class Page {
         return undefined;
     }
 
+    private _text: TextBox = new TextBox(sizeToRect(this._format));
+
+    public get text(): TextBox {
+        return this._text;
+    }
+
+    public set text(value: TextBox) {
+        this._text = value;
+        this.onTextChanged.emit();
+    }
+
     // Events
     // public readonly onBackgroundColorChanged: Event<Color> = new Event<Color>();
     public readonly onCanvasElementChanged: Event<any> = new Event<any>();
@@ -148,6 +161,7 @@ export default class Page {
     public readonly onBeforeElementsDraw: Event<RenderingContext> = new Event<RenderingContext>();
     public readonly onAfterRedraw: Event<undefined> = new Event<undefined>();
     public readonly onFormatChanged: Event<Size | undefined> = new Event<Size | undefined>();
+    public readonly onTextChanged: Event<undefined> = new Event<undefined>();
 
     private canvasElementOnChangeListener = (val: any) => {
         this.onCanvasElementChanged.emit(val);
@@ -184,6 +198,11 @@ export default class Page {
         this.onFormatChanged.addListener(this.redrawListener);
         this.onFormatChanged.addListener(() => {
             this.center();
+            this.text.setRect(sizeToRect(this.format), this.renderingContext);
+        })
+        this.onTextChanged.addListener(this.redrawListener);
+        this.text.onChange.addListener(() => {
+            this.onTextChanged.emit();
         })
     }
 
@@ -245,6 +264,10 @@ export default class Page {
 
         // then: draw the elements (first metaDrawers, then canvasElements)
         const renderingContext = this.getRenderingContextFor(ctx, transformations);
+
+        // draw the text
+        this.text.draw(renderingContext);
+
         this.onBeforeElementsDraw.emit(renderingContext);
         /*for (let metaDrawer of this._metaDrawers) {
           metaDrawer.draw(renderingContext);

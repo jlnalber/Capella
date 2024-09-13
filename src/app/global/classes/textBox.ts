@@ -1,19 +1,13 @@
-import { WhiteboardService } from "src/app/services/whiteboard.service";
 import { Point } from "../interfaces/point";
 import { Rect } from "../interfaces/rect";
 import AbstractRenderingContext from "./abstractRenderingContext";
 import { Line, Paragraph, Span } from "./textElements";
-import { PointerContext } from "./pointerController";
-import { RenderingContext } from "./renderingContext";
-import { BLACK, RED, TRANSPARENT } from "../interfaces/color";
-import { Event } from "../essentials/event";
+import { BLACK, TRANSPARENT } from "../interfaces/color";
 import Padding from "../interfaces/padding";
 import { PX_PER_MM } from "src/app/services/page";
 import { sameColors } from "../essentials/utils";
 import { CanvasElement } from "./abstract/canvasElement";
-import { Size } from "../interfaces/size";
 
-const ALLOWED_CHARACTERS = ' abcdefghijklmnopqrstuvwxyzüöäABCDEFGHIJKLMNOPQRSTUVWXYZÜÖÄß1234567890!"\'><_-.:,;?!§$%&/()=+#*{}[]~|°^`\´'.split('');
 
 export const PT_PER_MM = 2.835;
 
@@ -29,6 +23,11 @@ type TextSelection = {
     endSelection: number
 }
 
+type Action = {
+    key: string,
+    action: (ev: KeyboardEvent, inp: HTMLTextAreaElement, renderingContext: AbstractRenderingContext, up: boolean) => void
+}
+
 export default class TextBox extends CanvasElement {
 
     // public readonly onChanged: Event<undefined> = new Event<undefined>();
@@ -36,7 +35,24 @@ export default class TextBox extends CanvasElement {
     private _paragraphs: Paragraph[] = [];
     private _cursorPosition: CursorPosition | undefined = undefined;
     private _lineDist: number = 35 // TODO: set correct value
-    private _selection: TextSelection | undefined;
+    private _selection: TextSelection | undefined; // TODO: !?!?
+
+    private _tempX: undefined | number = undefined;
+    private _specialActions: Action[] = [{
+        key: 'arrowUp',
+        action: (ev: KeyboardEvent, inp: HTMLTextAreaElement, renderingContext: AbstractRenderingContext, up: boolean) => {
+            if (!up) {
+                this.moveCursorThroughLines(renderingContext, -1, inp, ev.shiftKey);
+            }
+        }
+    }, {
+        key: 'arrowDown',
+        action: (ev: KeyboardEvent, inp: HTMLTextAreaElement, renderingContext: AbstractRenderingContext, up: boolean) => {
+            if (!up) {
+                this.moveCursorThroughLines(renderingContext, 1, inp, ev.shiftKey);
+            }
+        }
+    }];
 
     constructor(private _rect: Rect | undefined, private _padding: Padding = {
         top: 20, // hier entsprechend dann den seitenrand mit einfließen lassen...
@@ -448,31 +464,107 @@ export default class TextBox extends CanvasElement {
 
         // draw the cursor
         if (this._cursorPosition && drawCursor) {
-            const par = this._paragraphs[this._cursorPosition.paragraph];
-            if (par === undefined) {
-                console.log('ok')
-            }
-            const line = par.lines[this._cursorPosition.line];
-            const span = line[this._cursorPosition.span];
-            const column = this._cursorPosition.column;
-            
             let yCursor = (this._rect?.y ?? 0) + this._padding.top;
-            const parsBefore = this._paragraphs.slice(0, this._cursorPosition.paragraph);
-            const linesBefore = parsBefore.map(p => p.lines.length).reduce((p, c) => p + c, 0) + this._cursorPosition.line;
-            yCursor += this._lineDist * (linesBefore + 1);
-
             let xCursor = (this._rect?.x ?? 0) + this._padding.left;
-            const spansBefore = line.slice(0, this._cursorPosition.span);
-            xCursor += spansBefore.map(s => TextBox.measureTextOfSpan(s, renderingContext)).reduce((a, b) => a + b, 0); // width of spans before
-            xCursor += TextBox.measureTextOfSpan(span, renderingContext, span.text.substring(0, column))
+            let fontSize = 12;
+
+            if (!(this._paragraphs.length === 0
+                && this._cursorPosition.paragraph === 0
+                && this._cursorPosition.line === 0
+                && this._cursorPosition.span === 0
+                && this._cursorPosition.column === 0)) {
+                const par = this._paragraphs[this._cursorPosition.paragraph];
+                const line = par.lines[this._cursorPosition.line];
+                const span = line[this._cursorPosition.span];
+                const column = this._cursorPosition.column;
+
+                fontSize = span.fontSize;
+                
+                const parsBefore = this._paragraphs.slice(0, this._cursorPosition.paragraph);
+                const linesBefore = parsBefore.map(p => p.lines.length).reduce((p, c) => p + c, 0) + this._cursorPosition.line;
+                yCursor += this._lineDist * (linesBefore + 1);
+    
+                const spansBefore = line.slice(0, this._cursorPosition.span);
+                xCursor += spansBefore.map(s => TextBox.measureTextOfSpan(s, renderingContext)).reduce((a, b) => a + b, 0); // width of spans before
+                xCursor += TextBox.measureTextOfSpan(span, renderingContext, span.text.substring(0, column))
+            }
+            else {
+                yCursor += this._lineDist;
+            }
+
 
             renderingContext.drawLine({
                 x: xCursor,
                 y: -yCursor
             }, {
                 x: xCursor,
-                y: -yCursor + span.fontSize / PT_PER_MM * PX_PER_MM
+                y: -yCursor + fontSize / PT_PER_MM * PX_PER_MM
             }, 2, BLACK)
+        }
+    }
+
+    public moveCursorThroughLines(renderingContext: AbstractRenderingContext, dline: number, area: HTMLTextAreaElement, shiftKey: boolean): boolean {
+        if (this._cursorPosition) {
+            
+            // 0, falls ganz am Anfang
+            // 1, falls ganz am Ende
+            function getParagraphAndLine(paragraphs: Paragraph[], paragraph: number, line: number, dline: number): [number, number] | 0 | 1 {
+                if (dline === 0) {
+                    return [paragraph, line];
+                }
+                else if (dline > 0) {
+                    let curLine: number | undefined = line;
+                    for (let p = paragraph; p < paragraphs.length; p++) {
+                        for (let l = curLine ?? 0; l < paragraphs[p].lines.length; l++) {
+                            if (dline === 0) {
+                                return [p, l];
+                            }
+                            dline--;
+                        }
+                        curLine = undefined; // Dann beim nächsten Durchlauf bei 0 starten
+                    }
+                    return 1;
+                }
+                else {
+                    let curLine: number | undefined = line;
+                    for (let p = paragraph; p >= 0; p--) {
+                        for (let l = curLine ?? paragraphs[p].lines.length - 1; l >= 0; l--) {
+                            if (dline === 0) {
+                                return [p, l];
+                            }
+                            dline++;
+                        }
+                        curLine = undefined; // Dann beim nächsten Durchlauf bei letzter Line starten
+                    }
+                    return 0;
+                }
+            }
+
+            const paragraphAndLine = getParagraphAndLine(this._paragraphs, this._cursorPosition.paragraph, this._cursorPosition.line, dline);
+            
+            if (paragraphAndLine === 0) {
+                this.setCursorPosition(TextBox.getFirstCursorPosition(this._paragraphs), area, shiftKey);
+                this._tempX = undefined;
+            }
+            else if (paragraphAndLine === 1) {
+                this.setCursorPosition(TextBox.getLastCursorPosition(this._paragraphs), area, shiftKey);
+                this._tempX = undefined;
+            }
+            else {
+                if (this._tempX === undefined) {
+                    this._tempX = this.getXCoordinateToCursorPosition(this._cursorPosition, renderingContext);
+                }
+                if (this._tempX === undefined) {
+                    return false;
+                }
+
+                this.setCursorPosition(this.getCursorPositionToXCoordinate(this._tempX, paragraphAndLine[0], paragraphAndLine[1], renderingContext), area, shiftKey);
+            }
+
+            return this._cursorPosition !== undefined;
+        }
+        else {
+            return false;
         }
     }
 
@@ -657,8 +749,63 @@ export default class TextBox extends CanvasElement {
         return TextBox.getRangeAsSpans(paragraph, start, end).map(s => TextBox.measureTextOfSpan(s, renderingContext)).reduce((a, b) => a + b, 0);
     }
 
+    private static getFirstCursorPosition(paragraphs: Paragraph[]): CursorPosition | undefined {
+        if (paragraphs.length === 0
+            || paragraphs[0].lines.length === 0
+            || paragraphs[0].lines[0].length === 0) {
+            return undefined;
+        }
+        return {
+            paragraph: 0,
+            line: 0,
+            span: 0,
+            column: 0
+        }
+    }
+
+    private static getLastCursorPosition(paragraphs: Paragraph[]): CursorPosition | undefined {
+        if (paragraphs.length === 0) return undefined;
+        const paragraph = paragraphs.length - 1;
+        if (paragraphs[paragraph].lines.length === 0) return undefined;
+        const line = paragraphs[paragraph].lines.length - 1;
+        if (paragraphs[paragraph].lines[line].length === 0) return undefined;
+        const span = paragraphs[paragraph].lines[line].length - 1;
+
+        return {
+            paragraph,
+            line,
+            span,
+            column: paragraphs[paragraph].lines[line][span].text.length
+        }
+    }
+
     public click(renderingContext: AbstractRenderingContext, point: Point, area: HTMLTextAreaElement, shiftKey: boolean): void {
         this.setCursorPosition(this.getCursorPositionToPoint(point, renderingContext), area, shiftKey);
+    }
+
+    public onKey(ev: KeyboardEvent, inp: HTMLTextAreaElement, renderingContext: AbstractRenderingContext, up: boolean) {
+        const val = inp.value;
+        
+
+        for (let action of this._specialActions) {
+            if (ev.key.toUpperCase() === action.key.toUpperCase()) {
+                ev.preventDefault();
+                action.action(ev, inp, renderingContext, up);
+                return;
+            }
+        }
+
+        if (up) {
+            this._tempX = undefined;
+        }
+
+        //inp.value = '';
+        //ev.preventDefault();
+        //console.log(ev);
+        this.setText(val, {
+            endSelection: inp.selectionEnd,
+            startSelection: inp.selectionStart
+        }, renderingContext);
     }
 
     private setCursorPosition(cursorPosition: CursorPosition | undefined, area: HTMLTextAreaElement, shiftKey: boolean = false): void {

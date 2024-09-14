@@ -11,7 +11,7 @@ export type Span = {
     text: string,
     attributes: Attribute[],
     color: Color,
-    font: string,
+    font: string[],
     fontSize: number
 }
 

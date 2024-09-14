@@ -3,6 +3,11 @@ import {Point} from "../interfaces/point";
 import {Rect} from "../interfaces/rect";
 import {BLACK, Color, TRANSPARENT} from "../interfaces/color";
 import {CanvasElement} from "./abstract/canvasElement";
+import StrokeStyle from "../interfaces/canvasStyles/strokeStyle";
+import FillStyle from "../interfaces/canvasStyles/fillStyle";
+import ObjectStyle from "../interfaces/canvasStyles/objectStyle";
+import TextStyle from "../interfaces/canvasStyles/textStyle";
+import ImageStyle from "../interfaces/canvasStyles/imageStyle";
 
 export const LINE_DASH = [10, 10]
 
@@ -125,64 +130,44 @@ export default abstract class AbstractRenderingContext {
 
   protected abstract getRightColor(c: Color): Color;
 
-  public abstract drawPath(points: Point[], lineWidth: number, stroke: Color, fill?: Color, dashed?: boolean): void;
+  public abstract drawPath(points: Point[], strokeStyle: StrokeStyle, objectStyle?: ObjectStyle, fill?: FillStyle): void;
 
-  public abstract drawQuadraticPath(points: SizePoint[], lineWidth: number, stroke: Color, dashed?: boolean): void;
+  public abstract drawQuadraticPath(points: SizePoint[], strokeStyle: StrokeStyle): void;
 
-  public drawLine(from: Point, to: Point, lineWidth: number, stroke: Color, dashed?: boolean): void {
-    this.drawPath([ from, to ], lineWidth, stroke, undefined, dashed);
+  public drawLine(from: Point, to: Point, strokeStyle: StrokeStyle): void {
+    this.drawPath([ from, to ], strokeStyle);
   }
 
   public abstract drawText(text: string, p: Point,
-                  fontSize: number,
-                  fontFamily: string,
-                  textAlign: CanvasTextAlign,
-                  textBaseline: CanvasTextBaseline,
-                  direction: CanvasDirection,
-                  color: Color,
-                  stroke: Color,
-                  lineWidth: number,
-                  dashed?: boolean,
-                  skipIndex?: boolean): void;
+                  textStyle: TextStyle,
+                  strokeStyle?: StrokeStyle,
+                  fillStyle?: FillStyle): void;
 
-
-  // TODO: skipping index
   public abstract measureText(text: string,
-                  fontSize: number,
-                  fontFamily: string,
-                  textAlign: CanvasTextAlign,
-                  textBaseline: CanvasTextBaseline,
-                  direction: CanvasDirection,
-                  lineWidth: number): TextMetrics;
+                  textStyle: TextStyle): TextMetrics;
 
   public abstract drawEllipse(center: Point,
                      radiusX: number,
                      radiusY: number,
                      rotation: number,
-                     fill: Color,
-                     stroke: Color,
-                     strokeWidth: number,
-                     dashed? : boolean): void;
+                     fill?: FillStyle,
+                     strokeStyle?: StrokeStyle): void;
 
   public drawCircle(center: Point,
                     radius: number,
-                    fill: Color = BLACK,
-                    stroke: Color = TRANSPARENT,
-                    strokeWidth: number = 0,
-                    dashed?: boolean): void {
-    this.drawEllipse(center, radius, radius, 0, fill, stroke, strokeWidth, dashed);
+                    fill?: FillStyle,
+                    strokeStyle?: StrokeStyle): void {
+    this.drawEllipse(center, radius, radius, 0, fill, strokeStyle);
   }
 
   public abstract drawCircleSector(center: Point,
                     radius: number,
-                    fill: Color,
-                    stroke: Color,
-                    strokeWidth: number,
                     startAngle: number,
                     endAngle: number,
-                    dashed?: boolean): void;
+                    fillStyle?: FillStyle,
+                    stroke?: StrokeStyle): void;
 
-  public abstract drawRect(rect: Rect,fill: Color, stroke: Color, strokeWidth: number, dashed?: boolean): void;
+  public abstract drawRect(rect: Rect, fillStyle?: FillStyle, strokeStyle?: StrokeStyle): void;
 
-  public abstract drawImage(image: CanvasImageSource, p: Point, dw: number, dh: number): void;
+  public abstract drawImage(image: CanvasImageSource, p: Point, dw: number, dh: number, imageStyle?: ImageStyle): void;
 }

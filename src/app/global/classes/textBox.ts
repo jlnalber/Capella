@@ -231,7 +231,7 @@ export default class TextBox extends CanvasElement {
                     const newSpan: Span = {
                         text: "",
                         color: BLACK, // hier neue Werte eintragen...
-                        font: 'sans-serif',
+                        font: ['sans-serif'],
                         fontSize: 12,
                         attributes: []
                     }
@@ -456,7 +456,14 @@ export default class TextBox extends CanvasElement {
                     renderingContext.drawText(span.text, {
                         x: xSpan,
                         y
-                    }, TextBox.getFontSizeInPX(span.fontSize, renderingContext), span.font, 'left', 'bottom', 'ltr', span.color, TRANSPARENT, 0, false, true)
+                    }, {
+                        fontSize: [TextBox.getFontSizeInPX(span.fontSize, renderingContext), 'px'],
+                        fontFamily: span.font,
+                        textAlign: 'left',
+                        textBaseline: 'bottom',
+                        direction: 'ltr',
+                        color: span.color
+                    })
                     xSpan += m;
                 }
             }
@@ -499,7 +506,10 @@ export default class TextBox extends CanvasElement {
             }, {
                 x: xCursor,
                 y: -yCursor + fontSize / PT_PER_MM * PX_PER_MM
-            }, 2, BLACK)
+            }, {
+                lineWidth: 2,
+                color: BLACK
+            })
         }
     }
 
@@ -569,7 +579,14 @@ export default class TextBox extends CanvasElement {
     }
 
     private static measureTextOfSpan(span: Span, renderingContext: AbstractRenderingContext, altText?: string): number {
-        return renderingContext.measureText(altText ?? span.text, TextBox.getFontSizeInPX(span.fontSize, renderingContext), span.font, 'left', 'bottom', 'ltr', 0).width / renderingContext.zoom;
+        return renderingContext.measureText(altText ?? span.text, {
+            color: BLACK,
+            fontSize: [TextBox.getFontSizeInPX(span.fontSize, renderingContext), 'px'],
+            fontFamily: span.font,
+            textAlign: 'left',
+            textBaseline: 'bottom',
+            direction: 'ltr'
+        }).width / renderingContext.zoom;
     }
 
     private static getFontSizeInPX(fontSize: number, renderingContext: AbstractRenderingContext): number {

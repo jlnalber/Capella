@@ -1,3 +1,4 @@
+import { Measurement } from './../global/interfaces/canvasStyles/styleTypes';
 import { CanvasClickerElement } from "../global/classes/abstract/canvasClickerElement";
 import { CanvasElement } from "../global/classes/abstract/canvasElement";
 import { RenderingContext } from "../global/classes/renderingContext";
@@ -12,6 +13,7 @@ import { Size } from "../global/interfaces/size";
 import { DINA4 } from "../global/styles/formats";
 import TextBox from "../global/classes/textBox";
 import { sizeToRect } from "../global/essentials/utils";
+import FillStyle from "../global/interfaces/canvasStyles/fillStyle";
 
 export const PX_PER_MM = 5.2;
 
@@ -320,17 +322,20 @@ export default class Page {
                 width: range.width + range.x - format.width
             }
             
+            const fillStyle: FillStyle = {
+                color: BACKGROUND_COLOR
+            }
             if (rectLeft.width > 0) {
-                renderingContext.drawRect(rectLeft, BACKGROUND_COLOR)
+                renderingContext.drawRect(rectLeft, fillStyle)
             }
             if (rectBottom.height > 0) {
-                renderingContext.drawRect(rectBottom, BACKGROUND_COLOR)
+                renderingContext.drawRect(rectBottom, fillStyle)
             }
             if (rectTop.height > 0) {
-                renderingContext.drawRect(rectTop, BACKGROUND_COLOR)
+                renderingContext.drawRect(rectTop, fillStyle)
             }
             if (rectRight.width > 0) {
-                renderingContext.drawRect(rectRight, BACKGROUND_COLOR)
+                renderingContext.drawRect(rectRight, fillStyle)
             }
 
             renderingContext.drawRect({
@@ -338,11 +343,14 @@ export default class Page {
                 y: 0,
                 height: -format.height,
                 width: format.width
-            }, TRANSPARENT, {
-                r: 200,
-                g: 200,
-                b: 200
-            }, 1)
+            }, {color: TRANSPARENT}, {
+                color: {
+                    r: 200,
+                    g: 200,
+                    b: 200
+                },
+                lineWidth: 1
+            })
         }
 
     }

@@ -44,7 +44,11 @@ export default class PenElement extends CanvasTransformableElement {
     }
 
     public override draw(ctx: AbstractRenderingContext): void {
-        ctx.drawQuadraticPath(this._points, this._lineWidth * ctx.zoom, this._color);
+        ctx.drawQuadraticPath(this._points, {
+            lineWidth: this._lineWidth,
+            color: this._color,
+            lineCap: 'round'
+        });
     }
 
 }

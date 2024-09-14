@@ -2,14 +2,10 @@ import { Injectable } from '@angular/core';
 import { Transformations } from '../global/interfaces/transformations';
 import { CanvasComponent } from '../whiteboard/canvas/canvas.component';
 import { Event } from '../global/essentials/event';
-import { Point, Vector } from '../global/interfaces/point';
-import { Rect } from '../global/interfaces/rect';
+import { Point } from '../global/interfaces/point';
 import { RenderingContext } from '../global/classes/renderingContext';
 import { Mode } from '../global/classes/modes/mode';
-import Selection from '../global/essentials/selection';
 import { CanvasElement } from '../global/classes/abstract/canvasElement';
-import { CanvasClickerElement } from '../global/classes/abstract/canvasClickerElement';
-import { getColorAsRgbaFunction, WHITE } from '../global/interfaces/color';
 import { PointerType } from '../global/classes/pointerController';
 import Page from './page';
 

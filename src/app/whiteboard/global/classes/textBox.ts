@@ -2,11 +2,11 @@ import { Point } from "../interfaces/point";
 import { Rect } from "../interfaces/rect";
 import AbstractRenderingContext from "./abstractRenderingContext";
 import { Line, Paragraph, Span } from "./textElements";
-import { BLACK, TRANSPARENT } from "../interfaces/color";
+import { BLACK } from "../interfaces/color";
 import Padding from "../interfaces/padding";
-import { PX_PER_MM } from "src/app/services/page";
 import { sameColors } from "../essentials/utils";
 import { CanvasElement } from "./abstract/canvasElement";
+import { PX_PER_MM } from "../../services/page";
 
 
 export const PT_PER_MM = 2.835;

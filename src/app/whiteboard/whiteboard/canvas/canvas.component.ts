@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { PointerContext, PointerController } from 'src/app/global/classes/pointerController';
-import { Point } from 'src/app/global/interfaces/point';
-import { WhiteboardService } from 'src/app/services/whiteboard.service';
+import { WhiteboardService } from '../../services/whiteboard.service';
+import { PointerContext, PointerController } from '../../global/classes/pointerController';
+import { Point } from '../../global/interfaces/point';
 
 @Component({
   selector: 'app-canvas',

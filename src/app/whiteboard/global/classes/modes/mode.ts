@@ -1,10 +1,10 @@
-import { WhiteboardService } from 'src/app/services/whiteboard.service';
 import { Point } from "../../interfaces/point";
 import { PointerContext, pointerTypes } from "../pointerController";
 import { RenderingContext } from '../renderingContext';
-import { RibbonTab } from 'src/app/whiteboard/ribbon/ribbon';
 import { Color, darken } from '../../interfaces/color';
 import { colors } from '../../styles/colors';
+import { RibbonTab } from 'src/app/whiteboard/whiteboard/ribbon/ribbon';
+import { WhiteboardService } from "src/app/whiteboard/services/whiteboard.service";
 
 export abstract class Mode {
 

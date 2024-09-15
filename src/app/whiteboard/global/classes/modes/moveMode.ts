@@ -1,18 +1,19 @@
-import { WhiteboardService } from 'src/app/services/whiteboard.service';
+import { WhiteboardService } from "src/app/whiteboard/services/whiteboard.service";
 import { Point } from "../../interfaces/point";
 import { PointerContext } from "../pointerController";
 import { RenderingContext } from '../renderingContext';
-import { RibbonTab } from 'src/app/whiteboard/ribbon/ribbon';
 import { Mode } from './mode';
+import { RibbonTab } from "src/app/whiteboard/whiteboard/ribbon/ribbon";
 
-export class ShapeMode extends Mode {
+export class MoveMode extends Mode {
 
   public pointerMove(whiteboardService: WhiteboardService, renderingContext: RenderingContext, from: Point, to: Point, pointerContext: PointerContext): void {
-    throw 'impl'
+    whiteboardService.activePage.translateX += (to.x - from.x) / pointerContext.pointerCount;
+    whiteboardService.activePage.translateY += (to.y - from.y) / pointerContext.pointerCount;
   }
 
   public click(whiteboardService: WhiteboardService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext): void {
-    throw 'impl'
+    whiteboardService.activePage.setSelection(point, !pointerContext.ctrlKey);
   }
 
   public override getExtraRibbons(whiteboardService: WhiteboardService, renderingContext: RenderingContext): RibbonTab[] {

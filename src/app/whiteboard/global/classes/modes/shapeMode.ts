@@ -1,11 +1,11 @@
-import { WhiteboardService } from 'src/app/services/whiteboard.service';
+import { WhiteboardService } from "src/app/whiteboard/services/whiteboard.service";
 import { Point } from "../../interfaces/point";
 import { PointerContext } from "../pointerController";
 import { RenderingContext } from '../renderingContext';
-import { RibbonTab } from 'src/app/whiteboard/ribbon/ribbon';
 import { Mode } from './mode';
+import { RibbonTab } from "src/app/whiteboard/whiteboard/ribbon/ribbon";
 
-export class EraseMode extends Mode {
+export class ShapeMode extends Mode {
 
   public pointerMove(whiteboardService: WhiteboardService, renderingContext: RenderingContext, from: Point, to: Point, pointerContext: PointerContext): void {
     throw 'impl'

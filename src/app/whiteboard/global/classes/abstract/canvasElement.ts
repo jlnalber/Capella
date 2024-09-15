@@ -1,8 +1,7 @@
+import Page from "src/app/whiteboard/services/page";
 import { Event } from "../../essentials/event";
-import { WhiteboardService } from "src/app/services/whiteboard.service";
 import getNewID from "../../essentials/idProvider";
 import AbstractRenderingContext from "../abstractRenderingContext";
-import Page from "src/app/services/page";
 
 export abstract class CanvasElement {
   public readonly id: number;

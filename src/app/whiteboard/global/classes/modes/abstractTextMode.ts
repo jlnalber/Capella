@@ -1,10 +1,10 @@
-import { WhiteboardService } from 'src/app/services/whiteboard.service';
 import { Point } from "../../interfaces/point";
 import { PointerContext } from "../pointerController";
 import { RenderingContext } from '../renderingContext';
-import { RibbonTab } from 'src/app/whiteboard/ribbon/ribbon';
 import { Mode } from './mode';
 import TextBox from '../textBox';
+import { WhiteboardService } from "src/app/whiteboard/services/whiteboard.service";
+import { RibbonTab } from "src/app/whiteboard/whiteboard/ribbon/ribbon";
 
 const inp = document.createElement('textarea');
 document.body.appendChild(inp);

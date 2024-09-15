@@ -1,6 +1,6 @@
-import { WhiteboardService } from 'src/app/services/whiteboard.service';
 import AbstractTextMode from './abstractTextMode';
 import TextBox from '../textBox';
+import { WhiteboardService } from 'src/app/whiteboard/services/whiteboard.service';
 
 export class TextMode extends AbstractTextMode {
 

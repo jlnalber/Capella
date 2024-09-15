@@ -12,9 +12,9 @@ import { BLACK, Color, DEEPBLUE } from '../global/interfaces/color';
 import { PointerType, pointerTypes } from '../global/classes/pointerController';
 import { Mode } from '../global/classes/modes/mode';
 import { colors } from '../global/styles/colors';
-import { SnackbarService } from '../snackbar/snackbar.service';
-import { DialogService } from '../dialog/dialog.service';
-import { ConfirmationDialogComponent } from '../dialog/confirmation-dialog/confirmation-dialog.component';
+import { SnackbarService } from 'src/app/snackbar/snackbar.service';
+import { DialogService } from 'src/app/dialog/dialog.service';
+import { ConfirmationDialogComponent } from 'src/app/dialog/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-whiteboard',

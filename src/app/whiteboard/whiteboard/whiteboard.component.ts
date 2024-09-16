@@ -1,20 +1,20 @@
 import { Component } from '@angular/core';
 import { Ribbon, RibbonButton, RibbonPointerModeToggle, RibbonTab, RibbonText, RibbonToggle } from './ribbon/ribbon';
 import { WhiteboardService } from '../services/whiteboard.service';
-import { TextMode } from '../global/classes/modes/textMode';
-import { PenMode } from '../global/classes/modes/penMode';
-import { ShapeMode } from '../global/classes/modes/shapeMode';
-import { MoveMode } from '../global/classes/modes/moveMode';
-import { SelectionMode } from '../global/classes/modes/selectionMode';
-import { DeleteMode } from '../global/classes/modes/deleteMode';
-import { EraseMode } from '../global/classes/modes/eraseMode';
-import { BLACK, Color, DEEPBLUE } from '../global/interfaces/color';
-import { PointerType, pointerTypes } from '../global/classes/pointerController';
-import { Mode } from '../global/classes/modes/mode';
-import { colors } from '../global/styles/colors';
-import { SnackbarService } from 'src/app/snackbar/snackbar.service';
-import { DialogService } from 'src/app/dialog/dialog.service';
-import { ConfirmationDialogComponent } from 'src/app/dialog/confirmation-dialog/confirmation-dialog.component';
+import { TextMode } from '../classes/modes/textMode';
+import { PenMode } from '../classes/modes/penMode';
+import { ShapeMode } from '../classes/modes/shapeMode';
+import { MoveMode } from '../classes/modes/moveMode';
+import { SelectionMode } from '../classes/modes/selectionMode';
+import { DeleteMode } from '../classes/modes/deleteMode';
+import { EraseMode } from '../classes/modes/eraseMode';
+import { PointerType, pointerTypes } from '../../global/classes/pointerController';
+import { WhiteboardMode } from '../classes/modes/whiteboardMode';
+import { colors } from '../../global/styles/colors';
+import { SnackbarService } from 'src/app/global/snackbar/snackbar.service';
+import { DialogService } from 'src/app/global/dialog/dialog.service';
+import { ConfirmationDialogComponent } from 'src/app/global/dialog/confirmation-dialog/confirmation-dialog.component';
+import { BLACK, Color, DEEPBLUE } from 'src/app/global/interfaces/color';
 
 @Component({
   selector: 'app-whiteboard',
@@ -25,7 +25,7 @@ export class WhiteboardComponent {
 
   constructor(private readonly whiteboardService: WhiteboardService, private readonly snackBarService: SnackbarService, private readonly dialogService: DialogService) { }
 
-  private getPointerActiveFunctionsForPointerToggle: (typechecker: (mode: Mode) => boolean) => (() => Color | undefined)[] = (typechecker: (mode: Mode) => boolean) => {
+  private getPointerActiveFunctionsForPointerToggle: (typechecker: (mode: WhiteboardMode) => boolean) => (() => Color | undefined)[] = (typechecker: (mode: WhiteboardMode) => boolean) => {
     const res: (() => Color | undefined)[] = [];
     for (let i = 0; i < pointerTypes.length; i++) {
       res.push(() => {
@@ -98,7 +98,7 @@ export class WhiteboardComponent {
                   this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, new ShapeMode());
                 }
               }, this.getPointerActiveFunctionsForPointerToggle(m => m instanceof ShapeMode)), // TODO: dann auf einem Extra-Tab die Optionen
-              new RibbonPointerModeToggle('Bewegen', 'move', 'Bewege das Whiteboard', (p: PointerEvent) => {
+              new RibbonPointerModeToggle('Bewegen', 'moveWhiteboard', 'Bewege das Whiteboard', (p: PointerEvent) => {
                 if (this.whiteboardService.getModeForPointerType(p.pointerType as PointerType) instanceof MoveMode) {
                   this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, undefined);
                 } else {

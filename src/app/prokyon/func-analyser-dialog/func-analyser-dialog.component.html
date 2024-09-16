@@ -1,0 +1,16 @@
+<div class="wrapper">
+  <p class="paragraph heading">Funktion <span class="maths heading">{{ this.dialogData?.graph?.func?.name ? this.dialogData?.graph?.func?.name + ' ' : '' }}</span>analysieren:</p>
+  <p class="centered maths">{{ this.dialogData?.graph?.func?.operationAsString }}</p>
+  <p class="paragraph">Im Intervall</p>
+  <p class="centered">
+    <app-interval [(from)]="this.from" [(to)]="this.to"></app-interval>
+  </p>
+  <p class="paragraph">mit der Suchtiefe:</p>
+  <p class="centered maths">
+    <input class="input" type="number" [(ngModel)]="this.depth" title="Suchtiefe">
+  </p>
+  <button class="button floatRight" (click)="this.evaluateExtremumPoints()" title="Extrempunkte berechnen">Extrempunkte</button>
+  <button class="button floatRight" (click)="this.evaluateZeroPoints()" title="Nullpunkte berechnen">Nullpunkte</button>
+  <button class="button floatRight close" (click)="this.dialog.close()" title="Dialog schließen">Schließen</button>
+  <button class="button floatRight" (click)="this.evaluateInflectionPoints()" title="Wendepunkte berechnen">Wendepunkte</button>
+</div>

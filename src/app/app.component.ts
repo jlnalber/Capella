@@ -1,6 +1,6 @@
 import { Component, ViewContainerRef } from '@angular/core';
-import { DialogService } from './dialog/dialog.service';
-import { SnackbarService } from './snackbar/snackbar.service';
+import { SnackbarService } from './global/snackbar/snackbar.service';
+import { DialogService } from './global/dialog/dialog.service';
 
 @Component({
   selector: 'app-root',

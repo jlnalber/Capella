@@ -1,0 +1,15 @@
+.wrapper {
+  padding: 15px;
+  background: #fcfcfc;
+  border: 1px solid transparent;
+  border-bottom: 1px solid #ccc;
+}
+
+.selected {
+  border: 1px solid black;
+  border-radius: 7px;
+}
+
+.formula {
+  display: none;
+}

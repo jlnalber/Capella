@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
 import { Ribbon } from './ribbon';
 import { ChangeDetectorRef } from '@angular/core';
-import { Color, getColorAsRgbFunction } from '../../global/interfaces/color';
+import { Color, getColorAsRgbFunction } from 'src/app/global/interfaces/color';
 
 @Component({
   selector: 'app-ribbon',

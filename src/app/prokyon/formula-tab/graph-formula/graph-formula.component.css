@@ -1,0 +1,16 @@
+@import url("../../global/styles/_global.css");
+
+.wrapper {
+  --buttonSize: 46px;
+  --margin: 16px;
+}
+
+.wrapper.error .input {
+  background: #ffcccc !important;
+}
+
+.input {
+  --padding: 7px;
+  width: calc(100% - 2 * (var(--padding) + var(--buttonSize) + var(--margin)));
+  margin-left: calc(var(--margin) + var(--buttonSize));
+}

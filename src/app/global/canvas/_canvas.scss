@@ -1,0 +1,16 @@
+#canvas, .wrapper {
+    height: 100%;
+    margin-bottom: 0;
+    width: 100%;
+}
+
+#canvas {
+    touch-action: none;
+    background-color: #ecedf0;
+    overflow: hidden;
+    touch-action: none;
+}
+  
+.wrapper {
+    display: flex;
+}

@@ -1,4 +1,4 @@
-import { Color } from "../../global/interfaces/color";
+import { Color } from "src/app/global/interfaces/color";
 
 export type Ribbon = {
     ribbonTabs: RibbonTab[]

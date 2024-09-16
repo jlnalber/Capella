@@ -1,0 +1,30 @@
+@import url("../../global/styles/_global.css");
+
+.text, .input {
+  height: 30px;
+  font-size: 14pt;
+  font-family: "Cambria Math", Cambria, "CMU Serif", serif;
+}
+
+.text {
+  user-select: none;
+}
+
+.span {
+  --padding: 7px;
+  --border: 1px;
+  display: inline-flex;
+  overflow: hidden;
+  right: 0;
+  margin-right: 0;
+  padding-right: calc(2 * (var(--padding) + var(--border)));
+}
+
+.input {
+  width: 200px;
+}
+
+.slider {
+  width: 100%;
+  margin-top: 16px;
+}

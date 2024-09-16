@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { RibbonPointerModeToggle } from '../../ribbon';
-import { Color, getColorAsRgbaFunction } from 'src/app/whiteboard/global/interfaces/color';
+import { Color, getColorAsRgbaFunction } from 'src/app/global/interfaces/color';
 
 @Component({
   selector: 'app-pointer-mode-toggle',

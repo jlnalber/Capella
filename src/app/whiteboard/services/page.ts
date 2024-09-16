@@ -1,19 +1,18 @@
-import { Measurement } from './../global/interfaces/canvasStyles/styleTypes';
-import { CanvasClickerElement } from "../global/classes/abstract/canvasClickerElement";
-import { CanvasElement } from "../global/classes/abstract/canvasElement";
-import { RenderingContext } from "../global/classes/renderingContext";
-import { Point, Vector } from "../global/interfaces/point";
-import { Transformations } from "../global/interfaces/transformations";
+import { CanvasClickerElement } from "../../global/classes/abstract/canvasClickerElement";
+import { CanvasIdElement } from "../../global/classes/abstract/canvasIdElement";
+import { RenderingContext } from "../../global/classes/renderingContext";
+import { Point, Vector } from "src/app/global/interfaces/point";
+import { Transformations } from "src/app/global/interfaces/transformations";
 import { WhiteboardService } from "./whiteboard.service";
-import Selection from "../global/essentials/selection";
-import { Event } from "../global/essentials/event";
-import { Rect } from "../global/interfaces/rect";
-import { Color, getColorAsRgbaFunction, TRANSPARENT, WHITE } from "../global/interfaces/color";
-import { Size } from "../global/interfaces/size";
-import { DINA4 } from "../global/styles/formats";
-import TextBox from "../global/classes/textBox";
-import { sizeToRect } from "../global/essentials/utils";
-import FillStyle from "../global/interfaces/canvasStyles/fillStyle";
+import Selection from "../../global/essentials/selection";
+import { Event } from "../../global/essentials/event";
+import { Rect } from "src/app/global/interfaces/rect";
+import { Color, getColorAsRgbaFunction, TRANSPARENT, WHITE } from "src/app/global/interfaces/color";
+import { Size } from "src/app/global/interfaces/size";
+import { DINA4 } from "../../global/styles/formats";
+import TextBox from "../classes/textBox";
+import { sizeToRect } from "../../global/essentials/utils";
+import FillStyle from "src/app/global/interfaces/canvasStyles/fillStyle";
 
 export const PX_PER_MM = 5.2;
 
@@ -25,9 +24,9 @@ export const BACKGROUND_COLOR: Color = {
 
 export default class Page {
 
-    private _canvasElements: CanvasElement[] = [];
+    private _canvasElements: CanvasIdElement[] = [];
 
-    public addCanvasElements(...canvasElements: CanvasElement[]): void {
+    public addCanvasElements(...canvasElements: CanvasIdElement[]): void {
         for (let canvasElement of canvasElements) {
             this._canvasElements.push(canvasElement);
             canvasElement.onChange.addListener(this.canvasElementOnChangeListener);
@@ -36,7 +35,7 @@ export default class Page {
         this.onCanvasElementChanged.emit(canvasElements);
     }
 
-    public removeCanvasElements(...canvasElements: CanvasElement[]): boolean {
+    public removeCanvasElements(...canvasElements: CanvasIdElement[]): boolean {
         // Remove all teh given canvas elements from the canvas.
         let worked = true;
         for (let canvasElement of canvasElements) {
@@ -64,7 +63,7 @@ export default class Page {
         this.onCanvasElementChanged.emit();
     }
 
-    public get canvasElements(): CanvasElement[] {
+    public get canvasElements(): CanvasIdElement[] {
         return this._canvasElements.slice();
     }
 
@@ -116,7 +115,7 @@ export default class Page {
         this.onTransformationsChanged.emit(value);
     }
 
-    public readonly selection: Selection<CanvasElement> = new Selection<CanvasElement>();
+    public readonly selection: Selection<CanvasIdElement> = new Selection<CanvasIdElement>();
 
     private _format: Size | undefined = DINA4;
     
@@ -275,7 +274,7 @@ export default class Page {
           metaDrawer.draw(renderingContext);
         }*/
 
-        let cs: CanvasElement[] = this._canvasElements;
+        let cs: CanvasIdElement[] = this._canvasElements;
 
         for (let canvasElement of cs) {
             /*if (renderingContext.config && withTransformColor) {

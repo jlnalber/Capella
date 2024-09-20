@@ -1,4 +1,4 @@
-import {SnackbarService} from "../../snackbar/snackbar.service";
+import { SnackbarService } from "src/app/global/snackbar/snackbar.service";
 import {DrawerService} from "../../services/drawer.service";
 import {Graph} from "../classes/canvas-elements/graph";
 

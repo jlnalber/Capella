@@ -1,9 +1,9 @@
 import MoveMode from "./moveMode";
 import {DrawerService} from "../../../services/drawer.service";
-import {RenderingContext} from "../renderingContext";
-import {Point} from "../../interfaces/point";
-import {PointerContext} from "../pointerController";
 import PointElement from "../canvas-elements/pointElement";
+import { Point } from "src/app/global/interfaces/point";
+import { PointerContext } from "src/app/global/classes/pointerController";
+import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
 
 export default abstract class ThreePointsSelectMode extends MoveMode {
   protected abstract addCanvasElement(drawerService: DrawerService, p1: PointElement, center: PointElement, p2: PointElement): void;
@@ -11,7 +11,7 @@ export default abstract class ThreePointsSelectMode extends MoveMode {
   private clickedElement1: PointElement | undefined;
   private clickedElement2: PointElement | undefined;
 
-  public override click(drawerService: DrawerService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext) {
+  public override click(drawerService: DrawerService, renderingContext: AbstractRenderingContext, point: Point, pointerContext: PointerContext) {
     const clickedElement = drawerService.getSelection(point, (c) => c instanceof PointElement) as PointElement | undefined;
 
     if (clickedElement !== undefined) {

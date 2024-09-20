@@ -1,12 +1,12 @@
 import MoveMode from "./moveMode";
-import {RenderingContext} from "../renderingContext";
 import {DrawerService} from "../../../services/drawer.service";
-import {Point} from "../../interfaces/point";
-import {PointerContext} from "../pointerController";
-import {Color, colorAsTransparent} from "../../interfaces/color";
+import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import { Point } from "src/app/global/interfaces/point";
+import { PointerContext } from "src/app/global/classes/pointerController";
+import { Color, colorAsTransparent } from "src/app/global/interfaces/color";
 
 export default class ChangeVisibilityMode extends MoveMode {
-  override click(drawerService: DrawerService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext) {
+  override click(drawerService: DrawerService, renderingContext: AbstractRenderingContext, point: Point, pointerContext: PointerContext) {
     const clickedElement = drawerService.getSelection(point, () => true, false);
     if (clickedElement !== undefined) {
       clickedElement.visible = !clickedElement.visible;

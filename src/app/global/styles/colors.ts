@@ -1,4 +1,4 @@
-import {Color} from "../../whiteboard/global/interfaces/color";
+import { Color } from "../interfaces/color";
 
 export const colors: Color[] = [
   {

@@ -1,16 +1,16 @@
 import DynamicPointElement from "./dynamicPointElement";
 import {Operation} from "../func/operations/operation";
-import {Point} from "../../interfaces/point";
-import {BLACK, Color} from "../../interfaces/color";
-import {RenderingContext} from "../renderingContext";
 import {Type} from "@angular/core";
 import {FormulaElement} from "../abstract/formulaElement";
 import {
   CompiledPointFormulaComponent
 } from "../../../formula-tab/compiled-point-formula/compiled-point-formula.component";
 import {CanvasElementSerialized} from "../../essentials/serializer";
-import {CanvasElement} from "../abstract/canvasElement";
 import {DrawerService} from "../../../services/drawer.service";
+import { BLACK, Color } from "src/app/global/interfaces/color";
+import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
+import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import { Point } from "src/app/global/interfaces/point";
 
 export type ParseAndValidateProvider = (str: string) => Operation | string;
 
@@ -154,7 +154,7 @@ export default class CompiledPointElement extends DynamicPointElement {
   }
 
   public override loadFrom(canvasElements: {
-    [p: number]: CanvasElement | undefined
+    [p: number]: ProkyonCanvasElement | undefined
   }, canvasElementSerialized: CanvasElementSerialized, drawerService: DrawerService) {
     const data: Data = canvasElementSerialized.data as Data;
 
@@ -175,12 +175,12 @@ export default class CompiledPointElement extends DynamicPointElement {
 
 
 
-  public override draw(ctx: RenderingContext) {
+  public override draw(ctx: AbstractRenderingContext) {
     //this._tempVariables = ctx.variables ?? {};
     super.draw(ctx);
   }
 
-  protected override resetTempListener = (ctx?: RenderingContext) => {
+  protected override resetTempListener = (ctx?: AbstractRenderingContext) => {
     this._tempPoint = undefined;
     if (ctx !== undefined) {
       this._tempVariables = ctx.variables ?? {};

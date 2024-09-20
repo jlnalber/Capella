@@ -3,10 +3,6 @@ import {FormulaElement} from "../../global/classes/abstract/formulaElement";
 import CurveElement from "../../global/classes/canvas-elements/curveElement";
 import {DrawerService} from "../../services/drawer.service";
 import {ContextMenu, ContextMenuElement} from "../../context-menu/context-menu.directive";
-import {Graph} from "../../global/classes/canvas-elements/graph";
-import {FuncAnalyserDialogComponent} from "../../func-analyser-dialog/func-analyser-dialog.component";
-import DefiniteIntegral from "../../global/classes/canvas-elements/definiteIntegral";
-import {IntersectionDialogComponent} from "../../intersection-dialog/intersection-dialog.component";
 
 @Component({
   selector: 'app-curve-formula',

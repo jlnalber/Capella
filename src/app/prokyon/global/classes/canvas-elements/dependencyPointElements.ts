@@ -1,9 +1,4 @@
 import {DrawerService} from "../../../services/drawer.service";
-import {Point} from "../../interfaces/point";
-import PointElement from "./pointElement";
-import {BLACK, Color} from "../../interfaces/color";
-import {CanvasElement} from "../abstract/canvasElement";
-import {RenderingContext} from "../renderingContext";
 import {Type} from "@angular/core";
 import {
   DependencyPointElementsFormulaComponent
@@ -29,6 +24,11 @@ import {CHANGING_VARIABLE_KEY, Variable} from "../func/operations/variable";
 import {
   ViewDependencyPointElementsDialogComponent
 } from "../../../formula-dialogs/view-dependency-point-elements-dialog/view-dependency-point-elements-dialog.component";
+import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
+import PointElement from "./pointElement";
+import { Point } from "src/app/global/interfaces/point";
+import { BLACK, Color } from "src/app/global/interfaces/color";
+import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
 
 const dependencyPointElementsKey = '__dependencyPointElements__';
 
@@ -51,7 +51,7 @@ type SubTypeAndGraphs = {
   secondGraph?: number
 }
 
-export default class DependencyPointElements extends CanvasElement {
+export default class DependencyPointElements extends ProkyonCanvasElement {
 
   readonly componentType: Type<FormulaElement> = DependencyPointElementsFormulaComponent;
   public override formulaDialogType = ViewDependencyPointElementsDialogComponent;
@@ -212,7 +212,7 @@ export default class DependencyPointElements extends CanvasElement {
     return pointElement;
   }
 
-  public override draw(ctx: RenderingContext): void {
+  public override draw(ctx: AbstractRenderingContext): void {
     // Draw, but only if the version is up-to-date, meaning there is no execution still running.
     if (this.correctVersion === this.drawnVersion) {
       const selected = ctx.selection.indexOf(this) !== -1;
@@ -227,7 +227,7 @@ export default class DependencyPointElements extends CanvasElement {
     }
   }
 
-  public override getDistance(p: Point, ctx: RenderingContext): number | undefined {
+  public override getDistance(p: Point, ctx: AbstractRenderingContext): number | undefined {
     return Math.min(...this.pointElements.map(el => {
       return el.getDistance(p, ctx);
     }).filter(num => {
@@ -451,7 +451,7 @@ export default class DependencyPointElements extends CanvasElement {
   }
 
   public override loadFrom(canvasElements: {
-    [p: number]: CanvasElement | undefined
+    [p: number]: ProkyonCanvasElement | undefined
   }, canvasElementSerialized: CanvasElementSerialized) {
     const data = canvasElementSerialized.data as Data;
 

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {Mode} from "../global/classes/modes/mode";
 import {DrawerService} from "../services/drawer.service";
 import MoveMode from "../global/classes/modes/moveMode";
 import PointsMode from "../global/classes/modes/pointsMode";
@@ -19,6 +18,7 @@ import ShowLabelVisibilityMode from "../global/classes/modes/showLabelVisibility
 import MoveLabelsMode from "../global/classes/modes/moveLabelsMode";
 import AngleMode from '../global/classes/modes/angleMode';
 import ShapeMode from '../global/classes/modes/shapeMode';
+import { ProkyonMode } from '../global/classes/modes/prokyonMode';
 
 @Component({
   selector: 'app-geometry-tab',
@@ -107,7 +107,7 @@ export class GeometryTabComponent implements OnInit {
 
 }
 
-class ModeElement<T extends Mode> {
+class ModeElement<T extends ProkyonMode> {
   public constructor(private drawerServiceProvider: () => DrawerService, public getInstance: (create: boolean) => T, public title: string, public tooltip: string, public icon: string) { }
 
   public click(): void {
@@ -122,5 +122,5 @@ class ModeElement<T extends Mode> {
 
 interface Group {
   name: string,
-  modes: ModeElement<Mode>[]
+  modes: ModeElement<ProkyonMode>[]
 }

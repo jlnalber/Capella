@@ -1,16 +1,13 @@
-import {Component, Input} from '@angular/core';
-import {Func} from "../../global/classes/func/func";
+import {Component} from '@angular/core';
 import {Graph} from "../../global/classes/canvas-elements/graph";
-import {Constant} from "../../global/classes/func/operations/constants/constant";
 import {DrawerService} from "../../services/drawer.service";
-import {getColorAsRgbaFunction} from "../../global/interfaces/color";
-import {FuncParser} from "../../global/classes/func/funcParser";
 import {FormulaElement} from "../../global/classes/abstract/formulaElement";
-import {DialogService} from "../../dialog/dialog.service";
 import {FuncAnalyserDialogComponent} from "../../func-analyser-dialog/func-analyser-dialog.component";
 import {ContextMenu, ContextMenuElement} from "../../context-menu/context-menu.directive";
-import {IntersectionDialogComponent} from "../../intersection-dialog/intersection-dialog.component";
 import DefiniteIntegral from "../../global/classes/canvas-elements/definiteIntegral";
+import { DialogService } from 'src/app/global/dialog/dialog.service';
+import { getColorAsRgbaFunction } from 'src/app/global/interfaces/color';
+import { IntersectionDialogComponent } from '../../intersection-dialog/intersection-dialog.component';
 
 @Component({
   selector: 'app-graph-formula',

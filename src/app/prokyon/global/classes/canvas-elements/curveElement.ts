@@ -1,17 +1,17 @@
-import {CanvasElement} from "../abstract/canvasElement";
 import {Type} from "@angular/core";
 import {FormulaElement} from "../abstract/formulaElement";
 import FormulaDialogElement from "../abstract/formulaDialogElement";
 import {CanvasElementSerialized} from "../../essentials/serializer";
 import {DrawerService} from "../../../services/drawer.service";
 import {CurveFormulaComponent} from "../../../formula-tab/curve-formula/curve-formula.component";
-import {RenderingContext} from "../renderingContext";
-import {Point} from "../../interfaces/point";
 import {Operation} from "../func/operations/operation";
-import {BLACK, Color, colorAsTransparent} from "../../interfaces/color";
-import {getDistance} from "../../essentials/utils";
 import {LINE_WIDTH_SELECTED_RATIO, TRANSPARENCY_RATIO} from "./graph";
 import {ViewCurveElementComponent} from "../../../formula-dialogs/view-curve-element/view-curve-element.component";
+import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
+import { BLACK, Color, colorAsTransparent, TRANSPARENT } from "src/app/global/interfaces/color";
+import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import { Point } from "src/app/global/interfaces/point";
+import { getDistance, getRegularLineDash } from "src/app/global/essentials/utils";
 
 type Data = {
   parameter: string,
@@ -24,7 +24,7 @@ type Data = {
 
 export type ParseAndValidateProvider = (str: string, vars: string[]) => Operation | string;
 
-export default class CurveElement extends CanvasElement {
+export default class CurveElement extends ProkyonCanvasElement {
 
   readonly componentType: Type<FormulaElement> = CurveFormulaComponent;
   readonly formulaDialogType: Type<FormulaDialogElement> | undefined = ViewCurveElementComponent;
@@ -253,7 +253,7 @@ export default class CurveElement extends CanvasElement {
   }
 
 
-  draw(ctx: RenderingContext): void {
+  public draw(ctx: AbstractRenderingContext): void {
     const points = this.getPoints(ctx);
 
     if (points !== undefined) {
@@ -261,14 +261,24 @@ export default class CurveElement extends CanvasElement {
       const lineWidthSelected = this.lineWidth * LINE_WIDTH_SELECTED_RATIO;
 
       // draw the curve
-      ctx.drawPath(points, this.lineWidth, this.color, undefined, this.dashed);
+      ctx.drawPath(points, {
+        lineWidth: this.lineWidth, 
+        color: this.color,
+        uniformSizeOnZoom: true,
+        lineDash: getRegularLineDash(this.dashed)
+      });
       if (ctx.selection.indexOf(this) !== -1) {
-        ctx.drawPath(points, lineWidthSelected, colorSelected, undefined, this.dashed);
+        ctx.drawPath(points, {
+          lineWidth: lineWidthSelected,
+          color: colorSelected,
+          uniformSizeOnZoom: true,
+          lineDash: getRegularLineDash(this.dashed)
+        });
       }
     }
   }
 
-  private getPoints(ctx: RenderingContext): Point[] | undefined {
+  private getPoints(ctx: AbstractRenderingContext): Point[] | undefined {
     // get all the points
     this.parseIfNecessary();
 
@@ -307,8 +317,8 @@ export default class CurveElement extends CanvasElement {
     return undefined;
   }
 
-  loadFrom(canvasElements: {
-    [p: number]: CanvasElement | undefined
+  public loadFrom(canvasElements: {
+    [p: number]: ProkyonCanvasElement | undefined
   }, canvasElementSerialized: CanvasElementSerialized, drawerService: DrawerService): void {
     const data: Data = canvasElementSerialized.data as Data;
 
@@ -350,7 +360,7 @@ export default class CurveElement extends CanvasElement {
     return new CurveElement((t: string, vars: string[]) => drawerService.parseAndValidateOperation(t, true, vars));
   }
 
-  public override getDistance(p: Point, ctx: RenderingContext): number | undefined {
+  public override getDistance(p: Point, ctx: AbstractRenderingContext): number | undefined {
     const points = this.getPoints(ctx);
 
     if (points === undefined) {
@@ -372,7 +382,7 @@ export default class CurveElement extends CanvasElement {
     return min;
   }
 
-  public override getPositionForLabel(rtx: RenderingContext): Point | undefined {
+  public override getPositionForLabel(rtx: AbstractRenderingContext): Point | undefined {
     const depos = 15;
 
     // get the middle point

@@ -1,6 +1,6 @@
 import {Func} from "./func";
-import {Point} from "../../interfaces/point";
 import {tryGetDerivative} from "../../essentials/funcUtils";
+import { Point } from "src/app/global/interfaces/point";
 
 export function newtonMethod(startValue: number, func: Func, dict: any, iterations: number): number {
   const derivative = func.derive();

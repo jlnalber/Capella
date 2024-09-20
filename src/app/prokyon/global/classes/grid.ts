@@ -1,10 +1,11 @@
-import {CanvasDrawer} from "./abstract/canvasDrawer";
-import {RenderingContext} from "./renderingContext";
-import {Color} from "../interfaces/color";
-import {clamp, correctRect} from "../essentials/utils";
+import { CanvasDrawer } from "src/app/global/classes/abstract/canvasDrawer";
+import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import { clamp, correctRect } from "src/app/global/essentials/utils";
+import { BLACK, Color } from "src/app/global/interfaces/color";
+import { Point } from "src/app/global/interfaces/point";
 
 export class Grid extends CanvasDrawer {
-  public override draw(ctx: RenderingContext) {
+  public override draw(ctx: AbstractRenderingContext) {
     if (ctx.config?.showGrid === undefined || ctx.config.showGrid) {
       // get metadata about the canvas
       const range = correctRect(ctx.range);
@@ -42,30 +43,50 @@ export class Grid extends CanvasDrawer {
         }, {
           x: x,
           y: range.y + range.height
-        }, x === 0 ? 3 : big ? 1 : 0.5, stroke);
+        }, {
+          lineWidth: x === 0 ? 3 : big ? 1 : 0.5,
+          color: stroke,
+          uniformSizeOnZoom: true
+        });
 
         // draw arrow on axis
         if (x === 0) {
           const height = 15 / ctx.zoom;
           const offset = 0.5 / ctx.zoom;
           const offsetY = 3 / ctx.zoom;
-          ctx.drawPath([{
+          const p1: Point = {
             x: x + offset,
             y: range.y + range.height + offsetY
-          }, {
+          }
+          const p2: Point = {
             x: x - height / 4 + offset,
             y: range.y + range.height - height
-          }, {
+          }
+          const p3: Point = {
             x: x + height / 4 + offset,
             y: range.y + range.height - height
-          }], 0, stroke, stroke);
+          };
+          ctx.drawPath([p1, p2, p3, p1], {
+            lineWidth: 0,
+            color: stroke,
+            uniformSizeOnZoom: true
+          }, {
+            color: stroke
+          });
         }
         // draw the text
         else if (big && drawText) {
           ctx.drawText(x.toLocaleString(), {
             x: x,
             y: yPos
-          }, fontSize, fontFamily, 'center', alignBottom ? 'bottom' : 'top');
+          }, {
+            fontSize: [fontSize, 'px'], 
+            fontFamily: [fontFamily],
+            textAlign: 'center',
+            textBaseline: alignBottom ? 'bottom' : 'top',
+            color: BLACK,
+            uniformSizeOnZoom: true
+          });
         }
       }
 
@@ -79,30 +100,50 @@ export class Grid extends CanvasDrawer {
         }, {
           x: range.x + range.width,
           y: y
-        }, y === 0 ? 3 : big ? 1 : 0.5, stroke);
+        }, {
+          lineWidth: y === 0 ? 3 : big ? 1 : 0.5,
+          color: stroke,
+          uniformSizeOnZoom: true
+        });
 
         // draw arrow on axis
         if (y === 0) {
           const width = 15 / ctx.zoom;
           const offset = 0.5 / ctx.zoom;
           const offsetX = 3 / ctx.zoom;
-          ctx.drawPath([{
+          const p1: Point = {
             x: range.x + range.width + offsetX,
             y: y + offset
-          }, {
+          };
+          const p2: Point = {
             x: range.x + range.width - width,
             y: y - width / 4 + offset
-          }, {
+          }
+          const p3: Point = {
             x: range.x + range.width - width,
             y: y + width / 4 + offset
-          }], 0, stroke, stroke);
+          }
+          ctx.drawPath([p1, p2, p3, p1], {
+            lineWidth: 0,
+            color: stroke,
+            uniformSizeOnZoom: true
+          }, {
+            color: stroke
+          });
         }
         // draw the text
         else if (big && drawText) {
           ctx.drawText(y.toLocaleString(), {
             x: xPos,
             y: y
-          }, fontSize, fontFamily, alignLeft ? 'left' : 'right', 'middle');
+          }, {
+            fontSize: [fontSize, 'px'],
+            fontFamily: [fontFamily],
+            textAlign: alignLeft ? 'left' : 'right',
+            textBaseline: 'middle',
+            color: BLACK,
+            uniformSizeOnZoom: true
+          });
         }
       }
 
@@ -115,7 +156,14 @@ export class Grid extends CanvasDrawer {
         ctx.drawText('0', {
           x: -offsetText,
           y: -offsetText
-        }, fontSize, fontFamily, 'right', 'top')
+        }, {
+          fontSize: [fontSize, 'px'],
+          fontFamily: [fontFamily],
+          textAlign: 'right',
+          textBaseline: 'top',
+          uniformSizeOnZoom: true,
+          color: BLACK
+        })
       }
     }
   }

@@ -1,7 +1,8 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DrawerService} from "../services/drawer.service";
-import {Rect} from "../global/interfaces/rect";
 import { Dialog } from 'src/app/global/dialog/dialog';
+import { Rect } from 'src/app/global/interfaces/rect';
+import { FormsModule } from '@angular/forms';
 
 const SESSION_RANGE = 'screenshot_range';
 const SESSION_ZOOM = 'screenshot_zoom';
@@ -9,6 +10,10 @@ const SESSION_RESOLUTION = 'screenshot_resolution';
 
 @Component({
   selector: 'app-screenshot-dialog',
+  standalone: true,
+  imports: [
+    FormsModule
+  ],
   templateUrl: './screenshot-dialog.component.html',
   styleUrls: ['./screenshot-dialog.component.css']
 })

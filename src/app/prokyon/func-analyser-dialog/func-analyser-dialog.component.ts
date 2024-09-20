@@ -6,9 +6,9 @@ import {
 } from "../global/essentials/analysingFunctionsUtils";
 import {Graph} from "../global/classes/canvas-elements/graph";
 import DependencyPointElements from "../global/classes/canvas-elements/dependencyPointElements";
-import {Point} from "../global/interfaces/point";
 import { SnackbarService } from 'src/app/global/snackbar/snackbar.service';
 import { Dialog } from 'src/app/global/dialog/dialog';
+import { Point } from 'src/app/global/interfaces/point';
 
 export interface FuncAnalyserDialogData {
   graph?: Graph

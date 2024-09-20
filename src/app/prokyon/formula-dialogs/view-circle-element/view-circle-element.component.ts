@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import FormulaDialogElement from "../../global/classes/abstract/formulaDialogElement";
 import CircleElement from "../../global/classes/canvas-elements/circleElement";
-import {Point} from "../../global/interfaces/point";
 
 const precision = 10 ** 2;
 

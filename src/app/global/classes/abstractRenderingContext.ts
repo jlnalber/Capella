@@ -31,6 +31,11 @@ export default abstract class AbstractRenderingContext {
                protected readonly _variables?: any,
                public readonly config?: any) { }
 
+               
+  public get variables(): any {
+    return { ... this._variables };
+  }
+
   // TODO: Test when there is a resolution factor in the regular canvas
   public transformPointFromCanvasToField(p: Point): Point {
     return {
@@ -130,18 +135,19 @@ export default abstract class AbstractRenderingContext {
     return LINE_DASH.map(i => i * f);
   }
 
-  public abstract drawPath(points: Point[], strokeStyle: StrokeStyle, objectStyle?: ObjectStyle, fill?: FillStyle): void;
+  public abstract drawPath(points: Point[], strokeStyle: StrokeStyle, fill?: FillStyle, objectStyle?: ObjectStyle): void;
 
-  public abstract drawQuadraticPath(points: SizePoint[], strokeStyle: StrokeStyle): void;
+  public abstract drawQuadraticPath(points: SizePoint[], strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void;
 
-  public drawLine(from: Point, to: Point, strokeStyle: StrokeStyle): void {
-    this.drawPath([ from, to ], strokeStyle);
+  public drawLine(from: Point, to: Point, strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void {
+    this.drawPath([ from, to ], strokeStyle, undefined, objectStyle);
   }
 
   public abstract drawText(text: string, p: Point,
                   textStyle: TextStyle,
                   strokeStyle?: StrokeStyle,
-                  fillStyle?: FillStyle): void;
+                  fillStyle?: FillStyle,
+                  objectStyle?: ObjectStyle): void;
 
   public abstract measureText(text: string,
                   textStyle: TextStyle): TextMetrics;
@@ -150,24 +156,40 @@ export default abstract class AbstractRenderingContext {
                      radiusX: number,
                      radiusY: number,
                      rotation: number,
+                     useUniformSize: boolean,
                      fill?: FillStyle,
-                     strokeStyle?: StrokeStyle): void;
+                     strokeStyle?: StrokeStyle,
+                     objectStyle?: ObjectStyle): void;
 
   public drawCircle(center: Point,
                     radius: number,
+                    useUniformSize: boolean,
                     fill?: FillStyle,
-                    strokeStyle?: StrokeStyle): void {
-    this.drawEllipse(center, radius, radius, 0, fill, strokeStyle);
+                    strokeStyle?: StrokeStyle,
+                    objectStyle?: ObjectStyle): void {
+    this.drawEllipse(center, radius, radius, 0, useUniformSize, fill, strokeStyle, objectStyle);
   }
 
   public abstract drawCircleSector(center: Point,
                     radius: number,
                     startAngle: number,
                     endAngle: number,
+                    useUniformSize: boolean,
                     fillStyle?: FillStyle,
-                    stroke?: StrokeStyle): void;
+                    stroke?: StrokeStyle,
+                    objectStyle?: ObjectStyle): void;
 
-  public abstract drawRect(rect: Rect, fillStyle?: FillStyle, strokeStyle?: StrokeStyle): void;
+  public abstract drawRect(rect: Rect,
+                    useUniformSize: boolean,
+                    fillStyle?: FillStyle,
+                    strokeStyle?: StrokeStyle,
+                    objectStyle?: ObjectStyle): void;
 
-  public abstract drawImage(image: CanvasImageSource, p: Point, dw: number, dh: number, imageStyle?: ImageStyle): void;
+  public abstract drawImage(image: CanvasImageSource,
+                    p: Point,
+                    dw: number,
+                    dh: number,
+                    useUniformSize: boolean,
+                    imageStyle?: ImageStyle,
+                    objectStyle?: ObjectStyle): void;
 }

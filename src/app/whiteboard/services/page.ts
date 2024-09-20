@@ -325,16 +325,16 @@ export default class Page {
                 color: BACKGROUND_COLOR
             }
             if (rectLeft.width > 0) {
-                renderingContext.drawRect(rectLeft, fillStyle)
+                renderingContext.drawRect(rectLeft, true, fillStyle)
             }
             if (rectBottom.height > 0) {
-                renderingContext.drawRect(rectBottom, fillStyle)
+                renderingContext.drawRect(rectBottom, true, fillStyle)
             }
             if (rectTop.height > 0) {
-                renderingContext.drawRect(rectTop, fillStyle)
+                renderingContext.drawRect(rectTop, true, fillStyle)
             }
             if (rectRight.width > 0) {
-                renderingContext.drawRect(rectRight, fillStyle)
+                renderingContext.drawRect(rectRight, true, fillStyle)
             }
 
             renderingContext.drawRect({
@@ -342,7 +342,9 @@ export default class Page {
                 y: 0,
                 height: -format.height,
                 width: format.width
-            }, {color: TRANSPARENT}, {
+            }, true, {
+                color: TRANSPARENT
+            }, {
                 color: {
                     r: 200,
                     g: 200,

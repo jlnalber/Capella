@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import FormulaDialogElement from 'src/app/global/classes/abstract/formulaDialogElement';
-import ShapeElement from 'src/app/global/classes/canvas-elements/shapeElement';
 import { FormsModule } from '@angular/forms';
+import FormulaDialogElement from '../../global/classes/abstract/formulaDialogElement';
+import ShapeElement from '../../global/classes/canvas-elements/shapeElement';
 
 @Component({
   selector: 'app-view-shape-element',

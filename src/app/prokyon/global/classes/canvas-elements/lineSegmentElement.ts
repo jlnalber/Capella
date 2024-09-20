@@ -1,16 +1,15 @@
 import AbstractLine, {PointsProvider} from "./abstractLine";
-import {RenderingContext} from "../renderingContext";
 import {Type} from "@angular/core";
-import {areEqualPoints, isInRange} from "../../essentials/utils";
-import {Color, colorAsTransparent} from "../../interfaces/color";
 import {LINE_WIDTH_SELECTED_RATIO, TRANSPARENCY_RATIO} from "./graph";
-import {Point} from "../../interfaces/point";
-import {getDistance} from "../../essentials/utils";
 import {GeometricFormulaComponent} from "../../../formula-tab/geometric-formula/geometric-formula.component";
-import {CanvasElement} from "../abstract/canvasElement";
 import {CanvasElementSerialized} from "../../essentials/serializer";
 import PointElement from "./pointElement";
 import {getMiddlePointByPoints} from "../../essentials/geometryUtils";
+import { areEqualPoints, getDistance, getRegularLineDash, isInRange } from "src/app/global/essentials/utils";
+import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import { Point } from "src/app/global/interfaces/point";
+import { Color, colorAsTransparent } from "src/app/global/interfaces/color";
+import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
 
 type Data = {
   p1: number,
@@ -20,19 +19,29 @@ type Data = {
 export default class LineSegmentElement extends AbstractLine {
   readonly componentType: Type<GeometricFormulaComponent> = GeometricFormulaComponent;
 
-  public draw(ctx: RenderingContext): void {
+  public draw(ctx: AbstractRenderingContext): void {
     const point1 = this.point1;
     const point2 = this.point2;
 
     if (point1 !== undefined && point2 !== undefined && !areEqualPoints(point1, point2)) {
       if (ctx.selection.indexOf(this) !== -1) {
-        ctx.drawPath([point1, point2], this.lineWidth * LINE_WIDTH_SELECTED_RATIO, colorAsTransparent(this._color, TRANSPARENCY_RATIO), undefined, this.configuration.dashed)
+        ctx.drawPath([point1, point2], {
+          lineWidth: this.lineWidth * LINE_WIDTH_SELECTED_RATIO, 
+          color: colorAsTransparent(this._color, TRANSPARENCY_RATIO),
+          uniformSizeOnZoom: true,
+          lineDash: getRegularLineDash(this.configuration.dashed)
+        })
       }
-      ctx.drawPath([point1, point2], this.lineWidth, this.color, undefined, this.configuration.dashed);
+      ctx.drawPath([point1, point2], {
+        lineWidth: this.lineWidth,
+        color: this.color,
+        uniformSizeOnZoom: true,
+        lineDash: getRegularLineDash(this.configuration.dashed)
+      });
     }
   }
 
-  public override getDistance(p: Point, ctx: RenderingContext): number | undefined {
+  public override getDistance(p: Point, ctx: AbstractRenderingContext): number | undefined {
     const iPoint = this.getClosestPointOnLineToPoint(p);
     const point1 = this.point1;
     const point2 = this.point2;
@@ -47,7 +56,7 @@ export default class LineSegmentElement extends AbstractLine {
     return undefined;
   }
 
-  public override getPositionForLabel(rtx: RenderingContext): Point | undefined {
+  public override getPositionForLabel(rtx: AbstractRenderingContext): Point | undefined {
     const zoom = rtx.zoom;
     const depos = 15;
 
@@ -63,7 +72,7 @@ export default class LineSegmentElement extends AbstractLine {
   }
 
   constructor(psProvider: PointsProvider,
-              dependencies: CanvasElement[],
+              dependencies: ProkyonCanvasElement[],
               protected dataProvider: () => Data,
               color: Color = { r: 0, g: 0, b: 0 },
               formula?: string,
@@ -94,7 +103,7 @@ export default class LineSegmentElement extends AbstractLine {
   }
 
   public override loadFrom(canvasElements: {
-    [p: number]: CanvasElement | undefined
+    [p: number]: ProkyonCanvasElement | undefined
   }, canvasElementSerialized: CanvasElementSerialized) {
     this.color = canvasElementSerialized.style.color;
     this.visible = canvasElementSerialized.style.visible;

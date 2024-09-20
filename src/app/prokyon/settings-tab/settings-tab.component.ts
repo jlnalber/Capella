@@ -3,11 +3,16 @@ import {DrawerService} from "../services/drawer.service";
 import {ScreenshotDialogComponent} from "../screenshot-dialog/screenshot-dialog.component";
 import {Serialized} from "../global/essentials/serializer";
 import { DialogService } from 'src/app/global/dialog/dialog.service';
+import { FormsModule } from '@angular/forms';
 
 const STORAGE_CACHE = 'serialized';
 
 @Component({
   selector: 'app-settings-tab',
+  standalone: true,
+  imports: [
+    FormsModule
+  ],
   templateUrl: './settings-tab.component.html',
   styleUrls: ['./settings-tab.component.css']
 })

@@ -1,16 +1,16 @@
-import {CanvasElement} from "../abstract/canvasElement";
 import {FormulaElement} from "../abstract/formulaElement";
 import {Type} from "@angular/core";
-import {RenderingContext} from "../renderingContext";
 import {
   DefiniteIntegralFormulaComponent
 } from "../../../formula-tab/definite-integral-formula/definite-integral-formula.component";
-import {BLACK, Color, colorAsTransparent, TRANSPARENT} from "../../interfaces/color";
 import {Graph} from "./graph";
-import {Rect} from "../../interfaces/rect";
-import {correctRect, correctRectTo, getDistanceToRect} from "../../essentials/utils";
-import {Point} from "../../interfaces/point";
 import {CanvasElementSerialized} from "../../essentials/serializer";
+import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
+import { Rect } from "src/app/global/interfaces/rect";
+import { BLACK, Color, colorAsTransparent, TRANSPARENT } from "src/app/global/interfaces/color";
+import { correctRect, correctRectTo, getDistanceToRect } from "src/app/global/essentials/utils";
+import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import { Point } from "src/app/global/interfaces/point";
 
 type Data = {
   graph: number,
@@ -20,7 +20,7 @@ type Data = {
   to: number
 }
 
-export default class DefiniteIntegral extends CanvasElement {
+export default class DefiniteIntegral extends ProkyonCanvasElement {
 
   public readonly componentType: Type<FormulaElement> = DefiniteIntegralFormulaComponent;
   public override formulaDialogType = undefined;
@@ -165,7 +165,7 @@ export default class DefiniteIntegral extends CanvasElement {
     this.value = sum;
   }
 
-  public override draw(ctx: RenderingContext): void {
+  public override draw(ctx: AbstractRenderingContext): void {
     // Reload the data.
     this.reload(ctx.variables);
 
@@ -178,12 +178,18 @@ export default class DefiniteIntegral extends CanvasElement {
     for (let rect of this.rects) {
       const correctRect = correctRectTo(rect, range);
       if (correctRect) {
-        ctx.drawRect(correctRect, color, this.stroke)
+        ctx.drawRect(correctRect, false, {
+          color
+        }, {
+          color: this.stroke,
+          uniformSizeOnZoom: true,
+          lineWidth: this.strokeWidth
+        })
       }
     }
   }
 
-  public override getDistance(p: Point, ctx: RenderingContext): number | undefined {
+  public override getDistance(p: Point, ctx: AbstractRenderingContext): number | undefined {
     return Math.min(...this.rects.map(rect => getDistanceToRect(p, rect)));
   }
 
@@ -212,7 +218,7 @@ export default class DefiniteIntegral extends CanvasElement {
   }
 
   public override loadFrom(canvasElements: {
-    [p: number]: CanvasElement | undefined
+    [p: number]: ProkyonCanvasElement | undefined
   }, canvasElementSerialized: CanvasElementSerialized) {
     if (canvasElementSerialized.data.graph !== undefined
       && canvasElementSerialized.data.h !== undefined

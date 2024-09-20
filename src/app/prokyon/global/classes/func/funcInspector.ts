@@ -2,7 +2,7 @@ import {Func} from "./func";
 import {Operation} from "./operations/operation";
 import {Variable} from "./operations/variable";
 import {ExternalFunction} from "./operations/externalFunction";
-import {eliminateDuplicates} from "../../essentials/utils";
+import { eliminateDuplicates } from "src/app/global/essentials/utils";
 
 const derivativeCharacter = '\'';
 

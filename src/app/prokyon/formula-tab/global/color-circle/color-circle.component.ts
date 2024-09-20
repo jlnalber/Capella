@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {BLACK, Color, getColorAsRgbaFunction} from "../../../global/interfaces/color";
 import {HoverConfiguration} from "../../../hover-menu/hover-menu.directive";
 import {ColorPickerComponent} from "../../../color-picker/color-picker.component";
+import { BLACK, Color, getColorAsRgbaFunction } from 'src/app/global/interfaces/color';
 
 @Component({
   selector: 'app-color-circle',

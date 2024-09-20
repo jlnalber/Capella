@@ -2,8 +2,8 @@ import TwoElementsSelectMode from "./twoElementsSelectMode";
 import PointElement from "../canvas-elements/pointElement";
 import {DrawerService} from "../../../services/drawer.service";
 import LineSegmentElement from "../canvas-elements/lineSegmentElement";
-import {GREY} from "../../interfaces/color";
 import DynamicPointElement from "../canvas-elements/dynamicPointElement";
+import { GREY } from "src/app/global/interfaces/color";
 
 export default class LineSegmentsMode extends TwoElementsSelectMode<PointElement | DynamicPointElement, PointElement | DynamicPointElement> {
 

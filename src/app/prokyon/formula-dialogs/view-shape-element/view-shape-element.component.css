@@ -1,4 +1,4 @@
-@import "../../global/styles/_global.css";
+@import "../../../global/styles/_global.scss";
 
 .input {
   width: 50px;

@@ -1,4 +1,3 @@
-import {CanvasElement, CanvasElementConfiguration} from "../classes/abstract/canvasElement";
 import {Graph} from "../classes/canvas-elements/graph";
 import LineElement from "../classes/canvas-elements/lineElement";
 import {Color} from "src/app/global/interfaces/color";
@@ -16,6 +15,7 @@ import CompiledPointElement from "../classes/canvas-elements/compiledPointElemen
 import CurveElement from "../classes/canvas-elements/curveElement";
 import ShapeElement from "../classes/canvas-elements/shapeElement";
 import { DrawerService } from "../../services/drawer.service";
+import { ProkyonCanvasElement, ProkyonCanvasElementConfiguration } from "../classes/abstract/prokyonCanvasElement";
 
 export interface Style {
   color: Color,
@@ -34,7 +34,7 @@ export interface CanvasElementSerialized {
 
 type CanvasElementSerializedComplete = {
   id: number,
-  configuration: CanvasElementConfiguration
+  configuration: ProkyonCanvasElementConfiguration
   type: string,
   translateLabel: Point
 } & CanvasElementSerialized;
@@ -90,7 +90,7 @@ const CURVE_TYPE = 'curve';
 const SHAPE_TYPE = 'polygon'
 const UNKNOWN_TYPE = 'undefined';
 
-function getType(cE: CanvasElement): string {
+function getType(cE: ProkyonCanvasElement): string {
   if (cE instanceof Graph) {
     return GRAPH_TYPE;
   } else if (cE instanceof LineElement) {
@@ -131,9 +131,9 @@ export function loadFrom(drawerService: DrawerService, serialized: Serialized): 
 
   drawerService.emptyCanvasElements();
 
-  const canvasElements: { [id: number]: CanvasElement | undefined } = {};
+  const canvasElements: { [id: number]: ProkyonCanvasElement | undefined } = {};
   for (let c of serialized.canvasElements) {
-    let canvasElement: CanvasElement | undefined = undefined;
+    let canvasElement: ProkyonCanvasElement | undefined = undefined;
 
     if (c.type === CIRCLE_TYPE) {
       canvasElement = CircleElement.getDefaultInstance();
@@ -177,7 +177,7 @@ export function loadFrom(drawerService: DrawerService, serialized: Serialized): 
       canvasElement.loadFrom(canvasElements, c, drawerService);
     }
   }
-  drawerService.addCanvasElements(...(Object.values(canvasElements).filter(c => c !== undefined) as CanvasElement[]));
+  drawerService.addCanvasElements(...(Object.values(canvasElements).filter(c => c !== undefined) as ProkyonCanvasElement[]));
 
   // Yes, this is really necessary and it es for when there is a graph which is invisible
   for (let g of drawerService.graphs) {

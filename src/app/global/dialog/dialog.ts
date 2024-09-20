@@ -1,6 +1,6 @@
+import { Event } from "../essentials/event";
 import {Dialog as DialogComponentType, DialogComponent} from "./dialog/dialog.component";
 import {ComponentRef, Type} from "@angular/core";
-import { Event } from "src/app/whiteboard/global/essentials/event";
 
 // This class is a wrapper for opening, destroying and closing dialogs.
 

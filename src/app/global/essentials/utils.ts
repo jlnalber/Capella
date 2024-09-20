@@ -2,6 +2,7 @@ import { Size } from 'src/app/global/interfaces/size';
 import {Rect} from "src/app/global/interfaces/rect";
 import {Point} from "src/app/global/interfaces/point";
 import {Color} from "src/app/global/interfaces/color";
+import { DEFAULT_LINEDASH, REGULAR_LINEDASH } from '../interfaces/canvasStyles/styleTypes';
 
 export function isIn(point: Point, rect: Rect, tolerance: number = 0): boolean {
   rect = correctRect(rect);
@@ -322,4 +323,8 @@ export function sizeToRect(size?: Size): Rect | undefined {
     width: size.width,
     height: size.height
   }
+}
+
+export function getRegularLineDash(lineDash: boolean | undefined): number[] {
+  return lineDash ? REGULAR_LINEDASH : DEFAULT_LINEDASH;
 }

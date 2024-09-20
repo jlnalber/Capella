@@ -1,12 +1,12 @@
 import MoveMode from "./moveMode";
 import {DrawerService} from "../../../services/drawer.service";
-import {RenderingContext} from "../renderingContext";
-import {Point} from "../../interfaces/point";
-import {PointerContext} from "../pointerController";
-import { CanvasElement } from "../abstract/canvasElement";
 import { Constructor, ofType } from "./twoElementsSelectMode";
+import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
+import { PointerContext } from "src/app/global/classes/pointerController";
+import { Point } from "src/app/global/interfaces/point";
+import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
 
-export default abstract class MultipleElementsSelectMode<T extends CanvasElement> extends MoveMode {
+export default abstract class MultipleElementsSelectMode<T extends ProkyonCanvasElement> extends MoveMode {
   
   protected constructor(private types: Constructor<T>[], private minElements: number, private maxElements: number = Number.MAX_VALUE) {
     super();
@@ -16,7 +16,7 @@ export default abstract class MultipleElementsSelectMode<T extends CanvasElement
 
   private clickedElements: T[] = [];
 
-  public override click(drawerService: DrawerService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext) {
+  public override click(drawerService: DrawerService, renderingContext: AbstractRenderingContext, point: Point, pointerContext: PointerContext) {
     const clickedElement = drawerService.getSelection(point, (c) => ofType(c, ...this.types)) as T | undefined;
 
     if (clickedElement !== undefined) {

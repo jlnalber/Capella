@@ -1,4 +1,4 @@
-import { Size } from "../../whiteboard/global/interfaces/size";
+import { Size } from "../interfaces/size";
 
 export const DINA4: Size = {
     width: 210,

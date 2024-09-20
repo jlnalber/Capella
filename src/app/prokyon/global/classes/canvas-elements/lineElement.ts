@@ -1,12 +1,7 @@
 import AbstractLine, {ABCFormLine, PointsProvider} from "./abstractLine";
-import {RenderingContext} from "../renderingContext";
 import {GeometricFormulaComponent} from "../../../formula-tab/geometric-formula/geometric-formula.component";
 import {Type} from "@angular/core";
-import {Point} from "../../interfaces/point";
-import {areEqualPoints, correctRect, isIn, isInRange} from "../../essentials/utils";
-import {Color, colorAsTransparent, GREY} from "../../interfaces/color";
 import {LINE_WIDTH_SELECTED_RATIO, TRANSPARENCY_RATIO} from "./graph";
-import {CanvasElement} from "../abstract/canvasElement";
 import {CanvasElementSerialized} from "../../essentials/serializer";
 import {DrawerService} from "../../../services/drawer.service";
 import PointElement from "./pointElement";
@@ -18,7 +13,12 @@ import {
 } from "../../essentials/geometryUtils";
 import LineSegmentElement from "./lineSegmentElement";
 import CircleElement from "./circleElement";
-import {Rect} from "../../interfaces/rect";
+import { areEqualPoints, correctRect, getRegularLineDash, isInRange } from "src/app/global/essentials/utils";
+import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import { Point } from "src/app/global/interfaces/point";
+import { Color, colorAsTransparent, GREY } from "src/app/global/interfaces/color";
+import { Rect } from "src/app/global/interfaces/rect";
+import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
 
 const ANGLE_BISECTOR_SUBTYPE = 'angle_bisector';
 const BISECTION_SUBTYPE = 'bisection';
@@ -39,7 +39,7 @@ type Data = {
 export default class LineElement extends AbstractLine {
   readonly componentType: Type<GeometricFormulaComponent> = GeometricFormulaComponent;
 
-  public draw(ctx: RenderingContext): void {
+  public draw(ctx: AbstractRenderingContext): void {
     const point1 = this.point1;
     const point2 = this.point2;
 
@@ -80,13 +80,23 @@ export default class LineElement extends AbstractLine {
       }
 
       if (ctx.selection.indexOf(this) !== -1) {
-        ctx.drawPath([pS, pE], this.lineWidth * LINE_WIDTH_SELECTED_RATIO, colorAsTransparent(this._color, TRANSPARENCY_RATIO), undefined, this.configuration.dashed);
+        ctx.drawPath([pS, pE], {
+          lineWidth: this.lineWidth * LINE_WIDTH_SELECTED_RATIO,
+          uniformSizeOnZoom: true,
+          color: colorAsTransparent(this._color, TRANSPARENCY_RATIO),
+          lineDash: getRegularLineDash(this.configuration.dashed)
+        });
       }
-      ctx.drawPath([pS, pE], this.lineWidth, this.color, undefined, this.configuration.dashed);
+      ctx.drawPath([pS, pE], {
+        lineWidth: this.lineWidth,
+        uniformSizeOnZoom: true,
+        color: this._color,
+        lineDash: getRegularLineDash(this.configuration.dashed)
+      });
     }
   }
 
-  public override getPositionForLabel(rtx: RenderingContext): Point | undefined {
+  public override getPositionForLabel(rtx: AbstractRenderingContext): Point | undefined {
     const range = correctRect(rtx.range);
     const depos = 50 / rtx.zoom;
     const abc = this.getABCFormLine();
@@ -137,7 +147,7 @@ export default class LineElement extends AbstractLine {
   }
 
   constructor(psProvider: PointsProvider,
-              dependencies: CanvasElement[],
+              dependencies: ProkyonCanvasElement[],
               protected subTypeAndDataProvider: () => SubTypeAndData,
               color: Color = {r: 0, g: 0, b: 0},
               formula?: string,
@@ -301,12 +311,12 @@ export default class LineElement extends AbstractLine {
   }
 
   public override loadFrom(canvasElements: {
-    [p: number]: CanvasElement | undefined
+    [p: number]: ProkyonCanvasElement | undefined
   }, canvasElementSerialized: CanvasElementSerialized, drawerService: DrawerService) {
     const data: Data = canvasElementSerialized.data;
 
     // first, load the elements
-    const els: (CanvasElement | undefined)[] = [];
+    const els: (ProkyonCanvasElement | undefined)[] = [];
     for (let i of data.els) {
       const el = canvasElements[i];
       if (el !== undefined) this.addDependency(el);

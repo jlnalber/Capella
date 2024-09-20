@@ -1,11 +1,7 @@
 import { Component } from '@angular/core';
 import {FormulaElement} from "../../global/classes/abstract/formulaElement";
 import DependencyPointElements from "../../global/classes/canvas-elements/dependencyPointElements";
-import {ContextMenu, ContextMenuElement} from "../../context-menu/context-menu.directive";
-import {DialogService} from "../../dialog/dialog.service";
-import {
-  ViewDependencyPointElementsDialogComponent
-} from "../../formula-dialogs/view-dependency-point-elements-dialog/view-dependency-point-elements-dialog.component";
+import { DialogService } from 'src/app/global/dialog/dialog.service';
 
 @Component({
   selector: 'app-dependency-point-element-formula',

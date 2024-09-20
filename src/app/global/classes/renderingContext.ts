@@ -272,7 +272,7 @@ export class RenderingContext extends AbstractRenderingContext {
     this.ctx.imageSmoothingQuality = imageStyle.imageSmoothingQuality ?? DEFAULT_IMAGESMOOTHINGQUALITY;
   }
 
-  public drawPath(points: Point[], strokeStyle: StrokeStyle, objectStyle?: ObjectStyle, fill?: FillStyle): void {
+  public drawPath(points: Point[], strokeStyle: StrokeStyle, fill?: FillStyle, objectStyle?: ObjectStyle): void {
     let realPoints = points.map(p => {
       return this.transformPointFromFieldToCanvasWithResolutionFactor(p);
     });
@@ -306,7 +306,7 @@ export class RenderingContext extends AbstractRenderingContext {
     }
   }
 
-  public drawQuadraticPath(points: SizePoint[], stroke: StrokeStyle): void {
+  public drawQuadraticPath(points: SizePoint[], stroke: StrokeStyle, objectStyle?: ObjectStyle): void {
     const realPoints: SizePoint[] = points.map(p => {
       return {
         ...this.transformPointFromFieldToCanvasWithResolutionFactor(p),
@@ -319,6 +319,7 @@ export class RenderingContext extends AbstractRenderingContext {
       this.ctx.fillRect(p.x, p.y, lineWidth, lineWidth);
     }*/
     this.useStrokeStyle(stroke);
+    this.useObjectStyle(objectStyle);
 
     function createNoisePattern(): CanvasPattern {
       if (!noise) {
@@ -394,7 +395,8 @@ export class RenderingContext extends AbstractRenderingContext {
   public drawText(text: string, p: Point,
                   textStyle: TextStyle,
                   strokeStyle?: StrokeStyle,
-                  fillStyle?: FillStyle): void {
+                  fillStyle?: FillStyle,
+                  objectStyle?: ObjectStyle): void {
     let realP = this.transformPointFromFieldToCanvasWithResolutionFactor(p);
    
     // set the ctx up
@@ -420,6 +422,7 @@ export class RenderingContext extends AbstractRenderingContext {
     // set global text properties
     this.useStrokeStyle(strokeStyle);
     this.useFillStyle(fillStyle);
+    this.useObjectStyle(objectStyle);
     this.useTextStyle(textStyle);
 
     // draw the text
@@ -439,14 +442,17 @@ export class RenderingContext extends AbstractRenderingContext {
                      radiusX: number,
                      radiusY: number,
                      rotation: number,
+                     useUniformSize: boolean,
                      fillStyle?: FillStyle,
-                     strokeStyle?: StrokeStyle): void {
+                     strokeStyle?: StrokeStyle,
+                     objectStyle?: ObjectStyle): void {
     // draw an ellipse around the center point
     const resFactor = this.resolutionFactor;
-    const zoom = this.zoom;
+    const zoom = !useUniformSize ? this.zoom : 1;
 
     this.useStrokeStyle(strokeStyle);
     this.useFillStyle(fillStyle);
+    this.useObjectStyle(objectStyle);
     const realCenter = this.transformPointFromFieldToCanvasWithResolutionFactor(center)
     const realRadiusX = radiusX * zoom * resFactor;
     const realRadiusY = radiusY * zoom * resFactor;
@@ -462,13 +468,18 @@ export class RenderingContext extends AbstractRenderingContext {
                     radius: number,
                     startAngle: number,
                     endAngle: number,
+                    useUniformSize: boolean,
                     fillStyle?: FillStyle,
-                    strokeStyle?: StrokeStyle): void {
+                    strokeStyle?: StrokeStyle,
+                    objectStyle?: ObjectStyle): void {
+    const zoom = !useUniformSize ? this.zoom : 1;
+
     // draw an ellipse around the center point
     this.useStrokeStyle(strokeStyle);
     this.useFillStyle(fillStyle);
+    this.useObjectStyle(objectStyle);
     const realCenter = this.transformPointFromFieldToCanvasWithResolutionFactor(center)
-    const realRadius = radius * this.zoom * this.resolutionFactor;
+    const realRadius = radius * zoom * this.resolutionFactor;
 
     this.ctx.closePath();
     this.ctx.beginPath();
@@ -480,22 +491,37 @@ export class RenderingContext extends AbstractRenderingContext {
     this.ctx.closePath();
   }
 
-  public drawRect(rect: Rect, fillStyle?: FillStyle, strokeStyle?: StrokeStyle): void {
+  public drawRect(rect: Rect,
+      useUniformSize: boolean,
+      fillStyle?: FillStyle,
+      strokeStyle?: StrokeStyle,
+      objectStyle?: ObjectStyle): void {
+    const zoom = !useUniformSize ? this.zoom : 1;
+
     this.useStrokeStyle(strokeStyle);
     this.useFillStyle(fillStyle);
+    this.useObjectStyle(objectStyle);
     const realRect = this.transformRectFromFieldToCanvasWithResolutionFactor(rect);
-    this.ctx.fillRect(realRect.x, realRect.y, realRect.width, realRect.height);
-    this.ctx.strokeRect(realRect.x, realRect.y, realRect.width, realRect.height);
+    this.ctx.fillRect(realRect.x, realRect.y, realRect.width * zoom, realRect.height * zoom);
+    this.ctx.strokeRect(realRect.x, realRect.y, realRect.width * zoom, realRect.height * zoom);
   }
 
-  public drawImage(image: CanvasImageSource, p: Point, dw: number, dh: number, imageStyle?: ImageStyle) {
+  public drawImage(image: CanvasImageSource,
+      p: Point,
+      dw: number,
+      dh: number,
+      useUniformSize: boolean,
+      imageStyle?: ImageStyle,
+      objectStyle?: ObjectStyle) {
     let realP = this.transformPointFromFieldToCanvasWithResolutionFactor(p);
 
     // set the ctx up
     this.useImageStyle(imageStyle);
+    this.useObjectStyle(objectStyle);
     let ctx = this.ctx;
     const resFactor = this.resolutionFactor;
+    const zoom = !useUniformSize ? this.zoom : 1;
 
-    ctx.drawImage(image, realP.x, realP.y, dw * resFactor, dh * resFactor)
+    ctx.drawImage(image, realP.x, realP.y, dw * resFactor * zoom, dh * resFactor * zoom)
   }
 }

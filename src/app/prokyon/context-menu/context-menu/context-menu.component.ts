@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 import {ContextMenu, ContextMenuElement} from "../context-menu.directive";
-import {Point} from "../../global/interfaces/point";
+import { Point } from 'src/app/global/interfaces/point';
 
 // This component is responsible for displaying a context menu (opening and closing is managed by the directive).
 

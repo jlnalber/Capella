@@ -1,13 +1,4 @@
 import {Operation} from "./operation";
-import {
-  contains,
-  containsCombination,
-  indexOf,
-  indexUntil, isNumber,
-  lastIndexOfCombination, mapElement,
-  replaceAll,
-  tryParseNumber
-} from "../../../essentials/utils";
 import {Constant} from "./constants/constant";
 import {Addition} from "./elementary-operations/addition";
 import {Variable} from "./variable";
@@ -37,6 +28,7 @@ import {Absolute} from "./other-operations/Absolute";
 import {Signum} from "./other-operations/signum";
 import {SinusHyperbolicus} from "./trigonometry/sinusHyperbolicus";
 import {CosinusHyperbolicus} from "./trigonometry/cosinusHyperbolicus";
+import { contains, containsCombination, indexOf, indexUntil, isNumber, lastIndexOfCombination, mapElement, replaceAll, tryParseNumber } from "src/app/global/essentials/utils";
 
 const powerOperationsProviders: [string, (operation1: Operation, operation2: Operation) => Operation][] = [
   ['^', (op1, op2) => new Pow(op1, op2)]

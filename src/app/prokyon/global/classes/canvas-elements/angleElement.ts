@@ -178,8 +178,9 @@ export default class AngleElement extends ProkyonCanvasElement {
             const c = ps[1].point;
             if (c !== undefined) {
                 ctx.drawCircleSector(c, 
-                    this.size / ctx.zoom,
+                    this.size,
                     angles[1], angles[0],
+                    true,
                     {
                         color: colorAsTransparent(this.color, 0.3),
                         uniformSizeOnZoom: true
@@ -195,6 +196,7 @@ export default class AngleElement extends ProkyonCanvasElement {
                     ctx.drawCircleSector(c, 
                         this.size / ctx.zoom,
                         angles[1], angles[0],
+                        true,
                         {
                             color: TRANSPARENT,
                             uniformSizeOnZoom: true

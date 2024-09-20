@@ -3,8 +3,8 @@ import {FormulaElement} from "../../global/classes/abstract/formulaElement";
 import LineElement from "../../global/classes/canvas-elements/lineElement";
 import LineSegmentElement from "../../global/classes/canvas-elements/lineSegmentElement";
 import CircleElement from "../../global/classes/canvas-elements/circleElement";
-import AngleElement from 'src/app/global/classes/canvas-elements/angleElement';
-import ShapeElement from 'src/app/global/classes/canvas-elements/shapeElement';
+import AngleElement from '../../global/classes/canvas-elements/angleElement';
+import ShapeElement from '../../global/classes/canvas-elements/shapeElement';
 
 @Component({
   selector: 'app-geometric-formula',

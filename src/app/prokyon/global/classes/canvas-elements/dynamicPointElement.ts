@@ -1,7 +1,4 @@
 import PointElement from "./pointElement";
-import {Point} from "../../interfaces/point";
-import {BLACK, Color, GREY} from "../../interfaces/color";
-import {CanvasElement} from "../abstract/canvasElement";
 import {CanvasElementSerialized} from "../../essentials/serializer";
 import {DrawerService} from "../../../services/drawer.service";
 import {
@@ -14,7 +11,10 @@ import {
 import LineSegmentElement from "./lineSegmentElement";
 import AbstractLine from "./abstractLine";
 import CircleElement from "./circleElement";
-import {isInRange} from "../../essentials/utils";
+import { Point } from "src/app/global/interfaces/point";
+import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
+import { BLACK, Color, GREY } from "src/app/global/interfaces/color";
+import { isInRange } from "src/app/global/essentials/utils";
 
 const INTERSECTION_POINT_SUBTYPE = 'intersection_point';
 const MIDDLE_POINT_SUBTYPE = 'middle_point';
@@ -59,7 +59,7 @@ export default class DynamicPointElement extends PointElement {
   }
 
   constructor(pointProvider: PointProvider,
-              dependencies: CanvasElement[],
+              dependencies: ProkyonCanvasElement[],
               private subTypeAndDataProvider: () => SubTypeAndData,
               color: Color = BLACK,
               name?: string,
@@ -249,7 +249,7 @@ export default class DynamicPointElement extends PointElement {
   }
 
   public override loadFrom(canvasElements: {
-    [p: number]: CanvasElement | undefined
+    [p: number]: ProkyonCanvasElement | undefined
   }, canvasElementSerialized: CanvasElementSerialized, drawerService: DrawerService) {
     const data: Data = canvasElementSerialized.data as Data;
     const el1 = canvasElements[data.el1];

@@ -1,7 +1,7 @@
 import {ComponentRef, Directive, Input, Type, ViewContainerRef} from '@angular/core';
 import {HoverMenuComponent} from "./hover-menu/hover-menu.component";
-import {isIn} from "../global/essentials/utils";
-import {Point} from "../global/interfaces/point";
+import { Point } from 'src/app/global/interfaces/point';
+import { isIn } from 'src/app/global/essentials/utils';
 
 @Directive({
   selector: '[appHoverMenu]'

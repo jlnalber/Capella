@@ -1,7 +1,7 @@
 import {ComponentRef, Directive, Input, OnDestroy, ViewContainerRef} from '@angular/core';
 import {ContextMenuComponent} from "./context-menu/context-menu.component";
-import {Event as CustomEvent} from "../global/essentials/event";
-import {Point} from "../global/interfaces/point";
+import { Point } from 'src/app/global/interfaces/point';
+import { Event as CustomEvent } from 'src/app/global/essentials/event';
 
 // These interfaces provide data about the context menu.
 

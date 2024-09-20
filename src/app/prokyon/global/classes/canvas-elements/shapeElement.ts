@@ -1,17 +1,17 @@
 import { Type } from "@angular/core";
-import { DrawerService } from "src/app/services/drawer.service";
 import { CanvasElementSerialized } from "../../essentials/serializer";
-import { CanvasElement } from "../abstract/canvasElement";
 import FormulaDialogElement from "../abstract/formulaDialogElement";
-import { FormulaElement } from "../abstract/formulaElement";
-import { RenderingContext } from "../renderingContext";
-import { Point } from "../../interfaces/point";
 import DynamicElement from "./dynamicElement";
-import { Color, colorAsTransparent, TRANSPARENT } from "../../interfaces/color";
-import { GeometricFormulaComponent } from "src/app/formula-tab/geometric-formula/geometric-formula.component";
 import { LINE_WIDTH_SELECTED_RATIO } from "./graph";
 import PointElement from "./pointElement";
-import { ViewShapeElementComponent } from "src/app/formula-dialogs/view-shape-element/view-shape-element.component";
+import { GeometricFormulaComponent } from "src/app/prokyon/formula-tab/geometric-formula/geometric-formula.component";
+import { ViewShapeElementComponent } from "src/app/prokyon/formula-dialogs/view-shape-element/view-shape-element.component";
+import { Point } from "src/app/global/interfaces/point";
+import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
+import { Color, colorAsTransparent, TRANSPARENT } from "src/app/global/interfaces/color";
+import { DrawerService } from "src/app/prokyon/services/drawer.service";
+import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import { getRegularLineDash } from "src/app/global/essentials/utils";
 
 type Data = {
     points: number[]
@@ -59,7 +59,7 @@ export default class ShapeElement extends DynamicElement {
     
 
     constructor(psProvider: PointsProvider,
-                        dependencies: CanvasElement[],
+                        dependencies: ProkyonCanvasElement[],
                         protected dataProvider: () => Data,
                         color: Color = { r: 0, g: 0, b: 0 },
                         formula?: string,
@@ -86,7 +86,7 @@ export default class ShapeElement extends DynamicElement {
         }
     }
 
-    public override loadFrom(canvasElements: { [id: number]: CanvasElement | undefined; }, canvasElementSerialized: CanvasElementSerialized, drawerService: DrawerService): void {
+    public override loadFrom(canvasElements: { [id: number]: ProkyonCanvasElement | undefined; }, canvasElementSerialized: CanvasElementSerialized, drawerService: DrawerService): void {
         const data: Data = canvasElementSerialized.data as Data;
 
         // first, load the points
@@ -111,7 +111,7 @@ export default class ShapeElement extends DynamicElement {
         this.lineWidth = canvasElementSerialized.style.strokeWidth ?? this.lineWidth
     }
 
-    public override draw(ctx: RenderingContext): void {
+    public override draw(ctx: AbstractRenderingContext): void {
         const ps = this.points;
         if (ps.length === 0) {
             return;
@@ -128,18 +128,22 @@ export default class ShapeElement extends DynamicElement {
         const selected = ctx.selection.indexOf(this) !== -1;
         const fillColor = colorAsTransparent(this.color, selected ? 0.5 : 0.3)
         
-        ctx.drawPath(ps as Point[], 
-            this.lineWidth,
-            this.color,
-            fillColor,
-            this.configuration.dashed)
+        ctx.drawPath(ps as Point[], {
+            lineWidth: this.lineWidth,
+            color: this.color,
+            lineDash: getRegularLineDash(this.configuration.dashed),
+            uniformSizeOnZoom: true
+        }, {
+            color: fillColor
+        })
 
         if (ctx.selection.indexOf(this) !== -1) {
-            ctx.drawPath(ps as Point[],
-                this.lineWidth * LINE_WIDTH_SELECTED_RATIO,
-                colorAsTransparent(this.color, 0.3),
-                TRANSPARENT,
-                this.configuration.dashed)
+            ctx.drawPath(ps as Point[], {
+                lineWidth: this.lineWidth * LINE_WIDTH_SELECTED_RATIO,
+                color: colorAsTransparent(this.color, 0.3),
+                uniformSizeOnZoom: true,
+                lineDash: getRegularLineDash(this.configuration.dashed)
+            })
         }
     }
 
@@ -187,7 +191,7 @@ export default class ShapeElement extends DynamicElement {
         return innen;
     }
     
-    public override getDistance(p: Point, ctx: RenderingContext): number | undefined {
+    public override getDistance(p: Point, ctx: AbstractRenderingContext): number | undefined {
         
         function abstandZuLinie(p: Point, a: Point, b: Point): number {
             const A = p.x - a.x;
@@ -253,7 +257,7 @@ export default class ShapeElement extends DynamicElement {
         }
     }
 
-    public override getPositionForLabel(rtx: RenderingContext): Point | undefined {
+    public override getPositionForLabel(rtx: AbstractRenderingContext): Point | undefined {
         const ps = this.points;
         if (ps.length === 0) {
             return undefined;

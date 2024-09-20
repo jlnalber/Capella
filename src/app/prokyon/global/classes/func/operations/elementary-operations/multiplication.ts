@@ -1,8 +1,8 @@
 import {Operation} from "../operation";
 import {Addition} from "./addition";
 import {Constant} from "../constants/constant";
-import {hasWhereApplies} from "../../../../essentials/utils";
 import {Division} from "./division";
+import { hasWhereApplies } from "src/app/global/essentials/utils";
 
 export class Multiplication extends Operation {
   public evaluate(dict: any): number {

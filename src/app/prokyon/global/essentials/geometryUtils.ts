@@ -1,7 +1,7 @@
-import {Point} from "../interfaces/point";
+import { Point } from "src/app/global/interfaces/point";
 import {ABCFormLine} from "../classes/canvas-elements/abstractLine";
 import LineSegmentElement from "../classes/canvas-elements/lineSegmentElement";
-import {getDistance} from "./utils";
+import { getDistance } from "src/app/global/essentials/utils";
 
 type LineByPoints = [Point | undefined, Point | undefined];
 

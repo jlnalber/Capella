@@ -1,8 +1,8 @@
-import {CanvasElement} from "./canvasElement";
-import {Dialog} from "../../../dialog/dialog";
+import { Dialog } from "src/app/global/dialog/dialog";
+import { ProkyonCanvasElement } from "./prokyonCanvasElement";
 
 export default abstract class FormulaDialogElement {
-  public abstract dialogData: CanvasElement;
+  public abstract dialogData: ProkyonCanvasElement;
 
   public dialog!: Dialog<FormulaDialogElement>;
 }

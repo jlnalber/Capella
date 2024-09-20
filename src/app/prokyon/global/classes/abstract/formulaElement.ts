@@ -1,10 +1,10 @@
-import {CanvasElement} from "./canvasElement";
+import { Point } from "src/app/global/interfaces/point";
 import {ContextMenu} from "../../../context-menu/context-menu.directive";
-import {Event as CustomEvent} from "../../essentials/event";
-import {Point} from "../../interfaces/point";
+import { ProkyonCanvasElement } from "./prokyonCanvasElement";
+import { Event as CustomEvent } from "src/app/global/essentials/event";
 
 export abstract class FormulaElement {
-  public abstract canvasElement: CanvasElement;
+  public abstract canvasElement: ProkyonCanvasElement;
 
   public get contextMenu(): ContextMenu {
     return {

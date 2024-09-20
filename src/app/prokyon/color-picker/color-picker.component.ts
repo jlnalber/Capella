@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component} from '@angular/core';
-import {Color, getColorAsRgbaFunction} from "../global/interfaces/color";
+import { Color, getColorAsRgbaFunction } from 'src/app/global/interfaces/color';
 
 // With the provider interface, you can easily transfer dynamic data.
 export interface Provider<T> {

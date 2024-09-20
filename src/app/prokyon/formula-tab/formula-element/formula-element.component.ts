@@ -1,12 +1,9 @@
 import {AfterViewInit, Component, Input, ViewChild, ViewContainerRef} from '@angular/core';
 import {ContextMenu, ContextMenuElement} from "../../context-menu/context-menu.directive";
-import {CanvasElement} from "../../global/classes/abstract/canvasElement";
 import {DrawerService} from "../../services/drawer.service";
 import {FormulaElement} from "../../global/classes/abstract/formulaElement";
-import {
-  ViewDependencyPointElementsDialogComponent
-} from "../../formula-dialogs/view-dependency-point-elements-dialog/view-dependency-point-elements-dialog.component";
-import {DialogService} from "../../dialog/dialog.service";
+import { ProkyonCanvasElement } from '../../global/classes/abstract/prokyonCanvasElement';
+import { DialogService } from 'src/app/global/dialog/dialog.service';
 
 @Component({
   selector: 'app-formula-element',
@@ -15,7 +12,7 @@ import {DialogService} from "../../dialog/dialog.service";
 })
 export class FormulaElementComponent implements AfterViewInit {
 
-  @Input() canvasElement!: CanvasElement;
+  @Input() canvasElement!: ProkyonCanvasElement;
   @ViewChild('formula', {read: ViewContainerRef}) formula!: ViewContainerRef;
   private formulaElementComp?: FormulaElement;
 

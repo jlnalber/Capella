@@ -1,14 +1,14 @@
 import MoveMode from "./moveMode";
 import {DrawerService} from "../../../services/drawer.service";
-import {RenderingContext} from "../renderingContext";
-import {Point} from "../../interfaces/point";
-import {PointerContext} from "../pointerController";
-import {CanvasElement} from "../abstract/canvasElement";
 import PointElement from "../canvas-elements/pointElement";
+import { PointerContext } from "src/app/global/classes/pointerController";
+import { Point } from "src/app/global/interfaces/point";
+import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
 
 export default class MovePointsMode extends MoveMode {
 
-  override pointerMove(drawerService: DrawerService, renderingContext: RenderingContext, from: Point, to: Point, pointerContext: PointerContext) {
+  override pointerMove(drawerService: DrawerService, renderingContext: AbstractRenderingContext, from: Point, to: Point, pointerContext: PointerContext) {
     if (drawerService.selection.size === 0) {
       super.pointerMove(drawerService, renderingContext, from, to, pointerContext);
     }
@@ -22,8 +22,8 @@ export default class MovePointsMode extends MoveMode {
     }
   }
 
-  override click(drawerService: DrawerService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext) {
-    drawerService.setSelection(point, !pointerContext.ctrlKey, (c: CanvasElement) => {
+  override click(drawerService: DrawerService, renderingContext: AbstractRenderingContext, point: Point, pointerContext: PointerContext) {
+    drawerService.setSelection(point, !pointerContext.ctrlKey, (c: ProkyonCanvasElement) => {
       return c instanceof PointElement && !c.dependent;
     })
   }

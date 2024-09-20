@@ -7,9 +7,10 @@ import PointElement from "./pointElement";
 import {ViewCircleElementComponent} from "../../../formula-dialogs/view-circle-element/view-circle-element.component";
 import { Point } from "src/app/global/interfaces/point";
 import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
-import { Color } from "src/app/global/interfaces/color";
+import { Color, colorAsTransparent, TRANSPARENT } from "src/app/global/interfaces/color";
 import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
-import { getDistance, getDistanceUndef } from "src/app/global/essentials/utils";
+import { getDistance, getDistanceUndef, getRegularLineDash } from "src/app/global/essentials/utils";
+import { DEFAULT_LINEDASH, REGULAR_LINEDASH } from "src/app/global/interfaces/canvasStyles/styleTypes";
 
 type Data = {
   center: number,
@@ -85,9 +86,23 @@ export default class CircleElement extends DynamicElement {
 
     if (point !== undefined && radius !== undefined) {
       if (ctx.selection.indexOf(this) !== -1) {
-        ctx.drawCircle(point, radius, TRANSPARENT, colorAsTransparent(this._color, TRANSPARENCY_RATIO), this.lineWidth * LINE_WIDTH_SELECTED_RATIO, this.configuration.dashed);
+        ctx.drawCircle(point, radius, true, {
+          color: TRANSPARENT
+        }, {
+          color: colorAsTransparent(this._color, TRANSPARENCY_RATIO),
+          uniformSizeOnZoom: true,
+          lineWidth: this.lineWidth * LINE_WIDTH_SELECTED_RATIO,
+          lineDash: getRegularLineDash(this.configuration.dashed)
+        })
       }
-      ctx.drawCircle(point, radius, TRANSPARENT, this.color, this.lineWidth, this.configuration.dashed);
+      ctx.drawCircle(point, radius, true, {
+        color: TRANSPARENT
+      }, {
+        color: this.color,
+        uniformSizeOnZoom: true,
+        lineWidth: this.lineWidth,
+        lineDash: getRegularLineDash(this.configuration.dashed)
+      });
     }
   }
 

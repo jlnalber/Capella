@@ -1,11 +1,11 @@
 import MoveMode from "./moveMode";
 import {DrawerService} from "../../../services/drawer.service";
-import {RenderingContext} from "../renderingContext";
-import {Point} from "../../interfaces/point";
-import {PointerContext} from "../pointerController";
-import {CanvasElement} from "../abstract/canvasElement";
+import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
+import { Point } from "src/app/global/interfaces/point";
+import { PointerContext } from "src/app/global/classes/pointerController";
+import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
 
-export default abstract class TwoElementsSelectMode<T1 extends CanvasElement, T2 extends CanvasElement> extends MoveMode {
+export default abstract class TwoElementsSelectMode<T1 extends ProkyonCanvasElement, T2 extends ProkyonCanvasElement> extends MoveMode {
 
   protected constructor(private types1: Constructor<T1>[], private types2: Constructor<T2>[]) {
     super();
@@ -16,13 +16,13 @@ export default abstract class TwoElementsSelectMode<T1 extends CanvasElement, T2
   // should add the canvas element between two points
   protected abstract addCanvasElement(drawerService: DrawerService, e1: T1, e2: T2): void;
 
-  override click(drawerService: DrawerService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext) {
+  override click(drawerService: DrawerService, renderingContext: AbstractRenderingContext, point: Point, pointerContext: PointerContext) {
 
     drawerService.selection.empty();
 
     // choose two points and add the element between them
     // thus, only allow to select certain types
-    const clickedElement = drawerService.getSelection(point, (c: CanvasElement) => {
+    const clickedElement = drawerService.getSelection(point, (c: ProkyonCanvasElement) => {
       return (this.selectedElement === undefined && (ofType(c, ...this.types1) || ofType(c, ...this.types2)))
           || (ofType(this.selectedElement, ...this.types1) && ofType(c, ...this.types2))
           || (ofType(this.selectedElement, ...this.types2) && ofType(c, ...this.types1))

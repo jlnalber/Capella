@@ -1,7 +1,7 @@
-import { DrawerService } from "src/app/services/drawer.service";
 import PointElement from "../canvas-elements/pointElement";
 import MultipleElementsSelectMode from "./multipleElementsSelectMode";
 import ShapeElement from "../canvas-elements/shapeElement";
+import { DrawerService } from "src/app/prokyon/services/drawer.service";
 
 export default class ShapeMode extends MultipleElementsSelectMode<PointElement> {
 

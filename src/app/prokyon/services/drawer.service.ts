@@ -398,7 +398,7 @@ export class DrawerService extends AbstractDrawerService {
               const drawImage = (img: HTMLImageElement) => {
                 let tempWidth = img.naturalWidth * labelFactor;
                 let tempHeight = img.naturalHeight * labelFactor;
-                renderingContext.drawImage(img, labelPoint, tempWidth, tempHeight)
+                renderingContext.drawImage(img, labelPoint, tempWidth, tempHeight, true)
               }
 
               // do I have to reload?

@@ -7,7 +7,7 @@ import {
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
-import {Point} from "../../global/interfaces/point";
+import { Point } from 'src/app/global/interfaces/point';
 
 @Component({
   selector: 'app-hover-menu',

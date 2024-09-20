@@ -1,4 +1,4 @@
-import Register from "../../../essentials/register";
+import Register from "src/app/global/essentials/register";
 
 export abstract class Operation {
   public readonly childOperations: Register<Operation> = new Register<Operation>();

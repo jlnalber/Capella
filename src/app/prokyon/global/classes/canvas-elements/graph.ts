@@ -1,13 +1,13 @@
-import {CanvasElement} from "../abstract/canvasElement";
-import {RenderingContext} from "../renderingContext";
 import {Func} from "../func/func";
-import {Color, colorAsTransparent} from "../../interfaces/color";
-import {Point} from "../../interfaces/point";
-import {correctRect, isIn, isInRange} from "../../essentials/utils";
 import {GraphFormulaComponent} from "../../../formula-tab/graph-formula/graph-formula.component";
 import {getDistanceToStraightLine} from "../../essentials/straightLineUtils";
 import {CanvasElementSerialized} from "../../essentials/serializer";
 import {DrawerService} from "../../../services/drawer.service";
+import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
+import { Color, colorAsTransparent } from "src/app/global/interfaces/color";
+import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import { Point } from "src/app/global/interfaces/point";
+import { correctRect, getRegularLineDash, isIn, isInRange } from "src/app/global/essentials/utils";
 
 
 export type ParseAndValidateProviderGraph = (t: string) => Func | string;
@@ -19,7 +19,7 @@ type Data = {
 export const TRANSPARENCY_RATIO = 0.3;
 export const LINE_WIDTH_SELECTED_RATIO = 2.5;
 
-export class Graph extends CanvasElement {
+export class Graph extends ProkyonCanvasElement {
 
   public readonly componentType = GraphFormulaComponent;
   public override formulaDialogType = undefined;
@@ -68,7 +68,7 @@ export class Graph extends CanvasElement {
     this._visible = visible;
   }
 
-  public override draw(ctx: RenderingContext) {
+  public override draw(ctx: AbstractRenderingContext) {
     if (this.funcError || this.func === undefined) {
       this.reparse();
     }
@@ -200,15 +200,25 @@ export class Graph extends CanvasElement {
 
     // Then, draw all paths.
     for (let path of paths) {
-      ctx.drawPath(path, this.lineWidth, this._color, undefined, this.configuration.dashed);
+      ctx.drawPath(path, {
+        lineWidth: this.lineWidth,
+        color: this._color,
+        uniformSizeOnZoom: true,
+        lineDash: getRegularLineDash(this.configuration.dashed)
+      });
       if (selected) {
-        ctx.drawPath(path, lineWidthSelected, colorSelected, undefined, this.configuration.dashed);
+        ctx.drawPath(path, {
+          lineWidth: lineWidthSelected,
+          color: colorSelected,
+          uniformSizeOnZoom: true,
+          lineDash: getRegularLineDash(this.configuration.dashed)
+        });
       }
     }
 
   }
 
-  public override getDistance(p: Point, ctx: RenderingContext): number | undefined {
+  public override getDistance(p: Point, ctx: AbstractRenderingContext): number | undefined {
     // Try to simulate straight lines and calculate the distance to them.
     try {
       const x1 = p.x - ctx.step;
@@ -264,7 +274,7 @@ export class Graph extends CanvasElement {
   }
 
   public override loadFrom(canvasElements: {
-    [p: number]: CanvasElement | undefined
+    [p: number]: ProkyonCanvasElement | undefined
   }, canvasElementSerialized: CanvasElementSerialized, drawerService: DrawerService) {
     this.color = canvasElementSerialized.style.color;
     this.visible = canvasElementSerialized.style.visible;
@@ -304,7 +314,7 @@ export class Graph extends CanvasElement {
     return true;
   }
 
-  public override getPositionForLabel(rtx: RenderingContext): Point | undefined {
+  public override getPositionForLabel(rtx: AbstractRenderingContext): Point | undefined {
     const rect = correctRect(rtx.range);
     try {
       const distX = 0.1;

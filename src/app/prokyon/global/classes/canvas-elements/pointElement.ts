@@ -1,15 +1,15 @@
-import {CanvasElement} from "../abstract/canvasElement";
-import {RenderingContext} from "../renderingContext";
 import {Type} from "@angular/core";
 import {PointFormulaComponent} from "../../../formula-tab/point-formula/point-formula.component";
-import {Point} from "../../interfaces/point";
 import {FormulaElement} from "../abstract/formulaElement";
-import {BLACK, Color, colorAsTransparent} from "../../interfaces/color";
-import {isIn} from "../../essentials/utils";
 import DynamicElement from "./dynamicElement";
 import {CanvasElementSerialized, Style} from "../../essentials/serializer";
 import {DrawerService} from "../../../services/drawer.service";
 import {ViewPointElementComponent} from "../../../formula-dialogs/view-point-element/view-point-element.component";
+import { BLACK, Color, colorAsTransparent } from "src/app/global/interfaces/color";
+import { Point } from "src/app/global/interfaces/point";
+import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
+import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import { isIn } from "src/app/global/essentials/utils";
 
 
 type Data = {
@@ -106,7 +106,7 @@ export default class PointElement extends DynamicElement {
   public selected: boolean = false;
 
   // the constructor, dependent means that the point is dependent of another canvas element
-  constructor(p: Point | undefined, color: Color = BLACK, public dependent = false, dependencies: CanvasElement[] = [], visible: boolean = true, showLabel: boolean = true) {
+  constructor(p: Point | undefined, color: Color = BLACK, public dependent = false, dependencies: ProkyonCanvasElement[] = [], visible: boolean = true, showLabel: boolean = true) {
     super(dependencies);
     this._x = p?.x;
     this._y = p?.y;
@@ -115,18 +115,26 @@ export default class PointElement extends DynamicElement {
     this.configuration.showLabel = showLabel;
   }
 
-  public override draw(ctx: RenderingContext): void {
+  public override draw(ctx: AbstractRenderingContext): void {
     const selectionRadiusFactor = 1.75;
     const point = this.point;
     if (point !== undefined && isIn(point, ctx.range, selectionRadiusFactor * this.radius / ctx.zoom)) {
       if (this.selected || ctx.selection.indexOf(this) !== -1) {
-        ctx.drawCircle(point, selectionRadiusFactor * this.radius / ctx.zoom, colorAsTransparent(this.color, 0.3))
+        ctx.drawCircle(point, selectionRadiusFactor * this.radius, true, {
+          color: colorAsTransparent(this.color, 0.3)
+        })
       }
-      ctx.drawCircle(point, this.radius / ctx.zoom, this.color, this.stroke, this.strokeWidth);
+      ctx.drawCircle(point, this.radius, true, {
+        color: this.color
+      }, {
+        color: this.stroke,
+        lineWidth: this.strokeWidth,
+        uniformSizeOnZoom: true
+      });
     }
   }
 
-  public override getDistance(p: Point, ctx: RenderingContext): number | undefined {
+  public override getDistance(p: Point, ctx: AbstractRenderingContext): number | undefined {
     const t = this.point;
     if (t !== undefined) {
       // calculate the distance, subtract the radius --> point in canvas isn't a perfect geometric point but has a radius
@@ -135,7 +143,7 @@ export default class PointElement extends DynamicElement {
     return undefined;
   }
 
-  public override getPositionForLabel(rtx: RenderingContext): Point | undefined {
+  public override getPositionForLabel(rtx: AbstractRenderingContext): Point | undefined {
     const depos = 15;
     const x = this.x;
     const y = this.y;
@@ -171,7 +179,7 @@ export default class PointElement extends DynamicElement {
   }
 
   public override loadFrom(canvasElements: {
-    [p: number]: CanvasElement | undefined
+    [p: number]: ProkyonCanvasElement | undefined
   }, canvasElementSerialized: CanvasElementSerialized, drawerService: DrawerService) {
     const data: Data = canvasElementSerialized.data as Data;
     this.forceSetPoint(data.x === undefined || data.y === undefined ? undefined : {

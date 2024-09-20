@@ -3,6 +3,7 @@
   --sizeIcon: 30px;
   --marginToIcon: 5px;
   height: var(--height);
+  -webkit-user-select: none;
   user-select: none;
   line-height: var(--height);
   padding: 7px;

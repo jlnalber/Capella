@@ -11,6 +11,7 @@
   margin-top: 0;
   margin-bottom: 0;
   font-size: 14pt;
+  -webkit-user-select: none;
   user-select: none;
 }
 
@@ -34,6 +35,7 @@ td {
 .checkboxDiv, .rangeDiv {
   font-family: 'Segoe UI', Calibri, 'sans-serif';
   padding: 8px;
+  -webkit-user-select: none;
   user-select: none;
 }
 

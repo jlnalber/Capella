@@ -12,6 +12,7 @@
   margin-bottom: 0;
   font-size: 14pt;
   /*font-family: "Cambria Math", Cambria, "CMU Serif", serif;*/
+  -webkit-user-select: none;
   user-select: none;
 }
 
@@ -30,6 +31,7 @@
 .checkboxDiv, .rangeDiv {
   font-family: 'Segoe UI', Calibri, 'sans-serif';
   padding: 8px;
+  -webkit-user-select: none;
   user-select: none;
 }
 

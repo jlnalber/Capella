@@ -7,6 +7,7 @@
   background: #fcfcfc;
   transition: all 0.1s ease-in-out;
   border-radius: 50%;
+  -webkit-user-select: none;
   user-select: none;
 }
 
@@ -75,6 +76,7 @@
   font-size: 12pt;
   font-family: 'Segoe UI', Calibri, 'sans-serif';
   font-weight: 500;
+  -webkit-user-select: none;
   user-select: none;
 }
 
@@ -97,11 +99,13 @@
 .paragraph {
   font-size: 13pt;
   font-family: 'Segoe UI', Calibri, 'sans-serif';
+  -webkit-user-select: none;
   user-select: none;
 }
 
 .maths {
   font-size: 14pt;
+  -webkit-user-select: none;
   user-select: none;
   font-family: "Cambria Math", Cambria, "CMU Serif", serif;
 }

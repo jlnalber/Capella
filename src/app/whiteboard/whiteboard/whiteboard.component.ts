@@ -1,20 +1,24 @@
 import { Component } from '@angular/core';
 import { WhiteboardService } from '../services/whiteboard.service';
-import { TextMode } from '../classes/modes/textMode';
-import { PenMode } from '../classes/modes/penMode';
-import { ShapeMode } from '../classes/modes/shapeMode';
-import { MoveMode } from '../classes/modes/moveMode';
-import { SelectionMode } from '../classes/modes/selectionMode';
-import { DeleteMode } from '../classes/modes/deleteMode';
-import { EraseMode } from '../classes/modes/eraseMode';
+import { TextMode } from '../global/classes/modes/textMode';
+import { PenMode } from '../global/classes/modes/penMode';
+import { ShapeMode } from '../global/classes/modes/shapeMode';
+import { MoveMode } from '../global/classes/modes/moveMode';
+import { SelectionMode } from '../global/classes/modes/selectionMode';
+import { DeleteMode } from '../global/classes/modes/deleteMode';
+import { EraseMode } from '../global/classes/modes/eraseMode';
 import { PointerType, pointerTypes } from '../../global/classes/pointerController';
-import { WhiteboardMode } from '../classes/modes/whiteboardMode';
+import { WhiteboardMode } from '../global/classes/modes/whiteboardMode';
 import { colors } from '../../global/styles/colors';
 import { SnackbarService } from 'src/app/global/snackbar/snackbar.service';
 import { DialogService } from 'src/app/global/dialog/dialog.service';
 import { ConfirmationDialogComponent } from 'src/app/global/dialog/confirmation-dialog/confirmation-dialog.component';
 import { BLACK, Color, DEEPBLUE } from 'src/app/global/interfaces/color';
-import { Ribbon, RibbonButton, RibbonPointerModeToggle, RibbonTab, RibbonText, RibbonToggle } from '../ribbon/ribbon';
+import { Ribbon, RibbonTab } from '../global/classes/ribbon/ribbon';
+import RibbonButton from '../global/classes/ribbon/ribbonButton';
+import RibbonPointerModeToggle from '../global/classes/ribbon/ribbonPointerModeToggle';
+import RibbonText from '../global/classes/ribbon/ribbonText';
+import RibbonToggle from '../global/classes/ribbon/ribbonToggle';
 
 @Component({
   selector: 'app-whiteboard',

@@ -1,10 +1,14 @@
 import { Component, Input } from '@angular/core';
-import { Content, Divider, RibbonButton, RibbonPointerModeToggle, RibbonText, RibbonToggle } from '../../ribbon';
+import { Content, Divider } from '../../../global/classes/ribbon/ribbon';
 import { ToggleComponent } from "../toggle/toggle.component";
 import { ButtonComponent } from '../button/button.component';
 import { DividerComponent } from '../divider/divider.component';
 import { PointerModeToggleComponent } from "../pointer-mode-toggle/pointer-mode-toggle.component";
 import { RibbonTextComponent } from "../ribbon-text/ribbon-text.component";
+import RibbonToggle from 'src/app/whiteboard/global/classes/ribbon/ribbonToggle';
+import RibbonPointerModeToggle from 'src/app/whiteboard/global/classes/ribbon/ribbonPointerModeToggle';
+import RibbonButton from 'src/app/whiteboard/global/classes/ribbon/ribbonButton';
+import RibbonText from 'src/app/whiteboard/global/classes/ribbon/ribbonText';
 
 @Component({
   selector: 'app-content-viewer',

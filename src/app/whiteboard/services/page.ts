@@ -10,7 +10,7 @@ import { Rect } from "src/app/global/interfaces/rect";
 import { Color, getColorAsRgbaFunction, TRANSPARENT, WHITE } from "src/app/global/interfaces/color";
 import { Size } from "src/app/global/interfaces/size";
 import { DINA4 } from "../../global/styles/formats";
-import TextBox from "../classes/textBox";
+import TextBox from "../global/classes/textBox";
 import { sizeToRect } from "../../global/essentials/utils";
 import FillStyle from "src/app/global/interfaces/canvasStyles/fillStyle";
 

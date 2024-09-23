@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { RibbonText } from '../../ribbon';
+import RibbonText from 'src/app/whiteboard/global/classes/ribbon/ribbonText';
 
 @Component({
   selector: 'app-ribbon-text',

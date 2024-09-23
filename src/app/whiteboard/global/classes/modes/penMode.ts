@@ -1,11 +1,11 @@
 import { Point } from "src/app/global/interfaces/point";
-import { PointerContext } from "../../../global/classes/pointerController";
-import { RenderingContext } from '../../../global/classes/renderingContext';
+import { PointerContext } from "../../../../global/classes/pointerController";
+import { RenderingContext } from '../../../../global/classes/renderingContext';
 import { WhiteboardMode } from './whiteboardMode';
 import PenElement from '../canvas-elements/penElement';
 import { BLACK } from 'src/app/global/interfaces/color';
 import { WhiteboardService } from "src/app/whiteboard/services/whiteboard.service";
-import { RibbonTab } from "../../ribbon/ribbon";
+import { RibbonTab } from "../ribbon/ribbon";
 
 export class PenMode extends WhiteboardMode {
   private pen: PenElement | undefined;

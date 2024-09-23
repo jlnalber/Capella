@@ -1,12 +1,12 @@
 import { Point } from "src/app/global/interfaces/point";
 import { Rect } from "src/app/global/interfaces/rect";
-import AbstractRenderingContext from "../../global/classes/abstractRenderingContext";
+import AbstractRenderingContext from "../../../global/classes/abstractRenderingContext";
 import { Line, Paragraph, Span } from "./textElements";
 import { BLACK } from "src/app/global/interfaces/color";
 import Padding from "src/app/global/interfaces/padding";
-import { sameColors } from "../../global/essentials/utils";
-import { CanvasIdElement } from "../../global/classes/abstract/canvasIdElement";
-import { PX_PER_MM } from "../services/page";
+import { sameColors } from "../../../global/essentials/utils";
+import { CanvasIdElement } from "../../../global/classes/abstract/canvasIdElement";
+import { PX_PER_MM } from "../../services/page";
 
 
 export const PT_PER_MM = 2.835;

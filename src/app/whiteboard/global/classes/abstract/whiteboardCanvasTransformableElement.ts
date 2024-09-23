@@ -1,5 +1,5 @@
 import { Point } from "src/app/global/interfaces/point";
-import { CanvasClickerElement } from "../../../global/classes/abstract/canvasClickerElement";
+import { CanvasClickerElement } from "../../../../global/classes/abstract/canvasClickerElement";
 
 
 // in exactly this order!

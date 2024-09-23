@@ -3,7 +3,7 @@ import { Transformations } from 'src/app/global/interfaces/transformations';
 import { Event } from '../../global/essentials/event';
 import { Point } from 'src/app/global/interfaces/point';
 import { RenderingContext } from '../../global/classes/renderingContext';
-import { WhiteboardMode } from '../classes/modes/whiteboardMode';
+import { WhiteboardMode } from '../global/classes/modes/whiteboardMode';
 import { CanvasIdElement } from '../../global/classes/abstract/canvasIdElement';
 import { PointerType } from '../../global/classes/pointerController';
 import Page from './page';

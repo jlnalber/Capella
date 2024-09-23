@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { RibbonToggle } from '../../ribbon';
+import RibbonToggle from 'src/app/whiteboard/global/classes/ribbon/ribbonToggle';
 
 @Component({
   selector: 'app-toggle',

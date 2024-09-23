@@ -1,7 +1,7 @@
 import { Color } from "src/app/global/interfaces/color";
 import { Point } from "src/app/global/interfaces/point";
 import { WhiteboardCanvasTransformableElement } from "../abstract/whiteboardCanvasTransformableElement";
-import AbstractRenderingContext from "../../../global/classes/abstractRenderingContext";
+import AbstractRenderingContext from "../../../../global/classes/abstractRenderingContext";
 
 type PenPoint = Point & {
     size: number

@@ -1,5 +1,5 @@
 import { Component, forwardRef, Input } from '@angular/core';
-import { Divider } from '../../ribbon';
+import { Divider } from '../../../global/classes/ribbon/ribbon';
 import { ContentViewerComponent } from "../content-viewer/content-viewer.component";
 
 @Component({

@@ -1,7 +1,7 @@
 import { Circle } from "../circle";
 import { Color, TRANSPARENT } from "../color"
 import { Point } from "../point";
-import { Measurement } from "./unitTypes";
+import { LengthMeasurement } from "./unitTypes";
 
 export type Pattern = {
     picture: string
@@ -49,7 +49,7 @@ export const DEFAULT_LINEDASHOFFSET: number = 0.0;
 export type LineJoin = CanvasLineJoin;
 export const DEFAULT_LINEJOIN: LineJoin = 'miter';
 
-export type FontSize = Measurement;
+export type FontSize = LengthMeasurement;
 export const DEFAULT_FONTSIZE: FontSize = [0, 'pt']
 
 export type FontWeight = 'normal' | 'bold' | number;
@@ -67,7 +67,7 @@ export const DEFAULT_FONTSTRETCH: FontStretch = 'normal';
 export type FontVariantCaps = CanvasFontVariantCaps;
 export const DEFAULT_FONTVARIANTCAPS: FontVariantCaps = 'normal';
 
-export type LetterSpacing = Measurement;
+export type LetterSpacing = LengthMeasurement;
 export const DEFAULT_LETTERSPACING: LetterSpacing = [0, 'px'];
 
 export type TextDirection = CanvasDirection;
@@ -79,7 +79,7 @@ export const DEFAULT_TEXTALIGN: TextAlign = 'start';
 export type TextBaseline = CanvasTextBaseline;
 export const DEFAULT_TEXTBASELINE: TextBaseline = 'alphabetic'
 
-export type WordSpacing = Measurement;
+export type WordSpacing = LengthMeasurement;
 export const DEFAULT_WORDSPACING: WordSpacing = [0, 'px']
 
 export const DEFAULT_IMAGESMOOTHINGENABLED: boolean = true;

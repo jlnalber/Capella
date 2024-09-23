@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { RibbonButton } from '../../ribbon';
+import RibbonButton from 'src/app/whiteboard/global/classes/ribbon/ribbonButton';
 
 @Component({
   selector: 'app-button',

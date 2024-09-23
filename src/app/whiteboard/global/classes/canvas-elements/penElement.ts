@@ -1,41 +1,30 @@
-import { Color } from "src/app/global/interfaces/color";
+import { PenStyle } from './../../interfaces/penStyle';
 import { Point } from "src/app/global/interfaces/point";
 import { WhiteboardCanvasTransformableElement } from "../abstract/whiteboardCanvasTransformableElement";
 import AbstractRenderingContext from "../../../../global/classes/abstractRenderingContext";
 
-type PenPoint = Point & {
+export type PenPoint = Point & {
     size: number
 }
 
 export default class PenElement extends WhiteboardCanvasTransformableElement {
 
-    private _color: Color;
-    private _lineWidth: number;
+    private _penStyle: PenStyle;
 
-    public get color(): Color {
-        return this._color;
+    public get penStyle(): PenStyle {
+        return this._penStyle;
     }
 
-    public set color(value: Color) {
-        this._color = value;
-        this.onChange.emit(value);
-    }
-
-    public get lineWidth(): number {
-        return this._lineWidth;
-    }
-
-    public set lineWidth(value: number) {
-        this._lineWidth = value;
+    public set penStyle(value: PenStyle) {
+        this._penStyle = value;
         this.onChange.emit(value);
     }
 
     private _points: PenPoint[] = [];
 
-    constructor(color: Color, lineWidth: number) {
+    constructor(penStyle: PenStyle) {
         super();
-        this._color = color;
-        this._lineWidth = lineWidth;
+        this._penStyle = penStyle;
     }
 
     public addPoint(p: PenPoint): void {
@@ -44,11 +33,7 @@ export default class PenElement extends WhiteboardCanvasTransformableElement {
     }
 
     public override draw(ctx: AbstractRenderingContext): void {
-        ctx.drawQuadraticPath(this._points, {
-            lineWidth: this._lineWidth,
-            color: this._color,
-            lineCap: 'round'
-        });
+        ctx.drawQuadraticPath(this._points, this._penStyle.strokeStyle, this._penStyle.objectStyle);
     }
 
 }

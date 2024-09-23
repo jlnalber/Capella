@@ -64,7 +64,6 @@ export class RenderingContext extends AbstractRenderingContext {
   }
 
   private colorStyleToCanvasStyle(colorStyle: ColorStyle, uniformSizeOnZoom?: boolean): string | CanvasPattern | CanvasGradient | null {
-    // TODO: transformations for bg
 
     function instanceOfColor(colorStyle: ColorStyle): colorStyle is Color {
       return 'r' in colorStyle;
@@ -88,7 +87,8 @@ export class RenderingContext extends AbstractRenderingContext {
       const base64 = colorStyle.picture;
       const image = new Image();
       image.src = base64;
-      const pattern = this.ctx.createPattern(image, 'repeat'); // TODO: transformations
+      const pattern = this.ctx.createPattern(image, 'repeat');
+      pattern?.setTransform(new DOMMatrixReadOnly().scale(this.zoom).translate(this.transformations.translateX, -this.transformations.translateY))
       return pattern;
     }
     else {
@@ -180,9 +180,11 @@ export class RenderingContext extends AbstractRenderingContext {
 
     const resFactor = this.resolutionFactor;
     const zoom = this.zoom;
+
     // filter
-    const filters = (objectStyle.filter ?? DEFAULT_FILTERS).map(f => filterToCssFunctionString(f, resFactor, zoom, objectStyle.uniformSizeOnZoom)).join(' ');
-    this.ctx.filter = filters;
+    const filters = (objectStyle.filter ?? DEFAULT_FILTERS).map(f => filterToCssFunctionString(f, resFactor, zoom, objectStyle.uniformSizeOnZoom));
+    const filterStr = filters.length === 0 ? 'none' : filters.join(' ');
+    this.ctx.filter = filterStr;
 
     // shadow
     const shadow: Shadow = objectStyle.shadow ?? DEFAULT_SHADOW;

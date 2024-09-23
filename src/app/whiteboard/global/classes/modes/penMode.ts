@@ -6,17 +6,18 @@ import PenElement from '../canvas-elements/penElement';
 import { BLACK } from 'src/app/global/interfaces/color';
 import { WhiteboardService } from "src/app/whiteboard/services/whiteboard.service";
 import { RibbonTab } from "../ribbon/ribbon";
+import { DEFAULT_PENS, Pen } from "../../interfaces/penStyle";
 
 export class PenMode extends WhiteboardMode {
-  private pen: PenElement | undefined;
+  private penElement: PenElement | undefined;
 
   public override pointerStart(whiteboardService: WhiteboardService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext): void {
-    this.pen = new PenElement(BLACK, 3);
-    this.pen.addPoint({
+    this.penElement = new PenElement(this.pen.penStyle);
+    this.penElement.addPoint({
       ...point,
       size: 1
     })
-    whiteboardService.addCanvasElements(this.pen);
+    whiteboardService.addCanvasElements(this.penElement);
   }
 
   public pointerMove(whiteboardService: WhiteboardService, renderingContext: RenderingContext, from: Point, to: Point, pointerContext: PointerContext): void {
@@ -24,7 +25,7 @@ export class PenMode extends WhiteboardMode {
     const distance = Math.sqrt((from.x - to.x) ** 2 + (to.y - from.y) ** 2) * renderingContext.zoom;
     const pressure = pointerContext.pressure + 0.5;
     const size = Math.max(0.5, Math.min(Math.pow(1 / distance, 1/3) * factor, 2)) * pressure;
-    this.pen?.addPoint({
+    this.penElement?.addPoint({
       ...to,
       size
     })
@@ -32,23 +33,25 @@ export class PenMode extends WhiteboardMode {
 
   public override pointerEnd(whiteboradService: WhiteboardService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext): void {
     
-    this.pen?.addPoint({
+    this.penElement?.addPoint({
       ...point,
       size: 1
     })
 
-    this.pen = undefined;
+    this.penElement = undefined;
   }
 
   public click(whiteboardService: WhiteboardService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext): void {
-    this.pen = new PenElement(BLACK, 3);
-    this.pen.addPoint({
+    this.penElement = new PenElement(this.pen.penStyle);
+    this.penElement.addPoint({
       ...point,
       size: 1
     })
-    whiteboardService.addCanvasElements(this.pen);
-    this.pen = undefined;
+    whiteboardService.addCanvasElements(this.penElement);
+    this.penElement = undefined;
   }
+
+  public pen: Pen = DEFAULT_PENS[0];
 
   public override getExtraRibbons(whiteboardService: WhiteboardService, renderingContext: RenderingContext): RibbonTab[] {
     const colors = this.getColorsForExtraRibbons(whiteboardService, renderingContext) ?? [BLACK, BLACK];

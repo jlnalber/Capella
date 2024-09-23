@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Ribbon, RibbonButton, RibbonPointerModeToggle, RibbonTab, RibbonText, RibbonToggle } from './ribbon/ribbon';
 import { WhiteboardService } from '../services/whiteboard.service';
 import { TextMode } from '../classes/modes/textMode';
 import { PenMode } from '../classes/modes/penMode';
@@ -15,6 +14,7 @@ import { SnackbarService } from 'src/app/global/snackbar/snackbar.service';
 import { DialogService } from 'src/app/global/dialog/dialog.service';
 import { ConfirmationDialogComponent } from 'src/app/global/dialog/confirmation-dialog/confirmation-dialog.component';
 import { BLACK, Color, DEEPBLUE } from 'src/app/global/interfaces/color';
+import { Ribbon, RibbonButton, RibbonPointerModeToggle, RibbonTab, RibbonText, RibbonToggle } from '../ribbon/ribbon';
 
 @Component({
   selector: 'app-whiteboard',

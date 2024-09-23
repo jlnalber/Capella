@@ -4,7 +4,7 @@ import { RenderingContext } from '../../../global/classes/renderingContext';
 import { WhiteboardMode } from './whiteboardMode';
 import TextBox from '../textBox';
 import { WhiteboardService } from "src/app/whiteboard/services/whiteboard.service";
-import { RibbonTab } from "src/app/whiteboard/whiteboard/ribbon/ribbon";
+import { RibbonTab } from "../../ribbon/ribbon";
 
 const inp = document.createElement('textarea');
 document.body.appendChild(inp);

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { WhiteboardService } from '../../services/whiteboard.service';
-import { Canvas } from '../../../global/canvas/canvas';
+import { WhiteboardService } from '../services/whiteboard.service';
+import { Canvas } from '../../global/canvas/canvas';
 
 @Component({
   selector: 'whiteboard-canvas',

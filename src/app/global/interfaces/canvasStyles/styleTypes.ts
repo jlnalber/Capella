@@ -1,6 +1,7 @@
 import { Circle } from "../circle";
 import { Color, TRANSPARENT } from "../color"
 import { Point } from "../point";
+import { Measurement } from "./unitTypes";
 
 export type Pattern = {
     picture: string
@@ -26,12 +27,6 @@ export type GradientColorStop = [number, Color];
 
 export type ColorStyle = Color | Pattern | Gradient;
 
-export type Filter = {
-    type: string,
-    measurement: Measurement
-}
-export const DEFAULT_FILTERS: Filter[] = [];
-
 export type Shadow = {
     color: Color,
     blur: number,
@@ -44,12 +39,6 @@ export const DEFAULT_SHADOW = {
     offsetY: 0,
     color: TRANSPARENT
 }
-
-export type Unit = 'cm' | 'mm' | 'in' | 'px' | 'pt' | 'pc' | 'em' | 'ex' | 'ch' | 'rem' | 'vw' | 'vh' | 'vmin' | 'vmax' | '%';
-export const ABSOLUTE_UNITS: Unit[] = ['cm', 'mm', 'in', 'px', 'pc', 'pt'];
-export const RELATIVE_UNITS: Unit[] = ['em', 'ex', 'ch', 'rem', 'vw', 'vh', 'vmin', 'vmax', '%'];
-
-export type Measurement = [number, Unit];
 
 export type LineCap = CanvasLineCap;
 export const DEFAULT_LINECAP: LineCap = 'butt'

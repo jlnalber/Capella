@@ -6,9 +6,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { WhiteboardComponent } from './whiteboard/whiteboard/whiteboard.component';
 import { ProkyonCanvasComponent } from './prokyon/canvas/prokyonCanvas.component';
-import { WhiteboardCanvasComponent } from './whiteboard/whiteboard/canvas/whiteboardCanvas.component';
-import { RibbonComponent } from './whiteboard/whiteboard/ribbon/ribbon.component';
-import { RibbonTabComponent } from "./whiteboard/whiteboard/ribbon/ribbon-tab/ribbon-tab.component";
+import { WhiteboardCanvasComponent } from './whiteboard/canvas/whiteboardCanvas.component';
+import { RibbonComponent } from './whiteboard/ribbon/ribbon.component';
+import { RibbonTabComponent } from "./whiteboard/ribbon/ribbon-tab/ribbon-tab.component";
 import { ProkyonComponent } from './prokyon/prokyon.component';
 import { FormsModule } from '@angular/forms';
 import { TabGroupComponent } from './prokyon/tab-group/tab-group.component';
@@ -36,7 +36,7 @@ import { ViewCurveElementComponent } from './prokyon/formula-dialogs/view-curve-
 import { ViewCircleElementComponent } from './prokyon/formula-dialogs/view-circle-element/view-circle-element.component';
 import { ViewAngleElementComponent } from './prokyon/formula-dialogs/view-angle-element/view-angle-element.component';
 import { ViewAbstractLineElementComponent } from './prokyon/formula-dialogs/view-abstract-line-element/view-abstract-line-element.component';
-import { ColorPickerComponent } from './prokyon/color-picker/color-picker.component';
+import { ColorStyleComponent } from './global/style-components/color-style/color-style.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +72,7 @@ import { ColorPickerComponent } from './prokyon/color-picker/color-picker.compon
     ViewCircleElementComponent,
     ViewAngleElementComponent,
     ViewAbstractLineElementComponent,
-    ColorPickerComponent
+    ColorStyleComponent
   ],
   imports: [
     BrowserModule,

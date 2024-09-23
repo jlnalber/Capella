@@ -2,9 +2,9 @@ import { pointerTypes } from "../../../global/classes/pointerController";
 import { RenderingContext } from '../../../global/classes/renderingContext';
 import { Color, darken } from 'src/app/global/interfaces/color';
 import { colors } from '../../../global/styles/colors';
-import { RibbonTab } from 'src/app/whiteboard/whiteboard/ribbon/ribbon';
 import { WhiteboardService } from "src/app/whiteboard/services/whiteboard.service";
 import { Mode } from "src/app/global/classes/modes/mode";
+import { RibbonTab } from "../../ribbon/ribbon";
 
 export abstract class WhiteboardMode extends Mode<WhiteboardService> {
 

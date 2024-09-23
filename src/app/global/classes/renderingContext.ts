@@ -1,6 +1,4 @@
 import {
-  ABSOLUTE_UNITS,
-  DEFAULT_FILTERS,
   DEFAULT_FONTKERNING,
   DEFAULT_FONTSTRETCH,
   DEFAULT_FONTSTYLE,
@@ -18,7 +16,6 @@ import {
   DEFAULT_TEXTDIRECTION,
   DEFAULT_WORDSPACING,
   LinearGradient,
-  Measurement,
   RadialGradient 
 } from 'src/app/global/interfaces/canvasStyles/styleTypes';
 import {Transformations} from "src/app/global/interfaces/transformations";
@@ -33,6 +30,8 @@ import FillStyle, { EMPTY_FILLSTYLE } from "src/app/global/interfaces/canvasStyl
 import ObjectStyle, { EMPTY_OBJECTSTYLE } from "src/app/global/interfaces/canvasStyles/objectStyle";
 import TextStyle, { EMPTY_TEXTSTYLE } from "src/app/global/interfaces/canvasStyles/textStyle";
 import ImageStyle, { EMPTY_IMAGESTYLE } from 'src/app/global/interfaces/canvasStyles/imageStyle';
+import { DEFAULT_FILTERS, filterToCssFunctionString } from '../interfaces/canvasStyles/filterTypes';
+import { measurementToString } from '../interfaces/canvasStyles/unitTypes';
 
 let noise: CanvasPattern | undefined = undefined;
 
@@ -116,16 +115,6 @@ export class RenderingContext extends AbstractRenderingContext {
     }
   }
 
-  private measurementToString(measurement: Measurement, uniformSizeOnZoom?: boolean): string {
-    if (!uniformSizeOnZoom && ABSOLUTE_UNITS.indexOf(measurement[1]) !== -1) {
-      // resize, if wanted and in absolute unit
-      return `${measurement[0] * this.resolutionFactor * this.zoom}${measurement[1]}`;
-    }
-    else {
-      return `${measurement[0] * this.resolutionFactor}${measurement[1]}`;
-    }
-  }
-
   private useStrokeStyle(strokeStyle?: StrokeStyle) {
     if (strokeStyle === undefined) {
       this.useStrokeStyle(EMPTY_STROKESTYLE);
@@ -192,7 +181,7 @@ export class RenderingContext extends AbstractRenderingContext {
     const resFactor = this.resolutionFactor;
     const zoom = this.zoom;
     // filter
-    const filters = (objectStyle.filter ?? DEFAULT_FILTERS).map(f => `${f.type}(${this.measurementToString(f.measurement, objectStyle.uniformSizeOnZoom)})`).join(' ');
+    const filters = (objectStyle.filter ?? DEFAULT_FILTERS).map(f => filterToCssFunctionString(f, resFactor, zoom, objectStyle.uniformSizeOnZoom)).join(' ');
     this.ctx.filter = filters;
 
     // shadow
@@ -218,6 +207,9 @@ export class RenderingContext extends AbstractRenderingContext {
       return;
     }
 
+    const resFactor = this.resolutionFactor;
+    const zoom = this.zoom;
+
     // color
     const colorStyle = this.colorStyleToCanvasStyle(textStyle.color, textStyle.uniformSizeOnZoom);
     if (colorStyle !== null) {
@@ -232,7 +224,7 @@ export class RenderingContext extends AbstractRenderingContext {
     if (textStyle.fontWeight !== undefined && textStyle.fontWeight !== DEFAULT_FONTWEIGHT) {
       font += textStyle.fontWeight + ' ';
     }
-    font += `${this.measurementToString(textStyle.fontSize, textStyle.uniformSizeOnZoom)} `;
+    font += `${measurementToString(textStyle.fontSize, resFactor, zoom, textStyle.uniformSizeOnZoom)} `;
     const fontFamilies = textStyle.fontFamily.join(', ');
     font += fontFamilies;
     this.ctx.font = font;
@@ -247,7 +239,7 @@ export class RenderingContext extends AbstractRenderingContext {
     this.ctx.fontVariantCaps = textStyle.fontVariantCaps ?? DEFAULT_FONTVARIANTCAPS;
 
     // letter spacing
-    this.ctx.letterSpacing = this.measurementToString(textStyle.letterSpacing ?? DEFAULT_LETTERSPACING, textStyle.uniformSizeOnZoom);
+    this.ctx.letterSpacing = measurementToString(textStyle.letterSpacing ?? DEFAULT_LETTERSPACING, resFactor, zoom, textStyle.uniformSizeOnZoom);
 
     // text direction
     this.ctx.direction = textStyle.direction ?? DEFAULT_TEXTDIRECTION;
@@ -259,7 +251,7 @@ export class RenderingContext extends AbstractRenderingContext {
     this.ctx.textBaseline = textStyle.textBaseline ?? DEFAULT_TEXTBASELINE;
 
     // word spacing
-    this.ctx.wordSpacing = this.measurementToString(textStyle.wordSpacing ?? DEFAULT_WORDSPACING, textStyle.uniformSizeOnZoom);
+    this.ctx.wordSpacing = measurementToString(textStyle.wordSpacing ?? DEFAULT_WORDSPACING, resFactor, zoom, textStyle.uniformSizeOnZoom);
   }
 
   private useImageStyle(imageStyle?: ImageStyle) {
@@ -406,7 +398,7 @@ export class RenderingContext extends AbstractRenderingContext {
     // let strs: string[] = [];
     // let lastStr = ''
     // for (let i = 0; i < text.length; i++) {
-    //   if (text.charAt(i) === '_' && i + 1 < text.length && false/*!skipIndex*/) { // TODO: remove legacy code
+    //   if (text.charAt(i) === '_' && i + 1 < text.length && false/*!skipIndex*/) { // remove legacy code
     //     strs.push(lastStr);
     //     lastStr = '';
     //     strs.push(text.charAt(i + 1));

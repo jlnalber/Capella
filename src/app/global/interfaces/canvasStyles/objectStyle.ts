@@ -1,4 +1,5 @@
-import { Filter, Shadow } from "./styleTypes";
+import { Filter } from "./filterTypes";
+import { Shadow } from "./styleTypes";
 
 export default interface ObjectStyle {
     filter?: Filter[],

@@ -3,7 +3,7 @@ import { Point } from "src/app/global/interfaces/point";
 import { PointerContext } from "../../../global/classes/pointerController";
 import { RenderingContext } from '../../../global/classes/renderingContext';
 import { WhiteboardMode } from './whiteboardMode';
-import { RibbonTab } from "src/app/whiteboard/whiteboard/ribbon/ribbon";
+import { RibbonTab } from "../../ribbon/ribbon";
 
 export class DeleteMode extends WhiteboardMode {
 

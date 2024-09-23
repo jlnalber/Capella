@@ -1,11 +1,11 @@
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import {AfterViewInit, Component, ComponentRef, Input, OnInit, Type, ViewChild, ViewContainerRef} from '@angular/core';
 
 @Component({
   selector: 'app-tab-group',
   templateUrl: './tab-group.component.html',
   standalone: true,
-  imports: [NgClass, NgIf],
+  imports: [NgClass, NgIf, NgFor],
   styleUrls: ['./tab-group.component.css']
 })
 export class TabGroupComponent implements OnInit, AfterViewInit {

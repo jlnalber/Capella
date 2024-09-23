@@ -5,7 +5,7 @@ import { WhiteboardMode } from './whiteboardMode';
 import PenElement from '../canvas-elements/penElement';
 import { BLACK } from 'src/app/global/interfaces/color';
 import { WhiteboardService } from "src/app/whiteboard/services/whiteboard.service";
-import { RibbonTab } from "src/app/whiteboard/whiteboard/ribbon/ribbon";
+import { RibbonTab } from "../../ribbon/ribbon";
 
 export class PenMode extends WhiteboardMode {
   private pen: PenElement | undefined;

@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {HoverConfiguration} from "../../../hover-menu/hover-menu.directive";
-import {ColorPickerComponent} from "../../../color-picker/color-picker.component";
+import {ColorStyleComponent} from "../../../../global/style-components/color-style/color-style.component";
 import { BLACK, Color, getColorAsRgbaFunction } from 'src/app/global/interfaces/color';
 
 @Component({
@@ -32,7 +32,7 @@ export class ColorCircleComponent implements OnInit {
 
   public get hoverMenu(): HoverConfiguration {
     return {
-      component: ColorPickerComponent,
+      component: ColorStyleComponent,
       data: {
         getter: () => {
           return this.color;

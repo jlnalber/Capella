@@ -1,5 +1,5 @@
 import { TRANSPARENT } from "../color";
-import { ColorStyle } from "./styleTypes";
+import { ColorStyle } from "./colorStyle";
 
 export default interface FillStyle {
     color: ColorStyle,

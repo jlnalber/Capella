@@ -6,13 +6,14 @@ import PenElement from '../canvas-elements/penElement';
 import { BLACK } from 'src/app/global/interfaces/color';
 import { WhiteboardService } from "src/app/whiteboard/services/whiteboard.service";
 import { RibbonTab } from "../ribbon/ribbon";
-import { DEFAULT_PENS, Pen } from "../../interfaces/penStyle";
+import { DEFAULT_PENS, getPenStyleOfPen, Pen } from "../../interfaces/penStyle";
+import RibbonPenPicker from "../ribbon/ribbonPenPicker";
 
 export class PenMode extends WhiteboardMode {
   private penElement: PenElement | undefined;
 
   public override pointerStart(whiteboardService: WhiteboardService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext): void {
-    this.penElement = new PenElement(this.pen.penStyle);
+    this.penElement = new PenElement(getPenStyleOfPen(this.pen));
     this.penElement.addPoint({
       ...point,
       size: 1
@@ -42,7 +43,7 @@ export class PenMode extends WhiteboardMode {
   }
 
   public click(whiteboardService: WhiteboardService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext): void {
-    this.penElement = new PenElement(this.pen.penStyle);
+    this.penElement = new PenElement(getPenStyleOfPen(this.pen));
     this.penElement.addPoint({
       ...point,
       size: 1
@@ -59,9 +60,15 @@ export class PenMode extends WhiteboardMode {
       name: 'Stift',
       color: colors[0],
       underlineColor: colors[1],
-      content: []
+      content: [
+        new RibbonPenPicker(DEFAULT_PENS,
+                            () => {},
+                            () => [],
+                            (p: Pen) => p.penStyle === this.pen.penStyle,
+                            (p: Pen) => this.pen = p,
+                            colors[0])
+      ]
     }];
   }
 
-  //public transformInvisibleColor: undefined | ((c: Color) => Color);
 }

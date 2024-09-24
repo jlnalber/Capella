@@ -3,7 +3,7 @@ import {Point} from "src/app/global/interfaces/point";
 import {Rect} from "src/app/global/interfaces/rect";
 import {Color} from "src/app/global/interfaces/color";
 import {CanvasIdElement} from "./abstract/canvasIdElement";
-import StrokeStyle from "src/app/global/interfaces/canvasStyles/strokeStyle";
+import {StrokeStyle} from "src/app/global/interfaces/canvasStyles/strokeStyle";
 import FillStyle from "src/app/global/interfaces/canvasStyles/fillStyle";
 import ObjectStyle from "src/app/global/interfaces/canvasStyles/objectStyle";
 import TextStyle from "src/app/global/interfaces/canvasStyles/textStyle";

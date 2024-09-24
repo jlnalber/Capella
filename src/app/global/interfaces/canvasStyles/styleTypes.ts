@@ -1,31 +1,5 @@
-import { Circle } from "../circle";
-import { Color, TRANSPARENT } from "../color"
-import { Point } from "../point";
+import { Color, TRANSPARENT } from "../color";
 import { LengthMeasurement } from "./unitTypes";
-
-export type Pattern = {
-    picture: string
-}
-
-export type Gradient = LinearGradient | RadialGradient | ConicGradient;
-export type LinearGradient = {
-    startPoint: Point,
-    endPoint: Point,
-    stops: GradientColorStop[]
-};
-export type RadialGradient = {
-    startCircle: Circle,
-    endCircle: Circle,
-    stops: GradientColorStop[]
-};
-export type ConicGradient = {
-    center: Point,
-    startAngle: number,
-    stops: GradientColorStop[]
-};
-export type GradientColorStop = [number, Color];
-
-export type ColorStyle = Color | Pattern | Gradient;
 
 export type Shadow = {
     color: Color,

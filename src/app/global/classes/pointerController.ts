@@ -2,7 +2,7 @@ import {Point} from "src/app/global/interfaces/point";
 import {getPosFromEvent} from "../essentials/utils";
 import Cache from "../essentials/cache";
 
-export interface PointerControllerEvents {
+export interface PointerControllerEvents { // TODO: dblclick
   pointerStart?: (p: Point, context: PointerContext) => void,
   pointerMove?: (from: Point, to: Point, context: PointerContext) => void,
   pointerEnd?: (p: Point, context: PointerContext) => void,

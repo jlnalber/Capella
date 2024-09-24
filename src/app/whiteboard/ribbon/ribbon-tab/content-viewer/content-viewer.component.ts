@@ -9,47 +9,37 @@ import RibbonToggle from 'src/app/whiteboard/global/classes/ribbon/ribbonToggle'
 import RibbonPointerModeToggle from 'src/app/whiteboard/global/classes/ribbon/ribbonPointerModeToggle';
 import RibbonButton from 'src/app/whiteboard/global/classes/ribbon/ribbonButton';
 import RibbonText from 'src/app/whiteboard/global/classes/ribbon/ribbonText';
+import RibbonPenPicker from 'src/app/whiteboard/global/classes/ribbon/ribbonPenPicker';
+import { PenPickerComponent } from "../pen-picker/pen-picker.component";
 
 @Component({
   selector: 'app-content-viewer',
   standalone: true,
-  imports: [ToggleComponent, ButtonComponent, DividerComponent, PointerModeToggleComponent, RibbonTextComponent],
+  imports: [ToggleComponent, ButtonComponent, DividerComponent, PointerModeToggleComponent, RibbonTextComponent, PenPickerComponent],
   templateUrl: './content-viewer.component.html',
   styleUrl: './content-viewer.component.scss'
 })
 export class ContentViewerComponent {
   @Input({required: true}) content!: Content[];
 
-  public isButton(content: Content): boolean {
+  public isButton(content: Content): content is RibbonButton {
     return content instanceof RibbonButton && !(content instanceof RibbonToggle);
   }
 
-  public isToggle(content: Content): boolean {
+  public isToggle(content: Content): content is RibbonToggle {
     return content instanceof RibbonToggle && !(content instanceof RibbonPointerModeToggle);
   }
 
-  public isText(content: Content): boolean {
+  public isText(content: Content): content is RibbonText {
     return content instanceof RibbonText;
   }
 
-  public isPointerToggle(content: Content): boolean {
+  public isPointerToggle(content: Content): content is RibbonPointerModeToggle {
     return content instanceof RibbonPointerModeToggle;
   }
   
-  public getAsButton(content: Content): RibbonButton {
-    return content as RibbonButton;
-  }
-
-  public getAsToggle(content: Content): RibbonToggle {
-    return content as RibbonToggle;
-  }
-
-  public getAsText(content: Content): RibbonText {
-    return content as RibbonText;
-  }
-
-  public getAsPointerToggle(content: Content): RibbonPointerModeToggle {
-    return content as RibbonPointerModeToggle;
+  public isPenPicker(content: Content): content is RibbonPenPicker {
+    return content instanceof RibbonPenPicker;
   }
 
   public getAsDivider(content: Content): Divider {

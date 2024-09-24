@@ -1,5 +1,17 @@
-import { ColorStyle, DEFAULT_FONTSIZE, FontKerning, FontSize, FontStretch, FontStyle, FontVariantCaps, FontWeight, LetterSpacing, TextAlign, TextBaseline, TextDirection, WordSpacing } from "./styleTypes";
+import { DEFAULT_FONTSIZE,
+    FontKerning,
+    FontSize,
+    FontStretch,
+    FontStyle,
+    FontVariantCaps,
+    FontWeight,
+    LetterSpacing,
+    TextAlign,
+    TextBaseline,
+    TextDirection,
+    WordSpacing } from "./styleTypes";
 import { TRANSPARENT } from "../color";
+import { ColorStyle } from "./colorStyle";
 
 export default interface TextStyle {
     color: ColorStyle,

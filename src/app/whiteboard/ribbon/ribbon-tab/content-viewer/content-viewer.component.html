@@ -1,19 +1,22 @@
 <div class="contentWrapper">
     @for (content of this.content; track content) {
         @if (isButton(content)) {
-            <app-button class="content" [button]="getAsButton(content)"></app-button>
+            <app-button class="content" [button]="content"></app-button>
         }
         @else if (isToggle(content)) {
-            <app-toggle class="content" [toggle]="getAsToggle(content)"></app-toggle>
+            <app-toggle class="content" [toggle]="content"></app-toggle>
         }
         @else if (isPointerToggle(content)) {
-            <app-pointer-mode-toggle class="content" [pointerToggle]="getAsPointerToggle(content)"></app-pointer-mode-toggle>
+            <app-pointer-mode-toggle class="content" [pointerToggle]="content"></app-pointer-mode-toggle>
         }
         @else if (isText(content)) {
-            <app-ribbon-text class="content" [text]="getAsText(content)"></app-ribbon-text>
+            <app-ribbon-text class="content" [text]="content"></app-ribbon-text>
+        }
+        @else if (isPenPicker(content)) {
+            <app-pen-picker class="content" [penPicker]="content"></app-pen-picker>
         }
         @else {
-            <app-divider class="content" [divider]="getAsDivider(content)"></app-divider>
+            <app-divider class="content" [divider]="this.getAsDivider(content)"></app-divider>
         }
     }
 </div>

@@ -1,1 +1,7 @@
-<p>pen-picker works!</p>
+<div class="wrapper">
+    @for (pen of this.penPicker.allPens; track $index) {
+        <div [title]="pen.name" class="pen" [class.active]="this.penPicker.isActive(pen)" (click)="this.penPicker.setActive(pen)" [style.backgroundColor]="this.getColor(pen)">
+            <img [src]="'./assets/' + pen.icon + '.svg'" class="icon" alt="button"/>
+        </div>
+    }
+</div>

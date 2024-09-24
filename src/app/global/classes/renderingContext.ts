@@ -14,9 +14,7 @@ import {
   DEFAULT_TEXTALIGN,
   DEFAULT_TEXTBASELINE,
   DEFAULT_TEXTDIRECTION,
-  DEFAULT_WORDSPACING,
-  LinearGradient,
-  RadialGradient 
+  DEFAULT_WORDSPACING
 } from 'src/app/global/interfaces/canvasStyles/styleTypes';
 import {Transformations} from "src/app/global/interfaces/transformations";
 import {Point} from "src/app/global/interfaces/point";
@@ -24,14 +22,15 @@ import {Rect} from "src/app/global/interfaces/rect";
 import {Color, getColorAsRgbaFunction} from "src/app/global/interfaces/color";
 import {CanvasIdElement} from "./abstract/canvasIdElement";
 import AbstractRenderingContext, { SizePoint } from "./abstractRenderingContext";
-import StrokeStyle, { EMPTY_STROKESTYLE } from "src/app/global/interfaces/canvasStyles/strokeStyle";
-import { ColorStyle, DEFAULT_SHADOW, Pattern, Shadow } from "src/app/global/interfaces/canvasStyles/styleTypes";
+import { EMPTY_STROKESTYLE, StrokeStyle } from "src/app/global/interfaces/canvasStyles/strokeStyle";
+import { DEFAULT_SHADOW, Shadow } from "src/app/global/interfaces/canvasStyles/styleTypes";
 import FillStyle, { EMPTY_FILLSTYLE } from "src/app/global/interfaces/canvasStyles/fillStyle";
 import ObjectStyle, { EMPTY_OBJECTSTYLE } from "src/app/global/interfaces/canvasStyles/objectStyle";
 import TextStyle, { EMPTY_TEXTSTYLE } from "src/app/global/interfaces/canvasStyles/textStyle";
 import ImageStyle, { EMPTY_IMAGESTYLE } from 'src/app/global/interfaces/canvasStyles/imageStyle';
 import { DEFAULT_FILTERS, filterToCssFunctionString } from '../interfaces/canvasStyles/filterTypes';
 import { measurementToString } from '../interfaces/canvasStyles/unitTypes';
+import { ColorStyle, instanceOfColor, instanceOfLinearGradient, instanceOfPattern, instanceOfRadialGradient } from '../interfaces/canvasStyles/colorStyle';
 
 let noise: CanvasPattern | undefined = undefined;
 
@@ -64,19 +63,6 @@ export class RenderingContext extends AbstractRenderingContext {
   }
 
   private colorStyleToCanvasStyle(colorStyle: ColorStyle, uniformSizeOnZoom?: boolean): string | CanvasPattern | CanvasGradient | null {
-
-    function instanceOfColor(colorStyle: ColorStyle): colorStyle is Color {
-      return 'r' in colorStyle;
-    }
-    function instanceOfPattern(colorStyle: ColorStyle): colorStyle is Pattern {
-      return 'picture' in colorStyle;
-    }
-    function instanceOfLinearGradient(colorStyle: ColorStyle): colorStyle is LinearGradient {
-      return 'startPoint' in colorStyle;
-    }
-    function instanceOfRadialGradient(colorStyle: ColorStyle): colorStyle is RadialGradient {
-      return 'startCircle' in colorStyle;
-    }
 
     if (instanceOfColor(colorStyle)) {
       // just a color

@@ -26,3 +26,12 @@ app-canvas {
     width: 100%;
     overflow: hidden;
 }
+
+.quickactions {
+    position: absolute;
+    width: auto;
+    height: auto;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+}

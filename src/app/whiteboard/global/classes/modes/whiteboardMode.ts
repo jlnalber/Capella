@@ -12,7 +12,7 @@ export abstract class WhiteboardMode extends Mode<WhiteboardService> {
     return [];
   }
 
-  protected getColorsForExtraRibbons(whiteboardService: WhiteboardService, renderingContext: RenderingContext): [Color, Color] | undefined {
+  protected getColorsForExtraRibbons(whiteboardService: WhiteboardService): [Color, Color] | undefined {
     let c: Color | undefined;
     for (let i = 0; i < pointerTypes.length; i++) {
       const type = pointerTypes[i];

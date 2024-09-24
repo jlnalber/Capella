@@ -9,6 +9,10 @@ const routes: Routes = [{
 }, {
   path: 'prokyon',
   component: ProkyonComponent
+}, {
+  path: '',
+  redirectTo: '/whiteboard',
+  pathMatch: 'full'
 }];
 
 @NgModule({

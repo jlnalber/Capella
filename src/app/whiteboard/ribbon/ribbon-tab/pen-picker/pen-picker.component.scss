@@ -9,6 +9,7 @@ $divHeight: 2 * $paddingDiv + $buttonHeight;
     border-radius: 50vh;
     border: 1px solid rgb(200, 200, 200);
     box-shadow: 0px 0px 5px rgb(200, 200, 200);
+    width: max-content;
 }
 
 .pen {
@@ -26,6 +27,7 @@ $divHeight: 2 * $paddingDiv + $buttonHeight;
     width: $imgSize;
     height: $imgSize;
     margin: calc(($buttonHeight - $imgSize) / 2);
+    -webkit-user-select: none;
     user-select: none;
     pointer-events: none;
     border-radius: 50%;

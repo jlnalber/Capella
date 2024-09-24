@@ -55,20 +55,22 @@ export class PenMode extends WhiteboardMode {
   public pen: Pen = DEFAULT_PENS[0];
 
   public override getExtraRibbons(whiteboardService: WhiteboardService, renderingContext: RenderingContext): RibbonTab[] {
-    const colors = this.getColorsForExtraRibbons(whiteboardService, renderingContext) ?? [BLACK, BLACK];
+    const colors = this.getColorsForExtraRibbons(whiteboardService) ?? [BLACK, BLACK];
     return [{
       name: 'Stift',
       color: colors[0],
       underlineColor: colors[1],
       content: [
-        new RibbonPenPicker(DEFAULT_PENS,
-                            () => {},
-                            () => [],
-                            (p: Pen) => p.penStyle === this.pen.penStyle,
-                            (p: Pen) => this.pen = p,
-                            colors[0])
+        
       ]
     }];
   }
+
+  public penPicker: RibbonPenPicker = new RibbonPenPicker(DEFAULT_PENS,
+    () => {},
+    () => [],
+    (p: Pen) => p.penStyle === this.pen.penStyle,
+    (p: Pen) => this.pen = p,
+    (ws: WhiteboardService) => (this.getColorsForExtraRibbons(ws) ?? [BLACK])[0]);
 
 }

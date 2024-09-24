@@ -37,6 +37,7 @@ import { ViewCircleElementComponent } from './prokyon/formula-dialogs/view-circl
 import { ViewAngleElementComponent } from './prokyon/formula-dialogs/view-angle-element/view-angle-element.component';
 import { ViewAbstractLineElementComponent } from './prokyon/formula-dialogs/view-abstract-line-element/view-abstract-line-element.component';
 import { ColorStyleComponent } from './global/style-components/color-style/color-style.component';
+import { QuickActionsComponent } from "./whiteboard/quick-actions/quick-actions.component";
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { ColorStyleComponent } from './global/style-components/color-style/color
     RibbonTabComponent,
     FormsModule,
     TabGroupComponent,
+    QuickActionsComponent
 ],
   providers: [],
   bootstrap: [AppComponent]

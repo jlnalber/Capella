@@ -75,3 +75,8 @@ export const GREY: Color = {
   g: 127,
   b: 127
 }
+export const YELLOW: Color = {
+  r: 255,
+  g: 255,
+  b: 0
+}

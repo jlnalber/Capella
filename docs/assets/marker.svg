@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1" baseProfile="full"
+     width="150px" height="150px">
+
+    <g transform="translate(25 20)" transform-origin="50% 50%">
+        <polygon points="20,75 35,55 65,55 80,75" fill="transparent" stroke-width="5" stroke-linejoin="round" stroke="#000"  />
+        <polygon points="35,55 65,55 65,35 35,35" fill="transparent" stroke-width="5" stroke-linejoin="round" stroke="#000"  />
+        <polygon points="40,35 60,35 60,10 40,20" fill="#000" stroke-width="5" stroke-linejoin="round" stroke="#000"  />
+        <line x1="20" y1="75" x2="20" y2="150" stroke-width="5" stroke="#000" />
+        <line x1="80" y1="75" x2="80" y2="150" stroke-width="5" stroke="#000" />
+    </g>
+
+</svg>

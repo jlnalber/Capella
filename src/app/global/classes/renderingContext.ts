@@ -1,4 +1,5 @@
 import {
+  DEFAULT_ALPHA,
   DEFAULT_FONTKERNING,
   DEFAULT_FONTSTRETCH,
   DEFAULT_FONTSTYLE,
@@ -186,6 +187,9 @@ export class RenderingContext extends AbstractRenderingContext {
     this.ctx.shadowOffsetX = offsetX;
     this.ctx.shadowOffsetY = offsetY;
     this.ctx.shadowColor = getColorAsRgbaFunction(this.getRightColor(shadow.color, this.config));
+
+    // alpha
+    this.ctx.globalAlpha = objectStyle.alpha ?? DEFAULT_ALPHA;
 
   }
 

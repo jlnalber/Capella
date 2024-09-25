@@ -13,6 +13,7 @@ export const DEFAULT_SHADOW = {
     offsetY: 0,
     color: TRANSPARENT
 }
+export const DEFAULT_ALPHA: number = 1
 
 export type LineCap = CanvasLineCap;
 export const DEFAULT_LINECAP: LineCap = 'butt'

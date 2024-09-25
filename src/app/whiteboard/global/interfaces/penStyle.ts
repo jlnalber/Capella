@@ -1,7 +1,7 @@
 import { ColorStyle, Gradient, instanceOfColor, Pattern } from "src/app/global/interfaces/canvasStyles/colorStyle"
 import ObjectStyle from "src/app/global/interfaces/canvasStyles/objectStyle"
 import { EasyStrokeStyle, StrokeStyle } from "src/app/global/interfaces/canvasStyles/strokeStyle"
-import { BLACK, BLUE, Color, getColorAsRgbaFunction } from "src/app/global/interfaces/color"
+import { BLACK, Color, DEEPBLUE, getColorAsRgbaFunction, YELLOW } from "src/app/global/interfaces/color"
 
 export type PenStyle = {
     objectStyle?: ObjectStyle,
@@ -45,15 +45,25 @@ export function getPenStyleOfPen(pen: Pen): PenStyle {
 }
 
 export const DEFAULT_PENS: Pen[] = [{
+    name: 'Füller',
+    penStyle: {
+        strokeStyle: {
+            lineCap: 'round'
+        }
+    },
+    color: DEEPBLUE,
+    lineWidth: 3,
+    icon: 'fueller'
+}, {
     name: 'Kugelschreiber',
     penStyle: {
         strokeStyle: {
             lineCap: 'round'
         }
     },
-    color: BLUE,
-    lineWidth: 3,
-    icon: 'fueller'
+    color: BLACK,
+    lineWidth: 2,
+    icon: 'ballpoint'
 }, {
     name: 'Bleistift',
     penStyle: {
@@ -74,6 +84,19 @@ export const DEFAULT_PENS: Pen[] = [{
     },
     lineWidth: 3,
     icon: 'pencil'
+}, {
+    name: 'Textmarker',
+    penStyle: {
+        strokeStyle: {
+            lineCap: 'butt'
+        },
+        objectStyle: {
+            alpha: 0.5
+        }
+    },
+    color: YELLOW,
+    lineWidth: 15,
+    icon: 'marker'
 }]
 
 

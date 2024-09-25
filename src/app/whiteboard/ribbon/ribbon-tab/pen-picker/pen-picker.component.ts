@@ -17,10 +17,29 @@ export class PenPickerComponent {
   constructor(private readonly whiteboardService: WhiteboardService) {}
 
 
-  public getColor(pen: Pen): string {
-    if (this.penPicker.isActive(pen)) {
-      return getColorAsRgbaFunction(this.penPicker.getActiveColor(this.whiteboardService));
+  public getStyle(pen: Pen): string {
+    const cols = this.penPicker.getColors(pen);
+    if (cols.length === 0) {
+      return 'background: transparent;'
     }
-    return 'transparent'
+    else if (cols.length === 1) {
+      return `background: ${getColorAsRgbaFunction(cols[0])}`
+    }
+    
+    const size = Math.floor(360 / cols.length); 
+    let conicGradient = `${getColorAsRgbaFunction(cols[0])} 0deg`;
+    for (let i = 1; i < cols.length; i++) {
+      const angle = size * i;
+      conicGradient += `, ${getColorAsRgbaFunction(cols[i - 1])} ${angle}deg, ${getColorAsRgbaFunction(cols[i])} ${angle}deg`;
+    }
+    conicGradient = `background-image: linear-gradient(white, white), conic-gradient(${conicGradient});`;
+
+    const borderSize = 5;
+    const height = 60 - 2 * borderSize;
+    return `background-origin: border-box;
+  background-clip: content-box, border-box;
+  height: ${height}px !important;
+  width: ${height}px !important;
+  border: double ${borderSize}px transparent; ${conicGradient}`;
   }
 }

@@ -66,11 +66,4 @@ export class PenMode extends WhiteboardMode {
     }];
   }
 
-  public penPicker: RibbonPenPicker = new RibbonPenPicker(DEFAULT_PENS,
-    () => {},
-    () => [],
-    (p: Pen) => p.penStyle === this.pen.penStyle,
-    (p: Pen) => this.pen = p,
-    (ws: WhiteboardService) => (this.getColorsForExtraRibbons(ws) ?? [BLACK])[0]);
-
 }

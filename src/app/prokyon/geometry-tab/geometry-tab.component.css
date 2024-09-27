@@ -3,11 +3,11 @@
   --size: 70px;
   --margin: 9px;
   --border: 1px;
-  --borderColor: #aaa;
+  --borderColor: #dfd7d2;
   --padding: 2px;
   --borderRadius: 5px;
   --width: calc(var(--size) + 2 * var(--margin) + var(--border));
-  --background: #fcfcfc;
+  --background: #fff7f2;
 }
 
 .tabHeader {
@@ -41,11 +41,11 @@
 }
 
 .tabHeader:hover {
-  background: #eee;
+  background: #efe7e2;
 }
 
 .tabHeader:active {
-  background: #d9d9d9;
+  background: #dfd7d2;
 }
 
 .tabHeader p {
@@ -56,7 +56,7 @@
 }
 
 .tabHeader.active {
-  background: #ddd;
+  background: #dfd7d2;
 }
 
 .wrapper {

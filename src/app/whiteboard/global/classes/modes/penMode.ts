@@ -3,17 +3,18 @@ import { PointerContext } from "../../../../global/classes/pointerController";
 import { RenderingContext } from '../../../../global/classes/renderingContext';
 import { WhiteboardMode } from './whiteboardMode';
 import PenElement from '../canvas-elements/penElement';
-import { BLACK } from 'src/app/global/interfaces/color';
+import { BLACK, Color } from 'src/app/global/interfaces/color';
 import { WhiteboardService } from "src/app/whiteboard/services/whiteboard.service";
-import { RibbonTab } from "../ribbon/ribbon";
-import { DEFAULT_PENS, getPenStyleOfPen, Pen } from "../../interfaces/penStyle";
-import RibbonPenPicker from "../ribbon/ribbonPenPicker";
+import { RibbonTab } from "../../../../global/classes/ribbon/ribbon";
+import { DEFAULT_PENS, getPenStyleOfPen, Pen, PenStyle } from "../../interfaces/penStyle";
+import RibbonColorPicker from "src/app/global/classes/ribbon/ribbonColorPicker";
+import { WhiteboardSettingsService } from "src/app/whiteboard/services/whiteboard-settings.service";
 
 export class PenMode extends WhiteboardMode {
   private penElement: PenElement | undefined;
 
   public override pointerStart(whiteboardService: WhiteboardService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext): void {
-    this.penElement = new PenElement(getPenStyleOfPen(this.pen));
+    this.penElement = new PenElement(this.getStyleOfPen());
     this.penElement.addPoint({
       ...point,
       size: 1
@@ -32,7 +33,7 @@ export class PenMode extends WhiteboardMode {
     })
   }
 
-  public override pointerEnd(whiteboradService: WhiteboardService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext): void {
+  public override pointerEnd(whiteboardService: WhiteboardService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext): void {
     
     this.penElement?.addPoint({
       ...point,
@@ -43,7 +44,7 @@ export class PenMode extends WhiteboardMode {
   }
 
   public click(whiteboardService: WhiteboardService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext): void {
-    this.penElement = new PenElement(getPenStyleOfPen(this.pen));
+    this.penElement = new PenElement(this.getStyleOfPen());
     this.penElement.addPoint({
       ...point,
       size: 1
@@ -52,16 +53,20 @@ export class PenMode extends WhiteboardMode {
     this.penElement = undefined;
   }
 
+  private getStyleOfPen(): PenStyle {
+    return getPenStyleOfPen(this.pen, this.settingsService.getPens());
+  }
+
   public pen: Pen = DEFAULT_PENS[0];
 
-  public override getExtraRibbons(whiteboardService: WhiteboardService, renderingContext: RenderingContext): RibbonTab[] {
+  public override getExtraRibbons(whiteboardService: WhiteboardService, settingService: WhiteboardSettingsService, renderingContext: RenderingContext): RibbonTab[] {
     const colors = this.getColorsForExtraRibbons(whiteboardService) ?? [BLACK, BLACK];
     return [{
       name: 'Stift',
       color: colors[0],
       underlineColor: colors[1],
       content: [
-        
+        new RibbonColorPicker(settingService.getColors(), () => this.pen.color, (c: Color) => this.pen.color = c, () => false)
       ]
     }];
   }

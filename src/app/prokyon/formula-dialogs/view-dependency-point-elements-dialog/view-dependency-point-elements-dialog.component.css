@@ -21,17 +21,13 @@
 }
 
 .notLast {
-  border-bottom: 1px solid #aaa;
+  border-bottom: 1px solid #dfd7d2;
 }
 
 .pointWrappers {
   margin-bottom: 16px;
   max-height: 400px;
   overflow-y: auto;
-}
-
-.iconButton {
-  background-color: white;
 }
 
 .input {

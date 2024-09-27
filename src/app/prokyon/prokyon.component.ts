@@ -4,8 +4,6 @@ import { Tab } from './tab-group/tab-group.component';
 import { FormulaTabComponent } from './formula-tab/formula-tab.component';
 import { GeometryTabComponent } from './geometry-tab/geometry-tab.component';
 import { SettingsTabComponent } from './settings-tab/settings-tab.component';
-import { FormsModule } from '@angular/forms';
-import { ProkyonCanvasComponent } from './canvas/prokyonCanvas.component';
 
 declare const MathJax: MJ;
 
@@ -28,7 +26,6 @@ export class ProkyonComponent {
   }
 
   displaySvg(svg: string) {
-    console.log(svg)
     const svgContainer = document.getElementById('svg-container');
     if (svgContainer) {
       svgContainer.innerHTML = svg;

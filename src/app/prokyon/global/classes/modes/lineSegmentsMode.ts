@@ -4,11 +4,12 @@ import {DrawerService} from "../../../services/drawer.service";
 import LineSegmentElement from "../canvas-elements/lineSegmentElement";
 import DynamicPointElement from "../canvas-elements/dynamicPointElement";
 import { GREY } from "src/app/global/interfaces/color";
+import { ProkyonSettingsService } from "src/app/prokyon/services/prokyon-settings.service";
 
 export default class LineSegmentsMode extends TwoElementsSelectMode<PointElement | DynamicPointElement, PointElement | DynamicPointElement> {
 
-  public constructor() {
-    super([PointElement, DynamicPointElement], [PointElement, DynamicPointElement]);
+  public constructor(settingsService: ProkyonSettingsService) {
+    super([PointElement, DynamicPointElement], [PointElement, DynamicPointElement], settingsService);
   }
 
   protected override addCanvasElement(drawerService: DrawerService, point1: PointElement, point2: PointElement) {

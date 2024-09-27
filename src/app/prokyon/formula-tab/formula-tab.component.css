@@ -1,16 +1,17 @@
 .addDiv {
   height: 62px;
-  background: #fcfcfc;
+  background: #fff7f2;
   transition: 0.1s all ease-in-out;
   line-height: 62px;
+  border-bottom: 1px solid #dfd7d2;
 }
 
 .addDiv:hover {
-  background: #eee;
+  background: #efe7e2;
 }
 
 .addDiv:active {
-  background: #ddd;
+  background: #dfd7d2;
 }
 
 p {

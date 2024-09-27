@@ -1,7 +1,7 @@
 .container {
     width: 100%;
     height: max-content;
-    background-color: #ecedf0;
+    background-color: rgb(240, 237, 231);
     margin-bottom: 5px;
 }
 
@@ -30,10 +30,6 @@
 
 .tabSelector.inactive:hover .tabBar {
     background-color: #bbbbcc;
-}
-
-.tabSelector.active .tabBar {
-    // background-color: var(--tab-underline-color);
 }
 
 .tab {

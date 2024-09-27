@@ -263,7 +263,8 @@ export function indexUntil<T>(arr: T[], addition: T[], subtraction: T[], startIn
   throw errorMessage;
 }
 
-export function sameColors(color1: Color, color2: Color): boolean {
+export function sameColors(color1: Color | undefined, color2: Color | undefined): boolean {
+  if (color1 === undefined || color2 === undefined) return false;
   return (color1.r == color2.r) && (color1.g == color2.g) && (color1.b == color2.b)
         && (color1.a == color2.a || (!color1.a && !color2.a));
 }

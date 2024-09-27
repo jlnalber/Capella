@@ -5,12 +5,14 @@ import { BLACK, Color, DEEPBLUE, getColorAsRgbaFunction, YELLOW } from "src/app/
 
 export type PenStyle = {
     objectStyle?: ObjectStyle,
-    strokeStyle: StrokeStyle
+    strokeStyle: StrokeStyle,
+    useSizes?: boolean
 }
 
 export type EasyPenStyle = {
     objectStyle?: ObjectStyle,
-    strokeStyle: EasyStrokeStyle
+    strokeStyle: EasyStrokeStyle,
+    useSizes?: boolean
 }
 
 export type Pen = {
@@ -18,18 +20,27 @@ export type Pen = {
     icon?: string,
     penStyle: EasyPenStyle,
     color: Color,
-    colorStyle?: Gradient | Pattern | ((c: Color) => ColorStyle),
+    colorStyle?: Gradient | Pattern | number | ((c: Color) => ColorStyle),
     lineWidth: number
 }
 
-export function getPenStyleOfPen(pen: Pen): PenStyle {
-    let color: ColorStyle = pen.color;
-    if (typeof pen.colorStyle === 'function') {
-        color = pen.colorStyle(pen.color);
+function getColorStyleOfPen(p: Pen, pens: Pen[]): ColorStyle {
+    if (p.colorStyle === undefined) {
+        return p.color;
     }
-    else if (pen.colorStyle !== undefined) {
-        color = pen.colorStyle;
+    else if (typeof p.colorStyle === 'number') {
+        return getColorStyleOfPen(pens[p.colorStyle], pens);
     }
+    else if (typeof p.colorStyle === 'function') {
+        return p.colorStyle(p.color);
+    }
+    else {
+        return p.colorStyle;
+    }
+}
+
+export function getPenStyleOfPen(pen: Pen, pens: Pen[]): PenStyle {
+    const color: ColorStyle = getColorStyleOfPen(pen, pens);
 
     const strokeStyle: StrokeStyle = {
         ...pen.penStyle.strokeStyle,
@@ -40,7 +51,8 @@ export function getPenStyleOfPen(pen: Pen): PenStyle {
 
     return {
         objectStyle: pen.penStyle.objectStyle,
-        strokeStyle: strokeStyle
+        strokeStyle: strokeStyle,
+        useSizes: pen.penStyle.useSizes
     }
 }
 

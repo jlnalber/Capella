@@ -3,11 +3,11 @@
   --size: 60px;
   --margin: 3px;
   --border: 1px;
-  --borderColor: #aaa;
+  --borderColor: #afa7a2;
   --padding: 2px;
   --borderRadius: 5px;
   --width: calc(var(--size) + 2 * var(--margin) + var(--border));
-  --background: #fcfcfc;
+  --background: #fff7f2;
 }
 
 .tabHeaders {
@@ -21,8 +21,8 @@
   border-right: var(--border) solid var(--borderColor);
   border-bottom-right-radius: var(--borderRadius);
   border-top-right-radius: var(--borderRadius);
-  background: white;
-  box-shadow: 0 0 7px #555;
+  background: #fff9f5;
+  box-shadow: 0 0 7px #5f5752;
   -webkit-user-select: none;
   user-select: none;
   overflow: auto;
@@ -47,11 +47,11 @@
 }
 
 .tabHeader:hover {
-  background: #eee;
+  background: #efe7e2;
 }
 
 .tabHeader:active {
-  background: #d9d9d9;
+  background: #dfd7d2;
 }
 
 .tabHeader p {
@@ -59,7 +59,7 @@
 }
 
 .tabHeader.active {
-  background: #ddd;
+  background: #dfd7d2;
 }
 
 .tabContainer {
@@ -72,7 +72,7 @@
   width: calc(100% - var(--width) - 2 * var(--padding));
   background: var(--background);
   overflow: auto;
-  border-right: 1px solid #ccc;
+  border-right: 1px solid #cfc7c2;
 }
 
 .empty .tabContainer {

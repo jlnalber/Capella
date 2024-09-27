@@ -1,1 +1,10 @@
-<p>color-picker works!</p>
+<div class="divider">
+    <label class="dividerLabel">Farbe auswählen</label>
+    <div class="colorWrapper">
+        @for (color of this.colorPicker.getAllColors(); track $index) {
+            <div class="color" [class.activeColor]="this.isActiveColor(color)" (click)="this.colorPicker.setActiveColor(color)">
+                <div class="bg" [style.background]="this.getStyleToColor(color)"></div>
+            </div>
+        }
+    </div>
+</div>

@@ -3,7 +3,8 @@ import { Point } from "src/app/global/interfaces/point";
 import { PointerContext } from "../../../../global/classes/pointerController";
 import { RenderingContext } from '../../../../global/classes/renderingContext';
 import { WhiteboardMode } from './whiteboardMode';
-import { RibbonTab } from "../ribbon/ribbon";
+import { RibbonTab } from "../../../../global/classes/ribbon/ribbon";
+import { WhiteboardSettingsService } from "src/app/whiteboard/services/whiteboard-settings.service";
 
 export class ShapeMode extends WhiteboardMode {
 
@@ -15,7 +16,7 @@ export class ShapeMode extends WhiteboardMode {
     throw 'impl'
   }
 
-  public override getExtraRibbons(whiteboardService: WhiteboardService, renderingContext: RenderingContext): RibbonTab[] {
+  public override getExtraRibbons(whiteboardService: WhiteboardService, settingService: WhiteboardSettingsService, renderingContext: RenderingContext): RibbonTab[] {
     return [];
   }
 

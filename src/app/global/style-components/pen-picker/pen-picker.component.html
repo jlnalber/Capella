@@ -1,5 +1,5 @@
 <div class="wrapper">
-    @for (pen of this.penPicker.allPens; track $index) {
+    @for (pen of this.penPicker.settingsService.getPens(); track $index) {
         <div [title]="pen.name" class="pen" [class.active]="this.penPicker.isActive(pen)" [class.hyperActive]="this.penPicker.isHyperActive(pen)" (pointerup)="this.penPicker.setActive(pen, $event)">
             <div class="bg" [style]="this.getStyle(pen)"></div>
             <img [src]="'./assets/' + pen.icon + '.svg'" class="icon" alt="button"/>

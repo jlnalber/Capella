@@ -5,11 +5,12 @@ import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
 import { PointerContext } from "src/app/global/classes/pointerController";
 import { Point } from "src/app/global/interfaces/point";
 import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import { ProkyonSettingsService } from "src/app/prokyon/services/prokyon-settings.service";
 
 export default abstract class MultipleElementsSelectMode<T extends ProkyonCanvasElement> extends MoveMode {
   
-  protected constructor(private types: Constructor<T>[], private minElements: number, private maxElements: number = Number.MAX_VALUE) {
-    super();
+  protected constructor(private types: Constructor<T>[], settingsService: ProkyonSettingsService, private minElements: number, private maxElements: number = Number.MAX_VALUE) {
+    super(settingsService);
   }
 
   protected abstract addCanvasElement(drawerService: DrawerService, elements: T[]): void;

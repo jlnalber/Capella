@@ -4,7 +4,8 @@ import { RenderingContext } from '../../../../global/classes/renderingContext';
 import { WhiteboardMode } from './whiteboardMode';
 import TextBox from '../textBox';
 import { WhiteboardService } from "src/app/whiteboard/services/whiteboard.service";
-import { RibbonTab } from "../ribbon/ribbon";
+import { RibbonTab } from "../../../../global/classes/ribbon/ribbon";
+import { WhiteboardSettingsService } from "src/app/whiteboard/services/whiteboard-settings.service";
 
 const inp = document.createElement('textarea');
 document.body.appendChild(inp);
@@ -49,7 +50,7 @@ export default abstract class AbstractTextMode extends WhiteboardMode {
         inp.focus();
     }
 
-    public override getExtraRibbons(whiteboardService: WhiteboardService, renderingContext: RenderingContext): RibbonTab[] {
+    public override getExtraRibbons(whiteboardService: WhiteboardService, settingService: WhiteboardSettingsService, renderingContext: RenderingContext): RibbonTab[] {
         return [];
     }
 }

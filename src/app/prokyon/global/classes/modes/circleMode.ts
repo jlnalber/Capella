@@ -4,11 +4,12 @@ import {DrawerService} from "../../../services/drawer.service";
 import CircleElement from "../canvas-elements/circleElement";
 import DynamicPointElement from "../canvas-elements/dynamicPointElement";
 import { GREY } from "src/app/global/interfaces/color";
+import { ProkyonSettingsService } from "src/app/prokyon/services/prokyon-settings.service";
 
 export default class CircleMode extends TwoElementsSelectMode<PointElement | DynamicPointElement, PointElement | DynamicPointElement> {
 
-  public constructor() {
-    super([PointElement, DynamicPointElement], [PointElement, DynamicPointElement]);
+  public constructor(settingsService: ProkyonSettingsService) {
+    super([PointElement, DynamicPointElement], [PointElement, DynamicPointElement], settingsService);
   }
 
 

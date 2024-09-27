@@ -14,11 +14,12 @@ import { SnackbarService } from 'src/app/global/snackbar/snackbar.service';
 import { DialogService } from 'src/app/global/dialog/dialog.service';
 import { ConfirmationDialogComponent } from 'src/app/global/dialog/confirmation-dialog/confirmation-dialog.component';
 import { BLACK, Color, DEEPBLUE } from 'src/app/global/interfaces/color';
-import { Ribbon, RibbonTab } from '../global/classes/ribbon/ribbon';
-import RibbonButton from '../global/classes/ribbon/ribbonButton';
-import RibbonPointerModeToggle from '../global/classes/ribbon/ribbonPointerModeToggle';
-import RibbonText from '../global/classes/ribbon/ribbonText';
-import RibbonToggle from '../global/classes/ribbon/ribbonToggle';
+import { Ribbon, RibbonTab } from '../../global/classes/ribbon/ribbon';
+import RibbonButton from '../../global/classes/ribbon/ribbonButton';
+import RibbonPointerModeToggle from '../../global/classes/ribbon/ribbonPointerModeToggle';
+import RibbonText from '../../global/classes/ribbon/ribbonText';
+import RibbonToggle from '../../global/classes/ribbon/ribbonToggle';
+import { WhiteboardSettingsService } from '../services/whiteboard-settings.service';
 
 @Component({
   selector: 'app-whiteboard',
@@ -27,7 +28,7 @@ import RibbonToggle from '../global/classes/ribbon/ribbonToggle';
 })
 export class WhiteboardComponent {
 
-  constructor(private readonly whiteboardService: WhiteboardService, private readonly snackBarService: SnackbarService, private readonly dialogService: DialogService) { }
+  constructor(private readonly whiteboardService: WhiteboardService, private readonly settingsService: WhiteboardSettingsService, private readonly snackBarService: SnackbarService, private readonly dialogService: DialogService) { }
 
   private getPointerActiveFunctionsForPointerToggle: (typechecker: (mode: WhiteboardMode) => boolean) => (() => Color | undefined)[] = (typechecker: (mode: WhiteboardMode) => boolean) => {
     const res: (() => Color | undefined)[] = [];
@@ -85,49 +86,49 @@ export class WhiteboardComponent {
                 if (this.whiteboardService.getModeForPointerType(p.pointerType as PointerType) instanceof TextMode) {
                   this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, undefined);
                 } else {
-                  this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, new TextMode());
+                  this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, new TextMode(this.settingsService));
                 }
               }, this.getPointerActiveFunctionsForPointerToggle(m => m instanceof TextMode)),
               new RibbonPointerModeToggle('Stift', 'pen', 'Male mit dem Stift', (p: PointerEvent) => {
                 if (this.whiteboardService.getModeForPointerType(p.pointerType as PointerType) instanceof PenMode) {
                   this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, undefined);
                 } else {
-                  this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, new PenMode());
+                  this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, new PenMode(this.settingsService));
                 }
               }, this.getPointerActiveFunctionsForPointerToggle(m => m instanceof PenMode)),
               new RibbonPointerModeToggle('Formen', 'pen', 'Füge Formen hinzu', (p: PointerEvent) => {
                 if (this.whiteboardService.getModeForPointerType(p.pointerType as PointerType) instanceof ShapeMode) {
                   this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, undefined);
                 } else {
-                  this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, new ShapeMode());
+                  this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, new ShapeMode(this.settingsService));
                 }
               }, this.getPointerActiveFunctionsForPointerToggle(m => m instanceof ShapeMode)), // TODO: dann auf einem Extra-Tab die Optionen
               new RibbonPointerModeToggle('Bewegen', 'moveWhiteboard', 'Bewege das Whiteboard', (p: PointerEvent) => {
                 if (this.whiteboardService.getModeForPointerType(p.pointerType as PointerType) instanceof MoveMode) {
                   this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, undefined);
                 } else {
-                  this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, new MoveMode());
+                  this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, new MoveMode(this.settingsService));
                 }
               }, this.getPointerActiveFunctionsForPointerToggle(m => m instanceof MoveMode)),
               new RibbonPointerModeToggle('Auswahl', 'pen', 'Wähle Elemente auf dem Whiteboard aus', (p: PointerEvent) => {
                 if (this.whiteboardService.getModeForPointerType(p.pointerType as PointerType) instanceof SelectionMode) {
                   this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, undefined);
                 } else {
-                  this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, new SelectionMode());
+                  this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, new SelectionMode(this.settingsService));
                 }
               }, this.getPointerActiveFunctionsForPointerToggle(m => m instanceof SelectionMode)),
               new RibbonPointerModeToggle('Löschen', 'pen', 'Lösche Elemente', (p: PointerEvent) => {
                 if (this.whiteboardService.getModeForPointerType(p.pointerType as PointerType) instanceof DeleteMode) {
                   this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, undefined);
                 } else {
-                  this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, new DeleteMode());
+                  this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, new DeleteMode(this.settingsService));
                 }
               }, this.getPointerActiveFunctionsForPointerToggle(m => m instanceof DeleteMode)),
               new RibbonPointerModeToggle('Radierer', 'eraser', 'Radiere den Stift', (p: PointerEvent) => {
                 if (this.whiteboardService.getModeForPointerType(p.pointerType as PointerType) instanceof EraseMode) {
                   this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, undefined);
                 } else {
-                  this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, new EraseMode());
+                  this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, new EraseMode(this.settingsService));
                 }
               }, this.getPointerActiveFunctionsForPointerToggle(m => m instanceof EraseMode))
             ]
@@ -214,7 +215,7 @@ export class WhiteboardComponent {
 
     const tempRibbonTabs: RibbonTab[] = [];
     for (let type of pointerTypes) {
-      tempRibbonTabs.push(...(this.whiteboardService.getModeForPointerType(type)?.getExtraRibbons(this.whiteboardService, this.whiteboardService.renderingContext) ?? []));
+      tempRibbonTabs.push(...(this.whiteboardService.getModeForPointerType(type)?.getExtraRibbons(this.whiteboardService, this.settingsService, this.whiteboardService.renderingContext) ?? []));
     }
 
     return {

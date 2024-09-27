@@ -15,6 +15,9 @@
         @else if (isPenPicker(content)) {
             <app-pen-picker class="content" [penPicker]="content"></app-pen-picker>
         }
+        @else if (isColorPicker(content)) {
+            <app-color-picker class="content" [colorPicker]="content"></app-color-picker>
+        }
         @else {
             <app-divider class="content" [divider]="this.getAsDivider(content)"></app-divider>
         }

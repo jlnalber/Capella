@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { RibbonTab } from '../../global/classes/ribbon/ribbon';
+import { RibbonTab } from '../../../global/classes/ribbon/ribbon';
 import { ContentViewerComponent } from "./content-viewer/content-viewer.component";
 
 @Component({

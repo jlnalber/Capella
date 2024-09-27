@@ -19,6 +19,7 @@ import MoveLabelsMode from "../global/classes/modes/moveLabelsMode";
 import AngleMode from '../global/classes/modes/angleMode';
 import ShapeMode from '../global/classes/modes/shapeMode';
 import { ProkyonMode } from '../global/classes/modes/prokyonMode';
+import { ProkyonSettingsService } from '../services/prokyon-settings.service';
 
 @Component({
   selector: 'app-geometry-tab',
@@ -27,7 +28,7 @@ import { ProkyonMode } from '../global/classes/modes/prokyonMode';
 })
 export class GeometryTabComponent implements OnInit {
 
-  constructor(private drawerService: DrawerService) {
+  constructor(private readonly drawerService: DrawerService, private readonly settingsService: ProkyonSettingsService) {
   }
 
   ngOnInit(): void {
@@ -38,19 +39,19 @@ export class GeometryTabComponent implements OnInit {
       name: 'Bewegungen und Sichtbarkeiten',
       modes: [
         new ModeElement<MoveMode>(() => this.drawerService, () => {
-          return new MoveMode();
+          return new MoveMode(this.settingsService);
         }, 'Bewegen', 'Bewege den Canvas und wähle Elemente aus', 'move'),
         new ModeElement<MovePointsMode>(() => this.drawerService, () => {
-          return new MovePointsMode();
+          return new MovePointsMode(this.settingsService);
         }, 'Verschieben', 'Verschiebe Punkte', 'movePoints'),
         new ModeElement<ChangeVisibilityMode>(() => this.drawerService, () => {
-          return new ChangeVisibilityMode();
+          return new ChangeVisibilityMode(this.settingsService);
         }, 'Anzeigen', 'Mache Elemente (un-)sichtbar', 'changeVisibility'),
         new ModeElement<ShowLabelVisibilityMode>(() => this.drawerService, () => {
-          return new ShowLabelVisibilityMode();
+          return new ShowLabelVisibilityMode(this.settingsService);
         }, 'Label anzeigen', 'Mache Labels (un-)sichtbar', 'showLabelVisibility'),
         new ModeElement<MoveLabelsMode>(() => this.drawerService, () => {
-          return new MoveLabelsMode();
+          return new MoveLabelsMode(this.settingsService);
         }, 'Label bewegen', 'Verschiebe Labels', 'moveLabels')
       ]
     },
@@ -58,19 +59,19 @@ export class GeometryTabComponent implements OnInit {
       name: 'Einfache Konstruktionen',
       modes: [
         new ModeElement<PointsMode>(() => this.drawerService, () => {
-          return new PointsMode();
+          return new PointsMode(this.settingsService);
         }, 'Punkte', 'Erstelle neue Punkte', 'points'),
         new ModeElement<LinesMode>(() => this.drawerService, () => {
-          return new LinesMode();
+          return new LinesMode(this.settingsService);
         }, 'Gerade', 'Erstelle eine neue Gerade mit zwei Punkten', 'line'),
         new ModeElement<LineSegmentsMode>(() => this.drawerService, () => {
-          return new LineSegmentsMode();
+          return new LineSegmentsMode(this.settingsService);
         }, 'Strecke', 'Erstelle eine neue Strecke zwischen zwei Punkten', 'lineSegment'),
         new ModeElement<CircleMode>(() => this.drawerService, () => {
-          return new CircleMode();
+          return new CircleMode(this.settingsService);
         }, 'Kreis', 'Erstelle einen neuen Kreis mit zwei Punkten', 'circle'),
         new ModeElement<ShapeMode>(() => this.drawerService, () => {
-          return new ShapeMode();
+          return new ShapeMode(this.settingsService);
         }, 'Polygon', 'Erstelle ein neues Polygon mit mindestens drei Punkten', 'polygon')
       ]
     },
@@ -78,28 +79,28 @@ export class GeometryTabComponent implements OnInit {
       name: 'Weiter Konstruktionen',
       modes: [
         new ModeElement<IntersectionMode>(() => this.drawerService, () => {
-          return new IntersectionMode();
+          return new IntersectionMode(this.settingsService);
         }, 'Schnittpunkt', 'Mache den Schnittpunkt zwischen Geraden, Strecken und Kreisen', 'intersection'),
         new ModeElement<MiddlePointMode>(() => this.drawerService, () => {
-          return new MiddlePointMode();
+          return new MiddlePointMode(this.settingsService);
         }, 'Mittelpunkt', 'Mache den Mittelpunkt einer Strecke oder zwischen zwei Punkten', 'middlePoint'),
         new ModeElement<BisectionMode>(() => this.drawerService, () => {
-          return new BisectionMode();
+          return new BisectionMode(this.settingsService);
         }, 'Mittelsenk.', 'Mache die Mittelsenkrechte einer Strecke oder zwischen zwei Punkten', 'bisection'),
         new ModeElement<AngleMode>(() => this.drawerService, () => {
-          return new AngleMode();
+          return new AngleMode(this.settingsService);
         }, 'Winkel', 'Lege einen Winkel durch drei Punkte', 'angle'),
         new ModeElement<AngleBisectorMode>(() => this.drawerService, () => {
-          return new AngleBisectorMode();
+          return new AngleBisectorMode(this.settingsService);
         }, 'Winkelhalb.', 'Mache die Winkelhalbierende von drei Punkten', 'angleBisector'),
         new ModeElement<ParallelMode>(() => this.drawerService, () => {
-          return new ParallelMode();
+          return new ParallelMode(this.settingsService);
         }, 'Parallel', 'Mache die Parallele zu einer Geraden durch einen Punkt', 'parallel'),
         new ModeElement<OrthogonalMode>(() => this.drawerService, () => {
-          return new OrthogonalMode();
+          return new OrthogonalMode(this.settingsService);
         }, 'Lot', 'Mache den Lot zu eine Geraden durch einen Punkt', 'orthogonal'),
         new ModeElement<TangensMode>(() => this.drawerService, () => {
-          return new TangensMode();
+          return new TangensMode(this.settingsService);
         }, 'Tangente', 'Mache die Tangente an einen Kreis durch einen Punkt', 'tangens')
       ]
     }

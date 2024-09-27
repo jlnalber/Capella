@@ -10,16 +10,16 @@
   font-size: 12pt;
   font-family: "Segoe UI", sans-serif;
   border-radius: var(--borderRadius);
-  background: white;
+  background: #fff7f2;
   transition: 0.1s all ease-in-out;
 }
 
 .element:hover {
-  background: #eee;
+  background: #efe7e2;
 }
 
 .element:active {
-  background: #ccc;
+  background: #cfc7c2;
 }
 
 .element.disabled {
@@ -27,11 +27,11 @@
 }
 
 .element.disabled:hover {
-  background: white;
+  background: #fff7f2;
 }
 
 .element.disabled:active {
-  background: white;
+  background: #fff7f2;
 }
 
 .element p {
@@ -52,11 +52,11 @@
 
 .wrapper {
   --borderRadius: 5px;
-  background: white;
+  background: #fff7f2;
   position: fixed;
   padding: 5px;
   border-radius: var(--borderRadius);
-  border: 1px solid #ccc;
+  border: 1px solid #dfd7d2;
   transform-origin: top left;
   animation: 0.1s start ease-in-out;
   z-index: 1;

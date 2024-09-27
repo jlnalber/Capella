@@ -17,9 +17,9 @@ import FillStyle from "src/app/global/interfaces/canvasStyles/fillStyle";
 export const PX_PER_MM = 5.2;
 
 export const BACKGROUND_COLOR: Color = {
-    r: 236,
+    r: 240,
     g: 237,
-    b: 240
+    b: 231
 }
 
 export default class Page {

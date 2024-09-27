@@ -1,7 +1,5 @@
-import { Injectable } from '@angular/core';
 import { DEFAULT_PENS, Pen } from '../global/interfaces/penStyle';
 import { BLACK, BLUE, Color, GREEN, GREY, RED, WHITE, YELLOW } from 'src/app/global/interfaces/color';
-import AbstractSettingsService from 'src/app/global/classes/abstract/abstractSettingsService';
 
 const ADD_COLORS_LOCALSTORAGE = 'ADD_COLORS_LOCSTOR';
 const ADD_COLORS_DEFAULT: Color[] = [];
@@ -18,14 +16,7 @@ const COLORS_DEFAULT: Color[] = [
 const ADD_PENS_LOCALSTORAGE = 'ADD_PENS_LOCSTOR';
 const ADD_PENS_DEFAULT: Pen[] = [];
 
-@Injectable({
-  providedIn: 'root'
-})
-export class WhiteboardSettingsService extends AbstractSettingsService {
-
-  constructor() {
-    super();
-  }
+export class WhiteboardSettings {
 
   private addPens: Pen[] | undefined;
 

@@ -4,11 +4,10 @@ import LineElement from "../canvas-elements/lineElement";
 import {DrawerService} from "../../../services/drawer.service";
 import LineSegmentElement from "../canvas-elements/lineSegmentElement";
 import DynamicPointElement from "../canvas-elements/dynamicPointElement";
-import { ProkyonSettingsService } from "src/app/prokyon/services/prokyon-settings.service";
 
 export default class OrthogonalMode extends TwoElementsSelectMode<PointElement | DynamicPointElement, LineElement | LineSegmentElement> {
-  constructor(settingsService: ProkyonSettingsService) {
-    super([PointElement, DynamicPointElement], [LineElement, LineSegmentElement], settingsService);
+  constructor() {
+    super([PointElement, DynamicPointElement], [LineElement, LineSegmentElement]);
   }
 
   protected addCanvasElement(drawerService: DrawerService, e1: PointElement, e2: LineElement | LineSegmentElement): void {

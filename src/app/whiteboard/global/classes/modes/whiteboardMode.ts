@@ -5,11 +5,10 @@ import { colors } from '../../../../global/styles/colors';
 import { WhiteboardService } from "src/app/whiteboard/services/whiteboard.service";
 import { Mode } from "src/app/global/classes/modes/mode";
 import { RibbonTab } from "../../../../global/classes/ribbon/ribbon";
-import { WhiteboardSettingsService } from "src/app/whiteboard/services/whiteboard-settings.service";
 
-export abstract class WhiteboardMode extends Mode<WhiteboardService, WhiteboardSettingsService> {
+export abstract class WhiteboardMode extends Mode<WhiteboardService> {
 
-  public getExtraRibbons(whiteboardService: WhiteboardService, settingService: WhiteboardSettingsService, renderingContext: RenderingContext): RibbonTab[] {
+  public getExtraRibbons(whiteboardService: WhiteboardService, renderingContext: RenderingContext): RibbonTab[] {
     return [];
   }
 

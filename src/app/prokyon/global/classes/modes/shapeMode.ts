@@ -2,7 +2,6 @@ import PointElement from "../canvas-elements/pointElement";
 import MultipleElementsSelectMode from "./multipleElementsSelectMode";
 import ShapeElement from "../canvas-elements/shapeElement";
 import { DrawerService } from "src/app/prokyon/services/drawer.service";
-import { ProkyonSettingsService } from "src/app/prokyon/services/prokyon-settings.service";
 
 export default class ShapeMode extends MultipleElementsSelectMode<PointElement> {
 
@@ -14,7 +13,7 @@ export default class ShapeMode extends MultipleElementsSelectMode<PointElement> 
         }, drawerService.getNewColor(), 'Polygon'))
     }
 
-    constructor(settingsService: ProkyonSettingsService) {
-        super([PointElement], settingsService, 3);
+    constructor() {
+        super([PointElement], 3);
     }
 }

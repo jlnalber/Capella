@@ -4,7 +4,6 @@ import { PointerContext } from "../../../../global/classes/pointerController";
 import { RenderingContext } from '../../../../global/classes/renderingContext';
 import { WhiteboardMode } from './whiteboardMode';
 import { RibbonTab } from "../../../../global/classes/ribbon/ribbon";
-import { WhiteboardSettingsService } from "src/app/whiteboard/services/whiteboard-settings.service";
 
 export class MoveMode extends WhiteboardMode {
 
@@ -17,7 +16,7 @@ export class MoveMode extends WhiteboardMode {
     whiteboardService.activePage.setSelection(point, !pointerContext.ctrlKey);
   }
 
-  public override getExtraRibbons(whiteboardService: WhiteboardService, settingService: WhiteboardSettingsService, renderingContext: RenderingContext): RibbonTab[] {
+  public override getExtraRibbons(whiteboardService: WhiteboardService, renderingContext: RenderingContext): RibbonTab[] {
     return [];
   }
 

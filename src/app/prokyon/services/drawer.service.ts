@@ -37,7 +37,6 @@ import { ProkyonMode } from '../global/classes/modes/prokyonMode';
 import { ProkyonCanvasElement } from '../global/classes/abstract/prokyonCanvasElement';
 import AbstractRenderingContext from 'src/app/global/classes/abstractRenderingContext';
 import { ProkyonCanvasConfig as CanvasConfig } from '../global/classes/prokyonCanvasConfig';
-import { ProkyonSettingsService } from './prokyon-settings.service';
 
 export type MJ = any;
 
@@ -58,7 +57,7 @@ const RECURSIVE_ERROR = 'Eine Funktion darf nicht auf sich selbst verweisen.'
 export class DrawerService extends AbstractDrawerService {
 
   // #region the properties of the canvas --> bgColor, elements in canvas, transformations and config
-  private _mode: ProkyonMode | undefined = new MoveMode(this.settingsService);
+  private _mode: ProkyonMode | undefined = new MoveMode();
 
   public get mode(): ProkyonMode | undefined {
     return this._mode;
@@ -281,7 +280,7 @@ export class DrawerService extends AbstractDrawerService {
     localStorage[STORAGE_CACHE] = JSON.stringify(this.serialize());
   }
 
-  constructor(private readonly settingsService: ProkyonSettingsService) {
+  constructor() {
     super();
 
     this.addMetaDrawer(new Grid());

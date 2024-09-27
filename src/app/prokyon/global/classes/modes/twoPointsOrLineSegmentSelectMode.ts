@@ -7,11 +7,10 @@ import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
 import { Point } from "src/app/global/interfaces/point";
 import { PointerContext } from "src/app/global/classes/pointerController";
 import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
-import { ProkyonSettingsService } from "src/app/prokyon/services/prokyon-settings.service";
 
 export default abstract class TwoPointsOrLineSegmentSelectMode extends TwoElementsSelectMode<PointElement | DynamicPointElement, PointElement | DynamicPointElement> {
-  public constructor(settingsService: ProkyonSettingsService) {
-    super([PointElement, DynamicPointElement], [PointElement, DynamicPointElement], settingsService);
+  public constructor() {
+    super([PointElement, DynamicPointElement], [PointElement, DynamicPointElement]);
   }
 
   protected abstract addCanvasElementFromLineSegment(drawerService: DrawerService, lineSegment: LineSegmentElement): void;

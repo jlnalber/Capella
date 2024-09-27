@@ -2,11 +2,10 @@ import { Component } from '@angular/core';
 import { WhiteboardService } from '../services/whiteboard.service';
 import RibbonPenPicker from '../../global/classes/ribbon/ribbonPenPicker';
 import { PenMode } from '../global/classes/modes/penMode';
-import { DEFAULT_PENS, Pen } from '../global/interfaces/penStyle';
+import { Pen } from '../global/interfaces/penStyle';
 import { BLACK, Color } from 'src/app/global/interfaces/color';
 import { WhiteboardMode } from '../global/classes/modes/whiteboardMode';
 import { PointerType } from 'src/app/global/classes/pointerController';
-import { WhiteboardSettingsService } from '../services/whiteboard-settings.service';
 import { PenPickerComponent } from 'src/app/global/style-components/pen-picker/pen-picker.component';
 
 @Component({
@@ -71,8 +70,8 @@ export class QuickActionsComponent {
     }
   }
 
-  public penPicker: RibbonPenPicker = new RibbonPenPicker(this.settingsService, this.getColors, this.setPenStyle);
+  public penPicker: RibbonPenPicker = new RibbonPenPicker(this.whiteboardService.settings, this.getColors, this.setPenStyle);
    
 
-  constructor(private readonly whiteboardService: WhiteboardService, private readonly settingsService: WhiteboardSettingsService) { }
+  constructor(private readonly whiteboardService: WhiteboardService) { }
 }

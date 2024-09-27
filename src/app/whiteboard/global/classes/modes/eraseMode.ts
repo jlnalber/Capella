@@ -4,7 +4,6 @@ import { RenderingContext } from '../../../../global/classes/renderingContext';
 import { WhiteboardMode } from './whiteboardMode';
 import { WhiteboardService } from "src/app/whiteboard/services/whiteboard.service";
 import { RibbonTab } from "../../../../global/classes/ribbon/ribbon";
-import { WhiteboardSettingsService } from "src/app/whiteboard/services/whiteboard-settings.service";
 
 export class EraseMode extends WhiteboardMode {
 
@@ -16,7 +15,7 @@ export class EraseMode extends WhiteboardMode {
     throw 'impl'
   }
 
-  public override getExtraRibbons(whiteboardService: WhiteboardService, settingService: WhiteboardSettingsService, renderingContext: RenderingContext): RibbonTab[] {
+  public override getExtraRibbons(whiteboardService: WhiteboardService, renderingContext: RenderingContext): RibbonTab[] {
     return [];
   }
 

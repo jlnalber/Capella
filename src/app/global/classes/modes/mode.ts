@@ -2,11 +2,10 @@ import { Point } from "src/app/global/interfaces/point";
 import AbstractDrawerService from "../abstract/abstractDrawerService";
 import { PointerContext } from "../pointerController";
 import AbstractRenderingContext from "../abstractRenderingContext";
-import AbstractSettingsService from "../abstract/abstractSettingsService";
 
-export abstract class Mode<T extends AbstractDrawerService, S extends AbstractSettingsService> {
+export abstract class Mode<T extends AbstractDrawerService> {
 
-  constructor(protected readonly settingsService: S) { }
+  constructor() { }
 
   public abstract pointerMove(service: T, renderingContext: AbstractRenderingContext, from: Point, to: Point, pointerContext: PointerContext): void;
 

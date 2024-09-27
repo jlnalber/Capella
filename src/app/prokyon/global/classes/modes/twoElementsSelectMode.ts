@@ -4,12 +4,11 @@ import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
 import { Point } from "src/app/global/interfaces/point";
 import { PointerContext } from "src/app/global/classes/pointerController";
 import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
-import { ProkyonSettingsService } from "src/app/prokyon/services/prokyon-settings.service";
 
 export default abstract class TwoElementsSelectMode<T1 extends ProkyonCanvasElement, T2 extends ProkyonCanvasElement> extends MoveMode {
 
-  protected constructor(private types1: Constructor<T1>[], private types2: Constructor<T2>[], settingsService: ProkyonSettingsService) {
-    super(settingsService);
+  protected constructor(private types1: Constructor<T1>[], private types2: Constructor<T2>[]) {
+    super();
   }
 
   protected selectedElement: T1 | T2 | undefined;

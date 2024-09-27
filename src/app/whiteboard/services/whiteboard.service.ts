@@ -8,6 +8,7 @@ import { CanvasIdElement } from '../../global/classes/abstract/canvasIdElement';
 import { PointerType } from '../../global/classes/pointerController';
 import Page from './page';
 import AbstractDrawerService from 'src/app/global/classes/abstract/abstractDrawerService';
+import { WhiteboardSettings } from './whiteboard-settings';
 
 
 export const STORAGE_CACHE = 'serialized_whiteboard'
@@ -145,6 +146,8 @@ export class WhiteboardService extends AbstractDrawerService {
   private saveListener = () => {
     // localStorage[STORAGE_CACHE] = JSON.stringify(this.serialize()); TODO: implement
   }
+
+  public readonly settings = new WhiteboardSettings();
 
   constructor() {
     super();

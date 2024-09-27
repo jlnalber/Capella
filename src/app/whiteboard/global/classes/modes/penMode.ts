@@ -8,13 +8,12 @@ import { WhiteboardService } from "src/app/whiteboard/services/whiteboard.servic
 import { RibbonTab } from "../../../../global/classes/ribbon/ribbon";
 import { DEFAULT_PENS, getPenStyleOfPen, Pen, PenStyle } from "../../interfaces/penStyle";
 import RibbonColorPicker from "src/app/global/classes/ribbon/ribbonColorPicker";
-import { WhiteboardSettingsService } from "src/app/whiteboard/services/whiteboard-settings.service";
 
 export class PenMode extends WhiteboardMode {
   private penElement: PenElement | undefined;
 
   public override pointerStart(whiteboardService: WhiteboardService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext): void {
-    this.penElement = new PenElement(this.getStyleOfPen());
+    this.penElement = new PenElement(this.getStyleOfPen(whiteboardService));
     this.penElement.addPoint({
       ...point,
       size: 1
@@ -44,7 +43,7 @@ export class PenMode extends WhiteboardMode {
   }
 
   public click(whiteboardService: WhiteboardService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext): void {
-    this.penElement = new PenElement(this.getStyleOfPen());
+    this.penElement = new PenElement(this.getStyleOfPen(whiteboardService));
     this.penElement.addPoint({
       ...point,
       size: 1
@@ -53,20 +52,20 @@ export class PenMode extends WhiteboardMode {
     this.penElement = undefined;
   }
 
-  private getStyleOfPen(): PenStyle {
-    return getPenStyleOfPen(this.pen, this.settingsService.getPens());
+  private getStyleOfPen(whiteboardService: WhiteboardService): PenStyle {
+    return getPenStyleOfPen(this.pen, whiteboardService.settings.getPens());
   }
 
   public pen: Pen = DEFAULT_PENS[0];
 
-  public override getExtraRibbons(whiteboardService: WhiteboardService, settingService: WhiteboardSettingsService, renderingContext: RenderingContext): RibbonTab[] {
+  public override getExtraRibbons(whiteboardService: WhiteboardService, renderingContext: RenderingContext): RibbonTab[] {
     const colors = this.getColorsForExtraRibbons(whiteboardService) ?? [BLACK, BLACK];
     return [{
       name: 'Stift',
       color: colors[0],
       underlineColor: colors[1],
       content: [
-        new RibbonColorPicker(settingService.getColors(), () => this.pen.color, (c: Color) => this.pen.color = c, () => false)
+        new RibbonColorPicker(whiteboardService.settings.getColors(), () => this.pen.color, (c: Color) => this.pen.color = c, () => false)
       ]
     }];
   }

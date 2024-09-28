@@ -1,7 +1,7 @@
 import { PenStyle } from './../../interfaces/penStyle';
 import { Point } from "src/app/global/interfaces/point";
 import { WhiteboardCanvasTransformableElement } from "../abstract/whiteboardCanvasTransformableElement";
-import AbstractRenderingContext from "../../../../global/classes/abstractRenderingContext";
+import AbstractRenderingContext from "../../../../global/classes/renderingContext/abstractRenderingContext";
 
 export type PenPoint = Point & {
     size: number
@@ -33,7 +33,12 @@ export default class PenElement extends WhiteboardCanvasTransformableElement {
     }
 
     public override draw(ctx: AbstractRenderingContext): void {
-        ctx.drawQuadraticPath(this._points, this._penStyle.strokeStyle, this._penStyle.objectStyle);
+        if (this._penStyle.useSizes) {
+            ctx.drawQuadraticPath(this._points, this._penStyle.strokeStyle, this._penStyle.objectStyle);
+        }
+        else {
+            ctx.drawContinousQuadraticPath(this._points, this._penStyle.strokeStyle, undefined, this._penStyle.objectStyle);
+        }
     }
 
 }

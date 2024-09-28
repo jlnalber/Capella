@@ -2,7 +2,7 @@ import {ProkyonMode} from "./prokyonMode";
 import { DrawerService } from "src/app/prokyon/services/drawer.service";
 import { Point } from "src/app/global/interfaces/point";
 import { PointerContext } from "src/app/global/classes/pointerController";
-import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import AbstractRenderingContext from "src/app/global/classes/renderingContext/abstractRenderingContext";
 
 export default class MoveMode extends ProkyonMode {
 

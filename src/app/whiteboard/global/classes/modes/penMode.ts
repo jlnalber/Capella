@@ -1,6 +1,6 @@
 import { Point } from "src/app/global/interfaces/point";
 import { PointerContext } from "../../../../global/classes/pointerController";
-import { RenderingContext } from '../../../../global/classes/renderingContext';
+import { RenderingContext } from '../../../../global/classes/renderingContext/renderingContext';
 import { WhiteboardMode } from './whiteboardMode';
 import PenElement from '../canvas-elements/penElement';
 import { BLACK, Color } from 'src/app/global/interfaces/color';

@@ -14,7 +14,7 @@ import {
 import LineSegmentElement from "./lineSegmentElement";
 import CircleElement from "./circleElement";
 import { areEqualPoints, correctRect, getRegularLineDash, isInRange } from "src/app/global/essentials/utils";
-import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import AbstractRenderingContext from "src/app/global/classes/renderingContext/abstractRenderingContext";
 import { Point } from "src/app/global/interfaces/point";
 import { Color, colorAsTransparent, GREY } from "src/app/global/interfaces/color";
 import { Rect } from "src/app/global/interfaces/rect";

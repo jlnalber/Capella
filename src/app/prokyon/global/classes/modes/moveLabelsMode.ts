@@ -2,7 +2,7 @@ import MoveMode from "./moveMode";
 import {DrawerService} from "../../../services/drawer.service";
 import { Point } from "src/app/global/interfaces/point";
 import { PointerContext } from "src/app/global/classes/pointerController";
-import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import AbstractRenderingContext from "src/app/global/classes/renderingContext/abstractRenderingContext";
 
 export default class MoveLabelsMode extends MoveMode {
 

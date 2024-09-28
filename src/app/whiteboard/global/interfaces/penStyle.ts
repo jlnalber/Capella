@@ -61,7 +61,8 @@ export const DEFAULT_PENS: Pen[] = [{
     penStyle: {
         strokeStyle: {
             lineCap: 'round'
-        }
+        },
+        useSizes: true
     },
     color: DEEPBLUE,
     lineWidth: 3,
@@ -71,7 +72,8 @@ export const DEFAULT_PENS: Pen[] = [{
     penStyle: {
         strokeStyle: {
             lineCap: 'round'
-        }
+        },
+        useSizes: true
     },
     color: BLACK,
     lineWidth: 2,

@@ -21,17 +21,17 @@ import {Transformations} from "src/app/global/interfaces/transformations";
 import {Point} from "src/app/global/interfaces/point";
 import {Rect} from "src/app/global/interfaces/rect";
 import {Color, getColorAsRgbaFunction} from "src/app/global/interfaces/color";
-import {CanvasIdElement} from "./abstract/canvasIdElement";
-import AbstractRenderingContext, { SizePoint } from "./abstractRenderingContext";
+import {CanvasIdElement} from "../abstract/canvasIdElement";
+import AbstractRenderingContext, { CanvasConfig, SizePoint } from "./abstractRenderingContext";
 import { EMPTY_STROKESTYLE, StrokeStyle } from "src/app/global/interfaces/canvasStyles/strokeStyle";
 import { DEFAULT_SHADOW, Shadow } from "src/app/global/interfaces/canvasStyles/styleTypes";
 import FillStyle, { EMPTY_FILLSTYLE } from "src/app/global/interfaces/canvasStyles/fillStyle";
 import ObjectStyle, { EMPTY_OBJECTSTYLE } from "src/app/global/interfaces/canvasStyles/objectStyle";
 import TextStyle, { EMPTY_TEXTSTYLE } from "src/app/global/interfaces/canvasStyles/textStyle";
 import ImageStyle, { EMPTY_IMAGESTYLE } from 'src/app/global/interfaces/canvasStyles/imageStyle';
-import { DEFAULT_FILTERS, filterToCssFunctionString } from '../interfaces/canvasStyles/filterTypes';
-import { measurementToString } from '../interfaces/canvasStyles/unitTypes';
-import { ColorStyle, instanceOfColor, instanceOfLinearGradient, instanceOfPattern, instanceOfRadialGradient } from '../interfaces/canvasStyles/colorStyle';
+import { DEFAULT_FILTERS, filterToCssFunctionString } from '../../interfaces/canvasStyles/filterTypes';
+import { measurementToString } from '../../interfaces/canvasStyles/unitTypes';
+import { ColorStyle, instanceOfColor, instanceOfLinearGradient, instanceOfPattern, instanceOfRadialGradient } from '../../interfaces/canvasStyles/colorStyle';
 
 let noise: CanvasPattern | undefined = undefined;
 
@@ -48,11 +48,12 @@ export class RenderingContext extends AbstractRenderingContext {
   constructor (private readonly ctx: CanvasRenderingContext2D,
                transformations: Transformations,
                selection: CanvasIdElement[],
+               canvasConfig?: CanvasConfig,
                getRightColor: (c: Color, config: any) => Color = (c: Color) => c,
                _variables?: any,
                config?: any
               /* public readonly config?: Config */) {
-    super(transformations, selection, getRightColor, _variables, config);
+    super(transformations, selection, canvasConfig, getRightColor, _variables, config);
   }
 
   public get width(): number {
@@ -102,10 +103,19 @@ export class RenderingContext extends AbstractRenderingContext {
     }
   }
 
+  private strokeStyleSet: boolean = true;
   private useStrokeStyle(strokeStyle?: StrokeStyle) {
     if (strokeStyle === undefined) {
-      this.useStrokeStyle(EMPTY_STROKESTYLE);
-      return;
+      if (!this.strokeStyleSet && !this.canvasConfig?.alwaysSetStyles) {
+        return;
+      }
+      else {
+        strokeStyle = EMPTY_STROKESTYLE;
+        this.strokeStyleSet = false;
+      }
+    }
+    else {
+      this.strokeStyleSet = true;
     }
 
     const resFactor = this.resolutionFactor;
@@ -146,10 +156,19 @@ export class RenderingContext extends AbstractRenderingContext {
     this.ctx.lineCap = strokeStyle.lineCap ?? DEFAULT_LINECAP;
   }
 
+  private fillStyleSet: boolean = false;
   private useFillStyle(fillStyle?: FillStyle) {
     if (fillStyle === undefined) {
-      this.useFillStyle(EMPTY_FILLSTYLE);
-      return;
+      if (!this.fillStyleSet && !this.canvasConfig?.alwaysSetStyles) {
+        return;
+      }
+      else {
+        fillStyle = EMPTY_FILLSTYLE;
+        this.fillStyleSet = false;
+      }
+    }
+    else {
+      this.fillStyleSet = true;
     }
 
     // color
@@ -159,10 +178,19 @@ export class RenderingContext extends AbstractRenderingContext {
     }
   }
 
+  private objectStyleSet: boolean = false;
   private useObjectStyle(objectStyle?: ObjectStyle) {
     if (objectStyle === undefined) {
-      this.useObjectStyle(EMPTY_OBJECTSTYLE);
-      return;
+      if (!this.objectStyleSet && !this.canvasConfig?.alwaysSetStyles) {
+        return;
+      }
+      else {
+        objectStyle = EMPTY_OBJECTSTYLE;
+        this.objectStyleSet = false;
+      }
+    }
+    else {
+      this.objectStyleSet = true;
     }
 
     const resFactor = this.resolutionFactor;
@@ -193,10 +221,19 @@ export class RenderingContext extends AbstractRenderingContext {
 
   }
 
+  private textStyleSet: boolean = false;
   private useTextStyle(textStyle?: TextStyle) {
     if (textStyle === undefined) {
-      this.useTextStyle(EMPTY_TEXTSTYLE);
-      return;
+      if (!this.textStyleSet && !this.canvasConfig?.alwaysSetStyles) {
+        return;
+      }
+      else {
+        textStyle = EMPTY_TEXTSTYLE;
+        this.textStyleSet = false;
+      }
+    }
+    else {
+      this.textStyleSet = true;
     }
 
     const resFactor = this.resolutionFactor;
@@ -246,10 +283,19 @@ export class RenderingContext extends AbstractRenderingContext {
     this.ctx.wordSpacing = measurementToString(textStyle.wordSpacing ?? DEFAULT_WORDSPACING, resFactor, zoom, textStyle.uniformSizeOnZoom);
   }
 
+  private imageStyleSet: boolean = false;
   private useImageStyle(imageStyle?: ImageStyle) {
     if (imageStyle === undefined) {
-      this.useImageStyle(EMPTY_IMAGESTYLE);
-      return;
+      if (!this.imageStyleSet && !this.canvasConfig?.alwaysSetStyles) {
+        return;
+      }
+      else {
+        imageStyle = EMPTY_IMAGESTYLE;
+        this.imageStyleSet = false;
+      }
+    }
+    else {
+      this.imageStyleSet = true;
     }
 
     this.ctx.imageSmoothingEnabled = imageStyle.imageSmoothingEnabled ?? DEFAULT_IMAGESMOOTHINGENABLED;
@@ -257,7 +303,7 @@ export class RenderingContext extends AbstractRenderingContext {
   }
 
   public drawPath(points: Point[], strokeStyle: StrokeStyle, fill?: FillStyle, objectStyle?: ObjectStyle): void {
-    let realPoints = points.map(p => {
+    const realPoints = points.map(p => {
       return this.transformPointFromFieldToCanvasWithResolutionFactor(p);
     });
 
@@ -271,7 +317,7 @@ export class RenderingContext extends AbstractRenderingContext {
     this.useObjectStyle(objectStyle);
     this.useFillStyle(fill);
 
-    if (realPoints.length != 0) {
+    if (realPoints.length !== 0) {
       let firstP = realPoints[0];
       this.ctx.moveTo(firstP.x, firstP.y);
 
@@ -290,55 +336,18 @@ export class RenderingContext extends AbstractRenderingContext {
     }
   }
 
-  public drawQuadraticPath(points: SizePoint[], stroke: StrokeStyle, objectStyle?: ObjectStyle): void {
-    const realPoints: SizePoint[] = points.map(p => {
-      return {
-        ...this.transformPointFromFieldToCanvasWithResolutionFactor(p),
-        size: p.size
-      }
+  public drawContinousQuadraticPath(points: Point[], stroke: StrokeStyle, fill?: FillStyle, objectStyle?: ObjectStyle): void {
+    const realPoints = points.map(p => {
+      return this.transformPointFromFieldToCanvasWithResolutionFactor(p);
     });
 
-    /*for (let p of realPoints) {
-      this.ctx.fillStyle = getColorAsRgbaFunction(stroke);
-      this.ctx.fillRect(p.x, p.y, lineWidth, lineWidth);
-    }*/
     this.useStrokeStyle(stroke);
+    this.useFillStyle(fill);
     this.useObjectStyle(objectStyle);
 
-    function createNoisePattern(): CanvasPattern {
-      if (!noise) {
-        const width = 100;
-        const height = 100;
-        const noiseCanvas = document.createElement('canvas');
-        noiseCanvas.width = width;
-        noiseCanvas.height = height;
-        const noiseCtx = noiseCanvas.getContext('2d') as CanvasRenderingContext2D;
-    
-        if (noiseCtx) {
-            const imageData = noiseCtx.createImageData(width, height);
-            const data = imageData.data;
-    
-            for (let i = 0; i < data.length; i += 4) {
-                const gray = Math.sqrt(Math.random()) * 255;
-                data[i] = gray;
-                data[i + 1] = gray;
-                data[i + 2] = gray;
-                data[i + 3] = 255;
-            }
-    
-            noiseCtx.putImageData(imageData, 0, 0);
-          }
-        noise = noiseCtx.createPattern(noiseCanvas, 'repeat')!;
-      }
-      return noise;
-  
-    }
-  
-
-
-    if (realPoints.length != 0) {
+    if (realPoints.length !== 0) {
       
-      this.ctx.lineCap = 'round'
+      // this.ctx.lineCap = 'round'
       
       this.ctx.beginPath();
       
@@ -354,9 +363,68 @@ export class RenderingContext extends AbstractRenderingContext {
           const dx = (point.x + nextP.x) / 2;
           const dy = (point.y + nextP.y) / 2;
 
-          const newStrokeStyle = {...stroke};
-          newStrokeStyle.lineWidth = stroke.lineWidth * point.size
-          this.useStrokeStyle(newStrokeStyle);
+          this.ctx.quadraticCurveTo(point.x, point.y, dx, dy);
+          
+          // begin the new path
+          // this.ctx.beginPath();
+          // this.ctx.moveTo(dx, dy);
+        }
+      }
+
+      const lastP = realPoints[realPoints.length - 1];
+      this.ctx.lineTo(lastP.x, lastP.y);
+
+      //this.ctx.strokeStyle = createNoisePattern()
+  
+      this.ctx.stroke();
+
+    }
+  }
+
+  public drawQuadraticPath(points: SizePoint[], stroke: StrokeStyle, objectStyle?: ObjectStyle): void {
+    const realPoints: SizePoint[] = points.map(p => {
+      return {
+        ...this.transformPointFromFieldToCanvasWithResolutionFactor(p),
+        size: p.size
+      }
+    });
+
+    /*for (let p of realPoints) {
+      this.ctx.fillStyle = getColorAsRgbaFunction(stroke);
+      this.ctx.fillRect(p.x, p.y, lineWidth, lineWidth);
+    }*/
+    const zoom = this.zoom;
+
+    this.useStrokeStyle(stroke);
+    this.useObjectStyle(objectStyle);
+
+    if (realPoints.length !== 0) {
+      
+      // this.ctx.lineCap = 'round'
+      
+      this.ctx.beginPath();
+      
+      let firstP = realPoints[0];
+      this.ctx.moveTo(firstP.x, firstP.y);
+      
+      for (let i = 1; i < realPoints.length - 1; i++) {
+        const point = realPoints[i];
+        const correct = realPoints.length < 2 || Math.sqrt((point.x - realPoints[realPoints.length - 1].x) ** 2 + (point.y - realPoints[realPoints.length - 1].y) ** 2) > 1;
+        if (correct) {
+  
+          const nextP = realPoints[i + 1];
+          const dx = (point.x + nextP.x) / 2;
+          const dy = (point.y + nextP.y) / 2;
+
+
+          this.ctx.lineWidth = stroke.lineWidth * point.size;
+          if (!stroke.uniformSizeOnZoom) {
+            this.ctx.lineWidth *= zoom;
+          }
+          // const newStrokeStyle = {...stroke};
+          // newStrokeStyle.lineWidth = stroke.lineWidth * point.size
+          // this.useStrokeStyle(newStrokeStyle);
+
           this.ctx.quadraticCurveTo(point.x, point.y, dx, dy);
           this.ctx.stroke();
 

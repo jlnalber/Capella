@@ -9,7 +9,7 @@ import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
 import { Rect } from "src/app/global/interfaces/rect";
 import { BLACK, Color, colorAsTransparent, TRANSPARENT } from "src/app/global/interfaces/color";
 import { correctRect, correctRectTo, getDistanceToRect } from "src/app/global/essentials/utils";
-import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import AbstractRenderingContext from "src/app/global/classes/renderingContext/abstractRenderingContext";
 import { Point } from "src/app/global/interfaces/point";
 
 type Data = {

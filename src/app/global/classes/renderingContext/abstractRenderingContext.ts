@@ -1,9 +1,9 @@
-import {Transformations} from "src/app/global/interfaces/transformations";
-import {Point} from "src/app/global/interfaces/point";
-import {Rect} from "src/app/global/interfaces/rect";
-import {Color} from "src/app/global/interfaces/color";
-import {CanvasIdElement} from "./abstract/canvasIdElement";
-import {StrokeStyle} from "src/app/global/interfaces/canvasStyles/strokeStyle";
+import { Transformations } from "src/app/global/interfaces/transformations";
+import { Point } from "src/app/global/interfaces/point";
+import { Rect } from "src/app/global/interfaces/rect";
+import { Color } from "src/app/global/interfaces/color";
+import { CanvasIdElement } from "../abstract/canvasIdElement";
+import { StrokeStyle } from "src/app/global/interfaces/canvasStyles/strokeStyle";
 import FillStyle from "src/app/global/interfaces/canvasStyles/fillStyle";
 import ObjectStyle from "src/app/global/interfaces/canvasStyles/objectStyle";
 import TextStyle from "src/app/global/interfaces/canvasStyles/textStyle";
@@ -24,14 +24,19 @@ export type SizePoint = Point & {
   size: number
 }
 
-export default abstract class AbstractRenderingContext {
-  constructor (protected readonly transformations: Transformations,
-               public readonly selection: CanvasIdElement[],
-               protected readonly getRightColor: (c: Color, config: any) => Color = (c: Color) => c,
-               protected readonly _variables?: any,
-               public readonly config?: any) { }
+export interface CanvasConfig {
+  alwaysSetStyles?: boolean
+}
 
-               
+export default abstract class AbstractRenderingContext {
+  constructor(protected readonly transformations: Transformations,
+    public readonly selection: CanvasIdElement[],
+    protected readonly canvasConfig?: CanvasConfig,
+    protected readonly getRightColor: (c: Color, config: any) => Color = (c: Color) => c,
+    protected readonly _variables?: any,
+    public readonly config?: any) { }
+
+
   public get variables(): any {
     return { ... this._variables };
   }
@@ -136,60 +141,62 @@ export default abstract class AbstractRenderingContext {
   }
 
   public abstract drawPath(points: Point[], strokeStyle: StrokeStyle, fill?: FillStyle, objectStyle?: ObjectStyle): void;
+  
+  public abstract drawContinousQuadraticPath(points: Point[], stroke: StrokeStyle, fill?: FillStyle, objectStyle?: ObjectStyle): void;
 
   public abstract drawQuadraticPath(points: SizePoint[], strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void;
 
   public drawLine(from: Point, to: Point, strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void {
-    this.drawPath([ from, to ], strokeStyle, undefined, objectStyle);
+    this.drawPath([from, to], strokeStyle, undefined, objectStyle);
   }
 
   public abstract drawText(text: string, p: Point,
-                  textStyle: TextStyle,
-                  strokeStyle?: StrokeStyle,
-                  fillStyle?: FillStyle,
-                  objectStyle?: ObjectStyle): void;
+    textStyle: TextStyle,
+    strokeStyle?: StrokeStyle,
+    fillStyle?: FillStyle,
+    objectStyle?: ObjectStyle): void;
 
   public abstract measureText(text: string,
-                  textStyle: TextStyle): TextMetrics;
+    textStyle: TextStyle): TextMetrics;
 
   public abstract drawEllipse(center: Point,
-                     radiusX: number,
-                     radiusY: number,
-                     rotation: number,
-                     useUniformSize: boolean,
-                     fill?: FillStyle,
-                     strokeStyle?: StrokeStyle,
-                     objectStyle?: ObjectStyle): void;
+    radiusX: number,
+    radiusY: number,
+    rotation: number,
+    useUniformSize: boolean,
+    fill?: FillStyle,
+    strokeStyle?: StrokeStyle,
+    objectStyle?: ObjectStyle): void;
 
   public drawCircle(center: Point,
-                    radius: number,
-                    useUniformSize: boolean,
-                    fill?: FillStyle,
-                    strokeStyle?: StrokeStyle,
-                    objectStyle?: ObjectStyle): void {
+    radius: number,
+    useUniformSize: boolean,
+    fill?: FillStyle,
+    strokeStyle?: StrokeStyle,
+    objectStyle?: ObjectStyle): void {
     this.drawEllipse(center, radius, radius, 0, useUniformSize, fill, strokeStyle, objectStyle);
   }
 
   public abstract drawCircleSector(center: Point,
-                    radius: number,
-                    startAngle: number,
-                    endAngle: number,
-                    useUniformSize: boolean,
-                    fillStyle?: FillStyle,
-                    stroke?: StrokeStyle,
-                    objectStyle?: ObjectStyle): void;
+    radius: number,
+    startAngle: number,
+    endAngle: number,
+    useUniformSize: boolean,
+    fillStyle?: FillStyle,
+    stroke?: StrokeStyle,
+    objectStyle?: ObjectStyle): void;
 
   public abstract drawRect(rect: Rect,
-                    useUniformSize: boolean,
-                    fillStyle?: FillStyle,
-                    strokeStyle?: StrokeStyle,
-                    objectStyle?: ObjectStyle): void;
+    useUniformSize: boolean,
+    fillStyle?: FillStyle,
+    strokeStyle?: StrokeStyle,
+    objectStyle?: ObjectStyle): void;
 
   public abstract drawImage(image: CanvasImageSource,
-                    p: Point,
-                    dw: number,
-                    dh: number,
-                    useUniformSize: boolean,
-                    imageStyle?: ImageStyle,
-                    objectStyle?: ObjectStyle): void;
+    p: Point,
+    dw: number,
+    dh: number,
+    useUniformSize: boolean,
+    imageStyle?: ImageStyle,
+    objectStyle?: ObjectStyle): void;
 }

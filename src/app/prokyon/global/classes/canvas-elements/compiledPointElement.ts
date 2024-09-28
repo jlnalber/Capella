@@ -9,7 +9,7 @@ import {CanvasElementSerialized} from "../../essentials/serializer";
 import {DrawerService} from "../../../services/drawer.service";
 import { BLACK, Color } from "src/app/global/interfaces/color";
 import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
-import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import AbstractRenderingContext from "src/app/global/classes/renderingContext/abstractRenderingContext";
 import { Point } from "src/app/global/interfaces/point";
 
 export type ParseAndValidateProvider = (str: string) => Operation | string;

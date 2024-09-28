@@ -9,7 +9,7 @@ import {LINE_WIDTH_SELECTED_RATIO, TRANSPARENCY_RATIO} from "./graph";
 import {ViewCurveElementComponent} from "../../../formula-dialogs/view-curve-element/view-curve-element.component";
 import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
 import { BLACK, Color, colorAsTransparent, TRANSPARENT } from "src/app/global/interfaces/color";
-import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import AbstractRenderingContext from "src/app/global/classes/renderingContext/abstractRenderingContext";
 import { Point } from "src/app/global/interfaces/point";
 import { getDistance, getRegularLineDash } from "src/app/global/essentials/utils";
 

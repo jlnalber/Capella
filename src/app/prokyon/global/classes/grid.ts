@@ -1,5 +1,5 @@
 import { CanvasDrawer } from "src/app/global/classes/abstract/canvasDrawer";
-import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import AbstractRenderingContext from "src/app/global/classes/renderingContext/abstractRenderingContext";
 import { clamp, correctRect } from "src/app/global/essentials/utils";
 import { BLACK, Color } from "src/app/global/interfaces/color";
 import { Point } from "src/app/global/interfaces/point";

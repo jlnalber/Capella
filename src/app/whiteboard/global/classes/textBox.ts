@@ -1,6 +1,6 @@
 import { Point } from "src/app/global/interfaces/point";
 import { Rect } from "src/app/global/interfaces/rect";
-import AbstractRenderingContext from "../../../global/classes/abstractRenderingContext";
+import AbstractRenderingContext from "../../../global/classes/renderingContext/abstractRenderingContext";
 import { Line, Paragraph, Span } from "./textElements";
 import { BLACK } from "src/app/global/interfaces/color";
 import Padding from "src/app/global/interfaces/padding";

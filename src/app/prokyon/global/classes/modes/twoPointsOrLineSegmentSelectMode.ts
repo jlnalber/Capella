@@ -6,7 +6,7 @@ import DynamicPointElement from "../canvas-elements/dynamicPointElement";
 import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
 import { Point } from "src/app/global/interfaces/point";
 import { PointerContext } from "src/app/global/classes/pointerController";
-import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import AbstractRenderingContext from "src/app/global/classes/renderingContext/abstractRenderingContext";
 
 export default abstract class TwoPointsOrLineSegmentSelectMode extends TwoElementsSelectMode<PointElement | DynamicPointElement, PointElement | DynamicPointElement> {
   public constructor() {

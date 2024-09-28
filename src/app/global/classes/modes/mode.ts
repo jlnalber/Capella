@@ -1,7 +1,7 @@
 import { Point } from "src/app/global/interfaces/point";
 import AbstractDrawerService from "../abstract/abstractDrawerService";
 import { PointerContext } from "../pointerController";
-import AbstractRenderingContext from "../abstractRenderingContext";
+import AbstractRenderingContext from "../renderingContext/abstractRenderingContext";
 
 export abstract class Mode<T extends AbstractDrawerService> {
 

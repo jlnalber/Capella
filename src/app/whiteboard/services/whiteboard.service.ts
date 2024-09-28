@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { Transformations } from 'src/app/global/interfaces/transformations';
 import { Event } from '../../global/essentials/event';
 import { Point } from 'src/app/global/interfaces/point';
-import { RenderingContext } from '../../global/classes/renderingContext';
+import { RenderingContext } from '../../global/classes/renderingContext/renderingContext';
 import { WhiteboardMode } from '../global/classes/modes/whiteboardMode';
 import { CanvasIdElement } from '../../global/classes/abstract/canvasIdElement';
 import { PointerType } from '../../global/classes/pointerController';
 import Page from './page';
 import AbstractDrawerService from 'src/app/global/classes/abstract/abstractDrawerService';
-import { WhiteboardSettings } from './whiteboard-settings';
+import { WhiteboardSettings } from './whiteboardSettings';
 
 
 export const STORAGE_CACHE = 'serialized_whiteboard'

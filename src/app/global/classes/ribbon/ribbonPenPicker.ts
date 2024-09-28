@@ -1,7 +1,7 @@
 import { Color } from "src/app/global/interfaces/color";
 import { Pen } from "../../../whiteboard/global/interfaces/penStyle";
 import RibbonView from "./ribbonView";
-import { WhiteboardSettings } from "src/app/whiteboard/services/whiteboard-settings";
+import { WhiteboardSettings } from "src/app/whiteboard/services/whiteboardSettings";
 
 
 export default class RibbonPenPicker extends RibbonView {

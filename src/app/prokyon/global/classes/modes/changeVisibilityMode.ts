@@ -1,6 +1,6 @@
 import MoveMode from "./moveMode";
 import {DrawerService} from "../../../services/drawer.service";
-import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import AbstractRenderingContext from "src/app/global/classes/renderingContext/abstractRenderingContext";
 import { Point } from "src/app/global/interfaces/point";
 import { PointerContext } from "src/app/global/classes/pointerController";
 import { Color, colorAsTransparent } from "src/app/global/interfaces/color";

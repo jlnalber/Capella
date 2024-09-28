@@ -8,7 +8,7 @@ import {ViewCircleElementComponent} from "../../../formula-dialogs/view-circle-e
 import { Point } from "src/app/global/interfaces/point";
 import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
 import { Color, colorAsTransparent, TRANSPARENT } from "src/app/global/interfaces/color";
-import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import AbstractRenderingContext from "src/app/global/classes/renderingContext/abstractRenderingContext";
 import { getDistance, getDistanceUndef, getRegularLineDash } from "src/app/global/essentials/utils";
 import { DEFAULT_LINEDASH, REGULAR_LINEDASH } from "src/app/global/interfaces/canvasStyles/styleTypes";
 

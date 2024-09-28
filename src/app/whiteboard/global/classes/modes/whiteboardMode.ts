@@ -1,5 +1,5 @@
 import { pointerTypes } from "../../../../global/classes/pointerController";
-import { RenderingContext } from '../../../../global/classes/renderingContext';
+import { RenderingContext } from '../../../../global/classes/renderingContext/renderingContext';
 import { Color, darken } from 'src/app/global/interfaces/color';
 import { colors } from '../../../../global/styles/colors';
 import { WhiteboardService } from "src/app/whiteboard/services/whiteboard.service";

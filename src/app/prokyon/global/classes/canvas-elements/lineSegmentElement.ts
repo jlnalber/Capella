@@ -6,7 +6,7 @@ import {CanvasElementSerialized} from "../../essentials/serializer";
 import PointElement from "./pointElement";
 import {getMiddlePointByPoints} from "../../essentials/geometryUtils";
 import { areEqualPoints, getDistance, getRegularLineDash, isInRange } from "src/app/global/essentials/utils";
-import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import AbstractRenderingContext from "src/app/global/classes/renderingContext/abstractRenderingContext";
 import { Point } from "src/app/global/interfaces/point";
 import { Color, colorAsTransparent } from "src/app/global/interfaces/color";
 import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";

@@ -10,7 +10,7 @@ import {
 import { Point } from "src/app/global/interfaces/point";
 import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
 import { Color } from "src/app/global/interfaces/color";
-import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import AbstractRenderingContext from "src/app/global/classes/renderingContext/abstractRenderingContext";
 import { getDistance } from "src/app/global/essentials/utils";
 
 // a line of the form ax + by = c between two points

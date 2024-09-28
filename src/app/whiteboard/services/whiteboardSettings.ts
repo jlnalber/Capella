@@ -1,3 +1,4 @@
+import { CanvasConfig } from 'src/app/global/classes/renderingContext/abstractRenderingContext';
 import { DEFAULT_PENS, Pen } from '../global/interfaces/penStyle';
 import { BLACK, BLUE, Color, GREEN, GREY, RED, WHITE, YELLOW } from 'src/app/global/interfaces/color';
 
@@ -15,6 +16,9 @@ const COLORS_DEFAULT: Color[] = [
 
 const ADD_PENS_LOCALSTORAGE = 'ADD_PENS_LOCSTOR';
 const ADD_PENS_DEFAULT: Pen[] = [];
+
+const CANVAS_CONFIG_LOCALSTORAGE = 'CANVAS_CONFIG_LOCSTOR';
+const CANVAS_CONFIG_DEFAULT: CanvasConfig = {};
 
 export class WhiteboardSettings {
 
@@ -58,5 +62,22 @@ export class WhiteboardSettings {
 
   public getColors(): Color[] {
     return [ ...COLORS_DEFAULT, ...this.getAdditionalColors() ]
+  }
+
+  private canvasConfig: CanvasConfig | undefined;
+
+  public getCanvasConfig(): CanvasConfig {
+    if (this.canvasConfig === undefined) {
+      const p = localStorage.getItem(CANVAS_CONFIG_LOCALSTORAGE);
+      if (p !== null) {
+        this.canvasConfig = JSON.parse(p) as CanvasConfig;
+      }
+    }
+    return this.canvasConfig ?? CANVAS_CONFIG_DEFAULT;
+  }
+
+  public setCanvasConfig(config: CanvasConfig): void {
+    this.canvasConfig = config;
+    localStorage.setItem(CANVAS_CONFIG_LOCALSTORAGE, JSON.stringify(this.canvasConfig));
   }
 }

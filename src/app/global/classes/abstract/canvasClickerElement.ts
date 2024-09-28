@@ -1,6 +1,6 @@
 import {CanvasIdElement} from "./canvasIdElement";
 import {Point} from "src/app/global/interfaces/point";
-import AbstractRenderingContext from "../abstractRenderingContext";
+import AbstractRenderingContext from "../renderingContext/abstractRenderingContext";
 
 export abstract class CanvasClickerElement extends CanvasIdElement {
 

@@ -1,6 +1,6 @@
 import { Point } from "src/app/global/interfaces/point";
 import { PointerContext } from "../../../../global/classes/pointerController";
-import { RenderingContext } from '../../../../global/classes/renderingContext';
+import { RenderingContext } from '../../../../global/classes/renderingContext/renderingContext';
 import { WhiteboardMode } from './whiteboardMode';
 import { WhiteboardService } from "src/app/whiteboard/services/whiteboard.service";
 import { RibbonTab } from "../../../../global/classes/ribbon/ribbon";

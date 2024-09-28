@@ -1,6 +1,6 @@
 import { Canvas } from "../../canvas/canvas";
 import { Point } from "../../interfaces/point";
-import AbstractRenderingContext from "../abstractRenderingContext";
+import AbstractRenderingContext from "../renderingContext/abstractRenderingContext";
 import { Mode } from "../modes/mode";
 import { PointerType } from "../pointerController";
 

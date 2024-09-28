@@ -5,7 +5,7 @@ import {CanvasElementSerialized} from "../../essentials/serializer";
 import {DrawerService} from "../../../services/drawer.service";
 import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
 import { Color, colorAsTransparent } from "src/app/global/interfaces/color";
-import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import AbstractRenderingContext from "src/app/global/classes/renderingContext/abstractRenderingContext";
 import { Point } from "src/app/global/interfaces/point";
 import { correctRect, getRegularLineDash, isIn, isInRange } from "src/app/global/essentials/utils";
 

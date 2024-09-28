@@ -10,7 +10,7 @@ import { ViewAngleElementComponent } from "src/app/prokyon/formula-dialogs/view-
 import { BLACK, Color, colorAsTransparent, TRANSPARENT } from "src/app/global/interfaces/color";
 import { Point } from "src/app/global/interfaces/point";
 import { DrawerService } from "src/app/prokyon/services/drawer.service";
-import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import AbstractRenderingContext from "src/app/global/classes/renderingContext/abstractRenderingContext";
 import { REGULAR_LINEDASH } from "src/app/global/interfaces/canvasStyles/styleTypes";
 
 

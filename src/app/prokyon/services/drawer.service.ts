@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BLACK, Color, colorAsTransparent, getColorAsRgbaFunction, WHITE } from "src/app/global/interfaces/color";
 import { Event } from "src/app/global/essentials/event";
-import { RenderingContext } from "src/app/global/classes/renderingContext";
+import { RenderingContext } from "src/app/global/classes/renderingContext/renderingContext";
 import { Transformations } from "src/app/global/interfaces/transformations";
 import { Point, Vector } from "src/app/global/interfaces/point";
 import { CanvasDrawer } from 'src/app/global/classes/abstract/canvasDrawer';
@@ -35,7 +35,7 @@ import AbstractDrawerService from 'src/app/global/classes/abstract/abstractDrawe
 import { PointerType } from 'src/app/global/classes/pointerController';
 import { ProkyonMode } from '../global/classes/modes/prokyonMode';
 import { ProkyonCanvasElement } from '../global/classes/abstract/prokyonCanvasElement';
-import AbstractRenderingContext from 'src/app/global/classes/abstractRenderingContext';
+import AbstractRenderingContext from 'src/app/global/classes/renderingContext/abstractRenderingContext';
 import { ProkyonCanvasConfig as CanvasConfig } from '../global/classes/prokyonCanvasConfig';
 
 export type MJ = any;
@@ -305,7 +305,7 @@ export class DrawerService extends AbstractDrawerService {
   }
 
   public getRenderingContextFor(ctx: CanvasRenderingContext2D, transformations: Transformations): AbstractRenderingContext {
-    return new RenderingContext(ctx, transformations, this.selection.toArray(), (c: Color, config?: CanvasConfig) => {
+    return new RenderingContext(ctx, transformations, this.selection.toArray(), undefined, (c: Color, config?: CanvasConfig) => {
       if (config?.transformColor === undefined) return c;
       return config.transformColor(c);
     }, this.getVariables(), this.canvasConfig);

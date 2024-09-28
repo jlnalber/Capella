@@ -1,6 +1,6 @@
 import { CanvasClickerElement } from "../../global/classes/abstract/canvasClickerElement";
 import { CanvasIdElement } from "../../global/classes/abstract/canvasIdElement";
-import { RenderingContext } from "../../global/classes/renderingContext";
+import { RenderingContext } from "../../global/classes/renderingContext/renderingContext";
 import { Point, Vector } from "src/app/global/interfaces/point";
 import { Transformations } from "src/app/global/interfaces/transformations";
 import { WhiteboardService } from "./whiteboard.service";
@@ -214,7 +214,7 @@ export default class Page {
     }
 
     public getRenderingContextFor(ctx: CanvasRenderingContext2D, transformations: Transformations): RenderingContext {
-        return new RenderingContext(ctx, transformations, this.selection.toArray());
+        return new RenderingContext(ctx, transformations, this.selection.toArray(), this.whiteboardService.settings.getCanvasConfig());
     }
 
     public redraw(): void {

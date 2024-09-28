@@ -1,13 +1,13 @@
 import {Type} from "@angular/core";
 import {FormulaElement} from "./formulaElement";
 import {Point} from "src/app/global/interfaces/point";
-import {RenderingContext} from "src/app/global/classes/renderingContext";
+import {RenderingContext} from "src/app/global/classes/renderingContext/renderingContext";
 import {BLACK, Color} from "src/app/global/interfaces/color";
 import {DrawerService} from "../../../services/drawer.service";
 import {CanvasElementSerialized} from "../../essentials/serializer";
 import FormulaDialogElement from "./formulaDialogElement";
 import { CanvasClickerElement } from "src/app/global/classes/abstract/canvasClickerElement";
-import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import AbstractRenderingContext from "src/app/global/classes/renderingContext/abstractRenderingContext";
 
 export interface ProkyonCanvasElementConfiguration {
   label?: string,

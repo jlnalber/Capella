@@ -10,7 +10,7 @@ import { Point } from "src/app/global/interfaces/point";
 import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
 import { Color, colorAsTransparent, TRANSPARENT } from "src/app/global/interfaces/color";
 import { DrawerService } from "src/app/prokyon/services/drawer.service";
-import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import AbstractRenderingContext from "src/app/global/classes/renderingContext/abstractRenderingContext";
 import { getRegularLineDash } from "src/app/global/essentials/utils";
 
 type Data = {

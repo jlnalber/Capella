@@ -28,7 +28,7 @@ import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
 import PointElement from "./pointElement";
 import { Point } from "src/app/global/interfaces/point";
 import { BLACK, Color } from "src/app/global/interfaces/color";
-import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import AbstractRenderingContext from "src/app/global/classes/renderingContext/abstractRenderingContext";
 
 const dependencyPointElementsKey = '__dependencyPointElements__';
 

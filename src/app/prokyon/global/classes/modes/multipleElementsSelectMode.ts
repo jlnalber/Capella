@@ -4,7 +4,7 @@ import { Constructor, ofType } from "./twoElementsSelectMode";
 import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
 import { PointerContext } from "src/app/global/classes/pointerController";
 import { Point } from "src/app/global/interfaces/point";
-import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import AbstractRenderingContext from "src/app/global/classes/renderingContext/abstractRenderingContext";
 
 export default abstract class MultipleElementsSelectMode<T extends ProkyonCanvasElement> extends MoveMode {
   

@@ -3,7 +3,7 @@ import {DrawerService} from "../../../services/drawer.service";
 import { ProkyonCanvasElement } from "../abstract/prokyonCanvasElement";
 import { Point } from "src/app/global/interfaces/point";
 import { PointerContext } from "src/app/global/classes/pointerController";
-import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import AbstractRenderingContext from "src/app/global/classes/renderingContext/abstractRenderingContext";
 
 export default abstract class TwoElementsSelectMode<T1 extends ProkyonCanvasElement, T2 extends ProkyonCanvasElement> extends MoveMode {
 

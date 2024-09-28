@@ -3,7 +3,7 @@ import {DrawerService} from "../../../services/drawer.service";
 import PointElement from "../canvas-elements/pointElement";
 import { Point } from "src/app/global/interfaces/point";
 import { PointerContext } from "src/app/global/classes/pointerController";
-import AbstractRenderingContext from "src/app/global/classes/abstractRenderingContext";
+import AbstractRenderingContext from "src/app/global/classes/renderingContext/abstractRenderingContext";
 
 export default abstract class ThreePointsSelectMode extends MoveMode {
   protected abstract addCanvasElement(drawerService: DrawerService, p1: PointElement, center: PointElement, p2: PointElement): void;

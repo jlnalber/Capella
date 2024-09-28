@@ -13,7 +13,7 @@ export class PenMode extends WhiteboardMode {
   private penElement: PenElement | undefined;
 
   public override pointerStart(whiteboardService: WhiteboardService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext): void {
-    this.penElement = new PenElement(this.getStyleOfPen(whiteboardService));
+    this.penElement = new PenElement(whiteboardService.settings, this.getStyleOfPen(whiteboardService));
     this.penElement.addPoint({
       ...point,
       size: 1
@@ -43,7 +43,7 @@ export class PenMode extends WhiteboardMode {
   }
 
   public click(whiteboardService: WhiteboardService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext): void {
-    this.penElement = new PenElement(this.getStyleOfPen(whiteboardService));
+    this.penElement = new PenElement(whiteboardService.settings, this.getStyleOfPen(whiteboardService));
     this.penElement.addPoint({
       ...point,
       size: 1

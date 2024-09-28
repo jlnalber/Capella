@@ -20,6 +20,13 @@ const ADD_PENS_DEFAULT: Pen[] = [];
 const CANVAS_CONFIG_LOCALSTORAGE = 'CANVAS_CONFIG_LOCSTOR';
 const CANVAS_CONFIG_DEFAULT: CanvasConfig = {};
 
+export interface GlobalConfig {
+  neverUseSizesForPen?: boolean
+}
+
+const GLOBAL_CONFIG_LOCALSTORAGE = 'GLOBAL_CONFIG_LOCSTOR';
+const GLOBAL_CONFIG_DEFAULT: GlobalConfig = {};
+
 export class WhiteboardSettings {
 
   private addPens: Pen[] | undefined;
@@ -79,5 +86,22 @@ export class WhiteboardSettings {
   public setCanvasConfig(config: CanvasConfig): void {
     this.canvasConfig = config;
     localStorage.setItem(CANVAS_CONFIG_LOCALSTORAGE, JSON.stringify(this.canvasConfig));
+  }
+
+  private globalConfig: GlobalConfig | undefined;
+
+  public getGlobalConfig(): GlobalConfig {
+    if (this.globalConfig === undefined) {
+      const p = localStorage.getItem(GLOBAL_CONFIG_LOCALSTORAGE);
+      if (p !== null) {
+        this.globalConfig = JSON.parse(p) as GlobalConfig;
+      }
+    }
+    return this.globalConfig ?? GLOBAL_CONFIG_DEFAULT;
+  }
+
+  public setGlobalConfig(config: GlobalConfig): void {
+    this.globalConfig = config;
+    localStorage.setItem(GLOBAL_CONFIG_LOCALSTORAGE, JSON.stringify(this.globalConfig));
   }
 }

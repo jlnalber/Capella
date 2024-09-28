@@ -1,5 +1,6 @@
 import { Point } from "src/app/global/interfaces/point";
 import { CanvasClickerElement } from "../../../../global/classes/abstract/canvasClickerElement";
+import { WhiteboardSettings } from "src/app/whiteboard/services/whiteboardSettings";
 
 
 // in exactly this order!
@@ -75,6 +76,10 @@ export abstract class WhiteboardCanvasTransformableElement extends CanvasClicker
       y: pS.y / this.transformation.scale.y
     };
     return p;
+  }
+
+  constructor(protected readonly settings: WhiteboardSettings) {
+    super();
   }
 }
 

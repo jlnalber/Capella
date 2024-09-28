@@ -24,15 +24,15 @@ export type Pen = {
     lineWidth: number
 }
 
-function getColorStyleOfPen(p: Pen, pens: Pen[]): ColorStyle {
+function getColorStyleOfPen(p: Pen, pens: Pen[], c?: Color): ColorStyle {
     if (p.colorStyle === undefined) {
-        return p.color;
+        return c ?? p.color;
     }
     else if (typeof p.colorStyle === 'number') {
-        return getColorStyleOfPen(pens[p.colorStyle], pens);
+        return getColorStyleOfPen(pens[p.colorStyle], pens, c ?? p.color);
     }
     else if (typeof p.colorStyle === 'function') {
-        return p.colorStyle(p.color);
+        return p.colorStyle(c ?? p.color);
     }
     else {
         return p.colorStyle;

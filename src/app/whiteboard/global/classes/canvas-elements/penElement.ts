@@ -2,6 +2,7 @@ import { PenStyle } from './../../interfaces/penStyle';
 import { Point } from "src/app/global/interfaces/point";
 import { WhiteboardCanvasTransformableElement } from "../abstract/whiteboardCanvasTransformableElement";
 import AbstractRenderingContext from "../../../../global/classes/renderingContext/abstractRenderingContext";
+import { WhiteboardSettings } from 'src/app/whiteboard/services/whiteboardSettings';
 
 export type PenPoint = Point & {
     size: number
@@ -22,8 +23,8 @@ export default class PenElement extends WhiteboardCanvasTransformableElement {
 
     private _points: PenPoint[] = [];
 
-    constructor(penStyle: PenStyle) {
-        super();
+    constructor(settings: WhiteboardSettings, penStyle: PenStyle) {
+        super(settings);
         this._penStyle = penStyle;
     }
 
@@ -33,7 +34,7 @@ export default class PenElement extends WhiteboardCanvasTransformableElement {
     }
 
     public override draw(ctx: AbstractRenderingContext): void {
-        if (this._penStyle.useSizes) {
+        if (this._penStyle.useSizes && !this.settings.getGlobalConfig().neverUseSizesForPen) {
             ctx.drawQuadraticPath(this._points, this._penStyle.strokeStyle, this._penStyle.objectStyle);
         }
         else {

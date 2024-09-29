@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { Canvas } from '../../global/canvas/canvas';
+import AbstractListenerCanvas from '../../global/canvas/abstractListenerCanvas';
 import { DrawerService, STORAGE_CACHE } from 'src/app/prokyon/services/drawer.service';
 import { Serialized } from '../global/essentials/serializer';
 
@@ -8,10 +8,10 @@ import { Serialized } from '../global/essentials/serializer';
   templateUrl: './prokyonCanvas.component.html',
   styleUrls: ['./prokyonCanvas.component.scss']
 })
-export class ProkyonCanvasComponent extends Canvas implements AfterViewInit {
-  @ViewChild('canvas') canvas!: ElementRef;
+export class ProkyonCanvasComponent extends AbstractListenerCanvas implements AfterViewInit {
+  @ViewChild('canvas') public canvas!: ElementRef;
 
-  @ViewChild('wrapper') wrapper!: ElementRef;
+  @ViewChild('wrapper') public wrapper!: ElementRef;
 
   constructor(drawerService: DrawerService) {
     super(drawerService);

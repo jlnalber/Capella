@@ -3,7 +3,7 @@ import {Graph} from "../../global/classes/canvas-elements/graph";
 import {DrawerService} from "../../services/drawer.service";
 import {FormulaElement} from "../../global/classes/abstract/formulaElement";
 import {FuncAnalyserDialogComponent} from "../../func-analyser-dialog/func-analyser-dialog.component";
-import {ContextMenu, ContextMenuElement} from "../../context-menu/context-menu.directive";
+import {ContextMenu, ContextMenuElement} from "../../../global/context-menu/context-menu.directive";
 import DefiniteIntegral from "../../global/classes/canvas-elements/definiteIntegral";
 import { DialogService } from 'src/app/global/dialog/dialog.service';
 import { getColorAsRgbaFunction } from 'src/app/global/interfaces/color';

@@ -1,16 +1,16 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { WhiteboardService } from '../services/whiteboard.service';
-import { Canvas } from '../../global/canvas/canvas';
+import AbstractListenerCanvas from '../../global/canvas/abstractListenerCanvas';
 
 @Component({
   selector: 'whiteboard-canvas',
   templateUrl: './whiteboardCanvas.component.html',
   styleUrls: ['./whiteboardCanvas.component.scss']
 })
-export class WhiteboardCanvasComponent extends Canvas implements AfterViewInit {
-  @ViewChild('canvas') canvas!: ElementRef;
+export class WhiteboardCanvasComponent extends AbstractListenerCanvas implements AfterViewInit {
+  @ViewChild('canvas') public canvas!: ElementRef;
 
-  @ViewChild('wrapper') wrapper!: ElementRef;
+  @ViewChild('wrapper') public wrapper!: ElementRef;
 
   constructor(whiteboardService: WhiteboardService) {
     super(whiteboardService);

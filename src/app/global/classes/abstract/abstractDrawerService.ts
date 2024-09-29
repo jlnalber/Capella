@@ -1,11 +1,11 @@
-import { Canvas } from "../../canvas/canvas";
+import AbstractListenerCanvas from "../../canvas/abstractListenerCanvas";
 import { Point } from "../../interfaces/point";
 import AbstractRenderingContext from "../renderingContext/abstractRenderingContext";
 import { Mode } from "../modes/mode";
 import { PointerType } from "../pointerController";
 
 export default abstract class AbstractDrawerService {
-  public canvas?: Canvas;
+  public canvas?: AbstractListenerCanvas;
   
   protected redrawListener = () => {
     this.redraw();

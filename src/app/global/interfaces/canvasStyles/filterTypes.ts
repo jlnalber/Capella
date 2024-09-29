@@ -1,4 +1,4 @@
-import { AngleMeasurement, LengthMeasurement, measurementToString, PercentageMeasurement } from "./unitTypes";
+import { AngleMeasurement, getCopyOfMeasurement, LengthMeasurement, measurementToString, PercentageMeasurement } from "./unitTypes";
 
 type StringFilterNames = 'url'
 export const STRING_FILTERS: FilterNames[] = ['url']
@@ -55,4 +55,13 @@ export function filterToCssFunctionString(filter: Filter, resolutionFactor: numb
     }
 
     return '';
+}
+
+export function getCopyOfFilter(filter: Filter): Filter {
+    if (isStringFilter(filter)) {
+        return [...filter];
+    }
+    else {
+        return [filter[0], getCopyOfMeasurement(filter[1])] as MeasurementFilter;
+    }
 }

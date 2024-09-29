@@ -24,3 +24,7 @@ export function measurementToString(measurement: Measurement, resolutionFactor: 
     return `${measurement[0] * resolutionFactor}${measurement[1]}`;
   }
 }
+
+export function getCopyOfMeasurement<T extends Measurement>(measurement: T): T {
+  return [...measurement];
+}

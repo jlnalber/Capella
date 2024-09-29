@@ -14,9 +14,7 @@ import { Event } from 'src/app/global/essentials/event';
   templateUrl: './edit-pen-quick-actions.component.html',
   styleUrl: './edit-pen-quick-actions.component.scss'
 })
-export class EditPenQuickActionsComponent extends AbstractSettingsComponent implements AfterViewInit {
-
-  @Input({required: true}) saveEvent!: Event<undefined>;
+export class EditPenQuickActionsComponent extends AbstractSettingsComponent {
 
   add() {
     this.order.push(0);
@@ -26,7 +24,7 @@ export class EditPenQuickActionsComponent extends AbstractSettingsComponent impl
     this.order.splice(i, 1);
   }
 
-  protected saveListener = () => {
+  public saveListener = () => {
     this.whiteboardService.settings.setPensOrder(this.order);
   }
 
@@ -37,10 +35,6 @@ export class EditPenQuickActionsComponent extends AbstractSettingsComponent impl
     super();
     this.pens = this.whiteboardService.settings.getPens();
     this.order = this.whiteboardService.settings.getPensOrder().filter(i => i < this.pens.length);
-  }
-
-  ngAfterViewInit(): void {
-    this.afterViewInit();
   }
   
 }

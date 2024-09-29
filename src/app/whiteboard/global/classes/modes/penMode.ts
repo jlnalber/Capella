@@ -9,7 +9,9 @@ import { RibbonTab } from "../../../../global/classes/ribbon/ribbon";
 import { DEFAULT_PENS, getPenStyleOfPen, Pen, PenStyle } from "../../interfaces/penStyle";
 import RibbonColorPicker from "src/app/global/classes/ribbon/ribbonColorPicker";
 import RibbonButton from "src/app/global/classes/ribbon/ribbonButton";
-import { EditPenQuickActionsDialogComponent } from "src/app/whiteboard/dialogs/edit-pen-quick-actions-dialog/edit-pen-quick-actions-dialog.component";
+import { ViewSettingsDialogComponent } from "src/app/whiteboard/dialogs/view-settings-dialog/view-settings-dialog.component";
+import { EditPenQuickActionsComponent } from "src/app/whiteboard/settings/edit-pen-quick-actions/edit-pen-quick-actions.component";
+import { ViewPensComponent } from "src/app/whiteboard/settings/view-pens/view-pens.component";
 
 export class PenMode extends WhiteboardMode {
   private penElement: PenElement | undefined;
@@ -68,9 +70,17 @@ export class PenMode extends WhiteboardMode {
       underlineColor: colors[1],
       content: [
         new RibbonColorPicker(whiteboardService.settings.getColors(), () => this.pen.color, (c: Color) => this.pen.color = c, () => false),
-        new RibbonButton('Bearbeiten', 'pen', 'Stifte bearbeiten', () => {
-          whiteboardService.dialogService.createDialog(EditPenQuickActionsDialogComponent)?.open();
-        })
+        {
+          title: 'Stifte verwalten',
+          content: [
+            new RibbonButton('Bearbeiten', 'edit', 'Stifte bearbeiten', () => {
+              ViewSettingsDialogComponent.openViewSettingsDialogComponent(whiteboardService.dialogService, EditPenQuickActionsComponent);
+            }),
+            new RibbonButton('Anzeigen', 'pen', 'Stifte anzeigen', () => {
+              ViewSettingsDialogComponent.openViewSettingsDialogComponent(whiteboardService.dialogService, ViewPensComponent);
+            })
+          ]
+        }
       ]
     }];
   }

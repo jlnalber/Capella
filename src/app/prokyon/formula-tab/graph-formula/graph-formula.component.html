@@ -1,5 +1,5 @@
 <div class="wrapper" [ngClass]="{ 'error': this.canvasElement.funcError }">
   <app-color-circle [(color)]="this.canvasElement.color" [(visible)]="this.canvasElement.visible"></app-color-circle>
   <input autocomplete="off" class="input" #inp [title]="this.canvasElement.funcErrorText ?? ''" [(ngModel)]="this.canvasElement.funcText" [disabled]="!this.canvasElement.configuration.editable">
-  <button class="iconButton depositionTop floatRight" (click)="this.threePointsClicked($event)"><span class="material-symbols-outlined">more_vert</span></button>
+  <button class="iconButton depositionTop floatRight" (click)="this.threePointsClicked($event)"><img src="assets/threeDots.svg" class="icon" alt="button"></button>
 </div>

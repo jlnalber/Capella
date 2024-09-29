@@ -49,6 +49,10 @@ export class WhiteboardSettings {
     localStorage.setItem(ADD_PENS_LOCALSTORAGE, JSON.stringify(this.addPens));
   }
 
+  public getDefaultPens(): Pen[] {
+    return [ ...DEFAULT_PENS ];
+  }
+
   public getPens(): Pen[] {
     return [ ...DEFAULT_PENS, ...this.getAdditionalPens() ]
   }

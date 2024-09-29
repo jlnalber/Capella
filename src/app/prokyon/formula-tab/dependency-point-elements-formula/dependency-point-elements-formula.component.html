@@ -4,5 +4,5 @@
     {{ this.canvasElement.description[0] }}<span *ngIf="this.canvasElement.description[1]() !== undefined"> von <span class="maths">{{ this.canvasElement.description[1]() }}</span></span>
     <span class="elementCount">{{ this.elementCountStr }}</span>
   </p>
-  <button class="iconButton depositionTop floatRight" (click)="this.threePointsClicked($event)"><span class="material-symbols-outlined">more_vert</span></button>
+  <button class="iconButton depositionTop floatRight" (click)="this.threePointsClicked($event)"><img src="assets/threeDots.svg" class="icon" alt="icon"></button>
 </div>

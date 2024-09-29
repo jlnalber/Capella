@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DrawerService} from "../services/drawer.service";
 import {Graph} from "../global/classes/canvas-elements/graph";
-import {ContextMenu} from "../context-menu/context-menu.directive";
+import {ContextMenu, ContextMenuDirective} from "../../global/context-menu/context-menu.directive";
 import CompiledPointElement from "../global/classes/canvas-elements/compiledPointElement";
 import CurveElement from "../global/classes/canvas-elements/curveElement";
 

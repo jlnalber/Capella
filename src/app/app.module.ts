@@ -24,8 +24,8 @@ import { GraphFormulaComponent } from './prokyon/formula-tab/graph-formula/graph
 import { HoverMenuDirective } from './prokyon/hover-menu/hover-menu.directive';
 import { GeometricFormulaComponent } from './prokyon/formula-tab/geometric-formula/geometric-formula.component';
 import { FormulaTabComponent } from './prokyon/formula-tab/formula-tab.component';
-import { ContextMenuComponent } from './prokyon/context-menu/context-menu/context-menu.component';
-import { ContextMenuDirective } from './prokyon/context-menu/context-menu.directive';
+import { ContextMenuComponent } from './global/context-menu/context-menu/context-menu.component';
+import { ContextMenuDirective } from './global/context-menu/context-menu.directive';
 import { FormulaElementComponent } from './prokyon/formula-tab/formula-element/formula-element.component';
 import { DependencyPointElementsFormulaComponent } from './prokyon/formula-tab/dependency-point-elements-formula/dependency-point-elements-formula.component';
 import { DefiniteIntegralFormulaComponent } from './prokyon/formula-tab/definite-integral-formula/definite-integral-formula.component';
@@ -38,6 +38,7 @@ import { ViewAngleElementComponent } from './prokyon/formula-dialogs/view-angle-
 import { ViewAbstractLineElementComponent } from './prokyon/formula-dialogs/view-abstract-line-element/view-abstract-line-element.component';
 import { ColorStyleComponent } from './global/style-components/color-style/color-style.component';
 import { QuickActionsComponent } from "./whiteboard/quick-actions/quick-actions.component";
+import { ViewPensComponent } from './whiteboard/settings/view-pens/view-pens.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { QuickActionsComponent } from "./whiteboard/quick-actions/quick-actions.
     ViewCircleElementComponent,
     ViewAngleElementComponent,
     ViewAbstractLineElementComponent,
-    ColorStyleComponent
+    ColorStyleComponent,
+    ViewPensComponent
   ],
   imports: [
     BrowserModule,

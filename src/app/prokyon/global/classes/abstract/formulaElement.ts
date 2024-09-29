@@ -1,5 +1,5 @@
 import { Point } from "src/app/global/interfaces/point";
-import {ContextMenu} from "../../../context-menu/context-menu.directive";
+import {ContextMenu, ContextMenuDirective} from "../../../../global/context-menu/context-menu.directive";
 import { ProkyonCanvasElement } from "./prokyonCanvasElement";
 import { Event as CustomEvent } from "src/app/global/essentials/event";
 
@@ -18,14 +18,14 @@ export abstract class FormulaElement {
   threePointsClicked(ev: MouseEvent) {
     // open the three point menu (instance of contextMenu)
     //ev.stopImmediatePropagation();
+    ContextMenuDirective.threePointsClicked(ev, FormulaElement.getDOMRectOfIconButton(ev), this.threePointsClickedEvent);
+  }
+
+  public static getDOMRectOfIconButton(ev: MouseEvent): DOMRect {
     let button: Element = ev.target as Element;
-    if (button instanceof HTMLSpanElement) {
+    if (button instanceof HTMLSpanElement || button instanceof HTMLImageElement) {
       button = button.parentElement!;
     }
-    let rect = button.getBoundingClientRect();
-    this.threePointsClickedEvent.emit([{
-      x: rect.x + rect.width / 2,
-      y: rect.y + rect.height / 2
-    }, ev]);
+    return button.getBoundingClientRect();
   }
 }

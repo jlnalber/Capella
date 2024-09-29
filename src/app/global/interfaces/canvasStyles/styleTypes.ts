@@ -1,4 +1,4 @@
-import { Color, TRANSPARENT } from "../color";
+import { Color, getCopyOfColor, TRANSPARENT } from "../color";
 import { LengthMeasurement } from "./unitTypes";
 
 export type Shadow = {
@@ -14,6 +14,14 @@ export const DEFAULT_SHADOW = {
     color: TRANSPARENT
 }
 export const DEFAULT_ALPHA: number = 1
+
+export function getCopyOfShadow(shadow: Shadow): Shadow {
+    const res = {
+        ...shadow
+    }
+    res.color = getCopyOfColor(res.color);
+    return res;
+}
 
 export type LineCap = CanvasLineCap;
 export const DEFAULT_LINECAP: LineCap = 'butt'

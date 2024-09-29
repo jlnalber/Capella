@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {FormulaElement} from "../../global/classes/abstract/formulaElement";
 import CurveElement from "../../global/classes/canvas-elements/curveElement";
 import {DrawerService} from "../../services/drawer.service";
-import {ContextMenu, ContextMenuElement} from "../../context-menu/context-menu.directive";
+import {ContextMenu, ContextMenuElement} from "../../../global/context-menu/context-menu.directive";
 
 @Component({
   selector: 'app-curve-formula',

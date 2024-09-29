@@ -34,6 +34,10 @@ export function darken(color: Color, factor: number): Color {
   }
 }
 
+export function getCopyOfColor(color: Color): Color {
+  return { ...color }
+}
+
 export const BLACK: Color = {
   r: 0,
   g: 0,

@@ -144,4 +144,13 @@ export class ContextMenuDirective implements OnDestroy {
       document.removeEventListener('keydown', this.keyboardDocumentEventListener);
     }
   }
+
+
+  public static threePointsClicked(event: MouseEvent, rect: DOMRect, threePointsClickedEvent: CustomEvent<[Point, Event]>) {
+    // open the three point menu (instance of contextMenu)
+    threePointsClickedEvent.emit([{
+      x: rect.x + rect.width / 2,
+      y: rect.y + rect.height / 2
+    }, event]);
+  }
 }

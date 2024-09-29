@@ -9,7 +9,7 @@
                         <option [value]="$index">{{ pen.name }}</option>
                     }
                 </select>
-                @if (this.order.length !== 0) {
+                @if (this.order.length !== 1) {
                     <button class="iconButton floatRight" title="Stift aus Ansicht entfernen" (click)="this.removePen($index)"><img src="assets/trash.svg" class="icon" alt="button"></button>
                 }
             </div>

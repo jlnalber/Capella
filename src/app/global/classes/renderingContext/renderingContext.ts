@@ -33,8 +33,6 @@ import { DEFAULT_FILTERS, filterToCssFunctionString } from '../../interfaces/can
 import { measurementToString } from '../../interfaces/canvasStyles/unitTypes';
 import { ColorStyle, instanceOfColor, instanceOfLinearGradient, instanceOfPattern, instanceOfRadialGradient } from '../../interfaces/canvasStyles/colorStyle';
 
-let noise: CanvasPattern | undefined = undefined;
-
 // export interface Config {
 //   showGrid?: boolean,
 //   gridColor?: Color,
@@ -47,7 +45,7 @@ let noise: CanvasPattern | undefined = undefined;
 export class RenderingContext extends AbstractRenderingContext {
   constructor (private readonly ctx: CanvasRenderingContext2D,
                transformations: Transformations,
-               selection: CanvasIdElement[],
+               selection?: CanvasIdElement[],
                canvasConfig?: CanvasConfig,
                getRightColor: (c: Color, config: any) => Color = (c: Color) => c,
                _variables?: any,

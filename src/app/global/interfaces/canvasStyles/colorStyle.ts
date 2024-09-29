@@ -1,6 +1,6 @@
-import { Circle } from "../circle";
-import { Color } from "../color";
-import { Point } from "../point";
+import { Circle, getCopyOfCircle } from "../circle";
+import { Color, getCopyOfColor } from "../color";
+import { getCopyOfPoint, Point } from "../point";
 
 export type Pattern = {
     picture: string
@@ -24,7 +24,70 @@ export type ConicGradient = {
 };
 export type GradientColorStop = [number, Color];
 
+export function getCopyOfGradientColorStop(gcs: GradientColorStop): GradientColorStop {
+    return [gcs[0], getCopyOfColor(gcs[1])];
+}
+
 export type ColorStyle = Color | Pattern | Gradient;
+
+export function getCopyOfColorStyle(colorStyle: ColorStyle): ColorStyle {
+    if (instanceOfColor(colorStyle)) {
+        return getCopyOfColor(colorStyle);
+    }
+    else if (instanceOfGradient(colorStyle)) {
+        return getCopyOfGradient(colorStyle);
+    }
+    else {
+        return getCopyOfPattern(colorStyle);
+    }
+}
+
+export function getCopyOfPattern(pattern: Pattern): Pattern {
+    return {
+        ...pattern
+    }
+}
+
+export function getCopyOfGradient(gradient: Gradient): Gradient {
+    if (instanceOfLinearGradient(gradient)) {
+        return getCopyOfLinearGradient(gradient);
+    }
+    else if (instanceOfRadialGradient(gradient)) {
+        return getCopyOfRadialGradient(gradient);
+    }
+    else {
+        return getCopyOfConicGradient(gradient);
+    }
+}
+
+export function getCopyOfRadialGradient(g: RadialGradient): RadialGradient {
+    const res = {
+        ...g
+    }
+    res.startCircle = getCopyOfCircle(g.startCircle);
+    res.endCircle = getCopyOfCircle(g.endCircle);
+    res.stops = res.stops.map(gcs => getCopyOfGradientColorStop(gcs));
+    return res;
+}
+
+export function getCopyOfLinearGradient(g: LinearGradient): LinearGradient {
+    const res = {
+        ...g
+    }
+    res.startPoint = getCopyOfPoint(g.startPoint);
+    res.endPoint = getCopyOfPoint(g.endPoint);
+    res.stops = res.stops.map(gcs => getCopyOfGradientColorStop(gcs));
+    return res;
+}
+
+export function getCopyOfConicGradient(g: ConicGradient): ConicGradient {
+    const res = {
+        ...g
+    }
+    res.center = getCopyOfPoint(g.center);
+    res.stops = res.stops.map(gcs => getCopyOfGradientColorStop(gcs));
+    return res;
+}
 
 
 export function instanceOfColor(colorStyle: ColorStyle): colorStyle is Color {
@@ -41,4 +104,12 @@ export function instanceOfLinearGradient(colorStyle: ColorStyle): colorStyle is 
 
 export function instanceOfRadialGradient(colorStyle: ColorStyle): colorStyle is RadialGradient {
     return 'startCircle' in colorStyle;
+}
+
+export function instanceOfConicGradient(colorStyle: ColorStyle): colorStyle is ConicGradient {
+    return 'center' in colorStyle;
+}
+
+export function instanceOfGradient(colorStyle: ColorStyle): colorStyle is Gradient {
+    return 'stops' in colorStyle;
 }

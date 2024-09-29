@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, Input, ViewChild, ViewContainerRef} from '@angular/core';
-import {ContextMenu, ContextMenuElement} from "../../context-menu/context-menu.directive";
+import {ContextMenu, ContextMenuElement} from "../../../global/context-menu/context-menu.directive";
 import {DrawerService} from "../../services/drawer.service";
 import {FormulaElement} from "../../global/classes/abstract/formulaElement";
 import { ProkyonCanvasElement } from '../../global/classes/abstract/prokyonCanvasElement';

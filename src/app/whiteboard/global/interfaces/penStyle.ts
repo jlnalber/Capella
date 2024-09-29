@@ -1,7 +1,7 @@
-import { ColorStyle, Gradient, instanceOfColor, Pattern } from "src/app/global/interfaces/canvasStyles/colorStyle"
-import ObjectStyle from "src/app/global/interfaces/canvasStyles/objectStyle"
-import { EasyStrokeStyle, StrokeStyle } from "src/app/global/interfaces/canvasStyles/strokeStyle"
-import { BLACK, Color, DEEPBLUE, getColorAsRgbaFunction, YELLOW } from "src/app/global/interfaces/color"
+import { ColorStyle, getCopyOfGradient, getCopyOfPattern, Gradient, instanceOfGradient, instanceOfPattern, Pattern } from "src/app/global/interfaces/canvasStyles/colorStyle"
+import ObjectStyle, { getCopyOfObjectStyle } from "src/app/global/interfaces/canvasStyles/objectStyle"
+import { EasyStrokeStyle, getCopyOfEasyStrokeStyle, getCopyOfStrokeStyle, StrokeStyle } from "src/app/global/interfaces/canvasStyles/strokeStyle"
+import { BLACK, Color, DEEPBLUE, getColorAsRgbaFunction, getCopyOfColor, YELLOW } from "src/app/global/interfaces/color"
 
 export type PenStyle = {
     objectStyle?: ObjectStyle,
@@ -9,10 +9,32 @@ export type PenStyle = {
     useSizes?: boolean
 }
 
+export function getCopyOfPenStyle(penStyle: PenStyle): PenStyle {
+    const res = {
+        ...penStyle
+    }
+    if (res.objectStyle !== undefined) {
+        res.objectStyle = getCopyOfObjectStyle(res.objectStyle);
+    }
+    res.strokeStyle = getCopyOfStrokeStyle(res.strokeStyle);
+    return res;
+}
+
 export type EasyPenStyle = {
     objectStyle?: ObjectStyle,
     strokeStyle: EasyStrokeStyle,
     useSizes?: boolean
+}
+
+export function getCopyOfEasyPenStyle(penStyle: EasyPenStyle): EasyPenStyle {
+    const res = {
+        ...penStyle
+    }
+    if (res.objectStyle !== undefined) {
+        res.objectStyle = getCopyOfObjectStyle(res.objectStyle);
+    }
+    res.strokeStyle = getCopyOfEasyStrokeStyle(res.strokeStyle);
+    return res;
 }
 
 export type Pen = {
@@ -54,6 +76,23 @@ export function getPenStyleOfPen(pen: Pen, pens: Pen[]): PenStyle {
         strokeStyle: strokeStyle,
         useSizes: pen.penStyle.useSizes
     }
+}
+
+export function getCopyOfPen(pen: Pen): Pen {
+    const p: Pen = {
+        ...pen
+    }
+    p.color = getCopyOfColor(pen.color);
+    if (typeof p.colorStyle !== 'undefined' && typeof p.colorStyle !== 'function' && typeof p.colorStyle !== 'number') {
+        if (instanceOfPattern(p.colorStyle)) {
+            p.colorStyle = getCopyOfPattern(p.colorStyle);
+        }
+        else if (instanceOfGradient(p.colorStyle)) {
+            p.colorStyle = getCopyOfGradient(p.colorStyle);
+        }
+    }
+    p.penStyle = getCopyOfEasyPenStyle(p.penStyle);
+    return p;
 }
 
 export const DEFAULT_PENS: Pen[] = [{
@@ -112,6 +151,16 @@ export const DEFAULT_PENS: Pen[] = [{
     lineWidth: 15,
     icon: 'marker'
 }]
+
+export const DEFAULT_PEN: Pen = {
+    name: 'Stift',
+    penStyle: {
+        strokeStyle: {}
+    },
+    color: BLACK,
+    lineWidth: 3,
+    icon: 'pencil'
+}
 
 
 function createNoisePattern(color: Color): string {

@@ -30,11 +30,15 @@ export interface CanvasConfig {
 
 export default abstract class AbstractRenderingContext {
   constructor(protected readonly transformations: Transformations,
-    public readonly selection: CanvasIdElement[],
+    selection?: CanvasIdElement[],
     protected readonly canvasConfig?: CanvasConfig,
     protected readonly getRightColor: (c: Color, config: any) => Color = (c: Color) => c,
     protected readonly _variables?: any,
-    public readonly config?: any) { }
+    public readonly config?: any) {
+    this.selection = selection ?? [];
+  }
+
+  public readonly selection: CanvasIdElement[];
 
 
   public get variables(): any {
@@ -141,7 +145,7 @@ export default abstract class AbstractRenderingContext {
   }
 
   public abstract drawPath(points: Point[], strokeStyle: StrokeStyle, fill?: FillStyle, objectStyle?: ObjectStyle): void;
-  
+
   public abstract drawContinousQuadraticPath(points: Point[], stroke: StrokeStyle, fill?: FillStyle, objectStyle?: ObjectStyle): void;
 
   public abstract drawQuadraticPath(points: SizePoint[], strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void;

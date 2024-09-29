@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { WhiteboardService } from '../../services/whiteboard.service';
 import { Pen } from '../../global/interfaces/penStyle';
 import { FormsModule } from '@angular/forms';
@@ -14,7 +14,7 @@ import { Event } from 'src/app/global/essentials/event';
   templateUrl: './edit-pen-quick-actions.component.html',
   styleUrl: './edit-pen-quick-actions.component.scss'
 })
-export class EditPenQuickActionsComponent extends AbstractSettingsComponent {
+export class EditPenQuickActionsComponent extends AbstractSettingsComponent implements OnDestroy {
 
   add() {
     this.order.push(0);
@@ -24,7 +24,7 @@ export class EditPenQuickActionsComponent extends AbstractSettingsComponent {
     this.order.splice(i, 1);
   }
 
-  public saveListener = () => {
+  public save() {
     this.whiteboardService.settings.setPensOrder(this.order);
   }
 
@@ -35,6 +35,10 @@ export class EditPenQuickActionsComponent extends AbstractSettingsComponent {
     super();
     this.pens = this.whiteboardService.settings.getPens();
     this.order = this.whiteboardService.settings.getPensOrder().filter(i => i < this.pens.length);
+  }
+
+  ngOnDestroy(): void {
+      this.closed = true;
   }
   
 }

@@ -20,8 +20,10 @@
 }
 
 .pen .penName {
+    --innerHeight: calc(var(--height) - 2 * var(--padding));
+    height: var(--innerHeight);
     position: absolute;
-    line-height: 100%;
+    line-height: var(--innerHeight);
     display: inline-block;
 }
 

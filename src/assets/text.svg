@@ -3,9 +3,13 @@
      xmlns:xlink="http://www.w3.org/1999/xlink"
      version="1.1" baseProfile="full"
      width="100px" height="100px">
-  <g transform="scale(0.75)" transform-origin="50% 50%" stroke="black">
-    <line x1="20" x2="80" y1="95" y2="95" stroke-linecap="round" stroke-width="5" ></line>
-    <line x1="50" x2="50" y1="5" y2="95" stroke-linecap="round" stroke-width="5" ></line>
-    <line x1="20" x2="80" y1="5" y2="5" stroke-linecap="round" stroke-width="5" ></line>
+  <g transform="scale(0.8)" transform-origin="50% 50%" stroke-width="8" stroke-linecap="round" stroke="#000" fill="transparent" stroke-linejoin="round" >
+    <line x1="40" x2="80" y1="15" y2="15"></line>
+    <line x1="40" x2="80" y1="85" y2="85"></line>
+    <line x1="60" x2="60" y1="15" y2="85"></line>
+    
+    <path d="M45,30 L20,30 A10,10 0 0,0 10,40 L10,60 A10,10 0 0,0 20,70 L45,70" />
+    <path d="M75,70 L80,70 A10,10 0 0,0 90,60 L90,40 A10,10 0 0,0 80,30 L75,30" />
+
   </g>
 </svg>

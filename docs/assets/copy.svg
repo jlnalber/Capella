@@ -3,19 +3,22 @@
      xmlns:xlink="http://www.w3.org/1999/xlink"
      version="1.1" baseProfile="full"
      width="100px" height="100px">
-  <g transform="scale(0.9)" transform-origin="50% 50%" stroke="black">
-    <line x1="80" x2="80" y1="10" y2="70" stroke-linecap="round" stroke-width="5" stroke-dasharray="10" ></line>
-    <line x1="30" x2="80" y1="10" y2="10" stroke-linecap="round" stroke-width="5" stroke-dasharray="10" ></line>
-    <line x1="30" x2="30" y1="10" y2="30" stroke-linecap="round" stroke-width="5" stroke-dasharray="10" ></line>
-    <line x1="70" x2="90" y1="70" y2="70" stroke-linecap="round" stroke-width="5" stroke-dasharray="10" ></line>
+  <g transform="scale(0.75)" transform-origin="50% 50%"  stroke-width="8" stroke-linecap="round" stroke="#000" fill="transparent" stroke-linejoin="round">
+    <!-- <line x1="80" x2="80" y1="10" y2="70" stroke-linecap="round" stroke-dasharray="10" ></line>
+    <line x1="30" x2="80" y1="10" y2="10" stroke-linecap="round" stroke-dasharray="10" ></line>
+    <line x1="70" x2="90" y1="70" y2="70" stroke-linecap="round" stroke-dasharray="10" ></line>
+    <line x1="30" x2="30" y1="10" y2="30" stroke-linecap="round" stroke-dasharray="10" ></line>
 
-    <line x1="60" x2="60" y1="30" y2="90" stroke-linecap="round" stroke-width="5" ></line>
-    <line x1="10" x2="60" y1="30" y2="30" stroke-linecap="round" stroke-width="5" ></line>
-    <line x1="10" x2="10" y1="30" y2="70" stroke-linecap="round" stroke-width="5" ></line>
-    <line x1="30" x2="60" y1="90" y2="90" stroke-linecap="round" stroke-width="5" ></line>
+    <line x1="60" x2="60" y1="30" y2="90" stroke-linecap="round"></line>
+    <line x1="10" x2="60" y1="30" y2="30" stroke-linecap="round"></line>
+    <line x1="10" x2="10" y1="30" y2="70" stroke-linecap="round"></line>
+    <line x1="30" x2="60" y1="90" y2="90" stroke-linecap="round"></line>
 
-    <line x1="10" x2="30" y1="70" y2="70" stroke-linecap="round" stroke-width="5" ></line>
-    <line x1="10" x2="30" y1="70" y2="90" stroke-linecap="round" stroke-width="5" ></line>
-    <line x1="30" x2="30" y1="90" y2="70" stroke-linecap="round" stroke-width="5" ></line>
+    <line x1="10" x2="30" y1="70" y2="70" stroke-linecap="round"></line>
+    <line x1="10" x2="30" y1="70" y2="90" stroke-linecap="round"></line>
+    <line x1="30" x2="30" y1="90" y2="70" stroke-linecap="round"></line> -->
+    <!-- <path d="M10,40 L10,80 A10,10 0 0,0 20,90 L20,90 L80,90 A10,10 0 0,0 90,80 L90,40" /> -->
+    <path d="M20,25 L20,80 A10,10 0 0,0 30,90 L65,90" />
+    <path d="M30,20 L30,70 A10,10 0 0,0 40,80 L70,80 A10,10 0 0,0 80,70 L80,20 A10,10 0 0,0 70,10 L40,10 A10,10 0 0,0 30,20" />
   </g>
 </svg>

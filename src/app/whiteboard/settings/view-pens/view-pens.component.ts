@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import AbstractSettingsComponent from '../abstractSettingComponent';
 import { WhiteboardService } from '../../services/whiteboard.service';
 import { DEFAULT_PEN, getCopyOfPen, Pen } from '../../global/interfaces/penStyle';
@@ -15,7 +15,7 @@ type PenAndEvent = [Pen, CustomEvent<[Point, Event]>]
   templateUrl: './view-pens.component.html',
   styleUrl: './view-pens.component.scss'
 })
-export class ViewPensComponent extends AbstractSettingsComponent {
+export class ViewPensComponent extends AbstractSettingsComponent implements OnDestroy {
   threePointsClicked(event: MouseEvent, p: PenAndEvent) {
     ContextMenuDirective.threePointsClicked(event, FormulaElement.getDOMRectOfIconButton(event), p[1]);
   }
@@ -34,7 +34,8 @@ export class ViewPensComponent extends AbstractSettingsComponent {
         header: 'Duplizieren',
         title: 'Stift duplizieren',
         click: () => {
-          this.additionalPens.push([getCopyOfPen(p[0]), new CustomEvent<[Point, Event]>()])
+          const index = this.defaultPens.indexOf(p);
+          this.additionalPens.push([getCopyOfPen(p[0], index === -1 ? undefined : index), new CustomEvent<[Point, Event]>()])
         },
         icon: 'content_copy'
       }, {
@@ -73,7 +74,11 @@ export class ViewPensComponent extends AbstractSettingsComponent {
     this.additionalPens = this.whiteboardService.settings.getAdditionalPens().map(p => [getCopyOfPen(p), new CustomEvent<[Point, Event]>()]);
   }
 
-  public saveListener = () => {
+  protected save() {
     this.whiteboardService.settings.setAdditionalPens(this.additionalPens.map(p => p[0]));
+  }
+
+  ngOnDestroy(): void {
+      this.closed = true;
   }
 }

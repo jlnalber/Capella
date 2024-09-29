@@ -4,9 +4,9 @@
      version="1.1" baseProfile="full"
      width="100px" height="100px">
 
-    <g transform="scale(0.75)" transform-origin="50% 50%" fill="#555">
-        <polygon points="10,90 35,90 10,65" />
-        <polygon points="90,35 40,85 15,60 65,10" />
+    <g transform="scale(0.75)" transform-origin="50% 50%" stroke-width="8" stroke-linecap="round" stroke="#000" fill="transparent" stroke-linejoin="round">
+        <path d="M65,10 L10,65 L10,90 L35,90 L90,35 A11,11 0 0,0 90,20 L80,10 A11,11 0 0,0 65,10 " />
+        <path d="M60,15 L85,40" stroke-width="5" />
     </g>
 
 </svg>

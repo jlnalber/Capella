@@ -3,8 +3,7 @@
      xmlns:xlink="http://www.w3.org/1999/xlink"
      version="1.1" baseProfile="full"
      width="100px" height="100px">
-  <g transform="scale(0.75)" transform-origin="50% 50%" stroke="black">
-    <line x1="75" x2="25" y1="0" y2="50" stroke-linecap="round" stroke-width="8" ></line>
-    <line x1="25" x2="75" y1="50" y2="100" stroke-linecap="round" stroke-width="8" ></line>
+  <g transform="scale(0.75)" transform-origin="50% 50%" stroke-width="8" stroke-linecap="round" stroke="#000" fill="transparent" stroke-linejoin="round" >
+    <path d="M75,0 L30,45 A7,7 0 0,0 30,55 L75,100" />
   </g>
 </svg>

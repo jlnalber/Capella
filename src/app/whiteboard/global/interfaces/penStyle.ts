@@ -78,7 +78,7 @@ export function getPenStyleOfPen(pen: Pen, pens: Pen[]): PenStyle {
     }
 }
 
-export function getCopyOfPen(pen: Pen): Pen {
+export function getCopyOfPen(pen: Pen, index?: number): Pen {
     const p: Pen = {
         ...pen
     }
@@ -90,6 +90,9 @@ export function getCopyOfPen(pen: Pen): Pen {
         else if (instanceOfGradient(p.colorStyle)) {
             p.colorStyle = getCopyOfGradient(p.colorStyle);
         }
+    }
+    else if (typeof p.colorStyle === 'function' && index !== undefined) {
+        p.colorStyle = index;
     }
     p.penStyle = getCopyOfEasyPenStyle(p.penStyle);
     return p;

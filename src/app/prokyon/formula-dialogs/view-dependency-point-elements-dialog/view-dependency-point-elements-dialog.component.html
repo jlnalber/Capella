@@ -14,7 +14,7 @@
     <p class="paragraph">Ergebnisse:</p>
     <div class="point" *ngFor="let point of this.dialogData.points; let l = last" [ngClass]="{'notLast': !l}">
       <p class="maths paragraph pointParagraph">({{point.x.toLocaleString()}}|{{point.y.toLocaleString()}})</p>
-      <button class="iconButton depositionTop floatRight" (click)="this.addPointToDrawerService(point)"><span class="material-symbols-outlined">add</span></button>
+      <button class="iconButton depositionTop floatRight" (click)="this.addPointToDrawerService(point)"><img src="assets/plus.svg" class="icon" alt="icon"></button>
     </div>
   </div>
   <div class="paragraph defaultMargin pointsNotFoundMessage" *ngIf="this.dialogData.size === 0">Es wurden keine Elemente gefunden.</div>

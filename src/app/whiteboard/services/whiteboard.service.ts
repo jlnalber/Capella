@@ -9,6 +9,8 @@ import { PointerType } from '../../global/classes/pointerController';
 import Page from './page';
 import AbstractDrawerService from 'src/app/global/classes/abstract/abstractDrawerService';
 import { WhiteboardSettings } from './whiteboardSettings';
+import { DialogService } from 'src/app/global/dialog/dialog.service';
+import { SnackbarService } from 'src/app/global/snackbar/snackbar.service';
 
 
 export const STORAGE_CACHE = 'serialized_whiteboard'
@@ -149,7 +151,7 @@ export class WhiteboardService extends AbstractDrawerService {
 
   public readonly settings = new WhiteboardSettings();
 
-  constructor() {
+  constructor(public readonly dialogService: DialogService, public readonly snackBarService: SnackbarService) {
     super();
     this.onPageChanged.addListener(this.redrawListener);
     this.onModeChanged.addListener(this.redrawListener);

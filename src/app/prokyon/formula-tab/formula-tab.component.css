@@ -23,7 +23,7 @@ p {
   height: 100%;
   width: 100%;
   display: inline-block;
-  font-family: 'Segoe UI', Calibri, 'sans-serif';
+  /* font-family: 'Segoe UI', Calibri, 'sans-serif'; */
   font-size: 13pt;
 }
 

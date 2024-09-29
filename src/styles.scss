@@ -9,7 +9,17 @@ body, html {
     bottom: 0;
     padding: 0;
 
-    font-family: 'Trebuchet MS', sans-serif;
+    font-family: 'Trebuchet MS', Calibri, sans-serif;
     -webkit-user-select: none;
     user-select: none;
+}
+
+
+.material-symbols-outlined {
+    transform: translate(-5px, 6px);
+    font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 48
 }

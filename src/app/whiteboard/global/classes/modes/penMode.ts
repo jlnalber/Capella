@@ -8,6 +8,8 @@ import { WhiteboardService } from "src/app/whiteboard/services/whiteboard.servic
 import { RibbonTab } from "../../../../global/classes/ribbon/ribbon";
 import { DEFAULT_PENS, getPenStyleOfPen, Pen, PenStyle } from "../../interfaces/penStyle";
 import RibbonColorPicker from "src/app/global/classes/ribbon/ribbonColorPicker";
+import RibbonButton from "src/app/global/classes/ribbon/ribbonButton";
+import { EditPenQuickActionsDialogComponent } from "src/app/whiteboard/dialogs/edit-pen-quick-actions-dialog/edit-pen-quick-actions-dialog.component";
 
 export class PenMode extends WhiteboardMode {
   private penElement: PenElement | undefined;
@@ -65,7 +67,10 @@ export class PenMode extends WhiteboardMode {
       color: colors[0],
       underlineColor: colors[1],
       content: [
-        new RibbonColorPicker(whiteboardService.settings.getColors(), () => this.pen.color, (c: Color) => this.pen.color = c, () => false)
+        new RibbonColorPicker(whiteboardService.settings.getColors(), () => this.pen.color, (c: Color) => this.pen.color = c, () => false),
+        new RibbonButton('Bearbeiten', 'pen', 'Stifte bearbeiten', () => {
+          whiteboardService.dialogService.createDialog(EditPenQuickActionsDialogComponent)?.open();
+        })
       ]
     }];
   }

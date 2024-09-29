@@ -1,7 +1,7 @@
 .iconButton {
-  --buttonSize: 46px;
-  height: var(--buttonSize);
-  width: var(--buttonSize);
+  --iconButtonSize: 46px;
+  height: var(--iconButtonSize);
+  width: var(--iconButtonSize);
   border: none;
   outline: none;
   background: #fff7f2;
@@ -20,7 +20,14 @@
 }
 
 .iconButton.depositionTop {
-  margin-top: calc(-1 * var(--buttonSize));
+  margin-top: calc(-1 * var(--iconButtonSize));
+}
+
+.iconButton img {
+  --size: 70%;
+  width: var(--size);
+  height: var(--size);
+  margin-top: calc((100% - var(--size)) / 2);
 }
 
 .floatRight {
@@ -29,13 +36,13 @@
 
 .input {
   --padding: 7px;
-  --buttonSize: 46px;
+  --iconButtonSize: 46px;
   --border: 1px;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
-  height: calc(var(--buttonSize) - 2 * (var(--padding) + var(--border)));
+  height: calc(var(--iconButtonSize) - 2 * (var(--padding) + var(--border)));
   font-size: 14pt;
   font-family: "Cambria Math", Cambria, "CMU Serif", serif;
   padding: var(--padding);
@@ -66,27 +73,38 @@
     'opsz' 48
 }
 
-.button {
-  padding: 7px;
+.select, .button {
   outline: none;
-  /* border: 1px solid #cccccc;
-  background: #fcfcfc; */
-  border-radius: 5px;
   transition: all 0.1s ease-in-out;
-  font-size: 12pt;
   font-family: "Trebuchet MS", 'Segoe UI', Calibri, 'sans-serif';
+  font-size: 12pt;
+  color: #885739;
+
+  background-color: #fff7f2;
+  border-radius: 50vh;
+  border: 1px solid #b3917c;
+  
+  --button-height: 37px;
+  --button-pading: 7px;
+  height: var(--button-height);
+}
+
+.button {
+  padding: var(--button-pading);
+  /* border: 1px solid #cccccc;
+  background: #fcfcfc;
+  border-radius: 5px; */
   /* font-weight: 500; */
   -webkit-user-select: none;
   user-select: none;
-  border-radius: 50vh;
-  --button-height: 37px;
-  height: var(--button-height);
-  background-color: #fff7f2;
-  border: 1px solid #b3917c;
-  color: #885739;
 }
 
-.button:hover {
+.select {
+  padding-left: var(--button-pading);
+  padding-right: var(--button-pading);
+}
+
+.button:hover, .select:hover {
   background-color: #ffe7d8;
 }
 

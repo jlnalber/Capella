@@ -16,6 +16,8 @@ const COLORS_DEFAULT: Color[] = [
 
 const ADD_PENS_LOCALSTORAGE = 'ADD_PENS_LOCSTOR';
 const ADD_PENS_DEFAULT: Pen[] = [];
+const PENS_ORDER_LOCALSTORAGE = 'PENS_ORDER_LOCSTOR';
+const PENS_ORDER_DEFAULT: number[] = [0, 1, 2, 3]
 
 const CANVAS_CONFIG_LOCALSTORAGE = 'CANVAS_CONFIG_LOCSTOR';
 const CANVAS_CONFIG_DEFAULT: CanvasConfig = {};
@@ -29,6 +31,7 @@ const GLOBAL_CONFIG_DEFAULT: GlobalConfig = {};
 
 export class WhiteboardSettings {
 
+  // pens
   private addPens: Pen[] | undefined;
 
   public getAdditionalPens(): Pen[] {
@@ -50,6 +53,29 @@ export class WhiteboardSettings {
     return [ ...DEFAULT_PENS, ...this.getAdditionalPens() ]
   }
 
+  private pensOrder: number[] | undefined;
+
+  public getPensOrder(): number[] {
+    if (this.pensOrder === undefined) {
+      const p = localStorage.getItem(PENS_ORDER_LOCALSTORAGE);
+      if (p !== null) {
+        this.pensOrder = JSON.parse(p) as number[];
+      }
+    }
+    return this.pensOrder ?? PENS_ORDER_DEFAULT;
+  }
+
+  public setPensOrder(order: number[]): void {
+    this.pensOrder = order;
+    localStorage.setItem(PENS_ORDER_LOCALSTORAGE, JSON.stringify(this.pensOrder));
+  }
+
+  public getPensInOrder(): Pen[] {
+    const pens = this.getPens();
+    return this.getPensOrder().filter(i => i < pens.length).map(i => pens[i]);
+  }
+
+  // colors
   private addColors: Color[] | undefined;
 
   public getAdditionalColors(): Color[] {
@@ -71,6 +97,7 @@ export class WhiteboardSettings {
     return [ ...COLORS_DEFAULT, ...this.getAdditionalColors() ]
   }
 
+  // canvas config
   private canvasConfig: CanvasConfig | undefined;
 
   public getCanvasConfig(): CanvasConfig {
@@ -88,6 +115,7 @@ export class WhiteboardSettings {
     localStorage.setItem(CANVAS_CONFIG_LOCALSTORAGE, JSON.stringify(this.canvasConfig));
   }
 
+  // global config
   private globalConfig: GlobalConfig | undefined;
 
   public getGlobalConfig(): GlobalConfig {

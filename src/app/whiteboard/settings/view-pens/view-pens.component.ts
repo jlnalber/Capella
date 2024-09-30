@@ -7,6 +7,9 @@ import { Point } from 'src/app/global/interfaces/point';
 import { ContextMenu, ContextMenuDirective } from 'src/app/global/context-menu/context-menu.directive';
 import { FormulaElement } from 'src/app/prokyon/global/classes/abstract/formulaElement';
 import { ConfirmationDialogComponent } from 'src/app/global/dialog/confirmation-dialog/confirmation-dialog.component';
+import Picker from 'src/app/global/style-components/pickers/picker';
+import { PickerDialogComponent, PickerDialogData } from '../../dialogs/picker-dialog/picker-dialog.component';
+import { PenStyleComponent } from 'src/app/global/style-components/pen-style/pen-style.component';
 
 type PenAndEvent = [Pen, CustomEvent<[Point, Event]>]
 
@@ -25,9 +28,15 @@ export class ViewPensComponent extends AbstractSettingsComponent implements OnDe
       elements: () => [{
         header: 'Bearbeiten',
         title: 'Stift bearbeiten',
-        disabled: true || isDefault,
+        disabled: isDefault,
         click: () => {
-          // TODO: enable pen editing
+          const picker = new Picker<Pen>(() => p[0], (pen: Pen) => p[0] = pen);
+          const pickerDialogData: PickerDialogData<PenStyleComponent, Pen> = {
+            componentType: PenStyleComponent,
+            title: 'Stift bearbeiten',
+            picker
+          }
+          PickerDialogComponent.openPickerDialogComponent(this.whiteboardService.dialogService, pickerDialogData)
         },
         icon: 'edit'
       }, {

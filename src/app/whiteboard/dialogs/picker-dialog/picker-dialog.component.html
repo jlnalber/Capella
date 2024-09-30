@@ -1,0 +1,10 @@
+<div class="wrapper">
+    <p class="paragraph heading">{{ this.getTitle() }}</p>
+
+    <div class="settingsWrapper" #contentDiv></div>
+
+    <div class="buttons">
+        <button class="button close floatRight" (click)="this.save()">Bestätigen</button>
+        <button class="button floatRight" (click)="this.close()">Abbrechen</button>
+    </div>
+</div>

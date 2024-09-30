@@ -11,7 +11,7 @@ import RibbonButton from 'src/app/global/classes/ribbon/ribbonButton';
 import RibbonText from 'src/app/global/classes/ribbon/ribbonText';
 import RibbonPenPicker from 'src/app/global/classes/ribbon/ribbonPenPicker';
 import { PenPickerComponent } from "../../../style-components/pen-picker/pen-picker.component";
-import RibbonColorPicker from 'src/app/global/classes/ribbon/ribbonColorPicker';
+import ColorPicker from 'src/app/global/style-components/pickers/colorPicker';
 import { ColorPickerComponent } from "../../../style-components/color-picker/color-picker.component";
 
 @Component({
@@ -44,8 +44,8 @@ export class ContentViewerComponent {
     return content instanceof RibbonPenPicker;
   }
 
-  public isColorPicker(content: Content): content is RibbonColorPicker {
-    return content instanceof RibbonColorPicker;
+  public isColorPicker(content: Content): content is ColorPicker {
+    return content instanceof ColorPicker;
   }
 
   public getAsDivider(content: Content): Divider {

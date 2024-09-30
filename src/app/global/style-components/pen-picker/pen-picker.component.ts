@@ -3,6 +3,7 @@ import { getColorAsRgbaFunction } from 'src/app/global/interfaces/color';
 import RibbonPenPicker from 'src/app/global/classes/ribbon/ribbonPenPicker';
 import { Pen } from 'src/app/whiteboard/global/interfaces/penStyle';
 import { WhiteboardService } from 'src/app/whiteboard/services/whiteboard.service';
+import AbstractPickerComponent from '../abstractPickerComponent';
 
 @Component({
   selector: 'app-pen-picker',

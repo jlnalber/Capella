@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
-import RibbonColorPicker from '../../classes/ribbon/ribbonColorPicker';
+import ColorPicker from '../pickers/colorPicker';
 import { Color, getColorAsRgbaFunction } from '../../interfaces/color';
 import { sameColors } from '../../essentials/utils';
+import AbstractPickerComponent from '../abstractPickerComponent';
 
 @Component({
   selector: 'app-color-picker',
@@ -10,12 +11,12 @@ import { sameColors } from '../../essentials/utils';
   templateUrl: './color-picker.component.html',
   styleUrl: './color-picker.component.scss'
 })
-export class ColorPickerComponent {
-  @Input({required: true}) colorPicker!: RibbonColorPicker;
+export class ColorPickerComponent extends AbstractPickerComponent<ColorPicker, Color> {
+  @Input({required: true}) public picker!: ColorPicker;
 
 
   isActiveColor(c: Color): boolean {
-    return sameColors(c, this.colorPicker.getActiveColor());
+    return sameColors(c, this.picker.getActive());
   }
 
   getStyleToColor(c: Color): string {

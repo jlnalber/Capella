@@ -30,7 +30,9 @@ export class ViewPensComponent extends AbstractSettingsComponent implements OnDe
         title: 'Stift bearbeiten',
         disabled: isDefault,
         click: () => {
-          const picker = new Picker<Pen>(() => p[0], (pen: Pen) => p[0] = pen);
+          const picker = new Picker<Pen>(() => {
+            return getCopyOfPen(p[0]);
+          }, (pen: Pen) => p[0] = pen);
           const pickerDialogData: PickerDialogData<PenStyleComponent, Pen> = {
             componentType: PenStyleComponent,
             title: 'Stift bearbeiten',

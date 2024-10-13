@@ -12,6 +12,6 @@ import AbstractPickerComponent from '../abstractPickerComponent';
 })
 export class PenStyleStyleComponent extends AbstractPickerComponent<Picker<PenStyle>, PenStyle> {
 
-  @Input({required: true}) public picker!: Picker<PenStyle>;
+  @Input({required: true}) public picker?: Picker<PenStyle>;
 
 }

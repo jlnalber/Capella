@@ -14,13 +14,13 @@ $margin: 7px;
     display: inline-block;
     margin: $margin;
     overflow: hidden;
-    transition: all 0.2s ease-in-out; /* not working because it is constantly checking for new ones and thus reloading, Sirius? */
+    transition: all 0.2s linear; /* not working because it is constantly checking for new ones and thus reloading, Sirius? */
     border: $borderStandard solid #00000028;
     padding: 0px;
 }
 
 .colorWrapper {
-    transition: all 0.2s ease-in-out;
+    transition: all 0.2s linear;
     max-width: 300px;
 }
 
@@ -28,11 +28,11 @@ $margin: 7px;
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.2s linear;
 }
 
 .activeColor {
-    transition: all 0.2s ease-in-out;
+    transition: all 0.2s linear;
     border: $activeBorder solid #000000cc !important;
     width: $whn !important;
     height: $whn !important;

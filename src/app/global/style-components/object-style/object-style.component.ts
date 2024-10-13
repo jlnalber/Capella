@@ -11,6 +11,6 @@ import Picker from '../pickers/picker';
   styleUrl: './object-style.component.scss'
 })
 export class ObjectStyleComponent extends AbstractPickerComponent<Picker<ObjectStyle>, ObjectStyle> {
-  @Input({required: true}) public picker!: Picker<ObjectStyle>;
+  @Input({required: true}) public picker?: Picker<ObjectStyle>;
 
 }

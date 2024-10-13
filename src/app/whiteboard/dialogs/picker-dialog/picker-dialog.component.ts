@@ -21,7 +21,7 @@ export class PickerDialogComponent<T extends AbstractPickerComponent<Picker<E>, 
   
     public save() {
       if (this.dialogData !== undefined && this.dialogData.picker.value !== undefined) {
-        this.dialogData.picker.setActive(this.dialogData.picker.value);
+        this.dialogData.picker?.setActive(this.dialogData.picker.value);
       }
       this.close();
     }

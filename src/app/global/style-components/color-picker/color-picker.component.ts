@@ -12,11 +12,11 @@ import AbstractPickerComponent from '../abstractPickerComponent';
   styleUrl: './color-picker.component.scss'
 })
 export class ColorPickerComponent extends AbstractPickerComponent<ColorPicker, Color> {
-  @Input({required: true}) public picker!: ColorPicker;
+  @Input({required: true}) public picker?: ColorPicker;
 
 
   isActiveColor(c: Color): boolean {
-    return sameColors(c, this.picker.getActive());
+    return sameColors(c, this.picker?.getActive());
   }
 
   getStyleToColor(c: Color): string {

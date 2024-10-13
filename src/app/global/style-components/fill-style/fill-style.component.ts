@@ -11,6 +11,6 @@ import AbstractPickerComponent from '../abstractPickerComponent';
   styleUrl: './fill-style.component.scss'
 })
 export class FillStyleComponent extends AbstractPickerComponent<Picker<FillStyle>, FillStyle> {
-  @Input({required: true}) public picker!: Picker<FillStyle>;
+  @Input({required: true}) public picker?: Picker<FillStyle>;
 
 }

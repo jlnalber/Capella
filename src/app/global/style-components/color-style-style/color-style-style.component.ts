@@ -12,6 +12,6 @@ import AbstractPickerComponent from '../abstractPickerComponent';
 })
 export class ColorStyleStyleComponent extends AbstractPickerComponent<Picker<ColorStyle>, ColorStyle> {
 
-  @Input({required: true}) public picker!: Picker<ColorStyle>;
+  @Input({required: true}) public picker?: Picker<ColorStyle>;
 
 }

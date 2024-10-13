@@ -1,0 +1,1 @@
+export type Icon = 'fueller' | 'ballpoint' | 'pencil' | 'marker';

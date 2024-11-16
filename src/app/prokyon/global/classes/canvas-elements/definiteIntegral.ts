@@ -182,7 +182,7 @@ export default class DefiniteIntegral extends ProkyonCanvasElement {
           color
         }, {
           color: this.stroke,
-          uniformSizeOnZoom: true,
+          uniformSizeOnZoom: false,
           lineWidth: this.strokeWidth
         })
       }

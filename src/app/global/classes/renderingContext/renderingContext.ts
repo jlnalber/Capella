@@ -546,14 +546,14 @@ export class RenderingContext extends AbstractRenderingContext {
       fillStyle?: FillStyle,
       strokeStyle?: StrokeStyle,
       objectStyle?: ObjectStyle): void {
-    const zoom = !useUniformSize ? this.zoom : 1;
+    const zoom = useUniformSize ? this.zoom : 1;
 
     this.useStrokeStyle(strokeStyle);
     this.useFillStyle(fillStyle);
     this.useObjectStyle(objectStyle);
     const realRect = this.transformRectFromFieldToCanvasWithResolutionFactor(rect);
-    this.ctx.fillRect(realRect.x, realRect.y, realRect.width * zoom, realRect.height * zoom);
-    this.ctx.strokeRect(realRect.x, realRect.y, realRect.width * zoom, realRect.height * zoom);
+    this.ctx.fillRect(realRect.x, realRect.y, realRect.width / zoom, realRect.height / zoom);
+    this.ctx.strokeRect(realRect.x, realRect.y, realRect.width / zoom, realRect.height / zoom);
   }
 
   public drawImage(image: CanvasImageSource,

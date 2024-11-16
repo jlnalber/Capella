@@ -457,7 +457,7 @@ export default class TextBox extends CanvasIdElement {
                         x: xSpan,
                         y
                     }, {
-                        fontSize: [TextBox.getFontSizeInPX(span.fontSize, renderingContext), 'px'],
+                        fontSize: [TextBox.getFontSizeInPX(span.fontSize), 'px'],
                         fontFamily: span.font,
                         textAlign: 'left',
                         textBaseline: 'bottom',
@@ -581,7 +581,7 @@ export default class TextBox extends CanvasIdElement {
     private static measureTextOfSpan(span: Span, renderingContext: AbstractRenderingContext, altText?: string): number {
         return renderingContext.measureText(altText ?? span.text, {
             color: BLACK,
-            fontSize: [TextBox.getFontSizeInPX(span.fontSize, renderingContext), 'px'],
+            fontSize: [TextBox.getFontSizeInPX(span.fontSize), 'px'],
             fontFamily: span.font,
             textAlign: 'left',
             textBaseline: 'bottom',
@@ -589,8 +589,8 @@ export default class TextBox extends CanvasIdElement {
         }).width / renderingContext.zoom;
     }
 
-    private static getFontSizeInPX(fontSize: number, renderingContext: AbstractRenderingContext): number {
-        return fontSize / PT_PER_MM * PX_PER_MM * renderingContext.zoom;
+    private static getFontSizeInPX(fontSize: number): number {
+        return fontSize / PT_PER_MM * PX_PER_MM;
     }
 
     private cursorPositionToIndex(cursorPosition: CursorPosition): number {

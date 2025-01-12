@@ -2,7 +2,7 @@
     <p class="paragraph heading">Reihenfolge der Stifte verändern</p>
     <div class="penWrapper">
         @for (i of this.order; track $index) {
-            <div class="pen">
+            <div class="selectContainer borderBottom pen">
                 <img [src]="'./assets/' + this.pens[i].icon + '.svg'" class="icon" alt="icon">
                 <select class="select" [(ngModel)]="this.order[$index]" title="Stift auswählen">
                     @for (pen of this.pens; track $index) {

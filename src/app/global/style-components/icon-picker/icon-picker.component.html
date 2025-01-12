@@ -1,1 +1,13 @@
-<p>icon-picker works!</p>
+<div class="wrapper">
+    <label class="paragraph">Icon auswählen:</label>
+    <div class="selectContainer">
+        @if (this.picker) {
+            <img [src]="'./assets/' + this.activeIconObj?.fileName + '.svg'" class="icon" alt="icon">
+            <select class="select" [(ngModel)]="this.activeIcon" title="Icon auswählen">
+                @for (pen of this.icons; track $index) {
+                    <option [value]="$index">{{ pen.name }}</option>
+                }
+            </select>
+        }
+    </div>
+</div>

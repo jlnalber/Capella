@@ -1,5 +1,4 @@
-import { CanvasClickerElement } from "../../global/classes/abstract/canvasClickerElement";
-import { CanvasIdElement } from "../../global/classes/abstract/canvasIdElement";
+import { CanvasAndCTX } from './../../global/canvas/abstractCanvas';
 import { RenderingContext } from "../../global/classes/renderingContext/renderingContext";
 import { Point, Vector } from "src/app/global/interfaces/point";
 import { Transformations } from "src/app/global/interfaces/transformations";
@@ -13,8 +12,14 @@ import { DINA4 } from "../../global/styles/formats";
 import TextBox from "../global/classes/textBox";
 import { sizeToRect } from "../../global/essentials/utils";
 import FillStyle from "src/app/global/interfaces/canvasStyles/fillStyle";
+import WhiteboardCanvasClickerElement from '../global/classes/abstract/whiteboardCanvasClickerElement';
+import WhiteboardCanvasIdElement from '../global/classes/abstract/whiteboardCanvasIdElement';
+import MultiLayerRenderingContext from 'src/app/global/classes/renderingContext/multilayerRenderingContext';
+import StrictEvent from 'src/app/global/essentials/strictEvent';
 
 export const PX_PER_MM = 5.2;
+
+const LOWEST_ELEMENT_LAYER = 1;
 
 export const BACKGROUND_COLOR: Color = {
     r: 240,
@@ -24,18 +29,18 @@ export const BACKGROUND_COLOR: Color = {
 
 export default class Page {
 
-    private _canvasElements: CanvasIdElement[] = [];
+    private _canvasElements: WhiteboardCanvasIdElement[] = [];
 
-    public addCanvasElements(...canvasElements: CanvasIdElement[]): void {
+    public addCanvasElements(...canvasElements: WhiteboardCanvasIdElement[]): void {
         for (let canvasElement of canvasElements) {
             this._canvasElements.push(canvasElement);
             canvasElement.onChange.addListener(this.canvasElementOnChangeListener);
             canvasElement.onAdd.emit(this);
         }
-        this.onCanvasElementChanged.emit(canvasElements);
+        this.onCanvasElementsChanged.emit(canvasElements);
     }
 
-    public removeCanvasElements(...canvasElements: CanvasIdElement[]): boolean {
+    public removeCanvasElements(...canvasElements: WhiteboardCanvasIdElement[]): boolean {
         // Remove all teh given canvas elements from the canvas.
         let worked = true;
         for (let canvasElement of canvasElements) {
@@ -50,7 +55,7 @@ export default class Page {
         }
 
         // Emit event.
-        this.onCanvasElementChanged.emit(canvasElements);
+        this.onCanvasElementsChanged.emit(canvasElements);
         return worked;
     }
 
@@ -59,11 +64,12 @@ export default class Page {
             canvasElement.onChange.removeListener(this.canvasElementOnChangeListener);
             canvasElement.onRemove.emit(this);
         }
+        const copy = this._canvasElements;
         this._canvasElements = [];
-        this.onCanvasElementChanged.emit();
+        this.onCanvasElementsChanged.emit(copy);
     }
 
-    public get canvasElements(): CanvasIdElement[] {
+    public get canvasElements(): WhiteboardCanvasIdElement[] {
         return this._canvasElements.slice();
     }
 
@@ -115,7 +121,7 @@ export default class Page {
         this.onTransformationsChanged.emit(value);
     }
 
-    public readonly selection: Selection<CanvasIdElement> = new Selection<CanvasIdElement>();
+    public readonly selection: Selection<WhiteboardCanvasIdElement> = new Selection<WhiteboardCanvasIdElement>();
 
     private _format: Size | undefined = DINA4;
     
@@ -154,7 +160,7 @@ export default class Page {
 
     // Events
     // public readonly onBackgroundColorChanged: Event<Color> = new Event<Color>();
-    public readonly onCanvasElementChanged: Event<any> = new Event<any>();
+    public readonly onCanvasElementsChanged: StrictEvent<WhiteboardCanvasIdElement[]> = new StrictEvent<WhiteboardCanvasIdElement[]>();
     // public readonly onMetaDrawersChanged: Event<CanvasDrawer> = new Event<CanvasDrawer>();
     public readonly onTransformationsChanged: Event<number | Transformations> = new Event<number | Transformations>();
     // public readonly onCanvasConfigChanged: Event<CanvasConfig> = new Event<CanvasConfig>();
@@ -164,8 +170,8 @@ export default class Page {
     public readonly onFormatChanged: Event<Size | undefined> = new Event<Size | undefined>();
     public readonly onTextChanged: Event<undefined> = new Event<undefined>();
 
-    private canvasElementOnChangeListener = (val: any) => {
-        this.onCanvasElementChanged.emit(val);
+    private canvasElementOnChangeListener = (val: WhiteboardCanvasIdElement) => {
+        this.onCanvasElementsChanged.emit([val]);
     }
     private redrawListener = () => {
         this.redraw();
@@ -173,9 +179,6 @@ export default class Page {
 
     constructor(private readonly whiteboardService: WhiteboardService) {
         // first, add listeners to whiteboard
-        this.onCanvasElementChanged.addListener((a: any | undefined) => {
-            this.whiteboardService.onCanvasElementChanged.emit(a);
-        })
         this.onTransformationsChanged.addListener((a: number | Transformations | undefined) => {
             this.whiteboardService.onTransformationsChanged.emit(a);
         })
@@ -191,7 +194,15 @@ export default class Page {
 
         // then, add listeners to events
         //this.onBackgroundColorChanged.addListener(this.redrawListener);
-        this.onCanvasElementChanged.addListener(this.redrawListener);
+        this.onCanvasElementsChanged.addListener((cs: WhiteboardCanvasIdElement[]) => {
+            const levels: number[] = [];
+            for (let c of cs) {
+                if (levels.indexOf(c.level) === -1) {
+                    levels.push(c.level);
+                }
+            }
+            this.redrawLevels(levels);
+        });
         this.onTransformationsChanged.addListener(this.redrawListener);
         //this.onMetaDrawersChanged.addListener(this.redrawListener);
         //this.onCanvasConfigChanged.addListener(this.redrawListener);
@@ -209,20 +220,20 @@ export default class Page {
 
 
     // #region fields for rendering
-    public get renderingContext(): RenderingContext {
-        return this.getRenderingContextFor(this.whiteboardService.canvas?.ctx as CanvasRenderingContext2D, this._transformations);
+    public get renderingContext(): MultiLayerRenderingContext {
+        return this.getRenderingContextFor(this.whiteboardService.canvas?.canvasAndCTX as CanvasAndCTX[], this._transformations);
     }
 
-    public getRenderingContextFor(ctx: CanvasRenderingContext2D, transformations: Transformations): RenderingContext {
-        return new RenderingContext(ctx, transformations, this.selection.toArray(), this.whiteboardService.settings.getCanvasConfig());
+    public getRenderingContextFor(canvasAndCTX: CanvasAndCTX[], transformations: Transformations): MultiLayerRenderingContext {
+        return new MultiLayerRenderingContext(canvasAndCTX.map(i => i.ctx), 0, transformations, this.selection.toArray(), this.whiteboardService.settings.getCanvasConfig());
     }
 
     public redraw(): void {
-        if (this.whiteboardService.canvas && this.whiteboardService.canvas.canvasEl && this.whiteboardService.canvas.wrapperEl && this.whiteboardService.canvas.ctx) {
+        if (this.whiteboardService.canvas && this.whiteboardService.canvas.canvasAndCTX && this.whiteboardService.canvas.wrapperEl) {
             this.onBeforeRedraw.emit();
 
             // draw to canvas
-            this.drawToCanvas(this.whiteboardService.canvas.canvasEl, this.whiteboardService.canvas.wrapperEl.getBoundingClientRect(), this._transformations);
+            this.drawToCanvas(this.whiteboardService.canvas.canvasAndCTX, this.whiteboardService.canvas.wrapperEl.getBoundingClientRect(), this._transformations);
 
             this.onAfterRedraw.emit();
         }
@@ -249,40 +260,45 @@ export default class Page {
       return svg;
     }*/
 
-    public drawToCanvas(canvas: HTMLCanvasElement, boundingRect: Rect, transformations: Transformations): void {
-        const resolution = transformations.resolutionFactor ?? 1;
+    public redrawLevels(levels: number[]): void {
+        if (this.whiteboardService.canvas && this.whiteboardService.canvas.canvasAndCTX && this.whiteboardService.canvas.wrapperEl) {
+            this.onBeforeRedraw.emit();
 
-        const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+            const canvasAndCTXs: CanvasAndCTX[] = this.whiteboardService.canvas.canvasAndCTX;
+            const boundingRect = this.whiteboardService.canvas.wrapperEl.getBoundingClientRect();
+            const renderingContext = this.getRenderingContextFor(canvasAndCTXs, this._transformations);
+            const resolution = this._transformations.resolutionFactor ?? 1;
+            
+            // draw to canvas
+            for (let level of levels) {
+                const cac = canvasAndCTXs[level + LOWEST_ELEMENT_LAYER];
+                this._redrawLevelWithProperties(level, renderingContext, cac, resolution, boundingRect);
+            }
 
-        // resize canvas
-        ctx.canvas.width = boundingRect.width * resolution;
-        ctx.canvas.height = boundingRect.height * resolution;
+            this.onAfterRedraw.emit();
+        }
+    }
 
-        // first: draw the background
-        //ctx.fillStyle = getColorAsRgbaFunction(this.backgroundColor);
-        ctx.fillStyle = getColorAsRgbaFunction(WHITE);
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    private _redrawLevelWithProperties(level: number, renderingContext: MultiLayerRenderingContext, cac: CanvasAndCTX, resolution: number, boundingRect: Rect): void {
+        // resize canvas and clear
+        this._resizeAndClearLevel(cac, resolution, boundingRect);
 
-        // then: draw the elements (first metaDrawers, then canvasElements)
-        const renderingContext = this.getRenderingContextFor(ctx, transformations);
+        renderingContext.activeCanvas = level + LOWEST_ELEMENT_LAYER;
 
-        // draw the text
-        this.text.draw(renderingContext);
+        if (level === 1) {
+            // draw the text when level is right
+            this.text.draw(renderingContext);
+        }
 
-        this.onBeforeElementsDraw.emit(renderingContext);
-        /*for (let metaDrawer of this._metaDrawers) {
-          metaDrawer.draw(renderingContext);
-        }*/
-
-        let cs: CanvasIdElement[] = this._canvasElements;
+        let cs: WhiteboardCanvasIdElement[] = this._canvasElements.filter(cE => cE.level === level);
 
         for (let canvasElement of cs) {
             /*if (renderingContext.config && withTransformColor) {
-              if (!canvasElement.visible) {
+            if (!canvasElement.visible) {
                 renderingContext.config.transformColor = this.mode?.transformInvisibleColor;
-              } else {
+            } else {
                 renderingContext.config.transformColor = undefined;
-              }
+            }
             }*/
 
             //if (canvasElement.visible || renderingContext.config?.transformColor) {
@@ -291,10 +307,45 @@ export default class Page {
 
             //}
         }
+    }
+
+    private _resizeAndClearLevel(cac: CanvasAndCTX, resolution: number, boundingRect: Rect): void {
+        // resize canvas and clear
+        cac.canvas.width = boundingRect.width * resolution;
+        cac.canvas.height = boundingRect.height * resolution;
+        cac.ctx.clearRect(0, 0, cac.canvas.width, cac.canvas.height);
+    }
+
+    public drawToCanvas(canvasAndCTX: CanvasAndCTX[], boundingRect: Rect, transformations: Transformations): void {
+        
+        const resolution = transformations.resolutionFactor ?? 1;
+
+        // resize and clear canvas first
+        for (let i of canvasAndCTX) {
+            this._resizeAndClearLevel(i, resolution, boundingRect);
+        }
+
+        canvasAndCTX[0].ctx.fillStyle = getColorAsRgbaFunction(WHITE);
+        canvasAndCTX[0].ctx.fillRect(0, 0, canvasAndCTX[0].canvas.width, canvasAndCTX[0].canvas.height);
+        
+        // then: draw the elements (first metaDrawers, then canvasElements)
+        const renderingContext = this.getRenderingContextFor(canvasAndCTX, transformations);
+
+        this.onBeforeElementsDraw.emit(renderingContext);
+        /*for (let metaDrawer of this._metaDrawers) {
+          metaDrawer.draw(renderingContext);
+        }*/
+
+        for (let i = 0; i < 3; i++) {
+
+            this._redrawLevelWithProperties(i, renderingContext, canvasAndCTX[i + LOWEST_ELEMENT_LAYER], resolution, boundingRect);
+
+        }
 
         // draw the format:
         const format = this.getFormatInPX();
         if (format) {
+            renderingContext.activeCanvas = 4;
             const range = renderingContext.range;
             const rectLeft = {
                 y: range.y,
@@ -325,16 +376,16 @@ export default class Page {
                 color: BACKGROUND_COLOR
             }
             if (rectLeft.width > 0) {
-                renderingContext.drawRect(rectLeft, true, fillStyle)
+                renderingContext.drawRect(rectLeft, false, fillStyle)
             }
             if (rectBottom.height > 0) {
-                renderingContext.drawRect(rectBottom, true, fillStyle)
+                renderingContext.drawRect(rectBottom, false, fillStyle)
             }
             if (rectTop.height > 0) {
-                renderingContext.drawRect(rectTop, true, fillStyle)
+                renderingContext.drawRect(rectTop, false, fillStyle)
             }
             if (rectRight.width > 0) {
-                renderingContext.drawRect(rectRight, true, fillStyle)
+                renderingContext.drawRect(rectRight, false, fillStyle)
             }
 
             renderingContext.drawRect({
@@ -342,7 +393,7 @@ export default class Page {
                 y: 0,
                 height: -format.height,
                 width: format.width
-            }, true, {
+            }, false, {
                 color: TRANSPARENT
             }, {
                 color: {
@@ -371,10 +422,10 @@ export default class Page {
 
     // #region further fields
 
-    public getSelection(p: Point, filter: (cE: CanvasClickerElement) => boolean = () => true): CanvasClickerElement | undefined {
+    public getSelection(p: Point, filter: (cE: WhiteboardCanvasClickerElement) => boolean = () => true): WhiteboardCanvasClickerElement | undefined {
         let ctx = this.renderingContext;
         let minDist: number | undefined = undefined;
-        let minCanvasElement: CanvasClickerElement | undefined;
+        let minCanvasElement: WhiteboardCanvasClickerElement | undefined;
 
         // const getDistToLabel = (canvasElement: CanvasElement): number | undefined => {
         //   const labelPoint = this.getLabelPoint(canvasElement, ctx);
@@ -408,7 +459,7 @@ export default class Page {
 
         // find out the element with the minimal distance
         for (let canvasElement of this.canvasElements) {
-            if (canvasElement instanceof CanvasClickerElement) {
+            if (canvasElement instanceof WhiteboardCanvasClickerElement) {
                 const dist = canvasElement.getDistance(p, ctx);
                 if (dist !== undefined && dist !== null && isFinite(dist) && filter(canvasElement)) {
                     let closer = minDist === undefined;
@@ -431,7 +482,7 @@ export default class Page {
         return minCanvasElement;
     }
 
-    public setSelection(p: Point, empty: boolean = true, filter: (cE: CanvasClickerElement) => boolean = () => true) {
+    public setSelection(p: Point, empty: boolean = true, filter: (cE: WhiteboardCanvasClickerElement) => boolean = () => true) {
         const minCanvasElement = this.getSelection(p, filter);
 
         // set the selection, or alternate the element, e.g. when ctrl is pressed

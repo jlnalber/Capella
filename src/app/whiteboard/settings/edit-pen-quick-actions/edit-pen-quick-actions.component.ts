@@ -1,9 +1,8 @@
-import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { WhiteboardService } from '../../services/whiteboard.service';
 import { Pen } from '../../global/interfaces/penStyle';
 import { FormsModule } from '@angular/forms';
 import AbstractSettingsComponent from '../abstractSettingComponent';
-import { Event } from 'src/app/global/essentials/event';
 
 @Component({
   selector: 'app-edit-pen-quick-actions',

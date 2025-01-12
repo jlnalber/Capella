@@ -30,7 +30,7 @@ export interface CanvasConfig {
 
 export default abstract class AbstractRenderingContext {
   constructor(protected readonly transformations: Transformations,
-    selection?: CanvasIdElement[],
+    selection?: CanvasIdElement<any>[],
     protected readonly canvasConfig?: CanvasConfig,
     protected readonly getRightColor: (c: Color, config: any) => Color = (c: Color) => c,
     protected readonly _variables?: any,
@@ -38,7 +38,7 @@ export default abstract class AbstractRenderingContext {
     this.selection = selection ?? [];
   }
 
-  public readonly selection: CanvasIdElement[];
+  public readonly selection: CanvasIdElement<any>[];
 
 
   public get variables(): any {

@@ -30,7 +30,7 @@ export default class AngleElement extends ProkyonCanvasElement {
 
     public set points(value: PointElement[]) {
         this._points = value.slice();
-        this.onChange.emit();
+        this.onChange.emit(undefined);
     }
 
     public get size(): number {

@@ -18,19 +18,19 @@ export default class PenElement extends WhiteboardCanvasTransformableElement {
 
     public set penStyle(value: PenStyle) {
         this._penStyle = value;
-        this.onChange.emit(value);
+        this.onChange.emit(this);
     }
 
     private _points: PenPoint[] = [];
 
     constructor(settings: WhiteboardSettings, penStyle: PenStyle) {
-        super(settings);
+        super(settings, 2); // Drawings in level 2
         this._penStyle = penStyle;
     }
 
     public addPoint(p: PenPoint): void {
         this._points.push(p);
-        this.onChange.emit(p);
+        this.onChange.emit(this);
     }
 
     public override draw(ctx: AbstractRenderingContext): void {

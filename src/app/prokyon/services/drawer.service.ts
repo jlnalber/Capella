@@ -301,7 +301,7 @@ export class DrawerService extends AbstractDrawerService {
 
   // #region fields for rendering
   public get renderingContext(): AbstractRenderingContext {
-    return this.getRenderingContextFor(this.canvas?.ctx as CanvasRenderingContext2D, this._transformations);
+    return this.getRenderingContextFor(this.canvas?.canvasAndCTX![0].ctx as CanvasRenderingContext2D, this._transformations);
   }
 
   public getRenderingContextFor(ctx: CanvasRenderingContext2D, transformations: Transformations): AbstractRenderingContext {
@@ -312,11 +312,11 @@ export class DrawerService extends AbstractDrawerService {
   }
 
   public redraw(): void {
-    if (this.canvas && this.canvas.canvasEl && this.canvas.wrapperEl && this.canvas.ctx) {
+    if (this.canvas && this.canvas.canvasAndCTX && this.canvas.wrapperEl) {
       this.onBeforeRedraw.emit();
 
       // draw to canvas
-      this.drawToCanvas(this.canvas.canvasEl, this.canvas.wrapperEl.getBoundingClientRect(), this._transformations, true);
+      this.drawToCanvas(this.canvas.canvasAndCTX[0].canvas, this.canvas.wrapperEl.getBoundingClientRect(), this._transformations, true);
 
       this.onAfterRedraw.emit();
     }
@@ -375,7 +375,7 @@ export class DrawerService extends AbstractDrawerService {
         const label = canvasElement.configuration.label;
         if (labelPoint !== undefined && label !== undefined && label !== '') {
           const color = canvasElement.configuration.displayBlackLabel ? BLACK : canvasElement.color;
-          const useLaTeX = !canvasElement.configuration.dontUseLaTeX ?? true;
+          const useLaTeX = !(canvasElement.configuration.dontUseLaTeX ?? false);
           const labelFactor = canvasElement.configuration.labelSizeFactor ?? 1;
 
           const drawRegularLabel = () => {

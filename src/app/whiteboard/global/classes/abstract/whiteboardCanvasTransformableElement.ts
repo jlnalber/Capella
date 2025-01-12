@@ -1,6 +1,6 @@
 import { Point } from "src/app/global/interfaces/point";
-import { CanvasClickerElement } from "../../../../global/classes/abstract/canvasClickerElement";
 import { WhiteboardSettings } from "src/app/whiteboard/services/whiteboardSettings";
+import WhiteboardCanvasClickerElement from "./whiteboardCanvasClickerElement";
 
 
 // in exactly this order!
@@ -10,7 +10,7 @@ type TransformationOnCanvasElement = {
   translate: Point
 }
 
-export abstract class WhiteboardCanvasTransformableElement extends CanvasClickerElement {
+export abstract class WhiteboardCanvasTransformableElement extends WhiteboardCanvasClickerElement {
   protected transformation: TransformationOnCanvasElement = {
     scale: {x: 1, y: 1},
     rotate: 0,
@@ -21,19 +21,19 @@ export abstract class WhiteboardCanvasTransformableElement extends CanvasClicker
     this.transformation.scale = {
       ...value
     }
-    this.onChange.emit(value);
+    this.onChange.emit(this);
   }
 
   public set translate(value: Point) {
     this.transformation.translate = {
       ...value
     }
-    this.onChange.emit(value);
+    this.onChange.emit(this);
   }
 
   public set rotate(value: number) {
     this.rotate = value;
-    this.onChange.emit(value);
+    this.onChange.emit(this);
   }
 
   public get scale(): Point {
@@ -78,8 +78,8 @@ export abstract class WhiteboardCanvasTransformableElement extends CanvasClicker
     return p;
   }
 
-  constructor(protected readonly settings: WhiteboardSettings) {
-    super();
+  constructor(protected readonly settings: WhiteboardSettings, level: number = 0) { // default level 0
+    super(level);
   }
 }
 

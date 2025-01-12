@@ -7,6 +7,7 @@ import Padding from "src/app/global/interfaces/padding";
 import { sameColors } from "../../../global/essentials/utils";
 import { CanvasIdElement } from "../../../global/classes/abstract/canvasIdElement";
 import { PX_PER_MM } from "../../services/page";
+import WhiteboardCanvasIdElement from "./abstract/whiteboardCanvasIdElement";
 
 
 export const PT_PER_MM = 2.835;
@@ -28,7 +29,7 @@ type Action = {
     action: (ev: KeyboardEvent, inp: HTMLTextAreaElement, renderingContext: AbstractRenderingContext, up: boolean) => void
 }
 
-export default class TextBox extends CanvasIdElement {
+export default class TextBox extends WhiteboardCanvasIdElement {
 
     // public readonly onChanged: Event<undefined> = new Event<undefined>();
 
@@ -60,7 +61,7 @@ export default class TextBox extends CanvasIdElement {
         bottom: 0,
         right: 0
     }) {
-        super();
+        super(1); // Text in level 1
     }
 
     // TODO: 1. two points move in general, 2. two points in FF mobile, 3. Chrome input
@@ -292,7 +293,7 @@ export default class TextBox extends CanvasIdElement {
 
         this._cursorPosition = this.indexToCursorPosition(textSelection.startSelection);
 
-        this.onChange.emit();
+        this.onChange.emit(this);
     }
 
     private getWidth() {
@@ -306,13 +307,13 @@ export default class TextBox extends CanvasIdElement {
     public setRect(rect: Rect | undefined, renderingContext: AbstractRenderingContext) {
         this._rect = rect;
         this.relayoutText(renderingContext);
-        this.onChange.emit(rect);
+        this.onChange.emit(this);
     }
 
     public setPadding(padding: Padding, renderingContext: AbstractRenderingContext) {
         this._padding = padding;
         this.relayoutText(renderingContext);
-        this.onChange.emit(padding);
+        this.onChange.emit(this);
     }
 
     private relayoutText(renderingContext: AbstractRenderingContext): void {
@@ -875,7 +876,7 @@ export default class TextBox extends CanvasIdElement {
                 area.selectionDirection = 'none'
             }
         }
-        this.onChange.emit();
+        this.onChange.emit(this);
     }
 
     private getCursorPositionToXCoordinate(x: number, paragraph: number, line: number, renderingContext: AbstractRenderingContext): CursorPosition | undefined {

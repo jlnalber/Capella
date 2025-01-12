@@ -29,12 +29,12 @@ export class ViewPointElementComponent extends FormulaDialogElement {
   public dialogData!: PointElement;
 
   public get latex(): boolean {
-    return !this.dialogData.configuration.dontUseLaTeX ?? true;
+    return !(this.dialogData.configuration.dontUseLaTeX ?? false);
   }
 
   public set latex(value: boolean) {
     this.dialogData.configuration.dontUseLaTeX = !value;
-    this.dialogData.onChange.emit();
+    this.dialogData.onChange.emit(undefined);
   }
 
   public get displayBlack(): boolean {
@@ -44,7 +44,7 @@ export class ViewPointElementComponent extends FormulaDialogElement {
   public set displayBlack(value: boolean) {
     this.dialogData.configuration.displayBlackLabel = value;
     this.dialogData.svgLabel = undefined;
-    this.dialogData.onChange.emit();
+    this.dialogData.onChange.emit(undefined);
   }
 
   public get labelSize(): number {
@@ -53,6 +53,6 @@ export class ViewPointElementComponent extends FormulaDialogElement {
 
   public set labelSize(value: number) {
     this.dialogData.configuration.labelSizeFactor = value;
-    this.dialogData.onChange.emit();
+    this.dialogData.onChange.emit(undefined);
   }
 }

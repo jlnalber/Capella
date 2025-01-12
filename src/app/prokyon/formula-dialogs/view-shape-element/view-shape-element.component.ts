@@ -39,16 +39,16 @@ export class ViewShapeElementComponent extends FormulaDialogElement {
 
   public set dashed(value: boolean) {
     this.dialogData.configuration.dashed = value;
-    this.dialogData.onChange.emit();
+    this.dialogData.onChange.emit(undefined);
   }
 
   public get latex(): boolean {
-    return !this.dialogData.configuration.dontUseLaTeX ?? true;
+    return !(this.dialogData.configuration.dontUseLaTeX ?? false);
   }
 
   public set latex(value: boolean) {
     this.dialogData.configuration.dontUseLaTeX = !value;
-    this.dialogData.onChange.emit();
+    this.dialogData.onChange.emit(undefined);
   }
 
   public get displayBlack(): boolean {
@@ -58,7 +58,7 @@ export class ViewShapeElementComponent extends FormulaDialogElement {
   public set displayBlack(value: boolean) {
     this.dialogData.configuration.displayBlackLabel = value;
     this.dialogData.svgLabel = undefined;
-    this.dialogData.onChange.emit();
+    this.dialogData.onChange.emit(undefined);
   }
 
   public get labelSize(): number {
@@ -67,6 +67,6 @@ export class ViewShapeElementComponent extends FormulaDialogElement {
 
   public set labelSize(value: number) {
     this.dialogData.configuration.labelSizeFactor = value;
-    this.dialogData.onChange.emit();
+    this.dialogData.onChange.emit(undefined);
   }
 }

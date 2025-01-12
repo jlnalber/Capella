@@ -10,15 +10,15 @@ import { Serialized } from '../global/essentials/serializer';
 })
 export class ProkyonCanvasComponent extends AbstractListenerCanvas implements AfterViewInit {
   @ViewChild('canvas') public canvas!: ElementRef;
-
+  
   @ViewChild('wrapper') public wrapper!: ElementRef;
-
+  
   constructor(drawerService: DrawerService) {
     super(drawerService);
   }
 
   ngAfterViewInit() {
-    this.afterViewInit(this.canvas, this.wrapper);
+    this.afterViewInit(this.canvas, [ this.canvas ], this.wrapper);
   }
 
   protected override tryLoadFromLastSession(): void {

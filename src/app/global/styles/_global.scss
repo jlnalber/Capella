@@ -157,3 +157,30 @@
 .close:hover {
   background-color: #634734;
 }
+
+.selectContainer {
+  --height: 60px;
+  --padding: 7px;
+  padding: var(--padding);
+  height: calc(var(--height) - 2 * var(--padding));
+}
+
+.borderBottom {
+  border-bottom: 1px solid #dfd7d2;
+}
+
+.selectContainer > .icon {
+  --iconSize: calc(var(--height) - 2 * var(--padding));
+  height: var(--iconSize);
+  width: var(--iconSize);
+  border-radius: 50%;
+}
+
+.selectContainer .iconButton {
+  margin-top: calc((var(--height) - var(--iconButtonSize)) / 2 - var(--padding));
+}
+
+.selectContainer .select {
+  position: absolute;
+  margin-top: calc((var(--height) - var(--button-height)) / 2 - var(--padding));
+}

@@ -12,7 +12,7 @@ export default function getNewID(): number {
   return Number.NaN;
 }
 
-export function getElementToID(canvasElements: CanvasIdElement[], id: number): CanvasIdElement | undefined {
+export function getElementToID(canvasElements: CanvasIdElement<any>[], id: number): CanvasIdElement<any> | undefined {
   for (let c of canvasElements) {
     if (c.id === id) {
       return c;

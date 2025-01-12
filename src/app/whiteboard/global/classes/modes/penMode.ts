@@ -3,7 +3,7 @@ import { PointerContext } from "../../../../global/classes/pointerController";
 import { RenderingContext } from '../../../../global/classes/renderingContext/renderingContext';
 import { WhiteboardMode } from './whiteboardMode';
 import PenElement from '../canvas-elements/penElement';
-import { BLACK, Color } from 'src/app/global/interfaces/color';
+import { BLACK, Color, getColorAsRgbaFunction } from 'src/app/global/interfaces/color';
 import { WhiteboardService } from "src/app/whiteboard/services/whiteboard.service";
 import { RibbonTab } from "../../../../global/classes/ribbon/ribbon";
 import { DEFAULT_PENS, getPenStyleOfPen, Pen, PenStyle } from "../../interfaces/penStyle";
@@ -12,9 +12,24 @@ import RibbonButton from "src/app/global/classes/ribbon/ribbonButton";
 import { ViewSettingsDialogComponent } from "src/app/whiteboard/dialogs/view-settings-dialog/view-settings-dialog.component";
 import { EditPenQuickActionsComponent } from "src/app/whiteboard/settings/edit-pen-quick-actions/edit-pen-quick-actions.component";
 import { ViewPensComponent } from "src/app/whiteboard/settings/view-pens/view-pens.component";
+import { instanceOfColor } from "src/app/global/interfaces/canvasStyles/colorStyle";
+
+let presenter: any = undefined;
+
+const loadPresenter = async () => {
+  try {
+    // @ts-ignore
+    presenter = await navigator.ink.requestPresenter();
+  } catch { }
+}
 
 export class PenMode extends WhiteboardMode {
   private penElement: PenElement | undefined;
+
+  constructor() {
+    super();
+    loadPresenter().then(() => {});
+  }
 
   public override pointerStart(whiteboardService: WhiteboardService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext): void {
     this.penElement = new PenElement(whiteboardService.settings, this.getStyleOfPen(whiteboardService));
@@ -25,7 +40,7 @@ export class PenMode extends WhiteboardMode {
     whiteboardService.addCanvasElements(this.penElement);
   }
 
-  public pointerMove(whiteboardService: WhiteboardService, renderingContext: RenderingContext, from: Point, to: Point, pointerContext: PointerContext): void {
+  public pointerMove(whiteboardService: WhiteboardService, renderingContext: RenderingContext, from: Point, to: Point, pointerContext: PointerContext, evt: PointerEvent): void {
     const factor = 3.5;
     const distance = Math.sqrt((from.x - to.x) ** 2 + (to.y - from.y) ** 2) * renderingContext.zoom;
     const pressure = pointerContext.pressure + 0.5;
@@ -34,6 +49,22 @@ export class PenMode extends WhiteboardMode {
       ...to,
       size
     })
+
+    if (presenter && this.penElement) {
+      try {
+        const colorStyle = this.penElement.penStyle.strokeStyle.color;
+        let color = getColorAsRgbaFunction(BLACK)
+        if (instanceOfColor(colorStyle)) {
+          color = getColorAsRgbaFunction(colorStyle);
+        }
+        presenter.updateInkTrailStartPoint(evt, {
+          color,
+          diameter: this.penElement.penStyle.strokeStyle.lineWidth * renderingContext.zoom
+        });
+      } catch (e) {
+        console.log(e)
+      }
+    }
   }
 
   public override pointerEnd(whiteboardService: WhiteboardService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext): void {

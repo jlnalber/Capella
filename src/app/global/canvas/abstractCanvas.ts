@@ -1,15 +1,24 @@
 import { ElementRef } from "@angular/core";
 
+export type CanvasAndCTX = {
+    canvas: HTMLCanvasElement;
+    ctx: CanvasRenderingContext2D;
+}
+
 export default abstract class AbstractCanvas {
-    public canvasEl?: HTMLCanvasElement;
-    public ctx?: CanvasRenderingContext2D;
+    public canvasAndCTX?: CanvasAndCTX[];
+    public pointerInputEl?: HTMLElement;
 
     public wrapperEl?: HTMLDivElement;
 
-    protected afterViewInit(canvas: ElementRef, wrapper: ElementRef) {
+    protected afterViewInit(pointerInput: ElementRef, canvas: ElementRef[], wrapper: ElementRef) {
         // Get the HTMLElements.
-        this.canvasEl = canvas.nativeElement as HTMLCanvasElement;
+        this.pointerInputEl = pointerInput.nativeElement;
         this.wrapperEl = wrapper.nativeElement as HTMLDivElement;
-        this.ctx = this.canvasEl?.getContext('2d') as CanvasRenderingContext2D | undefined;
+        this.canvasAndCTX = canvas.map((c) => { 
+            const canvasEl = c.nativeElement as HTMLCanvasElement;
+            const ctx = canvasEl.getContext('2d') as CanvasRenderingContext2D;
+            return { canvas: canvasEl, ctx };
+        });
     }
 }

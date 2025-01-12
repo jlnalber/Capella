@@ -4,13 +4,14 @@ import { Event } from '../../global/essentials/event';
 import { Point } from 'src/app/global/interfaces/point';
 import { RenderingContext } from '../../global/classes/renderingContext/renderingContext';
 import { WhiteboardMode } from '../global/classes/modes/whiteboardMode';
-import { CanvasIdElement } from '../../global/classes/abstract/canvasIdElement';
 import { PointerType } from '../../global/classes/pointerController';
 import Page from './page';
 import AbstractDrawerService from 'src/app/global/classes/abstract/abstractDrawerService';
 import { WhiteboardSettings } from './whiteboardSettings';
 import { DialogService } from 'src/app/global/dialog/dialog.service';
 import { SnackbarService } from 'src/app/global/snackbar/snackbar.service';
+import WhiteboardCanvasIdElement from '../global/classes/abstract/whiteboardCanvasIdElement';
+import StrictEvent from 'src/app/global/essentials/strictEvent';
 
 
 export const STORAGE_CACHE = 'serialized_whiteboard'
@@ -133,7 +134,6 @@ export class WhiteboardService extends AbstractDrawerService {
 
   // Events
   // public readonly onBackgroundColorChanged: Event<Color> = new Event<Color>();
-  public readonly onCanvasElementChanged: Event<any> = new Event<any>();
   // public readonly onMetaDrawersChanged: Event<CanvasDrawer> = new Event<CanvasDrawer>();
   public readonly onTransformationsChanged: Event<number | Transformations> = new Event<number | Transformations>();
   // public readonly onCanvasConfigChanged: Event<CanvasConfig> = new Event<CanvasConfig>();
@@ -162,7 +162,7 @@ export class WhiteboardService extends AbstractDrawerService {
     this.activePage.redraw();
   }
 
-  public addCanvasElements(...canvasElements: CanvasIdElement[]) {
+  public addCanvasElements(...canvasElements: WhiteboardCanvasIdElement[]) {
     this.activePage.addCanvasElements(...canvasElements);
   }
 

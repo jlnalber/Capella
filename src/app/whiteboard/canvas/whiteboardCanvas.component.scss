@@ -1,1 +1,20 @@
 @import url(../../global/canvas/_canvas.scss);
+
+.wrapper {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.canvas {
+    height: auto;
+    position: absolute;
+}
+
+.pointerCatcher, .canvas {
+    background-color: transparent;
+}
+
+.pointerCatcher {
+    position: relative;
+}

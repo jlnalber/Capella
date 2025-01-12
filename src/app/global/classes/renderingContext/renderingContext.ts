@@ -43,15 +43,19 @@ import { ColorStyle, instanceOfColor, instanceOfLinearGradient, instanceOfPatter
 // }
 
 export class RenderingContext extends AbstractRenderingContext {
-  constructor (private readonly ctx: CanvasRenderingContext2D,
+  constructor (private readonly _ctx: CanvasRenderingContext2D,
                transformations: Transformations,
-               selection?: CanvasIdElement[],
+               selection?: CanvasIdElement<any>[],
                canvasConfig?: CanvasConfig,
                getRightColor: (c: Color, config: any) => Color = (c: Color) => c,
                _variables?: any,
                config?: any
               /* public readonly config?: Config */) {
     super(transformations, selection, canvasConfig, getRightColor, _variables, config);
+  }
+
+  protected get ctx(): CanvasRenderingContext2D {
+    return this._ctx;
   }
 
   public get width(): number {

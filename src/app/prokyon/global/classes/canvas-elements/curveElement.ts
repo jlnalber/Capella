@@ -333,7 +333,7 @@ export default class CurveElement extends ProkyonCanvasElement {
     this._lineWidth = canvasElementSerialized.style.size ?? 3;
     this._visible = canvasElementSerialized.style.visible;
 
-    this.onChange.emit();
+    this.onChange.emit(undefined);
   }
 
   serialize(): CanvasElementSerialized {

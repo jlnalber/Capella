@@ -3,12 +3,12 @@ import {getPosFromEvent} from "../essentials/utils";
 import Cache from "../essentials/cache";
 
 export interface PointerControllerEvents { // TODO: dblclick
-  pointerStart?: (p: Point, context: PointerContext) => void,
-  pointerMove?: (from: Point, to: Point, context: PointerContext) => void,
-  pointerEnd?: (p: Point, context: PointerContext) => void,
-  click?: (p: Point, context: PointerContext) => void,
-  scroll?: (p: Point, delta: number) => void,
-  pinchZoom?: (p: Point, factor: number) => void
+  pointerStart?: (p: Point, context: PointerContext, evt: PointerEvent) => void,
+  pointerMove?: (from: Point, to: Point, context: PointerContext, evt: PointerEvent) => void,
+  pointerEnd?: (p: Point, context: PointerContext, evt: PointerEvent) => void,
+  click?: (p: Point, context: PointerContext, evt: PointerEvent) => void,
+  scroll?: (p: Point, delta: number, evt: Event) => void,
+  pinchZoom?: (p: Point, factor: number, evt: PointerEvent) => void
 }
 
 export type PointerType = 'mouse' | 'pen' | 'touch';
@@ -90,7 +90,7 @@ export class PointerController {
 
       // fire event
       if (this.pointerControllerEvents.pointerStart) {
-        this.pointerControllerEvents.pointerStart(p, this.getPointerContext(e));
+        this.pointerControllerEvents.pointerStart(p, this.getPointerContext(e), e);
       }
     }
   }
@@ -107,7 +107,7 @@ export class PointerController {
       // trigger the move event on the pointer
       if (this.pointerCache.hasKey(e.pointerId)) {
         if (this.pointerControllerEvents.pointerMove) {
-          this.pointerControllerEvents.pointerMove(this.pointerCache.getItem(e.pointerId)!, p, this.getPointerContext(e));
+          this.pointerControllerEvents.pointerMove(this.pointerCache.getItem(e.pointerId)!, p, this.getPointerContext(e), e);
         }
         this.pointerCache.setItem(e.pointerId, p);
       }
@@ -121,12 +121,12 @@ export class PointerController {
 
       // first, fire pointerEnd event
       if (this.pointerControllerEvents.pointerEnd && this.pointerCache.hasKey(e.pointerId)) {
-        this.pointerControllerEvents.pointerEnd(p, pointerContext);
+        this.pointerControllerEvents.pointerEnd(p, pointerContext, e);
       }
 
       // then, fire click event
       if (this.pointerControllerEvents.click && this.pointerMoveCountCache.getItem(e.pointerId) === 0) {
-        this.pointerControllerEvents.click(p, pointerContext);
+        this.pointerControllerEvents.click(p, pointerContext, e);
       }
 
       // empty the caches
@@ -142,7 +142,7 @@ export class PointerController {
       let p = getPosFromEvent(e, this.element);
       let delta = Math.sqrt(e.deltaY ** 2 + e.deltaX ** 2 + e.deltaZ ** 2) * Math.sign((e.deltaX ? e.deltaX : 1) * (e.deltaY ? e.deltaY : 1) * (e.deltaZ ? e.deltaZ : 1));
       if (this.pointerControllerEvents.scroll) {
-        this.pointerControllerEvents.scroll(p, delta);
+        this.pointerControllerEvents.scroll(p, delta, e);
       }
     }
   }
@@ -282,7 +282,7 @@ export class PointerController {
 
         if (this.prevDiff > 0 && curDiff > 0 && this.pointerControllerEvents.pinchZoom) {
           // zoom to the middle by the amount that was scrolled
-          this.pointerControllerEvents.pinchZoom(averageP, curDiff / this.prevDiff);
+          this.pointerControllerEvents.pinchZoom(averageP, curDiff / this.prevDiff, ev);
         }
 
         // Cache the distance for the next move event

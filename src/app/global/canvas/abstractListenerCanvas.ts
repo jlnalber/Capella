@@ -11,11 +11,11 @@ export default abstract class AbstractListenerCanvas extends AbstractCanvas {
     this.service.canvas = this;
   }
 
-  protected override afterViewInit(canvas: ElementRef, wrapper: ElementRef) {
+  protected override afterViewInit(pointerInput: ElementRef, canvas: ElementRef[], wrapper: ElementRef) {
     // Get the HTMLElements.
-    super.afterViewInit(canvas, wrapper);
+    super.afterViewInit(pointerInput, canvas, wrapper);
     
-    if (this.wrapperEl !== undefined && this.canvasEl !== undefined) {
+    if (this.wrapperEl !== undefined && this.pointerInputEl !== undefined && this.canvasAndCTX !== undefined) {
       // Listen for resizing
       // window.onresize = () => {
       //   this.whiteboardService.redraw();
@@ -30,27 +30,27 @@ export default abstract class AbstractListenerCanvas extends AbstractCanvas {
       }).observe(this.canvasEl);*/
 
       // Listen for pointer events. They then trigger zoom and translate behaviour on the drawer service
-      new PointerController(this.canvasEl, {
-        pointerStart: (p: Point, context: PointerContext) => {
+      new PointerController(this.pointerInputEl, {
+        pointerStart: (p: Point, context: PointerContext, evt: PointerEvent) => {
           const rtx = this.service.renderingContext;
           const newP = rtx.transformPointFromCanvasToField(p);
-          this.service.getModeForPointerType(context.pointerType)?.pointerStart(this.service, rtx, newP, context);
+          this.service.getModeForPointerType(context.pointerType)?.pointerStart(this.service, rtx, newP, context, evt);
         },
-        pointerEnd: (p: Point, context: PointerContext) => {
+        pointerEnd: (p: Point, context: PointerContext, evt: PointerEvent) => {
           const rtx = this.service.renderingContext;
           const newP = rtx.transformPointFromCanvasToField(p);
-          this.service.getModeForPointerType(context.pointerType)?.pointerEnd(this.service, rtx, newP, context);
+          this.service.getModeForPointerType(context.pointerType)?.pointerEnd(this.service, rtx, newP, context, evt);
         },
-        pointerMove: (from: Point, to: Point, context: PointerContext) => {
+        pointerMove: (from: Point, to: Point, context: PointerContext, evt: PointerEvent) => {
           const rtx = this.service.renderingContext;
           const fromNew = rtx.transformPointFromCanvasToField(from);
           const toNew: Point = rtx.transformPointFromCanvasToField(to);
-          this.service.getModeForPointerType(context.pointerType)?.pointerMove(this.service, rtx, fromNew, toNew, context);
+          this.service.getModeForPointerType(context.pointerType)?.pointerMove(this.service, rtx, fromNew, toNew, context, evt);
         },
-        click: (p: Point, context: PointerContext) => {
+        click: (p: Point, context: PointerContext, evt: PointerEvent) => {
           const rtx = this.service.renderingContext;
           const newP = rtx.transformPointFromCanvasToField(p);
-          this.service.getModeForPointerType(context.pointerType)?.click(this.service, rtx, newP, context);
+          this.service.getModeForPointerType(context.pointerType)?.click(this.service, rtx, newP, context, evt);
         },
         scroll: (p: Point, delta: number) => {
           if (delta != 0) {

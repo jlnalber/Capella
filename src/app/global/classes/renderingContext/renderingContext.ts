@@ -22,7 +22,7 @@ import {Point} from "src/app/global/interfaces/point";
 import {Rect} from "src/app/global/interfaces/rect";
 import {Color, getColorAsRgbaFunction} from "src/app/global/interfaces/color";
 import {CanvasIdElement} from "../abstract/canvasIdElement";
-import AbstractRenderingContext, { CanvasConfig, SizePoint } from "./abstractRenderingContext";
+import AbstractRenderingContext, { CanvasConfig } from "./abstractRenderingContext";
 import { EMPTY_STROKESTYLE, StrokeStyle } from "src/app/global/interfaces/canvasStyles/strokeStyle";
 import { DEFAULT_SHADOW, Shadow } from "src/app/global/interfaces/canvasStyles/styleTypes";
 import FillStyle, { EMPTY_FILLSTYLE } from "src/app/global/interfaces/canvasStyles/fillStyle";
@@ -32,6 +32,7 @@ import ImageStyle, { EMPTY_IMAGESTYLE } from 'src/app/global/interfaces/canvasSt
 import { DEFAULT_FILTERS, filterToCssFunctionString } from '../../interfaces/canvasStyles/filterTypes';
 import { measurementToString } from '../../interfaces/canvasStyles/unitTypes';
 import { ColorStyle, instanceOfColor, instanceOfLinearGradient, instanceOfPattern, instanceOfRadialGradient } from '../../interfaces/canvasStyles/colorStyle';
+import { copyPointToPenPoint, PenPoint } from '../../interfaces/penPoint';
 
 // export interface Config {
 //   showGrid?: boolean,
@@ -383,13 +384,8 @@ export class RenderingContext extends AbstractRenderingContext {
     }
   }
 
-  public drawQuadraticPath(points: SizePoint[], stroke: StrokeStyle, objectStyle?: ObjectStyle): void {
-    const realPoints: SizePoint[] = points.map(p => {
-      return {
-        ...this.transformPointFromFieldToCanvasWithResolutionFactor(p),
-        size: p.size
-      }
-    });
+  public drawQuadraticPath(points: PenPoint[], stroke: StrokeStyle, objectStyle?: ObjectStyle): void {
+    const realPoints: PenPoint[] = points.map(p => copyPointToPenPoint(this.transformPointFromFieldToCanvasWithResolutionFactor(p), p));
 
     /*for (let p of realPoints) {
       this.ctx.fillStyle = getColorAsRgbaFunction(stroke);
@@ -419,7 +415,7 @@ export class RenderingContext extends AbstractRenderingContext {
           const dy = (point.y + nextP.y) / 2;
 
 
-          this.ctx.lineWidth = stroke.lineWidth * point.size;
+          this.ctx.lineWidth = stroke.lineWidth * point.p;
           if (!stroke.uniformSizeOnZoom) {
             this.ctx.lineWidth *= zoom;
           }

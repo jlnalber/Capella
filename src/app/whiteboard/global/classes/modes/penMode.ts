@@ -13,6 +13,7 @@ import { ViewSettingsDialogComponent } from "src/app/whiteboard/dialogs/view-set
 import { EditPenQuickActionsComponent } from "src/app/whiteboard/settings/edit-pen-quick-actions/edit-pen-quick-actions.component";
 import { ViewPensComponent } from "src/app/whiteboard/settings/view-pens/view-pens.component";
 import { instanceOfColor } from "src/app/global/interfaces/canvasStyles/colorStyle";
+import { getPenPointFromPreviousPoint } from "src/app/global/interfaces/penPoint";
 
 let presenter: any = undefined;
 
@@ -33,22 +34,17 @@ export class PenMode extends WhiteboardMode {
 
   public override pointerStart(whiteboardService: WhiteboardService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext): void {
     this.penElement = new PenElement(whiteboardService.settings, this.getStyleOfPen(whiteboardService));
-    this.penElement.addPoint({
-      ...point,
-      size: 1
-    })
+    this.penElement.addPoint(getPenPointFromPreviousPoint(point, undefined, pointerContext, renderingContext), renderingContext);
     whiteboardService.addCanvasElements(this.penElement);
   }
 
   public pointerMove(whiteboardService: WhiteboardService, renderingContext: RenderingContext, from: Point, to: Point, pointerContext: PointerContext, evt: PointerEvent): void {
-    const factor = 3.5;
+    // TODO: calculation
+    /* const factor = 3.5;
     const distance = Math.sqrt((from.x - to.x) ** 2 + (to.y - from.y) ** 2) * renderingContext.zoom;
     const pressure = pointerContext.pressure + 0.5;
-    const size = Math.max(0.5, Math.min(Math.pow(1 / distance, 1/3) * factor, 2)) * pressure;
-    this.penElement?.addPoint({
-      ...to,
-      size
-    })
+    const size = Math.max(0.5, Math.min(Math.pow(1 / distance, 1/3) * factor, 2)) * pressure; */
+    this.penElement?.addPoint(getPenPointFromPreviousPoint(to, this.penElement?.getLastPoint(), pointerContext, renderingContext), renderingContext);
 
     if (presenter && this.penElement) {
       try {
@@ -61,29 +57,22 @@ export class PenMode extends WhiteboardMode {
           color,
           diameter: this.penElement.penStyle.strokeStyle.lineWidth * renderingContext.zoom
         });
-      } catch (e) {
-        console.log(e)
-      }
+      } catch { }
     }
   }
 
   public override pointerEnd(whiteboardService: WhiteboardService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext): void {
     
-    this.penElement?.addPoint({
-      ...point,
-      size: 1
-    })
-
+    this.penElement?.addPoint(getPenPointFromPreviousPoint(point, this.penElement?.getLastPoint(), pointerContext, renderingContext), renderingContext);
+    this.penElement?.finish();
     this.penElement = undefined;
   }
 
   public click(whiteboardService: WhiteboardService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext): void {
     this.penElement = new PenElement(whiteboardService.settings, this.getStyleOfPen(whiteboardService));
-    this.penElement.addPoint({
-      ...point,
-      size: 1
-    })
+    this.penElement.addPoint(getPenPointFromPreviousPoint(point, undefined, pointerContext, renderingContext), renderingContext);
     whiteboardService.addCanvasElements(this.penElement);
+    this.penElement.finish();
     this.penElement = undefined;
   }
 

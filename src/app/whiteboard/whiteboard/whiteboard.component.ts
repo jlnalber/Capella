@@ -55,22 +55,22 @@ export class WhiteboardComponent {
           {
             title: 'Dateioptionen',
             content: [
-              new RibbonButton('Öffnen', 'openFile', 'Eine Whiteboard-Datei öffnen', () => {}),
-              new RibbonButton('Speichern', 'saveFile', 'Die Datei speichern', () => {}),
-              new RibbonButton('Kopie', 'copy', 'Eine Kopie speichern unter', () => {}),
-              new RibbonButton('Exportieren', 'export', 'Datei exportieren als', () => {})
+              new RibbonButton('Öffnen', 'openFile', 'Eine Whiteboard-Datei öffnen', () => {}, () => false),
+              new RibbonButton('Speichern', 'saveFile', 'Die Datei speichern', () => {}, () => false),
+              new RibbonButton('Kopie', 'copy', 'Eine Kopie speichern unter', () => {}, () => false),
+              new RibbonButton('Exportieren', 'export', 'Datei exportieren als', () => {}, () => false)
             ]
           },
           {
             title: 'Historie',
             content: [
-              new RibbonButton('Leeren', 'pen', 'Das Whiteboard zurücksetzen', () => {}),
-              new RibbonButton('Zurück', 'pen', 'Gehe ein Schritt zurück', () => {}),
-              new RibbonButton('Vorwärts', 'pen', 'Gehe ein Schritt vor', () => {})
+              new RibbonButton('Leeren', 'pen', 'Das Whiteboard zurücksetzen', () => {}, () => false),
+              new RibbonButton('Zurück', 'pen', 'Gehe ein Schritt zurück', () => {}, () => false),
+              new RibbonButton('Vorwärts', 'pen', 'Gehe ein Schritt vor', () => {}, () => false)
             ]
           },
-          new RibbonButton('Vollbild', 'pen', 'Aktiviere Vollbild zur besseren Ansicht', () => {}),
-          new RibbonButton('Einstellungen', 'pen', 'Einstellungen öffnen', () => {})
+          new RibbonButton('Vollbild', 'pen', 'Aktiviere Vollbild zur besseren Ansicht', () => {}, () => false),
+          new RibbonButton('Einstellungen', 'pen', 'Einstellungen öffnen', () => {}, () => false)
         ]
       },
       {
@@ -101,7 +101,7 @@ export class WhiteboardComponent {
                 } else {
                   this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, new ShapeMode());
                 }
-              }, this.getPointerActiveFunctionsForPointerToggle(m => m instanceof ShapeMode)), // TODO: dann auf einem Extra-Tab die Optionen
+              }, this.getPointerActiveFunctionsForPointerToggle(m => m instanceof ShapeMode), () => false), // TODO: dann auf einem Extra-Tab die Optionen
               new RibbonPointerModeToggle('Bewegen', 'moveWhiteboard', 'Bewege das Whiteboard', (p: PointerEvent) => {
                 if (this.whiteboardService.getModeForPointerType(p.pointerType as PointerType) instanceof MoveMode) {
                   this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, undefined);
@@ -115,21 +115,21 @@ export class WhiteboardComponent {
                 } else {
                   this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, new SelectionMode());
                 }
-              }, this.getPointerActiveFunctionsForPointerToggle(m => m instanceof SelectionMode)),
+              }, this.getPointerActiveFunctionsForPointerToggle(m => m instanceof SelectionMode), () => false),
               new RibbonPointerModeToggle('Löschen', 'pen', 'Lösche Elemente', (p: PointerEvent) => {
                 if (this.whiteboardService.getModeForPointerType(p.pointerType as PointerType) instanceof DeleteMode) {
                   this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, undefined);
                 } else {
                   this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, new DeleteMode());
                 }
-              }, this.getPointerActiveFunctionsForPointerToggle(m => m instanceof DeleteMode)),
+              }, this.getPointerActiveFunctionsForPointerToggle(m => m instanceof DeleteMode), () => false),
               new RibbonPointerModeToggle('Radierer', 'eraser', 'Radiere den Stift', (p: PointerEvent) => {
                 if (this.whiteboardService.getModeForPointerType(p.pointerType as PointerType) instanceof EraseMode) {
                   this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, undefined);
                 } else {
                   this.whiteboardService.setModeForPointerType(p.pointerType as PointerType, new EraseMode());
                 }
-              }, this.getPointerActiveFunctionsForPointerToggle(m => m instanceof EraseMode))
+              }, this.getPointerActiveFunctionsForPointerToggle(m => m instanceof EraseMode), () => false)
             ]
           }
         ]
@@ -139,12 +139,12 @@ export class WhiteboardComponent {
         color: BLACK,
         underlineColor: DEEPBLUE,
         content: [
-          new RibbonButton('Bild', 'pen', 'Ein Bild hinzufügen', () => {}), // TODO: Menü (Dialog), in dem man dann auswählen kann zwischen etwas aus der Cloud (?), vom PC oder gescannt
-          new RibbonButton('Notiz', 'pen', 'Sticky Note hinzufügen', () => {}),
-          new RibbonButton('PDF', 'pen', 'Seiten aus einer PDF als Bild hinzufügen', () => {}),
-          new RibbonButton('LaTeX', 'pen', 'LaTeX hinzufügen', () => {}),
-          new RibbonButton('Prokyon', 'pen', 'Eine Prokyon Datei hinzufügen', () => {}),
-          new RibbonButton('Referenz', 'pen', 'Referenz hinzufügen', () => {})
+          new RibbonButton('Bild', 'pen', 'Ein Bild hinzufügen', () => {}, () => false), // TODO: Menü (Dialog), in dem man dann auswählen kann zwischen etwas aus der Cloud (?), vom PC oder gescannt
+          new RibbonButton('Notiz', 'pen', 'Sticky Note hinzufügen', () => {}, () => false),
+          new RibbonButton('PDF', 'pen', 'Seiten aus einer PDF als Bild hinzufügen', () => {}, () => false),
+          new RibbonButton('LaTeX', 'pen', 'LaTeX hinzufügen', () => {}, () => false),
+          new RibbonButton('Prokyon', 'pen', 'Eine Prokyon Datei hinzufügen', () => {}, () => false),
+          new RibbonButton('Referenz', 'pen', 'Referenz hinzufügen', () => {}, () => false)
         ]
       },
       {
@@ -152,9 +152,9 @@ export class WhiteboardComponent {
         color: BLACK,
         underlineColor: DEEPBLUE,
         content: [
-          new RibbonButton('Layout', 'pen', 'Layout der Seiten einstellen', () => {}),
-          new RibbonButton('Anordnen', 'pen', 'Seiten neu anordnen', () => {}),
-          new RibbonButton('Hintergrund', 'pen', 'Hintergrund der Seiten einstellen', () => {}),
+          new RibbonButton('Layout', 'pen', 'Layout der Seiten einstellen', () => {}, () => false),
+          new RibbonButton('Anordnen', 'pen', 'Seiten neu anordnen', () => {}, () => false),
+          new RibbonButton('Hintergrund', 'pen', 'Hintergrund der Seiten einstellen', () => {}, () => false),
           {
             title: 'Seite Hinzufügen',
             content: [
@@ -162,8 +162,8 @@ export class WhiteboardComponent {
                 this.whiteboardService.addPage();
                 this.whiteboardService.activePageIndex = this.whiteboardService.numberOfPages - 1;
               }),
-              new RibbonButton('Datei', 'pen', 'Eine Datei importieren und anfügen', () => {}), // TODO: Dialog, in dem man Whiteboard, PDF oder Bild auswählen kann
-              new RibbonButton('Scannen', 'pen', 'Seiten mit der Kamera einscannen und anfügen', () => {})
+              new RibbonButton('Datei', 'pen', 'Eine Datei importieren und anfügen', () => {}, () => false), // TODO: Dialog, in dem man Whiteboard, PDF oder Bild auswählen kann
+              new RibbonButton('Scannen', 'pen', 'Seiten mit der Kamera einscannen und anfügen', () => {}, () => false)
             ]
           },
           {
@@ -203,9 +203,9 @@ export class WhiteboardComponent {
           {
             title: 'Lineale',
             content: [
-              new RibbonToggle('Lineal', 'pen', 'Ein normales Lineal verwenden', () => {}, () => false),
-              new RibbonToggle('Geodreieck', 'pen', 'Ein Geodreieck verwenden', () => {}, () => false),
-              new RibbonToggle('Halbkreis', 'pen', 'Einen Halbkreis verwenden', () => {}, () => false)
+              new RibbonToggle('Lineal', 'pen', 'Ein normales Lineal verwenden', () => {}, () => false, () => false),
+              new RibbonToggle('Geodreieck', 'pen', 'Ein Geodreieck verwenden', () => {}, () => false, () => false),
+              new RibbonToggle('Halbkreis', 'pen', 'Einen Halbkreis verwenden', () => {}, () => false, () => false)
             ]
           }
         ]

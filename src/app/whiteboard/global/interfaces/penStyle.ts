@@ -3,6 +3,7 @@ import ObjectStyle, { getCopyOfObjectStyle } from "src/app/global/interfaces/can
 import { EasyStrokeStyle, getCopyOfEasyStrokeStyle, getCopyOfStrokeStyle, StrokeStyle } from "src/app/global/interfaces/canvasStyles/strokeStyle"
 import { BLACK, Color, DEEPBLUE, getColorAsRgbaFunction, getCopyOfColor, YELLOW } from "src/app/global/interfaces/color"
 import { Icon } from "src/app/global/interfaces/icon"
+import { PX_PER_MM } from "../../services/page"
 
 export type PenStyle = {
     objectStyle?: ObjectStyle,
@@ -111,7 +112,7 @@ export const DEFAULT_PENS: Pen[] = [{
         useSizes: true
     },
     color: DEEPBLUE,
-    lineWidth: 3,
+    lineWidth: 0.6 * PX_PER_MM,
     icon: 'fueller'
 }, {
     name: 'Kugelschreiber',
@@ -122,7 +123,7 @@ export const DEFAULT_PENS: Pen[] = [{
         useSizes: true
     },
     color: BLACK,
-    lineWidth: 2,
+    lineWidth: 0.4 * PX_PER_MM,
     icon: 'ballpoint'
 }, {
     name: 'Bleistift',
@@ -142,7 +143,7 @@ export const DEFAULT_PENS: Pen[] = [{
             picture: createNoisePattern(c)
         }
     },
-    lineWidth: 3,
+    lineWidth: 0.6 * PX_PER_MM,
     icon: 'pencil'
 }, {
     name: 'Textmarker',
@@ -155,7 +156,7 @@ export const DEFAULT_PENS: Pen[] = [{
         }
     },
     color: YELLOW,
-    lineWidth: 15,
+    lineWidth: 4.6 * PX_PER_MM,
     icon: 'marker'
 }]
 
@@ -168,6 +169,9 @@ export const DEFAULT_PEN: Pen = {
     lineWidth: 3,
     icon: 'pencil'
 }
+
+export const DEFAULT_MIN_PEN_SIZE: number = 0.1 * PX_PER_MM;
+export const DEFAULT_MAX_PEN_SIZE: number = 8 * PX_PER_MM;
 
 
 function createNoisePattern(color: Color): string {

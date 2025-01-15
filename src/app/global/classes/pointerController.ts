@@ -23,7 +23,9 @@ export interface PointerContext {
   metaKey: boolean,
   moveEventsFired?: number,
   pointerType: PointerType,
-  pressure: number
+  pressure: number,
+  tiltX: number,
+  tiltY: number
 }
 
 export class PointerController {
@@ -75,7 +77,9 @@ export class PointerController {
       metaKey: e.metaKey,
       moveEventsFired: this.pointerMoveCountCache.getItem(e.pointerId),
       pointerType: e.pointerType as PointerType,
-      pressure: e.pressure
+      pressure: e.pressure,
+      tiltX: e.tiltX,
+      tiltY: e.tiltY
     }
   }
 

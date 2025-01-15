@@ -1,14 +1,10 @@
 import { PenStyle } from './../../interfaces/penStyle';
-import { Point } from "src/app/global/interfaces/point";
-import { WhiteboardCanvasTransformableElement } from "../abstract/whiteboardCanvasTransformableElement";
 import AbstractRenderingContext from "../../../../global/classes/renderingContext/abstractRenderingContext";
 import { WhiteboardSettings } from 'src/app/whiteboard/services/whiteboardSettings';
+import { PenPoint } from 'src/app/global/interfaces/penPoint';
+import WhiteboardCanvasMinorChangeElement from '../abstract/whiteboardCanvasMinorChangeElement';
 
-export type PenPoint = Point & {
-    size: number
-}
-
-export default class PenElement extends WhiteboardCanvasTransformableElement {
+export default class PenElement extends WhiteboardCanvasMinorChangeElement<PenPoint> {
 
     private _penStyle: PenStyle;
 
@@ -28,9 +24,21 @@ export default class PenElement extends WhiteboardCanvasTransformableElement {
         this._penStyle = penStyle;
     }
 
-    public addPoint(p: PenPoint): void {
+    public addPoint(p: PenPoint, renderingContext: AbstractRenderingContext): void {
         this._points.push(p);
+        this.onMinorChange.emit([this, renderingContext, p]);
+        this.onChange.emit(this); // TODO: entfernen
+    }
+
+    public finish(): void {
         this.onChange.emit(this);
+    }
+
+    public getLastPoint(): PenPoint | undefined {
+        if (this._points.length === 0) {
+            return undefined;
+        }
+        return this._points[this._points.length - 1];
     }
 
     public override draw(ctx: AbstractRenderingContext): void {

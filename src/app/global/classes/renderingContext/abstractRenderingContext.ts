@@ -8,6 +8,7 @@ import FillStyle from "src/app/global/interfaces/canvasStyles/fillStyle";
 import ObjectStyle from "src/app/global/interfaces/canvasStyles/objectStyle";
 import TextStyle from "src/app/global/interfaces/canvasStyles/textStyle";
 import ImageStyle from "src/app/global/interfaces/canvasStyles/imageStyle";
+import { PenPoint } from "../../interfaces/penPoint";
 
 export const LINE_DASH = [10, 10]
 
@@ -20,12 +21,16 @@ export const LINE_DASH = [10, 10]
 //   transformColor?: (c: Color) => Color
 // }
 
-export type SizePoint = Point & {
-  size: number
+export interface CanvasConfig {
+  alwaysSetStyles?: boolean,
+  strokeConfig?: PenStrokeConfig
 }
 
-export interface CanvasConfig {
-  alwaysSetStyles?: boolean
+export interface PenStrokeConfig {
+  minWidth?: number,
+  maxWidth?: number,
+  velocityWeight?: number,
+  pressureWeight?: number
 }
 
 export default abstract class AbstractRenderingContext {
@@ -148,7 +153,7 @@ export default abstract class AbstractRenderingContext {
 
   public abstract drawContinousQuadraticPath(points: Point[], stroke: StrokeStyle, fill?: FillStyle, objectStyle?: ObjectStyle): void;
 
-  public abstract drawQuadraticPath(points: SizePoint[], strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void;
+  public abstract drawQuadraticPath(points: PenPoint[], strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void;
 
   public drawLine(from: Point, to: Point, strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void {
     this.drawPath([from, to], strokeStyle, undefined, objectStyle);

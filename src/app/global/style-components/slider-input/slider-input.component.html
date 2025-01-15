@@ -1,1 +1,8 @@
-<p>slider-input works!</p>
+<div class="wrapper">
+    @if (this.picker) {
+        <label>{{ this.picker.label}}</label>
+        <p>{{ this.picker.conversion(this.picker.value) }}</p>
+        <input type="range" [(ngModel)]="this.picker.value" [min]="this.min" [max]="this.max">
+
+    }
+</div>

@@ -8,7 +8,8 @@ import FillStyle from "src/app/global/interfaces/canvasStyles/fillStyle";
 import ObjectStyle from "src/app/global/interfaces/canvasStyles/objectStyle";
 import TextStyle from "src/app/global/interfaces/canvasStyles/textStyle";
 import ImageStyle from "src/app/global/interfaces/canvasStyles/imageStyle";
-import { PenPoint } from "../../interfaces/penPoint";
+import { Path, PenPoint, ThicknessSettings } from "../../interfaces/penPoint";
+import { QuadraticBezier } from "./renderingUtils";
 
 export const LINE_DASH = [10, 10]
 
@@ -149,11 +150,17 @@ export default abstract class AbstractRenderingContext {
     return LINE_DASH.map(i => i * f);
   }
 
-  public abstract drawPath(points: Point[], strokeStyle: StrokeStyle, fill?: FillStyle, objectStyle?: ObjectStyle): void;
+  //public abstract drawPath(points: Point[], strokeStyle: StrokeStyle, fill?: FillStyle, objectStyle?: ObjectStyle): void;
 
-  public abstract drawContinousQuadraticPath(points: Point[], stroke: StrokeStyle, fill?: FillStyle, objectStyle?: ObjectStyle): void;
+  //public abstract drawContinousQuadraticPath(points: Point[], stroke: StrokeStyle, fill?: FillStyle, objectStyle?: ObjectStyle): void;
 
-  public abstract drawQuadraticPath(points: PenPoint[], strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void;
+  //public abstract drawQuadraticPath(points: PenPoint[], strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void;
+
+  public abstract drawPath(path: Point[], strokeStyle: StrokeStyle, fill?: FillStyle, objectStyle?: ObjectStyle): void;
+
+  public abstract drawSmoothPath(path: PenPoint[], changeThickness: boolean | undefined, strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void;
+
+  public abstract drawSmoothPathSegment(qbz: QuadraticBezier, thicknessSettings: ThicknessSettings | undefined, strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void;
 
   public drawLine(from: Point, to: Point, strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void {
     this.drawPath([from, to], strokeStyle, undefined, objectStyle);
@@ -172,14 +179,14 @@ export default abstract class AbstractRenderingContext {
     radiusX: number,
     radiusY: number,
     rotation: number,
-    useUniformSize: boolean,
+    useUniformSize?: boolean,
     fill?: FillStyle,
     strokeStyle?: StrokeStyle,
     objectStyle?: ObjectStyle): void;
 
   public drawCircle(center: Point,
     radius: number,
-    useUniformSize: boolean,
+    useUniformSize?: boolean,
     fill?: FillStyle,
     strokeStyle?: StrokeStyle,
     objectStyle?: ObjectStyle): void {

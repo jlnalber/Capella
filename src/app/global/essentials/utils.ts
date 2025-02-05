@@ -15,6 +15,10 @@ export function isIn(point: Point, rect: Rect, tolerance: number = 0): boolean {
   return isInRange(point.x, firstP.x - tolerance, secondP.x + tolerance) && isInRange(point.y, firstP.y - tolerance, secondP.y + tolerance);
 }
 
+export function getInRange(val: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, val));
+}
+
 export function isInRange(val: number, min: number, max: number): boolean {
   if (max < min) {
     return isInRange(val, max, min);

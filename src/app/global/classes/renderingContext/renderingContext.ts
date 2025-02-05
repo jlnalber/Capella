@@ -20,7 +20,7 @@ import {
 import {Transformations} from "src/app/global/interfaces/transformations";
 import {Point} from "src/app/global/interfaces/point";
 import {Rect} from "src/app/global/interfaces/rect";
-import {Color, getColorAsRgbaFunction} from "src/app/global/interfaces/color";
+import {Color, getColorAsRgbaFunction, TRANSPARENT} from "src/app/global/interfaces/color";
 import {CanvasIdElement} from "../abstract/canvasIdElement";
 import AbstractRenderingContext, { CanvasConfig } from "./abstractRenderingContext";
 import { EMPTY_STROKESTYLE, StrokeStyle } from "src/app/global/interfaces/canvasStyles/strokeStyle";
@@ -32,7 +32,8 @@ import ImageStyle, { EMPTY_IMAGESTYLE } from 'src/app/global/interfaces/canvasSt
 import { DEFAULT_FILTERS, filterToCssFunctionString } from '../../interfaces/canvasStyles/filterTypes';
 import { measurementToString } from '../../interfaces/canvasStyles/unitTypes';
 import { ColorStyle, instanceOfColor, instanceOfLinearGradient, instanceOfPattern, instanceOfRadialGradient } from '../../interfaces/canvasStyles/colorStyle';
-import { copyPointToPenPoint, PenPoint } from '../../interfaces/penPoint';
+import { copyPointToPenPoint, getStrokePointPathFromPenPointPath, Path, PenPoint, StrokePoint, ThicknessSettings } from '../../interfaces/penPoint';
+import { getControlPointInQuadraticBezier, getPointInQuadraticBezier, getThicknessSettings, QuadraticBezier } from './renderingUtils';
 
 // export interface Config {
 //   showGrid?: boolean,
@@ -123,7 +124,6 @@ export class RenderingContext extends AbstractRenderingContext {
 
     const resFactor = this.resolutionFactor;
     const zoom = this.zoom;
-    
     // color
     const colorStyle = this.colorStyleToCanvasStyle(strokeStyle.color, strokeStyle.uniformSizeOnZoom);
     if (colorStyle !== null) {
@@ -339,6 +339,112 @@ export class RenderingContext extends AbstractRenderingContext {
     }
   }
 
+  public override drawSmoothPath(path: PenPoint[], changeThickness: boolean | undefined, strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void {
+
+    const baseLineWidth = strokeStyle.lineWidth;
+
+    if (path.length === 0) {
+      return;
+    }
+    else if (path.length === 1) {
+      this.drawCircle(path[0], getStrokePointPathFromPenPointPath(path)[0].thickness * baseLineWidth, strokeStyle.uniformSizeOnZoom, {
+        color: strokeStyle.color
+      }, undefined, objectStyle)
+    }
+    else {
+      
+      this.useStrokeStyle(strokeStyle);
+      this.useObjectStyle(objectStyle);
+
+      const pathStroke = getStrokePointPathFromPenPointPath(path);
+
+      // console.log(path)
+
+      let lw = baseLineWidth;
+      let lastP = pathStroke[0];
+    
+      for (let i = 1; i < pathStroke.length - 1; i++) {
+        const point = pathStroke[i];
+        const correct = Math.sqrt((point.x - pathStroke[pathStroke.length - 1].x) ** 2 + (point.y - pathStroke[pathStroke.length - 1].y) ** 2) > 1;
+        if (correct) {
+  
+          const nextP = pathStroke[i + 1];
+          const dx = (point.x + nextP.x) / 2;
+          const dy = (point.y + nextP.y) / 2;
+          const to: StrokePoint = {
+            x: dx,
+            y: dy,
+            thickness: point.thickness
+          }
+
+          this.drawSmoothPathSegmentWithoutSettings({
+            from: lastP,
+            control: point,
+            to: to
+          }, getThicknessSettings(lastP, point, lw, changeThickness))
+
+          lastP = to;
+        }
+      }
+
+      const endP = pathStroke[pathStroke.length - 1];
+      this.drawSmoothPathSegmentWithoutSettings({
+        from: lastP,
+        control: lastP,
+        to: endP
+      }, getThicknessSettings(lastP, endP, lw, changeThickness))
+    }
+  }
+
+  public override drawSmoothPathSegment(qbz: QuadraticBezier, thicknessSettings: ThicknessSettings | undefined, strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void {
+  
+    this.useStrokeStyle(strokeStyle);
+    this.useObjectStyle(objectStyle);
+
+    this.drawSmoothPathSegmentWithoutSettings(qbz, thicknessSettings);
+
+  }
+
+  private drawSmoothPathSegmentWithoutSettings(qbz: QuadraticBezier, thicknessSettings?: ThicknessSettings): void {
+    const realQBZ: QuadraticBezier = {
+      from: this.transformPointFromFieldToCanvasWithResolutionFactor(qbz.from),
+      control: this.transformPointFromFieldToCanvasWithResolutionFactor(qbz.control),
+      to: this.transformPointFromFieldToCanvasWithResolutionFactor(qbz.to)
+    }
+    
+    if (thicknessSettings === undefined) {
+  
+      this.ctx.beginPath();
+      this.ctx.moveTo(realQBZ.from.x, realQBZ.from.y);
+      this.ctx.quadraticCurveTo(realQBZ.control.x, realQBZ.control.y, realQBZ.to.x, realQBZ.to.y);
+      this.ctx.stroke();
+      this.ctx.closePath();
+    }
+    else {
+      const zoom = this.zoom;
+      const thicknessStart = thicknessSettings.thicknessStart * zoom;
+      const thicknessEnd = thicknessSettings.thicknessEnd * zoom;
+      
+      let lastP = realQBZ.from;
+      for (let i = 1; i <= thicknessSettings.steps; i++) {
+        const t = i / thicknessSettings.steps;
+        const qbz = getControlPointInQuadraticBezier((i - 1) / thicknessSettings.steps, t, realQBZ);
+        const p = qbz.to;
+        const th = t * thicknessEnd + (1 - t) * thicknessStart;
+
+        this.ctx.beginPath();
+        this.ctx.moveTo(lastP.x, lastP.y);
+        this.ctx.quadraticCurveTo(qbz.control.x, qbz.control.y, p.x, p.y);
+        this.ctx.lineWidth = th;
+        this.ctx.stroke();
+        this.ctx.closePath();
+        
+        lastP = p;
+      }
+    }
+
+  }
+
   public drawContinousQuadraticPath(points: Point[], stroke: StrokeStyle, fill?: FillStyle, objectStyle?: ObjectStyle): void {
     const realPoints = points.map(p => {
       return this.transformPointFromFieldToCanvasWithResolutionFactor(p);
@@ -492,7 +598,7 @@ export class RenderingContext extends AbstractRenderingContext {
                      radiusX: number,
                      radiusY: number,
                      rotation: number,
-                     useUniformSize: boolean,
+                     useUniformSize?: boolean,
                      fillStyle?: FillStyle,
                      strokeStyle?: StrokeStyle,
                      objectStyle?: ObjectStyle): void {

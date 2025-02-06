@@ -169,8 +169,8 @@ export class ScreenshotDialogComponent implements OnInit, AfterViewInit {
     this.drawerService.drawToCanvas(canvas, {
       x: 0,
       y: 0,
-      width: this.width * this.zoom,
-      height: this.height * this.zoom
+      width: this.width * this.zoom * this.resolution,
+      height: this.height * this.zoom * this.resolution
     }, {
       translateX: -this.x,
       translateY: -this.y,

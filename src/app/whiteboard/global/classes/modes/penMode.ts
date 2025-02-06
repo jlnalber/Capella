@@ -34,7 +34,7 @@ export class PenMode extends WhiteboardMode {
 
   public override pointerStart(whiteboardService: WhiteboardService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext): void {
     this.penElement = new PenElement(whiteboardService.settings, this.getStyleOfPen(whiteboardService));
-    whiteboardService.addCanvasElements(this.penElement); // do not add point before drawing!
+    whiteboardService.addCanvasElements(true, this.penElement); // do not add point before drawing!
     this.penElement.addPoint(getPenPointFromPreviousPoint(point, undefined, pointerContext, renderingContext), renderingContext);
   }
 
@@ -78,7 +78,7 @@ export class PenMode extends WhiteboardMode {
   public click(whiteboardService: WhiteboardService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext): void {
     this.penElement = new PenElement(whiteboardService.settings, this.getStyleOfPen(whiteboardService));
     this.penElement.addPoint(getPenPointFromPreviousPoint(point, undefined, pointerContext, renderingContext), renderingContext);
-    whiteboardService.addCanvasElements(this.penElement);
+    whiteboardService.addCanvasElements(false, this.penElement);
     this.penElement.finish();
     this.penElement = undefined;
   }

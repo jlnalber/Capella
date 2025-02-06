@@ -82,7 +82,6 @@ export default class PenElement extends WhiteboardCanvasMinorChangeElement<PenPo
     }
 
     public override draw(ctx: AbstractRenderingContext): void {
-        console.log(this._points.length)
         ctx.drawSmoothPath(this._points, this.changeThickness, this._penStyle.strokeStyle, this._penStyle.objectStyle);
     }
 

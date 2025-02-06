@@ -358,8 +358,6 @@ export class RenderingContext extends AbstractRenderingContext {
 
       const pathStroke = getStrokePointPathFromPenPointPath(path);
 
-      console.log('new path')
-
       let lastP = pathStroke[0];
     
       for (let i = 1; i < pathStroke.length - 1; i++) {
@@ -421,10 +419,9 @@ export class RenderingContext extends AbstractRenderingContext {
     }
     else {
       const zoom = this.zoom;
-      const thicknessStart = thicknessSettings.thicknessStart * zoom;
-      const thicknessEnd = thicknessSettings.thicknessEnd * zoom;
-
-      //console.log(thicknessSettings.thicknessStart, thicknessSettings.thicknessEnd)
+      const resFactor = this.resolutionFactor;
+      const thicknessStart = thicknessSettings.thicknessStart * zoom * resFactor;
+      const thicknessEnd = thicknessSettings.thicknessEnd * zoom * resFactor;
       
       let lastP = realQBZ.from;
       for (let i = 1; i <= thicknessSettings.steps; i++) {

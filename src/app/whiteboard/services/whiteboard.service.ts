@@ -162,8 +162,8 @@ export class WhiteboardService extends AbstractDrawerService {
     this.activePage.redraw();
   }
 
-  public addCanvasElements(...canvasElements: WhiteboardCanvasIdElement[]) {
-    this.activePage.addCanvasElements(...canvasElements);
+  public addCanvasElements(silent: boolean, ...canvasElements: WhiteboardCanvasIdElement[]) {
+    this.activePage.addCanvasElements(silent, ...canvasElements);
   }
 
   public get renderingContext(): RenderingContext {

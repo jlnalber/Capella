@@ -30,14 +30,20 @@ export const BACKGROUND_COLOR: Color = {
 export default class Page {
 
     private _canvasElements: WhiteboardCanvasIdElement[] = [];
-
-    public addCanvasElements(...canvasElements: WhiteboardCanvasIdElement[]): void {
+    
+    public addCanvasElements(silent: boolean, ...canvasElements: WhiteboardCanvasIdElement[]): void {
+        // silent means no triggering of change events
         for (let canvasElement of canvasElements) {
             this._canvasElements.push(canvasElement);
-            canvasElement.onChange.addListener(this.canvasElementOnChangeListener);
+            if (!silent) {
+                canvasElement.onChange.addListener(this.canvasElementOnChangeListener);
+            }
             canvasElement.onAdd.emit(this);
         }
-        this.onCanvasElementsChanged.emit(canvasElements);
+        if (!silent) {
+            this.onCanvasElementsChanged.emit(canvasElements);
+    
+        }
     }
 
     public removeCanvasElements(...canvasElements: WhiteboardCanvasIdElement[]): boolean {

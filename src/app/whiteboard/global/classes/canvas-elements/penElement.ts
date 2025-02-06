@@ -1,8 +1,11 @@
 import { PenStyle } from './../../interfaces/penStyle';
 import AbstractRenderingContext from "../../../../global/classes/renderingContext/abstractRenderingContext";
 import { WhiteboardSettings } from 'src/app/whiteboard/services/whiteboardSettings';
-import { getStrokePointPathFromPenPointPath, PenPoint } from 'src/app/global/interfaces/penPoint';
+import { getStrokePointMiddle, PenPoint, StrokePoint, DEFAULT_STEPS_PATH, getStrokePointFromPenPoint, getAverageFromLastPoints } from 'src/app/global/interfaces/penPoint';
 import WhiteboardCanvasMinorChangeElement from '../abstract/whiteboardCanvasMinorChangeElement';
+import { getThicknessSettings } from 'src/app/global/classes/renderingContext/renderingUtils';
+import { getMiddlePointByPoints } from 'src/app/prokyon/global/essentials/geometryUtils';
+import { Point } from 'src/app/global/interfaces/point';
 
 export default class PenElement extends WhiteboardCanvasMinorChangeElement<PenPoint> {
 
@@ -37,8 +40,34 @@ export default class PenElement extends WhiteboardCanvasMinorChangeElement<PenPo
             }
         }
         this._points.push(p);
+        this.drawNextPoint(renderingContext);
         this.onMinorChange.emit([this, renderingContext, p]);
-        this.onChange.emit(this); // TODO: entfernen
+        // this.onChange.emit(this); // TODO: entfernen
+    }
+
+    private drawNextPoint(ctx: AbstractRenderingContext): void {
+        if (this._points.length > 2) {
+            // try to replicate the rendering in one stroke as precisely as possible
+            let lastP: StrokePoint;
+            if (this._points.length > 3) {
+                // for the end of the stroke
+                lastP = getStrokePointMiddle(this._points[this._points.length - 3], this._points[this._points.length - 2], this._points, 3);
+            }
+            else {
+                // for the beginning of the stroke
+                lastP = getStrokePointFromPenPoint(this._points[0]);
+            }
+
+            // get the other points for the bezier curve
+            const thisP = getStrokePointMiddle(this._points[this._points.length - 2], this._points[this._points.length - 1], this._points, 2);
+            const control = getStrokePointFromPenPoint(this._points[this._points.length - 2], getAverageFromLastPoints(this._points, 2));
+
+            ctx.drawSmoothPathSegment({
+                from: lastP,
+                control: control,
+                to: thisP
+            }, getThicknessSettings(lastP, control, this.penStyle.strokeStyle.lineWidth, this.changeThickness), this._penStyle.strokeStyle, this._penStyle.objectStyle);
+        }
     }
 
     public finish(): void {
@@ -53,9 +82,12 @@ export default class PenElement extends WhiteboardCanvasMinorChangeElement<PenPo
     }
 
     public override draw(ctx: AbstractRenderingContext): void {
-        const changeThickness = this._penStyle.useSizes && !this.settings.getGlobalConfig().neverUseSizesForPen;
-        
-        ctx.drawSmoothPath(this._points, changeThickness, this._penStyle.strokeStyle, this._penStyle.objectStyle);
+        console.log(this._points.length)
+        ctx.drawSmoothPath(this._points, this.changeThickness, this._penStyle.strokeStyle, this._penStyle.objectStyle);
+    }
+
+    private get changeThickness(): boolean | undefined {
+        return this._penStyle.useSizes && !this.settings.getGlobalConfig().neverUseSizesForPen;
     }
 
 }

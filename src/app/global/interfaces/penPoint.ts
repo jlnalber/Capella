@@ -25,8 +25,8 @@ export type ThicknessSettings = {
 }
 
 // TODO: make all of this settings, so that it can be changed by the user
-export const MIN_THICKNESS = 0.5;
-export const MAX_THICKNESS = 1.5;
+export const MIN_THICKNESS = 0.6;
+export const MAX_THICKNESS = 1 / MIN_THICKNESS;
 export const MIN_VELOCITY = 0.7;
 export const MAX_VELOCITY = 1 / MIN_VELOCITY;
 export const MIN_PRESSURE = 0.5;
@@ -53,7 +53,7 @@ export function getStrokePointFromPenPoint(penPoint: PenPoint, lastPoint?: Point
         const directionVector = getVectorFromPoints(lastPoint, penPoint);
         const stylusVector = rotateVectorAroundXAxis(realAx, rotateVectorAroundYAxis(realAy, v));
         const orthVector = vectorProduct(stylusVector, directionVector);
-        angleFactor = (0.5 + Math.abs(getCosineBetweenVectors(orthVector, v))) ** (1.3);
+        angleFactor = (0.5 + Math.abs(getCosineBetweenVectors(orthVector, v))) ** (2);
 
         /*const length = Math.sqrt((penPoint.x - lastPoint.x) ** 2 + (penPoint.y - lastPoint.y) ** 2);
         const angleSineStroke = (penPoint.y - lastPoint.y) / length;
@@ -73,28 +73,30 @@ export function getStrokePointFromPenPoint(penPoint: PenPoint, lastPoint?: Point
     return {
         x: penPoint.x,
         y: penPoint.y,
-        thickness: thickness // TODO: thickness within boundaries
+        thickness: getInRange(Math.sqrt(thickness), MIN_THICKNESS, MAX_THICKNESS) // TODO: thickness within boundaries
     }
 }
 
 export function getStrokePointPathFromPenPointPath(penPointPath: PenPoint[]): Path {
     const res: Path = [];
+    const evalPoints: Point[] = []; // this is just for saving operations and not having to slice penPointPath n times
     for (let i = 0; i < penPointPath.length; i++) {
         if (i === 0) {
             res.push(getStrokePointFromPenPoint(penPointPath[i]));
         }
         else {
-            res.push(getStrokePointFromPenPoint(penPointPath[i], getAverageFromLastPoints(penPointPath)));
+            res.push(getStrokePointFromPenPoint(penPointPath[i], getAverageFromLastPoints(evalPoints, 0)));
         }
+        evalPoints.push(penPointPath[i]);
     }
     return res;
 }
 
-function getAverageFromLastPoints(penPointPath: PenPoint[], maxSteps: number = 3): Point {
+export function getAverageFromLastPoints(penPointPath: Point[], jump: number, maxSteps: number = 3): Point {
     let x = 0;
     let y = 0;
     let count = 0;
-    for (let i = penPointPath.length - 2; i >= 0 && count < maxSteps; i--) {
+    for (let i = penPointPath.length - 1 - jump; i >= 0 && count < maxSteps; i--) {
         x += penPointPath[i].x;
         y += penPointPath[i].y;
         count++;
@@ -102,6 +104,15 @@ function getAverageFromLastPoints(penPointPath: PenPoint[], maxSteps: number = 3
     return {
         x: x / count,
         y: y / count
+    }
+}
+
+export function getStrokePointMiddle(p1: PenPoint, p2: Point, penPointPath: Point[], jump: number, maxSteps: number = 3): StrokePoint {
+    const sP = getStrokePointFromPenPoint(p1, getAverageFromLastPoints(penPointPath, jump, maxSteps));
+    return {
+        x: (p1.x + p2.x) / 2,
+        y: (p1.y + p2.y) / 2,
+        thickness: sP.thickness
     }
 }
 

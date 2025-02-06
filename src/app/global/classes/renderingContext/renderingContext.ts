@@ -358,9 +358,8 @@ export class RenderingContext extends AbstractRenderingContext {
 
       const pathStroke = getStrokePointPathFromPenPointPath(path);
 
-      // console.log(path)
+      console.log('new path')
 
-      let lw = baseLineWidth;
       let lastP = pathStroke[0];
     
       for (let i = 1; i < pathStroke.length - 1; i++) {
@@ -381,7 +380,7 @@ export class RenderingContext extends AbstractRenderingContext {
             from: lastP,
             control: point,
             to: to
-          }, getThicknessSettings(lastP, point, lw, changeThickness))
+          }, getThicknessSettings(lastP, point, baseLineWidth, changeThickness))
 
           lastP = to;
         }
@@ -392,7 +391,7 @@ export class RenderingContext extends AbstractRenderingContext {
         from: lastP,
         control: lastP,
         to: endP
-      }, getThicknessSettings(lastP, endP, lw, changeThickness))
+      }, getThicknessSettings(lastP, lastP, baseLineWidth, changeThickness))
     }
   }
 
@@ -424,6 +423,8 @@ export class RenderingContext extends AbstractRenderingContext {
       const zoom = this.zoom;
       const thicknessStart = thicknessSettings.thicknessStart * zoom;
       const thicknessEnd = thicknessSettings.thicknessEnd * zoom;
+
+      //console.log(thicknessSettings.thicknessStart, thicknessSettings.thicknessEnd)
       
       let lastP = realQBZ.from;
       for (let i = 1; i <= thicknessSettings.steps; i++) {
@@ -435,6 +436,7 @@ export class RenderingContext extends AbstractRenderingContext {
         this.ctx.beginPath();
         this.ctx.moveTo(lastP.x, lastP.y);
         this.ctx.quadraticCurveTo(qbz.control.x, qbz.control.y, p.x, p.y);
+        
         this.ctx.lineWidth = th;
         this.ctx.stroke();
         this.ctx.closePath();

@@ -401,7 +401,8 @@ export default class Page {
                     g: 200,
                     b: 200
                 },
-                lineWidth: 1
+                lineWidth: 1,
+                uniformSizeOnZoom: true
             })
         }
 

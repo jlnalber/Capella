@@ -34,8 +34,8 @@ export class PenMode extends WhiteboardMode {
 
   public override pointerStart(whiteboardService: WhiteboardService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext): void {
     this.penElement = new PenElement(whiteboardService.settings, this.getStyleOfPen(whiteboardService));
+    whiteboardService.addCanvasElements(this.penElement); // do not add point before drawing!
     this.penElement.addPoint(getPenPointFromPreviousPoint(point, undefined, pointerContext, renderingContext), renderingContext);
-    whiteboardService.addCanvasElements(this.penElement);
   }
 
   public pointerMove(whiteboardService: WhiteboardService, renderingContext: RenderingContext, from: Point, to: Point, pointerContext: PointerContext, evt: PointerEvent): void {

@@ -29,6 +29,8 @@ export interface GlobalConfig {
 const GLOBAL_CONFIG_LOCALSTORAGE = 'GLOBAL_CONFIG_LOCSTOR';
 const GLOBAL_CONFIG_DEFAULT: GlobalConfig = {};
 
+export const DEFAULT_RESOLUTIONFACTOR = 1;
+
 export class WhiteboardSettings {
 
   // pens

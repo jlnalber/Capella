@@ -1,4 +1,4 @@
-import { Transformations } from "src/app/global/interfaces/transformations";
+import { getResolution, Transformations } from "src/app/global/interfaces/transformations";
 import { Point } from "src/app/global/interfaces/point";
 import { Rect } from "src/app/global/interfaces/rect";
 import { Color } from "src/app/global/interfaces/color";
@@ -142,7 +142,7 @@ export default abstract class AbstractRenderingContext {
   public abstract get height(): number;
 
   public get resolutionFactor(): number {
-    return this.transformations.resolutionFactor ?? 1;
+    return getResolution(this.transformations.resolutionFactor);
   }
 
   public get lineDash(): number[] {

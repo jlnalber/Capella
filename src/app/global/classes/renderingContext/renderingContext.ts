@@ -343,6 +343,10 @@ export class RenderingContext extends AbstractRenderingContext {
 
     const baseLineWidth = strokeStyle.lineWidth;
 
+    console.log(
+      'new Path'
+    )
+
     if (path.length === 0) {
       return;
     }

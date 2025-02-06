@@ -30,15 +30,18 @@ export const MAX_THICKNESS = 1 / MIN_THICKNESS;
 export const MIN_VELOCITY = 0.7;
 export const MAX_VELOCITY = 1 / MIN_VELOCITY;
 export const MIN_PRESSURE = 0.5;
-export const MAX_PRESSURE = 1 / MIN_PRESSURE;
-export const MIN_ANGLE = 0.2;
+export const MAX_PRESSURE = 1.5;
+export const MIN_ANGLE = 0.4;
 export const MAX_ANGLE = 1 / MIN_ANGLE;
-const DEFAULT_VELOCITY = 0.6;
+const DEFAULT_VELOCITY = 0.4;
 export const DEFAULT_STEPS_PATH = 3;
 
 export function getStrokePointFromPenPoint(penPoint: PenPoint, lastPoint?: Point): StrokePoint {
 
-    const velocityFactor = Math.pow(DEFAULT_VELOCITY / (penPoint.v ?? DEFAULT_VELOCITY + 0.1), 1/5);
+    let velocityFactor = Math.pow(DEFAULT_VELOCITY / (penPoint.v ?? DEFAULT_VELOCITY + 0.1), 1/6);
+    if (!isFinite(velocityFactor)) {
+        velocityFactor = 1;
+    }
     
     const pressureFactor = penPoint.p + 0.5;
     
@@ -53,7 +56,7 @@ export function getStrokePointFromPenPoint(penPoint: PenPoint, lastPoint?: Point
         const directionVector = getVectorFromPoints(lastPoint, penPoint);
         const stylusVector = rotateVectorAroundXAxis(realAx, rotateVectorAroundYAxis(realAy, v));
         const orthVector = vectorProduct(stylusVector, directionVector);
-        angleFactor = (0.5 + Math.abs(getCosineBetweenVectors(orthVector, v))) ** (2);
+        angleFactor = (0.5 + Math.abs(getCosineBetweenVectors(orthVector, v))) ** (1);
 
         /*const length = Math.sqrt((penPoint.x - lastPoint.x) ** 2 + (penPoint.y - lastPoint.y) ** 2);
         const angleSineStroke = (penPoint.y - lastPoint.y) / length;
@@ -68,12 +71,13 @@ export function getStrokePointFromPenPoint(penPoint: PenPoint, lastPoint?: Point
         }
         //console.log(angleFactor);
     }
+    console.log(angleFactor);
 
     const thickness = getInRange(pressureFactor, MIN_PRESSURE, MAX_PRESSURE) * getInRange(velocityFactor, MIN_VELOCITY, MAX_VELOCITY) * getInRange(angleFactor, MIN_ANGLE, MAX_ANGLE);
     return {
         x: penPoint.x,
         y: penPoint.y,
-        thickness: getInRange(Math.sqrt(thickness), MIN_THICKNESS, MAX_THICKNESS) // TODO: thickness within boundaries
+        thickness: getInRange(Math.sqrt(thickness), MIN_THICKNESS, MAX_THICKNESS)
     }
 }
 

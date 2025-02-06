@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BLACK, Color, colorAsTransparent, getColorAsRgbaFunction, WHITE } from "src/app/global/interfaces/color";
 import { Event } from "src/app/global/essentials/event";
 import { RenderingContext } from "src/app/global/classes/renderingContext/renderingContext";
-import { Transformations } from "src/app/global/interfaces/transformations";
+import { getResolution, Transformations } from "src/app/global/interfaces/transformations";
 import { Point, Vector } from "src/app/global/interfaces/point";
 import { CanvasDrawer } from 'src/app/global/classes/abstract/canvasDrawer';
 import { Grid } from "src/app/prokyon/global/classes/grid";
@@ -188,6 +188,10 @@ export class DrawerService extends AbstractDrawerService {
     return this._transformations.zoom;
   }
 
+  public get resolutionFactor(): number {
+    return getResolution(this._transformations.resolutionFactor);
+  }
+
   public get transformations(): Transformations {
     return {
       translateX: this.translateX,
@@ -329,7 +333,7 @@ export class DrawerService extends AbstractDrawerService {
   }
 
   public drawToCanvas(canvas: HTMLCanvasElement, boundingRect: Rect, transformations: Transformations, withTransformColor: boolean = false): void {
-    const resolution = transformations.resolutionFactor ?? 1;
+    const resolution = this.resolutionFactor;
 
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 

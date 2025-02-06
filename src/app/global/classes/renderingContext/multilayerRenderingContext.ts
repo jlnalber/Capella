@@ -1,5 +1,5 @@
 import { Color } from "../../interfaces/color";
-import { Transformations } from "../../interfaces/transformations";
+import { getResolution, Transformations } from "../../interfaces/transformations";
 import { CanvasIdElement } from "../abstract/canvasIdElement";
 import { CanvasConfig } from "./abstractRenderingContext";
 import { RenderingContext } from "./renderingContext";
@@ -18,5 +18,9 @@ export default class MultiLayerRenderingContext extends RenderingContext {
 
     protected override get ctx(): CanvasRenderingContext2D {
         return this.ctxs[this.activeCanvas];
+    }
+
+    public override get resolutionFactor(): number {
+        return getResolution(this.transformations.resolutionFactor, this.activeCanvas);
     }
 }

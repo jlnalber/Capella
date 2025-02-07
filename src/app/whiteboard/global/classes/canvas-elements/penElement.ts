@@ -25,7 +25,7 @@ export default class PenElement extends WhiteboardCanvasMinorChangeElement<PenPo
         this._penStyle = penStyle;
     }
 
-    public addPoint(p: PenPoint, renderingContext: AbstractRenderingContext): void {
+    public addPoint(p: PenPoint, renderingContext?: AbstractRenderingContext): void {
         if (this._points.length !== 0 && this._points[this._points.length - 1].v === undefined) {
             if (this._points[this._points.length - 1].v === undefined) {
                 this._points[this._points.length - 1].v = p.v;
@@ -38,10 +38,13 @@ export default class PenElement extends WhiteboardCanvasMinorChangeElement<PenPo
             }
         }
         this._points.push(p);
-        renderingContext.requestForeignDrawing(this, () => {
-            this.drawNextPoint(renderingContext);
-        });
-        this.onMinorChange.emit([this, renderingContext, p]);
+
+        if (renderingContext) {
+            renderingContext.requestForeignDrawing(this, () => {
+                this.drawNextPoint(renderingContext);
+            });
+            this.onMinorChange.emit([this, renderingContext, p]);
+        }
     }
 
     private drawNextPoint(ctx: AbstractRenderingContext): void {

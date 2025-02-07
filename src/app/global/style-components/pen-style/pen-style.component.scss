@@ -1,14 +1,6 @@
 @import url(../../styles/_global.scss);
+@import url(../pickerContainerStyles.scss);
 
-.wrapper * {
-    margin-top: 10px;
-    display: block;
-}
-
-.wrapper *:not(:last-child)::after {
-    content: " ";
-    display: block;
-    height: 0px;
-    border: 0.5px solid #dfd7d2;
-    margin-top: 7px;
+.wrapper {
+    // max-height: 80%;
 }

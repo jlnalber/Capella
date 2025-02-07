@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import AbstractPickerComponent from '../abstractPickerComponent';
-import SliderInputPicker from './sliderInputPicker';
 import { FormsModule } from '@angular/forms';
+import SliderInputPicker from '../pickers/sliderInputPicker';
 
 @Component({
   selector: 'app-slider-input',

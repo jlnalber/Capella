@@ -23,7 +23,6 @@ export class IconPickerComponent extends AbstractPickerComponent<Picker<Icon>, I
       const str = this.picker.getActive();
       for (let i = 0; i < this.icons.length; i++) {
         if (this.icons[i].fileName === str) {
-          console.log(i);
           return i;
         }
       }
@@ -42,7 +41,6 @@ export class IconPickerComponent extends AbstractPickerComponent<Picker<Icon>, I
     const index = this.activeIcon;
     if (index !== undefined)
     {
-      console.log(this.icons[index])
       return this.icons[index];
     }
     return undefined;

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import AbstractPickerComponent from '../abstractPickerComponent';
 import { FormsModule } from '@angular/forms';
-import StringInputPicker from './stringInputPicker';
+import StringInputPicker from '../pickers/stringInputPicker';
 
 @Component({
   selector: 'app-string-input',

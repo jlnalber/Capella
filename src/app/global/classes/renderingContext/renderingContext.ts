@@ -429,7 +429,6 @@ export class RenderingContext extends AbstractRenderingContext {
         this.ctx.beginPath();
       }
 
-      console.log(realQBZ.from.x, realQBZ.from.y);
       this.ctx.moveTo(realQBZ.from.x, realQBZ.from.y);
       this.ctx.quadraticCurveTo(realQBZ.control.x, realQBZ.control.y, realQBZ.to.x, realQBZ.to.y);
       

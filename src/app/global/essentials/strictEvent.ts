@@ -25,4 +25,8 @@ export default class StrictEvent<T> {
   public get empty(): boolean {
     return this.listeners.length == 0;
   }
+
+  public get length(): number {
+    return this.listeners.length;
+  }
 }

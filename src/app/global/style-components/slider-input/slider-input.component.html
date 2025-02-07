@@ -1,8 +1,8 @@
 <div class="wrapper">
     @if (this.picker) {
-        <label>{{ this.picker.label}}</label>
-        <p>{{ this.picker.conversion(this.picker.value) }}</p>
-        <input type="range" [(ngModel)]="this.picker.value" [min]="this.min" [max]="this.max">
-
+        <label for="slider" class="paragraph">{{ this.picker.label}}</label>
+        <label class="numberDisplay">{{ this.picker.conversion(this.picker.value) }}</label>
+        <br>
+        <input class="input" id="slider" type="range" [(ngModel)]="this.picker.value" [min]="this.min" [max]="this.max">
     }
 </div>

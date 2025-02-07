@@ -48,7 +48,7 @@ export class PenStyleComponent extends AbstractPickerComponent<Picker<Pen>, Pen>
     setTimeout(() => {
       this.namePicker = new StringInputPicker(() => this.picker?.value?.name ?? '', (t: string) => { if (this.picker?.value) this.picker.value.name = t }, 'Name', true);
       this.iconPicker = new Picker<Icon>(() => this.picker?.value?.icon, (t: Icon) => { if (this.picker?.value) this.picker.value.icon = t }, true);
-      // TODO: global max and min
+      // TODO: global max and min (settings)
       this.sliderInputPicker = new SliderInputPicker(() => this.picker?.value?.lineWidth,
                         (t: number) => { if (this.picker?.value) this.picker.value.lineWidth = t },
                         DEFAULT_MIN_PEN_SIZE, 

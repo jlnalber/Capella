@@ -8,7 +8,8 @@ export default class ColorPicker extends Picker<Color> {
                 getActiveColor: () => Color | undefined,
                 setActiveColor: (color: Color) => void,
                 public readonly isDisabled: () => boolean,
-                setImmediately?: boolean) {
+                setImmediately?: boolean,
+                public whiteBackground?: boolean) {
         super(getActiveColor, setActiveColor, setImmediately);
     }
 

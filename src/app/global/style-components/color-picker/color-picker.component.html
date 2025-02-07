@@ -1,5 +1,5 @@
 <div class="divider">
-    <label class="dividerLabel accentColor">Farbe auswählen</label>
+    <label class="dividerLabel accentColor" [class.dividerLabelWhite]="this.picker?.whiteBackground">Farbe auswählen</label>
     <div class="colorWrapper">
         @if (this.picker) {
             @for (color of this.picker.getAllColors(); track $index) {

@@ -1,5 +1,6 @@
-import { DEFAULT_STEPS_PATH, StrokePoint, ThicknessSettings } from "../../interfaces/penPoint";
+import { StrokePoint, ThicknessSettings } from "../../interfaces/penPoint";
 import { Point } from "../../interfaces/point";
+import AbstractRenderingContext from "./abstractRenderingContext";
 
 export function getPointsForQuadraticFormula(p1: Point, p2: Point): Point {
     return {
@@ -42,12 +43,12 @@ export function getControlPointInQuadraticBezier(t1: number, t2: number, qbz: Qu
     }
 }
 
-export function getThicknessSettings(a: StrokePoint, b: StrokePoint, lw: number, changeThickness: boolean | undefined): ThicknessSettings | undefined {
+export function getThicknessSettings(a: StrokePoint, b: StrokePoint, lw: number, changeThickness: boolean | undefined, ctx: AbstractRenderingContext): ThicknessSettings | undefined {
     if (changeThickness) {
         return {
             thicknessStart: a.thickness * lw,
             thicknessEnd: b.thickness * lw,
-            steps: DEFAULT_STEPS_PATH
+            steps: ctx.getStepsForSmoothPathRendering()
         }
     }
     return undefined;

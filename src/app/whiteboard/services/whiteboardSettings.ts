@@ -29,6 +29,9 @@ export interface GlobalConfig {
 const GLOBAL_CONFIG_LOCALSTORAGE = 'GLOBAL_CONFIG_LOCSTOR';
 const GLOBAL_CONFIG_DEFAULT: GlobalConfig = {};
 
+const STEPS_THICKNESS_RENDERING_LOCALSTORAGE = 'STEPS_THICKNESS_RENDERING_LOCSTOR';
+const STEPS_THICKNESS_RENDERING_DEFAULT = 3;
+
 export const DEFAULT_RESOLUTIONFACTOR = 1;
 
 export class WhiteboardSettings {
@@ -137,5 +140,23 @@ export class WhiteboardSettings {
   public setGlobalConfig(config: GlobalConfig): void {
     this.globalConfig = config;
     localStorage.setItem(GLOBAL_CONFIG_LOCALSTORAGE, JSON.stringify(this.globalConfig));
+  }
+
+  // thickness rendering
+  private stepsThicknessRendering: number | undefined;
+
+  public getStepsThicknessRendering(): number {
+    if (this.stepsThicknessRendering === undefined) {
+      const p = localStorage.getItem(STEPS_THICKNESS_RENDERING_LOCALSTORAGE);
+      if (p !== null) {
+        this.stepsThicknessRendering = JSON.parse(p) as number;
+      }
+    }
+    return this.stepsThicknessRendering ?? STEPS_THICKNESS_RENDERING_DEFAULT;
+  }
+
+  public setStepsThicknessRendering(thickness: number): void {
+    this.stepsThicknessRendering = thickness;
+    localStorage.setItem(STEPS_THICKNESS_RENDERING_LOCALSTORAGE, JSON.stringify(this.stepsThicknessRendering));
   }
 }

@@ -13,9 +13,9 @@ import { SnackbarService } from 'src/app/global/snackbar/snackbar.service';
 import WhiteboardCanvasIdElement from '../global/classes/abstract/whiteboardCanvasIdElement';
 
 
-export interface ResolutionFactorChange {
-  setResolutionFactor: (factor?: Resolution) => void,
-  resetResolutionFactor: () => void
+export interface TemporaryChange<T> {
+  setTemporarily: (val: T) => void,
+  reset: () => void
 }
 
 export const STORAGE_CACHE = 'serialized_whiteboard'
@@ -180,10 +180,17 @@ export class WhiteboardService extends AbstractDrawerService {
   }
 
   
-  public requestTemporaryResolutionChange(): ResolutionFactorChange {
+  public requestTemporaryResolutionChange(): TemporaryChange<Resolution | undefined> {
     return this.activePage.requestTemporaryResolutionChange();
   }
 
+  public requestTemporaryThicknessRenderingSteps(): TemporaryChange<number> {
+    return this.activePage.requestTemporaryStepsThicknessRenderingChange();
+  }
+
+  public requestTemporaryStepsThicknessRenderingChange(): TemporaryChange<number> {
+    return this.activePage.requestTemporaryStepsThicknessRenderingChange();
+  }
 
   /*public serialize(): Serialized {
     return serialize(this);

@@ -42,7 +42,6 @@ export default class PenElement extends WhiteboardCanvasMinorChangeElement<PenPo
             this.drawNextPoint(renderingContext);
         });
         this.onMinorChange.emit([this, renderingContext, p]);
-        // this.onChange.emit(this); // TODO: entfernen
     }
 
     private drawNextPoint(ctx: AbstractRenderingContext): void {
@@ -66,7 +65,7 @@ export default class PenElement extends WhiteboardCanvasMinorChangeElement<PenPo
                 from: lastP,
                 control: control,
                 to: thisP
-            }, getThicknessSettings(lastP, control, this.penStyle.strokeStyle.lineWidth, this.changeThickness), this._penStyle.strokeStyle, this._penStyle.objectStyle);
+            }, getThicknessSettings(lastP, control, this.penStyle.strokeStyle.lineWidth, this.changeThickness, ctx), this._penStyle.strokeStyle, this._penStyle.objectStyle);
         }
     }
 

@@ -51,9 +51,10 @@ export class RenderingContext extends AbstractRenderingContext {
                canvasConfig?: CanvasConfig,
                getRightColor: (c: Color, config: any) => Color = (c: Color) => c,
                _variables?: any,
-               config?: any
+               config?: any,
+               getStepsForSmoothPathRendering: () => number = () => 1
               /* public readonly config?: Config */) {
-    super(transformations, selection, canvasConfig, getRightColor, _variables, config);
+    super(transformations, selection, canvasConfig, getRightColor, _variables, config, getStepsForSmoothPathRendering);
   }
 
   protected get ctx(): CanvasRenderingContext2D {
@@ -355,7 +356,6 @@ export class RenderingContext extends AbstractRenderingContext {
     }
     else {
       
-      console.log('new path')
       this.useStrokeStyle(strokeStyle);
       this.useObjectStyle(objectStyle);
 
@@ -387,7 +387,7 @@ export class RenderingContext extends AbstractRenderingContext {
             from: lastP,
             control: point,
             to: to
-          }, !beginAndClosePathIfContinousOnMyOwn, getThicknessSettings(lastP, point, baseLineWidth, changeThickness))
+          }, !beginAndClosePathIfContinousOnMyOwn, getThicknessSettings(lastP, point, baseLineWidth, changeThickness, this))
 
           lastP = to;
         }
@@ -398,7 +398,7 @@ export class RenderingContext extends AbstractRenderingContext {
         from: lastP,
         control: lastP,
         to: endP
-      }, !beginAndClosePathIfContinousOnMyOwn, getThicknessSettings(lastP, lastP, baseLineWidth, changeThickness));
+      }, !beginAndClosePathIfContinousOnMyOwn, getThicknessSettings(lastP, lastP, baseLineWidth, changeThickness, this));
 
       // close path if needed
       if (beginAndClosePathIfContinousOnMyOwn) {

@@ -40,7 +40,8 @@ export default abstract class AbstractRenderingContext {
     protected readonly canvasConfig?: CanvasConfig,
     protected readonly getRightColor: (c: Color, config: any) => Color = (c: Color) => c,
     protected readonly _variables?: any,
-    public readonly config?: any) {
+    public readonly config?: any,
+    public readonly getStepsForSmoothPathRendering: () => number = () => 1) {
     this.selection = selection ?? [];
   }
 

@@ -14,8 +14,9 @@ export default class MultiLayerRenderingContext extends RenderingContext {
                 canvasConfig?: CanvasConfig,
                 getRightColor: (c: Color, config: any) => Color = (c: Color) => c,
                 _variables?: any,
-                config?: any) {
-        super(ctxs[0], transformations, selection, canvasConfig, getRightColor, _variables, config);
+                config?: any,
+                getStepsForSmoothPathRendering: () => number = () => 1) {
+        super(ctxs[0], transformations, selection, canvasConfig, getRightColor, _variables, config, getStepsForSmoothPathRendering);
     }
 
     protected override get ctx(): CanvasRenderingContext2D {

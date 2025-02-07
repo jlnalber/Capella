@@ -2,7 +2,7 @@ import { CanvasAndCTX } from './../../global/canvas/abstractCanvas';
 import { RenderingContext } from "../../global/classes/renderingContext/renderingContext";
 import { Point, Vector } from "src/app/global/interfaces/point";
 import { DEFAULT_RESOLUTIONFACTOR, getResolution, Resolution, Transformations } from "src/app/global/interfaces/transformations";
-import { ResolutionFactorChange, WhiteboardService } from "./whiteboard.service";
+import { TemporaryChange, WhiteboardService } from "./whiteboard.service";
 import Selection from "../../global/essentials/selection";
 import { Event } from "../../global/essentials/event";
 import { Rect } from "src/app/global/interfaces/rect";
@@ -132,16 +132,33 @@ export default class Page {
         this.onTransformationsChanged.emit(value);
     }
 
-    public requestTemporaryResolutionChange(): ResolutionFactorChange {
+    public requestTemporaryResolutionChange(): TemporaryChange<Resolution | undefined> {
         const resFactor = this.transformations.resolutionFactor;
         return {
-            setResolutionFactor: (factor?: Resolution) => {
+            setTemporarily: (factor?: Resolution) => {
                 this._transformations.resolutionFactor = factor;
                 // console.log(factor, activePage.transformations.resolutionFactor);
             },
-            resetResolutionFactor: () => {
+            reset: () => {
                 this._transformations.resolutionFactor = resFactor;
                 this.onTransformationsChanged.emit(resFactor);
+            }
+        }
+    }
+
+    private _overriddenStepsThicknessRendering: number | undefined;
+    public get stepsThicknessRendering(): number {
+        return this._overriddenStepsThicknessRendering ?? this.whiteboardService.settings.getStepsThicknessRendering();
+    }
+
+    public requestTemporaryStepsThicknessRenderingChange(): TemporaryChange<number> {
+        return {
+            setTemporarily: (steps?: number) => {
+                this._overriddenStepsThicknessRendering = steps;
+            },
+            reset: () => {
+                this._overriddenStepsThicknessRendering = undefined;
+                this.onTransformationsChanged.emit();
             }
         }
     }
@@ -250,7 +267,13 @@ export default class Page {
     }
 
     public getRenderingContextFor(canvasAndCTX: CanvasAndCTX[], transformations: Transformations): MultiLayerRenderingContext {
-        return new MultiLayerRenderingContext(canvasAndCTX.map(i => i.ctx), 0, transformations, this.selection.toArray(), this.whiteboardService.settings.getCanvasConfig());
+        return new MultiLayerRenderingContext(canvasAndCTX.map(i => i.ctx),
+                                              0, 
+                                              transformations, 
+                                              this.selection.toArray(), 
+                                              this.whiteboardService.settings.getCanvasConfig(),
+                                              undefined, undefined, undefined,
+                                              () => this.stepsThicknessRendering);
     }
 
     public redraw(): void {

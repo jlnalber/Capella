@@ -34,7 +34,6 @@ export const MAX_PRESSURE = 1.5;
 export const MIN_ANGLE = 0.4;
 export const MAX_ANGLE = 1 / MIN_ANGLE;
 const DEFAULT_VELOCITY = 0.4;
-export const DEFAULT_STEPS_PATH = 3;
 
 export function getStrokePointFromPenPoint(penPoint: PenPoint, lastPoint?: Point): StrokePoint {
 

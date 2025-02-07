@@ -63,7 +63,8 @@ export class PenMode extends WhiteboardMode {
 
   public override pointerEnd(whiteboardService: WhiteboardService, renderingContext: RenderingContext, point: Point, pointerContext: PointerContext): void {
     
-    pointerContext.pressure = 0.5; // TODO: check correctness
+    pointerContext.pressure = 0.5;
+
     this.penElement?.addPoint(getPenPointFromPreviousPoint(point, this.penElement?.getLastPoint(), pointerContext, renderingContext, true), renderingContext);
     this.penElement?.finish();
     this.penElement = undefined;

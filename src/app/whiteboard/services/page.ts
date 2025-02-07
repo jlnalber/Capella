@@ -2,7 +2,7 @@ import { CanvasAndCTX } from './../../global/canvas/abstractCanvas';
 import { RenderingContext } from "../../global/classes/renderingContext/renderingContext";
 import { Point, Vector } from "src/app/global/interfaces/point";
 import { DEFAULT_RESOLUTIONFACTOR, getResolution, Resolution, Transformations } from "src/app/global/interfaces/transformations";
-import { WhiteboardService } from "./whiteboard.service";
+import { ResolutionFactorChange, WhiteboardService } from "./whiteboard.service";
 import Selection from "../../global/essentials/selection";
 import { Event } from "../../global/essentials/event";
 import { Rect } from "src/app/global/interfaces/rect";
@@ -84,6 +84,12 @@ export default class Page {
         zoom: 1
     };
 
+    public setTranslate(x: number, y: number): void {
+        this._transformations.translateX = x;
+        this._transformations.translateY = y;
+        this.onTransformationsChanged.emit(this._transformations);
+    }
+
     public set translateX(value: number) {
         this._transformations.translateX = value;
         this.onTransformationsChanged.emit(value);
@@ -124,6 +130,20 @@ export default class Page {
         this._transformations.translateX = value.translateX;
         this._transformations.translateY = value.translateY;
         this.onTransformationsChanged.emit(value);
+    }
+
+    public requestTemporaryResolutionChange(): ResolutionFactorChange {
+        const resFactor = this.transformations.resolutionFactor;
+        return {
+            setResolutionFactor: (factor?: Resolution) => {
+                this._transformations.resolutionFactor = factor;
+                // console.log(factor, activePage.transformations.resolutionFactor);
+            },
+            resetResolutionFactor: () => {
+                this._transformations.resolutionFactor = resFactor;
+                this.onTransformationsChanged.emit(resFactor);
+            }
+        }
     }
 
     public readonly selection: Selection<WhiteboardCanvasIdElement> = new Selection<WhiteboardCanvasIdElement>();
@@ -167,7 +187,7 @@ export default class Page {
     // public readonly onBackgroundColorChanged: Event<Color> = new Event<Color>();
     public readonly onCanvasElementsChanged: StrictEvent<WhiteboardCanvasIdElement[]> = new StrictEvent<WhiteboardCanvasIdElement[]>();
     // public readonly onMetaDrawersChanged: Event<CanvasDrawer> = new Event<CanvasDrawer>();
-    public readonly onTransformationsChanged: Event<number | Transformations> = new Event<number | Transformations>();
+    public readonly onTransformationsChanged: Event<Resolution | Transformations> = new Event<Resolution | Transformations>();
     // public readonly onCanvasConfigChanged: Event<CanvasConfig> = new Event<CanvasConfig>();
     public readonly onBeforeRedraw: Event<undefined> = new Event<undefined>();
     public readonly onBeforeElementsDraw: Event<RenderingContext> = new Event<RenderingContext>();
@@ -184,7 +204,7 @@ export default class Page {
 
     constructor(private readonly whiteboardService: WhiteboardService) {
         // first, add listeners to whiteboard
-        this.onTransformationsChanged.addListener((a: number | Transformations | undefined) => {
+        this.onTransformationsChanged.addListener((a: Resolution | Transformations | undefined) => {
             this.whiteboardService.onTransformationsChanged.emit(a);
         })
         this.onBeforeRedraw.addListener(() => {
@@ -208,7 +228,7 @@ export default class Page {
             }
             this.redrawLevels(levels);
         });
-        this.onTransformationsChanged.addListener(this.redrawListener);
+        //this.onTransformationsChanged.addListener(this.redrawListener);
         //this.onMetaDrawersChanged.addListener(this.redrawListener);
         //this.onCanvasConfigChanged.addListener(this.redrawListener);
         this.selection.onSelectionChanged.addListener(this.redrawListener);

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Transformations } from 'src/app/global/interfaces/transformations';
+import { Resolution, Transformations } from 'src/app/global/interfaces/transformations';
 import { Event } from '../../global/essentials/event';
 import { Point } from 'src/app/global/interfaces/point';
 import { RenderingContext } from '../../global/classes/renderingContext/renderingContext';
@@ -11,8 +11,12 @@ import { WhiteboardSettings } from './whiteboardSettings';
 import { DialogService } from 'src/app/global/dialog/dialog.service';
 import { SnackbarService } from 'src/app/global/snackbar/snackbar.service';
 import WhiteboardCanvasIdElement from '../global/classes/abstract/whiteboardCanvasIdElement';
-import StrictEvent from 'src/app/global/essentials/strictEvent';
 
+
+export interface ResolutionFactorChange {
+  setResolutionFactor: (factor?: Resolution) => void,
+  resetResolutionFactor: () => void
+}
 
 export const STORAGE_CACHE = 'serialized_whiteboard'
 
@@ -135,7 +139,7 @@ export class WhiteboardService extends AbstractDrawerService {
   // Events
   // public readonly onBackgroundColorChanged: Event<Color> = new Event<Color>();
   // public readonly onMetaDrawersChanged: Event<CanvasDrawer> = new Event<CanvasDrawer>();
-  public readonly onTransformationsChanged: Event<number | Transformations> = new Event<number | Transformations>();
+  public readonly onTransformationsChanged: Event<Resolution | Transformations> = new Event<Resolution | Transformations>();
   // public readonly onCanvasConfigChanged: Event<CanvasConfig> = new Event<CanvasConfig>();
   public readonly onBeforeRedraw: Event<undefined> = new Event<undefined>();
   public readonly onBeforeElementsDraw: Event<RenderingContext> = new Event<RenderingContext>();
@@ -156,6 +160,7 @@ export class WhiteboardService extends AbstractDrawerService {
     this.onPageChanged.addListener(this.redrawListener);
     this.onModeChanged.addListener(this.redrawListener);
     this.onAfterRedraw.addListener(this.saveListener);
+    this.onTransformationsChanged.addListener(this.redrawListener);
   }
 
   public redraw() {
@@ -174,6 +179,10 @@ export class WhiteboardService extends AbstractDrawerService {
     this.activePage.zoomToBy(p, factor);
   }
 
+  
+  public requestTemporaryResolutionChange(): ResolutionFactorChange {
+    return this.activePage.requestTemporaryResolutionChange();
+  }
 
 
   /*public serialize(): Serialized {

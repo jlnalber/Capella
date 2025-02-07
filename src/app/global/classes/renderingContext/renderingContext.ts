@@ -80,7 +80,7 @@ export class RenderingContext extends AbstractRenderingContext {
       const image = new Image();
       image.src = base64;
       const pattern = this.ctx.createPattern(image, 'repeat');
-      pattern?.setTransform(new DOMMatrixReadOnly().scale(this.zoom).translate(this.transformations.translateX, -this.transformations.translateY))
+      pattern?.setTransform(new DOMMatrixReadOnly().scale(this.zoom * this.resolutionFactor).translate(this.transformations.translateX, -this.transformations.translateY))
       return pattern;
     }
     else {
@@ -305,6 +305,7 @@ export class RenderingContext extends AbstractRenderingContext {
     this.ctx.imageSmoothingQuality = imageStyle.imageSmoothingQuality ?? DEFAULT_IMAGESMOOTHINGQUALITY;
   }
 
+  // path: just lines
   public drawPath(points: Point[], strokeStyle: StrokeStyle, fill?: FillStyle, objectStyle?: ObjectStyle): void {
     const realPoints = points.map(p => {
       return this.transformPointFromFieldToCanvasWithResolutionFactor(p);
@@ -339,13 +340,10 @@ export class RenderingContext extends AbstractRenderingContext {
     }
   }
 
+  // smooth path: quadratic beziers
   public override drawSmoothPath(path: PenPoint[], changeThickness: boolean | undefined, strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void {
 
     const baseLineWidth = strokeStyle.lineWidth;
-
-    console.log(
-      'new Path'
-    )
 
     if (path.length === 0) {
       return;
@@ -357,13 +355,20 @@ export class RenderingContext extends AbstractRenderingContext {
     }
     else {
       
+      console.log('new path')
       this.useStrokeStyle(strokeStyle);
       this.useObjectStyle(objectStyle);
 
       const pathStroke = getStrokePointPathFromPenPointPath(path);
 
       let lastP = pathStroke[0];
-    
+
+      // begin
+      const beginAndClosePathIfContinousOnMyOwn = changeThickness !== true;
+      if (beginAndClosePathIfContinousOnMyOwn) {
+        this.ctx.beginPath();
+      }
+
       for (let i = 1; i < pathStroke.length - 1; i++) {
         const point = pathStroke[i];
         const correct = Math.sqrt((point.x - pathStroke[pathStroke.length - 1].x) ** 2 + (point.y - pathStroke[pathStroke.length - 1].y) ** 2) > 1;
@@ -382,7 +387,7 @@ export class RenderingContext extends AbstractRenderingContext {
             from: lastP,
             control: point,
             to: to
-          }, getThicknessSettings(lastP, point, baseLineWidth, changeThickness))
+          }, !beginAndClosePathIfContinousOnMyOwn, getThicknessSettings(lastP, point, baseLineWidth, changeThickness))
 
           lastP = to;
         }
@@ -393,7 +398,13 @@ export class RenderingContext extends AbstractRenderingContext {
         from: lastP,
         control: lastP,
         to: endP
-      }, getThicknessSettings(lastP, lastP, baseLineWidth, changeThickness))
+      }, !beginAndClosePathIfContinousOnMyOwn, getThicknessSettings(lastP, lastP, baseLineWidth, changeThickness));
+
+      // close path if needed
+      if (beginAndClosePathIfContinousOnMyOwn) {
+        this.ctx.stroke();
+        this.ctx.closePath();
+      }
     }
   }
 
@@ -402,11 +413,11 @@ export class RenderingContext extends AbstractRenderingContext {
     this.useStrokeStyle(strokeStyle);
     this.useObjectStyle(objectStyle);
 
-    this.drawSmoothPathSegmentWithoutSettings(qbz, thicknessSettings);
+    this.drawSmoothPathSegmentWithoutSettings(qbz, true, thicknessSettings);
 
   }
 
-  private drawSmoothPathSegmentWithoutSettings(qbz: QuadraticBezier, thicknessSettings?: ThicknessSettings): void {
+  private drawSmoothPathSegmentWithoutSettings(qbz: QuadraticBezier, beginAndClosePathIfContinous: boolean, thicknessSettings?: ThicknessSettings): void {
     const realQBZ: QuadraticBezier = {
       from: this.transformPointFromFieldToCanvasWithResolutionFactor(qbz.from),
       control: this.transformPointFromFieldToCanvasWithResolutionFactor(qbz.control),
@@ -414,12 +425,18 @@ export class RenderingContext extends AbstractRenderingContext {
     }
     
     if (thicknessSettings === undefined) {
-  
-      this.ctx.beginPath();
+      if (beginAndClosePathIfContinous) {
+        this.ctx.beginPath();
+      }
+
+      console.log(realQBZ.from.x, realQBZ.from.y);
       this.ctx.moveTo(realQBZ.from.x, realQBZ.from.y);
       this.ctx.quadraticCurveTo(realQBZ.control.x, realQBZ.control.y, realQBZ.to.x, realQBZ.to.y);
-      this.ctx.stroke();
-      this.ctx.closePath();
+      
+      if (beginAndClosePathIfContinous) {
+        this.ctx.stroke();
+        this.ctx.closePath();
+      }
     }
     else {
       const zoom = this.zoom;

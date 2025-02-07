@@ -71,7 +71,6 @@ export function getStrokePointFromPenPoint(penPoint: PenPoint, lastPoint?: Point
         }
         //console.log(angleFactor);
     }
-    console.log(angleFactor);
 
     const thickness = getInRange(pressureFactor, MIN_PRESSURE, MAX_PRESSURE) * getInRange(velocityFactor, MIN_VELOCITY, MAX_VELOCITY) * getInRange(angleFactor, MIN_ANGLE, MAX_ANGLE);
     return {

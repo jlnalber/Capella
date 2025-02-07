@@ -1,12 +1,9 @@
 import { PenStyle } from './../../interfaces/penStyle';
 import AbstractRenderingContext from "../../../../global/classes/renderingContext/abstractRenderingContext";
 import { WhiteboardSettings } from 'src/app/whiteboard/services/whiteboardSettings';
-import { getStrokePointMiddle, PenPoint, StrokePoint, DEFAULT_STEPS_PATH, getStrokePointFromPenPoint, getAverageFromLastPoints } from 'src/app/global/interfaces/penPoint';
+import { getStrokePointMiddle, PenPoint, StrokePoint, getStrokePointFromPenPoint, getAverageFromLastPoints } from 'src/app/global/interfaces/penPoint';
 import WhiteboardCanvasMinorChangeElement from '../abstract/whiteboardCanvasMinorChangeElement';
 import { getThicknessSettings } from 'src/app/global/classes/renderingContext/renderingUtils';
-import { getMiddlePointByPoints } from 'src/app/prokyon/global/essentials/geometryUtils';
-import { Point } from 'src/app/global/interfaces/point';
-import MultiLayerRenderingContext from 'src/app/global/classes/renderingContext/multilayerRenderingContext';
 
 export default class PenElement extends WhiteboardCanvasMinorChangeElement<PenPoint> {
 
@@ -65,7 +62,6 @@ export default class PenElement extends WhiteboardCanvasMinorChangeElement<PenPo
             const thisP = getStrokePointMiddle(this._points[this._points.length - 2], this._points[this._points.length - 1], this._points, 2);
             const control = getStrokePointFromPenPoint(this._points[this._points.length - 2], getAverageFromLastPoints(this._points, 2));
 
-            console.log(ctx.resolutionFactor, (ctx as MultiLayerRenderingContext).activeCanvas)
             ctx.drawSmoothPathSegment({
                 from: lastP,
                 control: control,
@@ -87,7 +83,6 @@ export default class PenElement extends WhiteboardCanvasMinorChangeElement<PenPo
 
     public override draw(ctx: AbstractRenderingContext): void {
         ctx.drawSmoothPath(this._points, this.changeThickness, this._penStyle.strokeStyle, this._penStyle.objectStyle);
-        console.log(ctx.resolutionFactor, (ctx as MultiLayerRenderingContext).activeCanvas);
     }
 
     private get changeThickness(): boolean | undefined {

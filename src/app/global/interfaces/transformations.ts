@@ -1,4 +1,4 @@
-import { DEFAULT_RESOLUTIONFACTOR } from "src/app/whiteboard/services/whiteboardSettings";
+export const DEFAULT_RESOLUTIONFACTOR = 1;
 
 export interface Transformations {
   translateX: number,

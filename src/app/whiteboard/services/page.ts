@@ -1,7 +1,7 @@
 import { CanvasAndCTX } from './../../global/canvas/abstractCanvas';
 import { RenderingContext } from "../../global/classes/renderingContext/renderingContext";
 import { Point, Vector } from "src/app/global/interfaces/point";
-import { getResolution, Resolution, Transformations } from "src/app/global/interfaces/transformations";
+import { DEFAULT_RESOLUTIONFACTOR, getResolution, Resolution, Transformations } from "src/app/global/interfaces/transformations";
 import { WhiteboardService } from "./whiteboard.service";
 import Selection from "../../global/essentials/selection";
 import { Event } from "../../global/essentials/event";
@@ -16,11 +16,10 @@ import WhiteboardCanvasClickerElement from '../global/classes/abstract/whiteboar
 import WhiteboardCanvasIdElement from '../global/classes/abstract/whiteboardCanvasIdElement';
 import MultiLayerRenderingContext from 'src/app/global/classes/renderingContext/multilayerRenderingContext';
 import StrictEvent from 'src/app/global/essentials/strictEvent';
-import { DEFAULT_RESOLUTIONFACTOR } from './whiteboardSettings';
 
 export const PX_PER_MM = 5.2;
 
-const LOWEST_ELEMENT_LAYER = 1;
+export const LOWEST_ELEMENT_LAYER = 1;
 
 export const BACKGROUND_COLOR: Color = {
     r: 240,
@@ -43,7 +42,6 @@ export default class Page {
         }
         if (!silent) {
             this.onCanvasElementsChanged.emit(canvasElements);
-    
         }
     }
 
@@ -288,10 +286,11 @@ export default class Page {
 
     private _redrawLevelWithProperties(level: number, renderingContext: MultiLayerRenderingContext, cac: CanvasAndCTX, resolution: Resolution, boundingRect: Rect): void {
         // resize canvas and clear
-        const res = getResolution(resolution, level);
+        const rightLevel = level + LOWEST_ELEMENT_LAYER;
+        const res = getResolution(resolution, rightLevel);
         this._resizeAndClearLevel(cac, res, boundingRect);
 
-        renderingContext.activeCanvas = level + LOWEST_ELEMENT_LAYER;
+        renderingContext.activeCanvas = rightLevel;
 
         if (level === 1) {
             // draw the text when level is right
@@ -326,7 +325,7 @@ export default class Page {
 
     public drawToCanvas(canvasAndCTX: CanvasAndCTX[], boundingRect: Rect, transformations: Transformations): void {
         
-        const resolution = transformations.resolutionFactor ?? 1;
+        const resolution = transformations.resolutionFactor ?? DEFAULT_RESOLUTIONFACTOR;
 
         // resize and clear canvas first
         for (let i = 0; i < canvasAndCTX.length; i++) {

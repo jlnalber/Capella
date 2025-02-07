@@ -715,8 +715,6 @@ export class DrawerService extends AbstractDrawerService {
       })
     }
 
-    // TODO: test with resolution factor
-
     // find out the element with the minimal distance
     for (let canvasElement of this.canvasElements) {
       const dist = getMinUndef(canvasElement.getDistance(p, ctx), getDistToLabel(canvasElement));

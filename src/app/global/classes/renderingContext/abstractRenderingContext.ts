@@ -215,4 +215,9 @@ export default abstract class AbstractRenderingContext {
     useUniformSize: boolean,
     imageStyle?: ImageStyle,
     objectStyle?: ObjectStyle): void;
+
+    public requestForeignDrawing(element: CanvasIdElement<any>, drawing: () => void): boolean {
+      drawing();
+      return true;
+    }
 }

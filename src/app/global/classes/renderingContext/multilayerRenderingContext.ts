@@ -1,8 +1,10 @@
+import WhiteboardCanvasIdElement from "src/app/whiteboard/global/classes/abstract/whiteboardCanvasIdElement";
 import { Color } from "../../interfaces/color";
 import { getResolution, Transformations } from "../../interfaces/transformations";
 import { CanvasIdElement } from "../abstract/canvasIdElement";
 import { CanvasConfig } from "./abstractRenderingContext";
 import { RenderingContext } from "./renderingContext";
+import { LOWEST_ELEMENT_LAYER } from "src/app/whiteboard/services/page";
 
 export default class MultiLayerRenderingContext extends RenderingContext {
     constructor (public readonly ctxs: CanvasRenderingContext2D[],
@@ -18,6 +20,18 @@ export default class MultiLayerRenderingContext extends RenderingContext {
 
     protected override get ctx(): CanvasRenderingContext2D {
         return this.ctxs[this.activeCanvas];
+    }
+
+    public loginElementForLayer(element: WhiteboardCanvasIdElement): void {
+        this.activeCanvas = LOWEST_ELEMENT_LAYER + element.level;
+    }
+
+    public override requestForeignDrawing(element: WhiteboardCanvasIdElement, drawing: () => void): boolean {
+        const activeCanvas = this.activeCanvas;
+        this.loginElementForLayer(element)
+        drawing();
+        this.activeCanvas = activeCanvas;
+        return true;
     }
 
     public override get resolutionFactor(): number {

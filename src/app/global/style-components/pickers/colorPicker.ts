@@ -7,10 +7,10 @@ export default class ColorPicker extends Picker<Color> {
     constructor(private readonly colors: Color[],
                 getActiveColor: () => Color | undefined,
                 setActiveColor: (color: Color) => void,
-                public readonly isDisabled: () => boolean,
+                isDisabled: () => boolean,
                 setImmediately?: boolean,
                 public whiteBackground?: boolean) {
-        super(getActiveColor, setActiveColor, setImmediately);
+        super(getActiveColor, setActiveColor, setImmediately, isDisabled);
     }
 
     public getAllColors(): Color[] {

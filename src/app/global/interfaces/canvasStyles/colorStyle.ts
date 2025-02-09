@@ -5,6 +5,9 @@ import { getCopyOfPoint, Point } from "../point";
 export type Pattern = {
     picture: string
 }
+export const DEFAULT_PATTERN: Pattern = {
+    picture: ''
+}
 
 export type Gradient = LinearGradient | RadialGradient | ConicGradient;
 export type LinearGradient = {
@@ -12,15 +15,30 @@ export type LinearGradient = {
     endPoint: Point,
     stops: GradientColorStop[]
 };
+export const DEFAULT_LINEARGRADIENT: LinearGradient = {
+    startPoint: {x: 0, y: 0},
+    endPoint: {x: 0, y: 0},
+    stops: []
+}
 export type RadialGradient = {
     startCircle: Circle,
     endCircle: Circle,
     stops: GradientColorStop[]
 };
+export const DEFAULT_RADIAL_GRADIENT: RadialGradient = {
+    startCircle: { x: 0, y: 0, radius: 0 },
+    endCircle: { x: 0, y: 0, radius: 0 },
+    stops: []
+};
 export type ConicGradient = {
     center: Point,
     startAngle: number,
     stops: GradientColorStop[]
+};
+export const DEFAULT_CONIC_GRADIENT: ConicGradient = {
+    center: { x: 0, y: 0 },
+    startAngle: 0,
+    stops: []
 };
 export type GradientColorStop = [number, Color];
 

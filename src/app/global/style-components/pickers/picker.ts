@@ -4,7 +4,8 @@ import { Event } from "../../essentials/event";
 export default class Picker<T> extends RibbonView {
     constructor(public readonly getActive: () => T | undefined,
                 public readonly setActive: (t: T) => void,
-                public setImmediately?: boolean) {
+                public setImmediately?: boolean,
+                public readonly isDisabled: () => boolean = () => false) {
         super();
         this.value = this.getActive();
     }

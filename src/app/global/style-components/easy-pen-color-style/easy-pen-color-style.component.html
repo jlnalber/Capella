@@ -1,1 +1,34 @@
-<p>easy-pen-color-style works!</p>
+<div class="wrapper">
+    <input type="radio" id="color" value="color" [(ngModel)]="this.selectedType">
+    <label for="color">Farbe verwenden</label><br>
+
+    <input type="radio" id="pen" value="otherpen" [(ngModel)]="this.selectedType">
+    <label for="pen">Style eines anderen Stiftes verwenden</label><br>
+    <div class="wrapperForStyle">
+        <app-choose-pen-style [picker]="this.otherPenPicker"></app-choose-pen-style>
+    </div>
+
+    <input type="radio" id="radial" value="radialgrad" [(ngModel)]="this.selectedType">
+    <label for="radial">Radialverlauf verwenden</label><br>
+    <div class="wrapperForStyle">
+        <app-radial-gradient-style [picker]="this.radialGradientPicker"></app-radial-gradient-style>
+    </div>
+
+    <input type="radio" id="conic" value="conicgrad" [(ngModel)]="this.selectedType">
+    <label for="conic">Kreisverlauf verwenden</label><br>
+    <div class="wrapperForStyle">
+        <app-conic-gradient-style [picker]="this.conicGradientPicker"></app-conic-gradient-style>
+    </div>
+
+    <input type="radio" id="linear" value="lineargrad" [(ngModel)]="this.selectedType">
+    <label for="linear">Linearverlauf verwenden</label><br>
+    <div class="wrapperForStyle">
+        <app-linear-gradient-style [picker]="this.linearGradientPicker"></app-linear-gradient-style>
+    </div>
+
+    <input type="radio" id="pattern" value="pattern" [(ngModel)]="this.selectedType">
+    <label for="pattern">Muster verwenden</label><br>
+    <div class="wrapperForStyle">
+        <app-pattern-style [picker]="this.patternPicker"></app-pattern-style>
+    </div>
+</div>

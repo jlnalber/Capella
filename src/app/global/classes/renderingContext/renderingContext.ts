@@ -350,7 +350,7 @@ export class RenderingContext extends AbstractRenderingContext {
       return;
     }
     else if (path.length === 1) {
-      this.drawCircle(path[0], getStrokePointPathFromPenPointPath(path)[0].thickness * baseLineWidth, strokeStyle.uniformSizeOnZoom, {
+      this.drawCircle(path[0], getStrokePointPathFromPenPointPath(path)[0].thickness * baseLineWidth / 2, strokeStyle.uniformSizeOnZoom, {
         color: strokeStyle.color
       }, undefined, objectStyle)
     }

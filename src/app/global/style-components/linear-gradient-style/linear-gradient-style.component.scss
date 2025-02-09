@@ -1,0 +1,19 @@
+@import url(../../styles/_global.scss);
+
+.wrapper {
+    display: inline;
+}
+  
+.input {
+    width: 50px;
+    display: unset;
+    margin-right: 7px;
+}
+
+.endPoint, .startPoint {
+    margin-bottom: 7px;
+}
+
+.endPointInput, .startPointInput {
+    margin: 7px;
+}

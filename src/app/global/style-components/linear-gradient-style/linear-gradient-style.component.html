@@ -1,1 +1,21 @@
-<p>linear-gradient-style works!</p>
+<div class="wrapper">
+    @if (this.picker !== undefined && this.picker.value !== undefined) {
+        <div class="startPoint">
+            <label for="startPointInput">Startpunkt:</label>
+            <div class="startPointInput" id="startPointInput">
+                <span><input title="x" type="number" step="any" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.startPoint.x"></span>
+                <span><input title="y" type="number" step="any" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.startPoint.y"></span>
+            </div>
+        </div>
+        <div class="endPoint">
+            <label for="endPointInput">Endpunkt:</label>
+            <div class="endPointInput" id="endPointInput">
+                <span><input title="x" type="number" step="any" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.endPoint.x"></span>
+                <span><input title="y" type="number" step="any" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.endPoint.y"></span>
+            </div>
+        </div>
+        <div class="gradientStops">
+            <app-gradient-stops [picker]="this.gradientStopPicker"></app-gradient-stops>
+        </div>
+    }
+</div>

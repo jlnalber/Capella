@@ -1,1 +1,16 @@
-<p>gradient-stops works!</p>
+<div class="wrapper">
+        <div class="colorstopsWrapper">
+            @for (i of this.picker?.value; track $index) {
+                <div class="gradientStopContainer borderBottom pen">
+
+                </div>
+            }
+            <div class="add" tabindex="0" (click)="this.addStop()">
+                <p>
+                    <span><img [src]="'./assets/plus.svg'" class="icon iconInText smallIcon" alt="button"/></span>
+                    Hinzufügen
+                </p>
+            </div>
+        </div>
+    
+</div>

@@ -30,6 +30,28 @@
   margin-top: calc((100% - var(--size)) / 2);
 }
 
+
+.iconInText.smallIcon {
+  --iconSize: 20px;
+  height: var(--iconSize);
+  width: var(--iconSize);
+  top: 0.25em;
+}
+
+.iconInText.mediumIcon {
+  --iconSize: 25px;
+  height: var(--iconSize);
+  width: var(--iconSize);
+  top: 0.4em;
+  margin-right: 5px;
+}
+
+.iconInText {
+  position: relative;
+  border: none;
+  outline: none;
+}
+
 .floatRight {
   float: right;
 }
@@ -67,14 +89,6 @@
   background: #fffbf9;
   border: 1px solid #dfd7d2;
   color: black;
-}
-
-.material-symbols-outlined {
-  font-variation-settings:
-    'FILL' 0,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 48
 }
 
 .select, .button {

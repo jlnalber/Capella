@@ -181,8 +181,8 @@
 }
 
 .selectContainer .select {
-  position: absolute;
-  margin-top: calc((var(--height) - var(--button-height)) / 2 - var(--padding));
+  position: relative;
+  top: -15px;
 }
 
 .mainBGColor {

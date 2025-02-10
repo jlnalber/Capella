@@ -14,6 +14,10 @@ export default class Picker<T> extends RibbonView {
 
     public set value(val: undefined | T) {
         this._value = val;
+        this.triggerChange(val);
+    }
+    
+    public triggerChange(val?: T) {
         if (this.setImmediately && val !== undefined) {
             this.setActive(val);
         }

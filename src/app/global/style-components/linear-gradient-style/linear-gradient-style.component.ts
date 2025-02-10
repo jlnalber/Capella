@@ -21,6 +21,7 @@ export class LinearGradientStyleComponent extends AbstractPickerComponent<Picker
   public gradientStopPicker: Picker<GradientColorStop[]> = new Picker<GradientColorStop[]>(() => this.picker?.value?.stops, (stops: GradientColorStop[]) => {
     if (this.picker !== undefined && this.picker.value !== undefined) {
       this.picker.value.stops = stops;
+      this.picker.triggerChange();
     }
   }, true, () => this.picker?.isDisabled() ?? false);
 

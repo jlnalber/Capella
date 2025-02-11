@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1" baseProfile="full"
+     width="150px" height="150px">
+
+    <g transform="translate(25 20)" transform-origin="50% 50%" stroke="#000" fill="transparent" stroke-width="8" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M28.8 8.8 A30,30 0 1,1 65,55.98 A30,30 0 0,0 50,83.5" />
+        <circle cx="50" cy="104" r="5" fill="#000"/>
+    </g>
+
+</svg>

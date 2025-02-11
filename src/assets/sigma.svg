@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1" baseProfile="full"
+     width="150px" height="150px">
+
+    <g transform="translate(25 25)" transform-origin="50% 50%" stroke="#000" fill="transparent" stroke-width="8" stroke-linejoin="round" stroke-linecap="round">
+        <!-- <path d="M 90 0 L 10 0 L 50 30 L 80 100 L 80 90 L 50 20 Z" /> -->
+        <line x1="10" y1="0" x2="90" y2="0" stroke-width="10"/>
+        <line x1="10" y1="2" x2="70" y2="50"/>
+        <line x1="10" y1="98" x2="70" y2="50"/>
+        <line x1="10" y1="100" x2="90" y2="100" stroke-width="10"/>
+    </g>
+
+</svg>

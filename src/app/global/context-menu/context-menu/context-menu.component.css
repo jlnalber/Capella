@@ -1,3 +1,5 @@
+@import url(../../styles/_global.scss);
+
 .element {
   --height: 30px;
   --sizeIcon: 30px;
@@ -24,6 +26,10 @@
 
 .element.disabled {
   color: gray !important;
+}
+
+.element.disabled img {
+  filter: invert(59%) sepia(0%) saturate(93%) hue-rotate(267deg) brightness(86%) contrast(99%) !important;
 }
 
 .element.disabled:hover {
@@ -60,13 +66,4 @@
   transform-origin: top left;
   animation: 0.1s start ease-in-out;
   z-index: 1;
-}
-
-.material-symbols-outlined {
-  transform: translateY(-27.5px);
-  font-variation-settings:
-    'FILL' 0,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 48
 }

@@ -2,6 +2,7 @@ import {ComponentRef, Directive, Input, OnDestroy, ViewContainerRef} from '@angu
 import {ContextMenuComponent} from "./context-menu/context-menu.component";
 import { Point } from 'src/app/global/interfaces/point';
 import { Event as CustomEvent } from 'src/app/global/essentials/event';
+import { Icon } from '../interfaces/icon';
 
 // These interfaces provide data about the context menu.
 
@@ -13,9 +14,9 @@ export interface ContextMenu {
 
 export interface ContextMenuElement {
   header: string,
-  color?: string,
+  filter?: string,
   click?: (ev?: Event) => void,
-  icon?: string,
+  icon?: Icon,
   disabled?: boolean,
   title?: string
 }

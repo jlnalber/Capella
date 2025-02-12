@@ -30,11 +30,28 @@
   margin-top: calc((100% - var(--size)) / 2);
 }
 
+.icon {
+  -webkit-user-drag: none;
+  user-drag: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .iconInText.smallIcon {
   --iconSize: 20px;
   height: var(--iconSize);
   width: var(--iconSize);
   top: 0.25em;
+}
+
+.iconInText.mediumBigIcon {
+  --iconSize: 28px;
+  height: var(--iconSize);
+  width: var(--iconSize);
+  top: -1.8em;
+  left: -0.15em;
 }
 
 .bigIcon {

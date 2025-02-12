@@ -84,3 +84,5 @@ export const YELLOW: Color = {
   g: 255,
   b: 0
 }
+
+export const RED_FILTER = 'invert(27%) sepia(89%) saturate(7465%) hue-rotate(356deg) brightness(116%) contrast(126%)'

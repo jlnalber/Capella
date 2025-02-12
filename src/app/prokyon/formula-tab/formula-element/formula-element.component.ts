@@ -4,6 +4,7 @@ import {DrawerService} from "../../services/drawer.service";
 import {FormulaElement} from "../../global/classes/abstract/formulaElement";
 import { ProkyonCanvasElement } from '../../global/classes/abstract/prokyonCanvasElement';
 import { DialogService } from 'src/app/global/dialog/dialog.service';
+import { RED_FILTER } from 'src/app/global/interfaces/color';
 
 @Component({
   selector: 'app-formula-element',
@@ -40,17 +41,18 @@ export class FormulaElementComponent implements AfterViewInit {
   get completeContextMenu(): ContextMenu {
     return {
       elements: () => {
-        const dialog: ContextMenuElement[] = this.canvasElement.formulaDialogType !== undefined ? [{
+        const cme: ContextMenuElement = {
           header: 'Anzeigen',
           click: () => {
             this.dialogService.createDialog(this.canvasElement.formulaDialogType!)?.open(this.canvasElement)
           },
-          icon: 'visibility',
+          icon: 'pen',
           title: 'Element anzeigen und bearbeiten.'
-        }] : [];
+        };
+        const dialog: ContextMenuElement[] = this.canvasElement.formulaDialogType !== undefined ? [cme] : [];
 
         const selected = this.selected;
-        const elements = [
+        const elements: ContextMenuElement[] = [
           ...dialog,
           ...this.getContextMenuElementsFromFormulaElement(),
           {
@@ -58,16 +60,16 @@ export class FormulaElementComponent implements AfterViewInit {
             click: () => {
               this.drawerService.selection.alternate(this.canvasElement || undefined);
             },
-            icon: selected ? 'remove_done' : 'done',
+            icon: selected ? 'doubleCheckmarkCrossed' : 'doubleCheckmark',
             title: 'Dieses Element auswählen.'
           },
           {
             header: 'Löschen',
-            color: 'red',
+            filter: RED_FILTER,
             click: () => {
               this.drawerService.removeCanvasElements(this.canvasElement);
             },
-            icon: 'delete',
+            icon: 'trash',
             title: 'Dieses Element löschen.'
           }
         ]
@@ -78,10 +80,10 @@ export class FormulaElementComponent implements AfterViewInit {
             click: () => {
               this.drawerService.removeCanvasElements(...this.drawerService.selection.toArray());
             },
-            color: 'red',
-            icon: 'delete_sweep',
+            filter: RED_FILTER,
+            icon: 'trashMultiple',
             title: 'Alle ausgewählten Elemente löschen.'
-          })
+          });
         }
 
         return elements;

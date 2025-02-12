@@ -48,7 +48,7 @@ export class ViewPensComponent extends AbstractSettingsComponent implements OnDe
           const index = this.defaultPens.indexOf(p);
           this.additionalPens.push([getCopyOfPen(p[0], index === -1 ? undefined : index), new CustomEvent<[Point, Event]>()])
         },
-        icon: 'content_copy'
+        icon: 'copy'
       }, {
         header: 'Löschen',
         title: 'Stift löschen',
@@ -66,7 +66,7 @@ export class ViewPensComponent extends AbstractSettingsComponent implements OnDe
             text: 'Diese Aktion kann nicht mehr rückgängig gemacht werden.'
           })
         },
-        icon: 'delete'
+        icon: 'trash'
       }],
       additionalEvent: p[1]
     }

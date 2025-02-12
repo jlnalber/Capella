@@ -4,6 +4,7 @@ import {Graph} from "../global/classes/canvas-elements/graph";
 import {ContextMenu, ContextMenuDirective} from "../../global/context-menu/context-menu.directive";
 import CompiledPointElement from "../global/classes/canvas-elements/compiledPointElement";
 import CurveElement from "../global/classes/canvas-elements/curveElement";
+import { RED_FILTER } from 'src/app/global/interfaces/color';
 
 @Component({
   selector: 'app-formula-tab',
@@ -19,7 +20,7 @@ export class FormulaTabComponent implements OnInit {
         click: () => {
           this.addGraph();
         },
-        icon: 'show_chart',
+        icon: 'pen',
         title: 'Eine Funktion hinzufügen.'
       },
       {
@@ -27,7 +28,7 @@ export class FormulaTabComponent implements OnInit {
         click: () => {
           this.addPoint();
         },
-        icon: 'radio_button_checked',
+        icon: 'pen',
         title: 'Einen Punkt hinzufügen.'
       },
       {
@@ -35,7 +36,7 @@ export class FormulaTabComponent implements OnInit {
         click: () => {
           this.addCurve();
         },
-        icon: 'gesture',
+        icon: 'pen', // TODO icons
         title: 'Eine Kurve hinzufügen.'
       },
       {
@@ -43,8 +44,8 @@ export class FormulaTabComponent implements OnInit {
         click: () => {
           this.drawerService.emptyCanvasElements();
         },
-        icon: 'delete',
-        color: 'red',
+        icon: 'trash',
+        filter: RED_FILTER,
         title: 'Alle Elemente löschen.'
       }
     ]

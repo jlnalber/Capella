@@ -41,11 +41,11 @@ export class GraphFormulaComponent extends FormulaElement {
             }
           },
           disabled: !this.canvasElement.canDerive() || this.canvasElement.funcError,
-          icon: 'south_east',
+          icon: 'arrowBottomRight',
           title: 'Diese Funktion ableiten.'
         }, {
           header: 'Duplizieren',
-          icon: 'content_copy',
+          icon: 'copy',
           disabled: this.canvasElement.funcError,
           click: () => {
             try {
@@ -55,7 +55,7 @@ export class GraphFormulaComponent extends FormulaElement {
           title: 'Diese Funktion duplizieren.'
         }, {
           header: 'Analysieren',
-          icon: 'query_stats',
+          icon: 'pen',
           click: () => {
             this.dialogService.createDialog(FuncAnalyserDialogComponent)?.open({
               graph: this.canvasElement
@@ -67,7 +67,7 @@ export class GraphFormulaComponent extends FormulaElement {
           click: () => {
             this.drawerService.addCanvasElements(new DefiniteIntegral(this.canvasElement, undefined, -1, 1, 0.1, this.canvasElement.color));
           },
-          icon: 'monitoring'
+          icon: 'pen'
         }, {
           header: 'Schnittpunkte bestimmen',
           disabled: !twoGraphsAvailable,
@@ -80,7 +80,7 @@ export class GraphFormulaComponent extends FormulaElement {
             }
           },
           title: twoGraphsAvailable ? 'Schnittpunkte der beiden ausgewählten Funktionen berechnen.' : 'Um Schnittpunkte zweier Funktionen zu berechnen, müssen zwei Funktionen ausgewählt sein.',
-          icon: 'multiline_chart'
+          icon: 'pen'
         }, {
           header: 'Fläche zwischen Graphen',
           disabled: !twoGraphsAvailable,
@@ -90,7 +90,7 @@ export class GraphFormulaComponent extends FormulaElement {
             }
           },
           title: twoGraphsAvailable ? 'Fläche zwischen den Graphen der beiden ausgewählten Funktionen berechnen.' : 'Um die Fläche zwischen den Graphen zweier Funktionen zu berechnen, müssen zwei Funktionen ausgewählt sein.',
-          icon: 'stacked_line_chart'
+          icon: 'pen'
         }]
 
 

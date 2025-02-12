@@ -29,7 +29,7 @@ export class CurveFormulaComponent extends FormulaElement {
       elements: () => {
         const elements: ContextMenuElement[] = [{
           header: 'Duplizieren',
-          icon: 'content_copy',
+          icon: 'copy',
           disabled: this.canvasElement.error,
           click: () => {
             this.duplicate();

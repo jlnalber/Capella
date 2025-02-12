@@ -2,7 +2,7 @@ import { ColorStyle, getCopyOfGradient, getCopyOfPattern, Gradient, instanceOfGr
 import ObjectStyle, { getCopyOfObjectStyle } from "src/app/global/interfaces/canvasStyles/objectStyle"
 import { EasyStrokeStyle, getCopyOfEasyStrokeStyle, getCopyOfStrokeStyle, StrokeStyle } from "src/app/global/interfaces/canvasStyles/strokeStyle"
 import { BLACK, Color, DEEPBLUE, getColorAsRgbaFunction, getCopyOfColor, YELLOW } from "src/app/global/interfaces/color"
-import { Icon } from "src/app/global/interfaces/icon"
+import { PenIcon } from "src/app/global/interfaces/icon"
 import { PX_PER_MM } from "../../services/page"
 
 export type PenStyle = {
@@ -41,7 +41,7 @@ export function getCopyOfEasyPenStyle(penStyle: EasyPenStyle): EasyPenStyle {
 
 export type Pen = {
     name: string,
-    icon?: Icon,
+    icon?: PenIcon,
     penStyle: EasyPenStyle,
     color: Color,
     colorStyle?: PenColorStyle,

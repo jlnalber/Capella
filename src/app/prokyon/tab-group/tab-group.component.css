@@ -1,3 +1,5 @@
+@import url(../../global/styles/_global.scss);
+
 /* variables */
 .wrapper {
   --size: 60px;

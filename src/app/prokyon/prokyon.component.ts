@@ -35,12 +35,12 @@ export class ProkyonComponent {
   tabs: Tab[] = [
     {
       title: 'Formeln',
-      icon: 'functions',
+      icon: 'sigma',
       componentType: FormulaTabComponent
     },
     {
       title: 'Geometrie',
-      icon: 'radio_button_unchecked',
+      icon: 'geometry',
       componentType: GeometryTabComponent
     },
     {

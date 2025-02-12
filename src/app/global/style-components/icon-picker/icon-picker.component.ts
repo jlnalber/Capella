@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import Picker from '../pickers/picker';
 import AbstractPickerComponent from '../abstractPickerComponent';
-import { Icon, IconObj, PEN_ICONS_LIST } from '../../interfaces/icon';
+import { PenIcon, IconObj, PEN_ICONS_LIST } from '../../interfaces/icon';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -13,8 +13,8 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './icon-picker.component.html',
   styleUrl: './icon-picker.component.scss'
 })
-export class IconPickerComponent extends AbstractPickerComponent<Picker<Icon>, Icon> {
-  @Input({required: true}) public picker?: Picker<Icon>;
+export class IconPickerComponent extends AbstractPickerComponent<Picker<PenIcon>, PenIcon> {
+  @Input({required: true}) public picker?: Picker<PenIcon>;
 
   public icons = PEN_ICONS_LIST;
 

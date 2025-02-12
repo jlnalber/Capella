@@ -1,3 +1,4 @@
+import { GeometryIcon } from './../../global/interfaces/icon';
 import { Component, OnInit } from '@angular/core';
 import {DrawerService} from "../services/drawer.service";
 import MoveMode from "../global/classes/modes/moveMode";
@@ -108,7 +109,7 @@ export class GeometryTabComponent implements OnInit {
 }
 
 class ModeElement<T extends ProkyonMode> {
-  public constructor(private drawerServiceProvider: () => DrawerService, public getInstance: (create: boolean) => T, public title: string, public tooltip: string, public icon: string) { }
+  public constructor(private drawerServiceProvider: () => DrawerService, public getInstance: (create: boolean) => T, public title: string, public tooltip: string, public icon: GeometryIcon) { }
 
   public click(): void {
     this.drawerServiceProvider().mode = this.getInstance(true);

@@ -1,5 +1,6 @@
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import {AfterViewInit, Component, ComponentRef, Input, OnInit, Type, ViewChild, ViewContainerRef} from '@angular/core';
+import { Icon } from 'src/app/global/interfaces/icon';
 
 @Component({
   selector: 'app-tab-group',
@@ -58,6 +59,6 @@ export class TabGroupComponent implements OnInit, AfterViewInit {
 
 export interface Tab {
   title: string,
-  icon?: string,
+  icon?: Icon,
   componentType: Type<any>
 }

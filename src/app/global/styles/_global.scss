@@ -30,11 +30,18 @@
   margin-top: calc((100% - var(--size)) / 2);
 }
 
-
 .iconInText.smallIcon {
   --iconSize: 20px;
   height: var(--iconSize);
   width: var(--iconSize);
+  top: 0.25em;
+}
+
+.bigIcon {
+  --iconSize: 50px;
+  height: var(--iconSize);
+  width: var(--iconSize);
+  position: relative;
   top: 0.25em;
 }
 

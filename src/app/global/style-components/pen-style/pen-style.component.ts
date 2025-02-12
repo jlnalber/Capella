@@ -5,7 +5,7 @@ import { DEFAULT_MAX_PEN_SIZE, DEFAULT_MIN_PEN_SIZE, EasyPenColorStyle, EasyPenS
 import { StringInputComponent } from '../string-input/string-input.component';
 import { EasyPenStyleStyleComponent } from "../easy-pen-style-style/easy-pen-style-style.component";
 import { ColorPickerComponent } from "../color-picker/color-picker.component";
-import { Icon } from '../../interfaces/icon';
+import { PenIcon } from '../../interfaces/icon';
 import { IconPickerComponent } from "../icon-picker/icon-picker.component";
 import { SliderInputComponent } from '../slider-input/slider-input.component';
 import { EasyPenColorStyleComponent } from "../easy-pen-color-style/easy-pen-color-style.component";
@@ -50,7 +50,7 @@ export class PenStyleComponent extends AbstractPickerComponent<Picker<Pen>, Pen>
   }
 
   public namePicker?: StringInputPicker;
-  public iconPicker?: Picker<Icon>;
+  public iconPicker?: Picker<PenIcon>;
   public sliderInputPicker?: SliderInputPicker;
   public colorPicker?: ColorPicker;
   public easyPenColorStylePicker?: Picker<EasyPenColorStyle>;
@@ -64,7 +64,7 @@ export class PenStyleComponent extends AbstractPickerComponent<Picker<Pen>, Pen>
     setTimeout(() => {
 
       this.namePicker = new StringInputPicker(() => this.picker?.value?.name ?? '', (t: string) => { if (this.picker?.value) this.picker.value.name = t }, 'Name', true);
-      this.iconPicker = new Picker<Icon>(() => this.picker?.value?.icon, (t: Icon) => { if (this.picker?.value) this.picker.value.icon = t }, true);
+      this.iconPicker = new Picker<PenIcon>(() => this.picker?.value?.icon, (t: PenIcon) => { if (this.picker?.value) this.picker.value.icon = t }, true);
       // TODO: global max and min (settings)
       this.sliderInputPicker = new SliderInputPicker(() => this.picker?.value?.lineWidth,
                         (t: number) => { if (this.picker?.value) this.picker.value.lineWidth = t },

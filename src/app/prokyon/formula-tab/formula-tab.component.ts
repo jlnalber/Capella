@@ -20,7 +20,7 @@ export class FormulaTabComponent implements OnInit {
         click: () => {
           this.addGraph();
         },
-        icon: 'pen',
+        icon: 'function',
         title: 'Eine Funktion hinzufügen.'
       },
       {
@@ -28,7 +28,7 @@ export class FormulaTabComponent implements OnInit {
         click: () => {
           this.addPoint();
         },
-        icon: 'pen',
+        icon: 'point',
         title: 'Einen Punkt hinzufügen.'
       },
       {
@@ -36,7 +36,7 @@ export class FormulaTabComponent implements OnInit {
         click: () => {
           this.addCurve();
         },
-        icon: 'pen', // TODO icons
+        icon: 'curve',
         title: 'Eine Kurve hinzufügen.'
       },
       {

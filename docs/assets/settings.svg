@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1" baseProfile="full"
+     width="150px" height="150px">
+
+    <g transform="translate(25 25)" transform-origin="50% 50%" stroke="#000" fill="transparent" stroke-width="8" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M98.3,62.9 L 86.7,59.8 A38,38 0 0,0 86.7,40.2 L 98.3,37.1 A50,50 0 0,0 85.4,14.6 L 76.9,23.1 A38,38 0 0,0 59.8,13.3 L 62.9,1.7 A50,50 0 0,0 37.1,1.7 L 40.2,13.3 A38,38 0 0,0 23.1,23.1 L 14.6,14.6 A50,50 0 0,0 1.7,37.1 L 13.3,40.2 A38,38 0 0,0 13.3,59.8 L 1.7,62.9 A50,50 0 0,0 14.6,85.4 L 23.1,76.9 A38,38 0 0,0 40.2,86.7 L 37.1,98.3 A50,50 0 0,0 62.9,98.3 L 59.8,86.7 A38,38 0 0,0 76.9,76.9 L 85.4,85.4 A50,50 0 0,0 98.3,62.9" />
+        <circle cx="50" cy="50" r="15" fill="#000"/>
+    </g>
+
+    <!--
+    function writeOut(steps, rad1, rad2, fac) {
+        let res = "";
+        let angle = -1/(2*steps) * Math.PI
+        for (let i = 0; i <= 2*steps; i++) {
+            const smallY = Math.round((-Math.sin(angle)*rad1 + 50) * fac) / fac;
+            const smallX = Math.round((Math.cos(angle) * rad1 + 50) * fac) / fac;
+            const bigY = Math.round((-Math.sin(angle)*rad2 + 50) * fac) / fac;
+            const bigX = Math.round((Math.cos(angle) * rad2 + 50) * fac) / fac;
+            if (i === 0) {
+                res += `M${bigX},${bigY} L ${smallX},${smallY} `
+            }
+            else if (i === 2 * steps) {
+                res += `A${rad2},${rad2} 0 0,0 ${bigX},${bigY}`
+            }
+            else if (i % 2 !== 0) {
+                res += `A${rad1},${rad1} 0 0,0 ${smallX},${smallY} L ${bigX},${bigY} `
+            }
+            else {
+                res += `A${rad2},${rad2} 0 0,0 ${bigX},${bigY} L ${smallX},${smallY} `
+            }
+            angle += 1 / steps * Math.PI;
+        }
+        return res;
+    }
+    writeOut(6, 38, 40, 10)
+    -->
+
+</svg>

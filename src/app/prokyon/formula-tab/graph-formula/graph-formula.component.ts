@@ -55,7 +55,7 @@ export class GraphFormulaComponent extends FormulaElement {
           title: 'Diese Funktion duplizieren.'
         }, {
           header: 'Analysieren',
-          icon: 'pen',
+          icon: 'functionInspect',
           click: () => {
             this.dialogService.createDialog(FuncAnalyserDialogComponent)?.open({
               graph: this.canvasElement
@@ -67,7 +67,7 @@ export class GraphFormulaComponent extends FormulaElement {
           click: () => {
             this.drawerService.addCanvasElements(new DefiniteIntegral(this.canvasElement, undefined, -1, 1, 0.1, this.canvasElement.color));
           },
-          icon: 'pen'
+          icon: 'functionArea'
         }, {
           header: 'Schnittpunkte bestimmen',
           disabled: !twoGraphsAvailable,
@@ -80,7 +80,7 @@ export class GraphFormulaComponent extends FormulaElement {
             }
           },
           title: twoGraphsAvailable ? 'Schnittpunkte der beiden ausgewählten Funktionen berechnen.' : 'Um Schnittpunkte zweier Funktionen zu berechnen, müssen zwei Funktionen ausgewählt sein.',
-          icon: 'pen'
+          icon: 'functionCrossing'
         }, {
           header: 'Fläche zwischen Graphen',
           disabled: !twoGraphsAvailable,
@@ -90,7 +90,7 @@ export class GraphFormulaComponent extends FormulaElement {
             }
           },
           title: twoGraphsAvailable ? 'Fläche zwischen den Graphen der beiden ausgewählten Funktionen berechnen.' : 'Um die Fläche zwischen den Graphen zweier Funktionen zu berechnen, müssen zwei Funktionen ausgewählt sein.',
-          icon: 'pen'
+          icon: 'functionCrossingArea'
         }]
 
 

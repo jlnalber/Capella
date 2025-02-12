@@ -23,5 +23,5 @@ export interface IconObj {
 }
 
 export type Icon = PenIcon | GeometryIcon | UIIcon;
-export type UIIcon = 'arrowBottomRight' | 'checkmark' | 'checkmarkCrossed' | 'copy' | 'doubleCheckmark' | 'doubleCheckmarkCrossed' | 'edit' | 'export' | 'geometry' | 'left' | 'moveWhiteboard' | 'openFile' | 'pen' | 'plus' | 'questionMark' | 'right' | 'saveFiles' | 'settings' | 'sigma' | 'text' | 'threeDots' | 'trash' | 'trashMultiple'
+export type UIIcon = 'arrowBottomRight' | 'checkmark' | 'checkmarkCrossed' | 'copy' | 'curve' | 'doubleCheckmark' | 'doubleCheckmarkCrossed' | 'edit' | 'export' | 'function' | 'functionArea' | 'functionCrossing' | 'functionCrossingArea' | 'functionInspect' | 'geometry' | 'left' | 'moveWhiteboard' | 'openFile' | 'pen' | 'plus' | 'point' | 'questionMark' | 'right' | 'saveFiles' | 'settings' | 'sigma' | 'text' | 'threeDots' | 'trash' | 'trashMultiple' | 'view'
 export type GeometryIcon = 'angle' | 'angleBisector' | 'bisection' | 'changeVisibility' | 'circle' | 'intersection' | 'line' | 'lineSegment' | 'middlePoint' | 'move' | 'moveLabels' | 'movePoints' | 'orthogonal' | 'parallel' | 'points' | 'polygon' | 'showLabelVisibility' | 'tangens'

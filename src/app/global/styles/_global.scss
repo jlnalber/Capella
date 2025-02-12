@@ -24,10 +24,10 @@
 }
 
 .iconButton img {
-  --size: 70%;
+  --size: calc(0.7 * var(--iconButtonSize));
   width: var(--size);
   height: var(--size);
-  margin-top: calc((100% - var(--size)) / 2);
+  margin-top: calc((var(--iconButtonSize) - var(--size)) / 2 - 2.5px);
 }
 
 .icon {

@@ -46,7 +46,7 @@ export class FormulaElementComponent implements AfterViewInit {
           click: () => {
             this.dialogService.createDialog(this.canvasElement.formulaDialogType!)?.open(this.canvasElement)
           },
-          icon: 'pen',
+          icon: 'view',
           title: 'Element anzeigen und bearbeiten.'
         };
         const dialog: ContextMenuElement[] = this.canvasElement.formulaDialogType !== undefined ? [cme] : [];

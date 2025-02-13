@@ -97,7 +97,7 @@ export class PenMode extends WhiteboardMode {
       color: colors[0],
       underlineColor: colors[1],
       content: [
-        new ColorPicker(whiteboardService.settings.getColors(), () => this.pen.color, (c: Color) => this.pen.color = c, () => false, true, true),
+        new ColorPicker(whiteboardService.settings.getColors(), () => this.pen.color, (c?: Color) => this.pen.color = c ?? this.pen.color, () => false, true, true),
         {
           title: 'Stifte verwalten',
           content: [

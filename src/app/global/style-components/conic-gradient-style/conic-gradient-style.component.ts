@@ -18,8 +18,8 @@ import { GradientStopsComponent } from '../gradient-stops/gradient-stops.compone
 export class ConicGradientStyleComponent extends AbstractPickerComponent<Picker<ConicGradient>, ConicGradient> {
   @Input({required: true}) public picker?: Picker<ConicGradient>;
 
-  public gradientStopPicker: Picker<GradientColorStop[]> = new Picker<GradientColorStop[]>(() => this.picker?.value?.stops, (stops: GradientColorStop[]) => {
-    if (this.picker !== undefined && this.picker.value !== undefined) {
+  public gradientStopPicker: Picker<GradientColorStop[]> = new Picker<GradientColorStop[]>(() => this.picker?.value?.stops, (stops?: GradientColorStop[]) => {
+    if (stops && this.picker !== undefined && this.picker.value !== undefined) {
       this.picker.value.stops = stops;
       this.picker.triggerChange();
     }

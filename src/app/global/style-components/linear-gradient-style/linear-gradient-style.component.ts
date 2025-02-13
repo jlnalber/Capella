@@ -18,8 +18,8 @@ import { FormsModule } from '@angular/forms';
 export class LinearGradientStyleComponent extends AbstractPickerComponent<Picker<LinearGradient>, LinearGradient> {
   @Input({required: true}) public picker?: Picker<LinearGradient>;
 
-  public gradientStopPicker: Picker<GradientColorStop[]> = new Picker<GradientColorStop[]>(() => this.picker?.value?.stops, (stops: GradientColorStop[]) => {
-    if (this.picker !== undefined && this.picker.value !== undefined) {
+  public gradientStopPicker: Picker<GradientColorStop[]> = new Picker<GradientColorStop[]>(() => this.picker?.value?.stops, (stops?: GradientColorStop[]) => {
+    if (stops && this.picker !== undefined && this.picker.value !== undefined) {
       this.picker.value.stops = stops;
       this.picker.triggerChange();
     }

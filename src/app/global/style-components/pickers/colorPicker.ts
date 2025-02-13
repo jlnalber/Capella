@@ -6,7 +6,7 @@ import Picker from './picker';
 export default class ColorPicker extends Picker<Color> {
     constructor(private readonly colors: Color[],
                 getActiveColor: () => Color | undefined,
-                setActiveColor: (color: Color) => void,
+                setActiveColor: (color?: Color) => void,
                 isDisabled: () => boolean,
                 setImmediately?: boolean,
                 public whiteBackground?: boolean) {

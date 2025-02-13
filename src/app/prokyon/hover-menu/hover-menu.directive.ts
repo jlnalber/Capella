@@ -1,4 +1,4 @@
-import {ComponentRef, Directive, Input, Type, ViewContainerRef} from '@angular/core';
+import {ComponentRef, Directive, Input, OnDestroy, Type, ViewContainerRef} from '@angular/core';
 import {HoverMenuComponent} from "./hover-menu/hover-menu.component";
 import { Point } from 'src/app/global/interfaces/point';
 import { isIn } from 'src/app/global/essentials/utils';
@@ -9,7 +9,7 @@ type MenuOpenedType = 'hover' | 'click' | 'context' | 'custom'
   standalone: true,
   selector: '[appHoverMenu]'
 })
-export class HoverMenuDirective {
+export class HoverMenuDirective implements OnDestroy {
 
   private menu?: ComponentRef<HoverMenuComponent>;
   private menuOpenedType?: MenuOpenedType;
@@ -30,6 +30,17 @@ export class HoverMenuDirective {
     if (e instanceof KeyboardEvent && e.key == 'Escape') {
       this.destroyMenu();
     }
+  }
+
+  private closeClickContextMenuEventListener = (ev: MouseEvent | PointerEvent) => {
+    if (ev !== this.skipEvent && this.menu && !isIn({
+      x: ev.clientX,
+      y: ev.clientY
+    }, this.menu?.instance.getBoundingClientRect())) {
+      // this listener destroys the context menu
+      this.destroyMenu();
+    }
+    this.skipEvent = undefined;
   }
 
   private closeContextMenuEventListener = (ev: Event) => {
@@ -95,10 +106,28 @@ export class HoverMenuDirective {
     // register events for context menu
     this.element.addEventListener('contextmenu', this.contextmenuEventListener);
     this.element.addEventListener('click', this.clickEventListener);
-    document.addEventListener('click', this.closeContextMenuEventListener);
+    document.addEventListener('click', this.closeClickContextMenuEventListener);
     document.addEventListener('wheel', this.closeContextMenuEventListener);
     document.addEventListener('contextmenu', this.contextmenuDocumentEventListener);
     document.addEventListener('keydown', this.keyboardDocumentEventListener);
+  }
+
+  ngOnDestroy() {
+    // Remove the context menu and its listeners.
+    // for hover menu
+    this.element.removeEventListener('mouseover', this.eventListenerStart);
+    this.element.removeEventListener('mousemove', this.eventListenerStart);
+    this.element.removeEventListener('mouseleave', this.eventListenerEnd);
+
+    // register events for context menu
+    this.element.removeEventListener('contextmenu', this.contextmenuEventListener);
+    this.element.removeEventListener('click', this.clickEventListener);
+    document.removeEventListener('click', this.closeClickContextMenuEventListener);
+    document.removeEventListener('wheel', this.closeContextMenuEventListener);
+    document.removeEventListener('contextmenu', this.contextmenuDocumentEventListener);
+    document.removeEventListener('keydown', this.keyboardDocumentEventListener);
+  
+    this.destroyMenu();
   }
 
   // time, after which the hover menu should appear in milliseconds
@@ -143,7 +172,7 @@ export class HoverMenuDirective {
       
       // register events
       this.menu.location.nativeElement.addEventListener('mouseleave', this.eventListenerEnd);
-      document.addEventListener('click', this.closeContextMenuEventListener);
+      document.addEventListener('click', this.closeClickContextMenuEventListener);
       document.addEventListener('wheel', this.closeContextMenuEventListener);
       document.addEventListener('contextmenu', this.contextmenuDocumentEventListener);
       document.addEventListener('keydown', this.keyboardDocumentEventListener);
@@ -159,7 +188,7 @@ export class HoverMenuDirective {
       }
       if ((!isIn(p, this.element.getBoundingClientRect()) || event.target == this.element)
         && (!isIn(p, this.menu.instance.getBoundingClientRect()) || event.target == this.menu.location.nativeElement)) {
-        this.destroyMenu();
+          this.destroyMenu();
       }
     }
 
@@ -175,7 +204,7 @@ export class HoverMenuDirective {
       this.menuOpenedType = undefined;
 
       // unregister events
-      document.removeEventListener('click', this.closeContextMenuEventListener);
+      document.removeEventListener('click', this.closeClickContextMenuEventListener);
       document.removeEventListener('wheel', this.closeContextMenuEventListener);
       document.removeEventListener('contextmenu', this.contextmenuDocumentEventListener);
       document.removeEventListener('keydown', this.keyboardDocumentEventListener);

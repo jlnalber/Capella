@@ -63,11 +63,11 @@ export class PenStyleComponent extends AbstractPickerComponent<Picker<Pen>, Pen>
   ngAfterViewInit(): void {
     setTimeout(() => {
 
-      this.namePicker = new StringInputPicker(() => this.picker?.value?.name ?? '', (t: string) => { if (this.picker?.value) this.picker.value.name = t }, 'Name', true);
-      this.iconPicker = new Picker<PenIcon>(() => this.picker?.value?.icon, (t: PenIcon) => { if (this.picker?.value) this.picker.value.icon = t }, true);
+      this.namePicker = new StringInputPicker(() => this.picker?.value?.name ?? '', (t?: string) => { if (t && this.picker?.value) this.picker.value.name = t }, 'Name', true);
+      this.iconPicker = new Picker<PenIcon>(() => this.picker?.value?.icon, (t?: PenIcon) => { if (t && this.picker?.value) this.picker.value.icon = t }, true);
       // TODO: global max and min (settings)
       this.sliderInputPicker = new SliderInputPicker(() => this.picker?.value?.lineWidth,
-                        (t: number) => { if (this.picker?.value) this.picker.value.lineWidth = t },
+                        (t?: number) => { if (t && this.picker?.value) this.picker.value.lineWidth = t },
                         DEFAULT_MIN_PEN_SIZE, 
                         DEFAULT_MAX_PEN_SIZE, 
                         (n: number | undefined) => `${Math.round((n ?? 0) / PX_PER_MM * 100) / 100} mm`,
@@ -75,11 +75,11 @@ export class PenStyleComponent extends AbstractPickerComponent<Picker<Pen>, Pen>
                         true);
       this.sliderInputPicker.onValueChanged.addListener(this._redrawListener);
       // TODO: disable color picker when needed
-      this.colorPicker = new ColorPicker(this.whiteboardService.settings.getColors(), () => this.picker?.value?.color, (t: Color) => { if (this.picker?.value) this.picker.value.color = t }, () => false, true);
+      this.colorPicker = new ColorPicker(this.whiteboardService.settings.getColors(), () => this.picker?.value?.color, (t?: Color) => { if (t && this.picker?.value) this.picker.value.color = t }, () => false, true);
       this.colorPicker.onValueChanged.addListener(this._redrawListener);
-      this.easyPenColorStylePicker = new Picker<EasyPenColorStyle>(() => this.picker?.value?.colorStyle as EasyPenColorStyle | undefined, (t: EasyPenColorStyle) => { if (this.picker?.value) this.picker.value.colorStyle = t }, true);
+      this.easyPenColorStylePicker = new Picker<EasyPenColorStyle>(() => this.picker?.value?.colorStyle as EasyPenColorStyle | undefined, (t?: EasyPenColorStyle) => { if (t && this.picker?.value) this.picker.value.colorStyle = t }, true);
       this.easyPenColorStylePicker.onValueChanged.addListener(this._redrawListener);
-      this.easyPenStylePicker = new Picker<EasyPenStyle>(() => this.picker?.value?.penStyle, (t: EasyPenStyle) => { if (this.picker?.value) this.picker.value.penStyle = t }, true);
+      this.easyPenStylePicker = new Picker<EasyPenStyle>(() => this.picker?.value?.penStyle, (t?: EasyPenStyle) => { if (this.picker?.value && t) this.picker.value.penStyle = t }, true);
       this.easyPenStylePicker.onValueChanged.addListener(this._redrawListener);
     }, 0)
   }

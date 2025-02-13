@@ -18,8 +18,8 @@ import { GradientStopsComponent } from '../gradient-stops/gradient-stops.compone
 export class RadialGradientStyleComponent extends AbstractPickerComponent<Picker<RadialGradient>, RadialGradient> {
   @Input({required: true}) public picker?: Picker<RadialGradient>;
   
-  public gradientStopPicker: Picker<GradientColorStop[]> = new Picker<GradientColorStop[]>(() => this.picker?.value?.stops, (stops: GradientColorStop[]) => {
-    if (this.picker !== undefined && this.picker.value !== undefined) {
+  public gradientStopPicker: Picker<GradientColorStop[]> = new Picker<GradientColorStop[]>(() => this.picker?.value?.stops, (stops?: GradientColorStop[]) => {
+    if (stops !== undefined && this.picker !== undefined && this.picker.value !== undefined) {
       this.picker.value.stops = stops;
       this.picker.triggerChange();
     }

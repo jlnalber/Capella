@@ -1,3 +1,40 @@
+.bigDivButton {
+  --height: 60px;
+  height: var(--height);
+  line-height: var(--height);
+}
+
+.smallDivButton {
+  --height: 45px;
+  height: var(--height);
+  line-height: var(--height);
+}
+
+.divButton {
+  background: #fff7f2;
+  transition: 0.1s all ease-in-out;
+}
+
+.divButton:hover {
+  background: #efe7e2;
+}
+
+.divButton:active {
+  background: #dfd7d2;
+}
+
+.divButton p {
+  text-align: center;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  user-select: none;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  display: inline-block;
+  /* font-family: 'Segoe UI', Calibri, 'sans-serif'; */
+}
+
 .iconButton {
   --iconButtonSize: 46px;
   height: var(--iconButtonSize);

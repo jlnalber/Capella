@@ -77,7 +77,7 @@ export class PenStyleComponent extends AbstractPickerComponent<Picker<Pen>, Pen>
       // TODO: disable color picker when needed
       this.colorPicker = new ColorPicker(this.whiteboardService.settings.getColors(), () => this.picker?.value?.color, (t?: Color) => { if (t && this.picker?.value) this.picker.value.color = t }, () => false, true);
       this.colorPicker.onValueChanged.addListener(this._redrawListener);
-      this.easyPenColorStylePicker = new Picker<EasyPenColorStyle>(() => this.picker?.value?.colorStyle as EasyPenColorStyle | undefined, (t?: EasyPenColorStyle) => { if (t && this.picker?.value) this.picker.value.colorStyle = t }, true);
+      this.easyPenColorStylePicker = new Picker<EasyPenColorStyle>(() => this.picker?.value?.colorStyle as EasyPenColorStyle | undefined, (t?: EasyPenColorStyle) => { if (this.picker?.value) this.picker.value.colorStyle = t }, true);
       this.easyPenColorStylePicker.onValueChanged.addListener(this._redrawListener);
       this.easyPenStylePicker = new Picker<EasyPenStyle>(() => this.picker?.value?.penStyle, (t?: EasyPenStyle) => { if (this.picker?.value && t) this.picker.value.penStyle = t }, true);
       this.easyPenStylePicker.onValueChanged.addListener(this._redrawListener);

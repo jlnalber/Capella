@@ -6,12 +6,14 @@ import CompiledPointElement from "../global/classes/canvas-elements/compiledPoin
 import CurveElement from "../global/classes/canvas-elements/curveElement";
 import { RED_FILTER } from 'src/app/global/interfaces/color';
 import { FormulaElementComponent } from './formula-element/formula-element.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
   imports: [
     FormulaElementComponent,
-    ContextMenuDirective
+    ContextMenuDirective,
+    CommonModule
   ],
   selector: 'app-formula-tab',
   templateUrl: './formula-tab.component.html',

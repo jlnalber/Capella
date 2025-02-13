@@ -1,4 +1,4 @@
-<div class="wrapper" #wrapper>
+<div class="wrapper mainBGColor" #wrapper>
   <div *ngFor="let element of this.elements" [title]="element.title ?? ''" class="element" (click)="click($event, element)" tabindex="0" (keydown)="this.onTabKeyboard($event, element)" [ngClass]="{ 'disabled': element.disabled }">
     <p [style.filter]="element.filter ?? 'none'">{{ element.header }}</p>
     <span><img [src]="'./assets/' + element.icon + '.svg'" class="icon iconInText mediumBigIcon" alt="button" [style.filter]="element.filter ?? 'none'"/></span>

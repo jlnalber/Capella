@@ -19,8 +19,11 @@ export class ColorCircleComponent implements OnInit {
   @Input() public color: Color = BLACK;
   @Output() public colorChange: EventEmitter<Color> = new EventEmitter<Color>();
 
+  @Input() public allowVisibilityChange: boolean = true;
   @Input() public visible: boolean = true;
   @Output() public visibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  
+  @Input() public allowMenuAsContextMenu: boolean = false;
 
   constructor() { }
 
@@ -28,8 +31,10 @@ export class ColorCircleComponent implements OnInit {
   }
 
   public changeVisibility(): void {
-    this.visible = !this.visible;
-    this.visibleChange.emit(this.visible);
+    if (this.allowVisibilityChange) {
+      this.visible = !this.visible;
+      this.visibleChange.emit(this.visible);
+    }
   }
 
   public get colorStr(): string {
@@ -47,7 +52,9 @@ export class ColorCircleComponent implements OnInit {
           this.color = c;
           this.colorChange.emit(c);
         }
-      }
+      },
+      allowAsClickMenu: () => this.allowMenuAsContextMenu && !this.allowVisibilityChange,
+      allowAsContextMenu: () => this.allowMenuAsContextMenu
     };
   }
 

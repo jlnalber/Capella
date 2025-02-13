@@ -2,8 +2,13 @@ import { AfterViewInit, Component, Input } from '@angular/core';
 import { Ribbon } from '../../global/classes/ribbon/ribbon';
 import { ChangeDetectorRef } from '@angular/core';
 import { Color, getColorAsRgbFunction } from 'src/app/global/interfaces/color';
+import { RibbonTabComponent } from './ribbon-tab/ribbon-tab.component';
 
 @Component({
+  standalone: true,
+  imports: [
+    RibbonTabComponent
+  ],
   selector: 'app-ribbon',
   templateUrl: './ribbon.component.html',
   styleUrls: ['./ribbon.component.scss']

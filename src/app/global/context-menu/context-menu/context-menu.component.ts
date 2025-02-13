@@ -1,10 +1,15 @@
 import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 import {ContextMenu, ContextMenuElement} from "../context-menu.directive";
 import { Point } from 'src/app/global/interfaces/point';
+import { CommonModule } from '@angular/common';
 
 // This component is responsible for displaying a context menu (opening and closing is managed by the directive).
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule
+  ],
   selector: 'app-context-menu',
   templateUrl: './context-menu.component.html',
   styleUrls: ['./context-menu.component.css']

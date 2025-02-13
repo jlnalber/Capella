@@ -1,4 +1,6 @@
+import { CommonModule } from '@angular/common';
 import {ChangeDetectorRef, Component} from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Color, getColorAsRgbaFunction } from 'src/app/global/interfaces/color';
 
 // With the provider interface, you can easily transfer dynamic data.
@@ -10,6 +12,11 @@ export interface Provider<T> {
 // This component is a simple color picker.
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule
+  ],
   selector: 'app-color-style',
   templateUrl: './color-style.component.html',
   styleUrls: ['./color-style.component.css']

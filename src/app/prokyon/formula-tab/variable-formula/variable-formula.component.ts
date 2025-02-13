@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {FormulaElement} from "../../global/classes/abstract/formulaElement";
 import VariableElement from "../../global/classes/canvas-elements/variableElement";
+import { FormsModule } from '@angular/forms';
 
 @Component({
+  standalone: true,
+  imports: [
+    FormsModule
+  ],
   selector: 'app-variable-formula',
   templateUrl: './variable-formula.component.html',
   styleUrls: ['./variable-formula.component.css']

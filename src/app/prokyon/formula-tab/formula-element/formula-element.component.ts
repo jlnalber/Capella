@@ -1,12 +1,18 @@
 import {AfterViewInit, Component, Input, ViewChild, ViewContainerRef} from '@angular/core';
-import {ContextMenu, ContextMenuElement} from "../../../global/context-menu/context-menu.directive";
+import {ContextMenu, ContextMenuDirective, ContextMenuElement} from "../../../global/context-menu/context-menu.directive";
 import {DrawerService} from "../../services/drawer.service";
 import {FormulaElement} from "../../global/classes/abstract/formulaElement";
 import { ProkyonCanvasElement } from '../../global/classes/abstract/prokyonCanvasElement';
 import { DialogService } from 'src/app/global/dialog/dialog.service';
 import { RED_FILTER } from 'src/app/global/interfaces/color';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    ContextMenuDirective
+  ],
   selector: 'app-formula-element',
   templateUrl: './formula-element.component.html',
   styleUrls: ['./formula-element.component.css']

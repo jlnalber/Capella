@@ -15,6 +15,10 @@ import { RED_FILTER } from 'src/app/global/interfaces/color';
 type PenAndEvent = [Pen, CustomEvent<[Point, Event]>]
 
 @Component({
+  standalone: true,
+  imports: [
+    ContextMenuDirective
+  ],
   selector: 'app-view-pens',
   templateUrl: './view-pens.component.html',
   styleUrl: './view-pens.component.scss'

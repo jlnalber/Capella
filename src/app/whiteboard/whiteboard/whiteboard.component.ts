@@ -19,8 +19,17 @@ import RibbonButton from '../../global/classes/ribbon/ribbonButton';
 import RibbonPointerModeToggle from '../../global/classes/ribbon/ribbonPointerModeToggle';
 import RibbonText from '../../global/classes/ribbon/ribbonText';
 import RibbonToggle from '../../global/classes/ribbon/ribbonToggle';
+import { QuickActionsComponent } from '../quick-actions/quick-actions.component';
+import { RibbonComponent } from 'src/app/global/ribbon/ribbon.component';
+import { WhiteboardCanvasComponent } from '../canvas/whiteboardCanvas.component';
 
 @Component({
+  standalone: true,
+  imports: [
+    QuickActionsComponent,
+    RibbonComponent,
+    WhiteboardCanvasComponent
+  ],
   selector: 'app-whiteboard',
   templateUrl: './whiteboard.component.html',
   styleUrls: ['./whiteboard.component.scss']

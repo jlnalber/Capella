@@ -3,6 +3,7 @@ import { WhiteboardService } from '../services/whiteboard.service';
 import AbstractListenerCanvas from '../../global/canvas/abstractListenerCanvas';
 
 @Component({
+  standalone: true,
   selector: 'whiteboard-canvas',
   templateUrl: './whiteboardCanvas.component.html',
   styleUrls: ['./whiteboardCanvas.component.scss']

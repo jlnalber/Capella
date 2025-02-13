@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -10,6 +11,10 @@ import {
 import { Point } from 'src/app/global/interfaces/point';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule
+  ],
   selector: 'app-hover-menu',
   templateUrl: './hover-menu.component.html',
   styleUrls: ['./hover-menu.component.css']

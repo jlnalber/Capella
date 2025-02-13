@@ -1,13 +1,19 @@
 import { Component } from '@angular/core';
 import { MJ } from './services/drawer.service';
-import { Tab } from './tab-group/tab-group.component';
+import { Tab, TabGroupComponent } from './tab-group/tab-group.component';
 import { FormulaTabComponent } from './formula-tab/formula-tab.component';
 import { GeometryTabComponent } from './geometry-tab/geometry-tab.component';
 import { SettingsTabComponent } from './settings-tab/settings-tab.component';
+import { ProkyonCanvasComponent } from './canvas/prokyonCanvas.component';
 
 declare const MathJax: MJ;
 
 @Component({
+  standalone: true,
+  imports: [
+    ProkyonCanvasComponent,
+    TabGroupComponent
+  ],
   selector: 'app-prokyon',
   templateUrl: './prokyon.component.html',
   styleUrl: './prokyon.component.scss'

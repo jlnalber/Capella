@@ -5,8 +5,14 @@ import {ContextMenu, ContextMenuDirective} from "../../global/context-menu/conte
 import CompiledPointElement from "../global/classes/canvas-elements/compiledPointElement";
 import CurveElement from "../global/classes/canvas-elements/curveElement";
 import { RED_FILTER } from 'src/app/global/interfaces/color';
+import { FormulaElementComponent } from './formula-element/formula-element.component';
 
 @Component({
+  standalone: true,
+  imports: [
+    FormulaElementComponent,
+    ContextMenuDirective
+  ],
   selector: 'app-formula-tab',
   templateUrl: './formula-tab.component.html',
   styleUrls: ['./formula-tab.component.css']

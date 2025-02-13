@@ -1,8 +1,13 @@
 import { Component } from '@angular/core';
 import FormulaDialogElement from '../../global/classes/abstract/formulaDialogElement';
 import AngleElement from '../../global/classes/canvas-elements/angleElement';
+import { FormsModule } from '@angular/forms';
 
 @Component({
+  standalone: true,
+  imports: [
+    FormsModule
+  ],
   selector: 'app-view-angle-element',
   templateUrl: './view-angle-element.component.html',
   styleUrls: ['./view-angle-element.component.css']

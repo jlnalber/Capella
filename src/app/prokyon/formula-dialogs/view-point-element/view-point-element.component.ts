@@ -1,8 +1,13 @@
 import { Component } from '@angular/core';
 import FormulaDialogElement from "../../global/classes/abstract/formulaDialogElement";
 import PointElement from "../../global/classes/canvas-elements/pointElement";
+import { FormsModule } from '@angular/forms';
 
 @Component({
+  standalone: true,
+  imports: [
+    FormsModule
+  ],
   selector: 'app-view-point-element',
   templateUrl: './view-point-element.component.html',
   styleUrls: ['./view-point-element.component.css']

@@ -42,35 +42,12 @@ import { ViewPensComponent } from './whiteboard/settings/view-pens/view-pens.com
 
 @NgModule({
   declarations: [
-    AppComponent,
-    WhiteboardComponent,
-    ProkyonCanvasComponent,
-    WhiteboardCanvasComponent,
-    RibbonComponent,
-    ProkyonComponent,
-    GeometryTabComponent,
-    VariableFormulaComponent,
-    HoverMenuComponent,
-    HoverMenuComponent,
-    FormulaTabComponent,
-    ContextMenuComponent,
-    ContextMenuDirective,
-    FormulaElementComponent,
-    ViewPointElementComponent,
-    ViewCurveElementComponent,
-    ViewCircleElementComponent,
-    ViewAngleElementComponent,
-    ViewAbstractLineElementComponent,
-    ColorStyleComponent,
-    ViewPensComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    RibbonTabComponent,
-    FormsModule,
-    TabGroupComponent,
-    QuickActionsComponent
+    FormsModule
 ],
   providers: [],
   bootstrap: [AppComponent]

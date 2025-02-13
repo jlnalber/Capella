@@ -4,6 +4,7 @@ import { DrawerService, STORAGE_CACHE } from 'src/app/prokyon/services/drawer.se
 import { Serialized } from '../global/essentials/serializer';
 
 @Component({
+  standalone: true,
   selector: 'prokyon-canvas',
   templateUrl: './prokyonCanvas.component.html',
   styleUrls: ['./prokyonCanvas.component.scss']

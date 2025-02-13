@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
 import FormulaDialogElement from "../../global/classes/abstract/formulaDialogElement";
-import AbstractLine from "../../global/classes/canvas-elements/abstractLine";
 import CurveElement from "../../global/classes/canvas-elements/curveElement";
+import { FormsModule } from '@angular/forms';
 
 @Component({
+  standalone: true,
+  imports: [
+    FormsModule
+  ],
   selector: 'app-view-curve-element',
   templateUrl: './view-curve-element.component.html',
   styleUrls: ['./view-curve-element.component.css']

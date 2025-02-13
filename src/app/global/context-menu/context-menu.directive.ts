@@ -24,6 +24,7 @@ export interface ContextMenuElement {
 // This directive is responsible for context menus. It can be added on every HTML element or Angular component.
 
 @Directive({
+  standalone: true,
   selector: '[appContextMenu]'
 })
 export class ContextMenuDirective implements OnDestroy {

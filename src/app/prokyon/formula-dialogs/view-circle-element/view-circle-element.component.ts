@@ -1,10 +1,17 @@
 import { Component } from '@angular/core';
 import FormulaDialogElement from "../../global/classes/abstract/formulaDialogElement";
 import CircleElement from "../../global/classes/canvas-elements/circleElement";
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 const precision = 10 ** 2;
 
 @Component({
+  standalone: true,
+  imports: [
+    FormsModule,
+    CommonModule
+  ],
   selector: 'app-view-circle-element',
   templateUrl: './view-circle-element.component.html',
   styleUrls: ['./view-circle-element.component.css']

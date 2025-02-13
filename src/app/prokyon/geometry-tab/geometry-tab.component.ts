@@ -20,8 +20,13 @@ import MoveLabelsMode from "../global/classes/modes/moveLabelsMode";
 import AngleMode from '../global/classes/modes/angleMode';
 import ShapeMode from '../global/classes/modes/shapeMode';
 import { ProkyonMode } from '../global/classes/modes/prokyonMode';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule
+  ],
   selector: 'app-geometry-tab',
   templateUrl: './geometry-tab.component.html',
   styleUrls: ['./geometry-tab.component.css']

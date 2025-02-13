@@ -4,7 +4,7 @@
     <span *ngIf="this.canvasElement.graph.func?.name"> von <span class="maths">{{ this.canvasElement.graph.func!.name }}</span></span>
   </p>
   <p class="paragraph description" *ngIf="this.canvasElement.secondGraph !== undefined">Fläche zwischen Graphen
-    <span *ngIf="this.canvasElement.graph.func?.name && this.canvasElement.secondGraph.func?.name"> von <span class="maths">{{ this.canvasElement.graph.func!.name }}, {{ this.canvasElement.secondGraph.func!.name }}</span></span>
+    <span *ngIf="this.canvasElement.graph.func?.name && this.canvasElement.secondGraph.func?.name"> von <span class="maths">{{ this.canvasElement.graph.func!.name }}, {{ this.canvasElement.secondGraph!.func!.name }}</span></span>
   </p>
   <button class="iconButton depositionTop floatRight" (click)="this.threePointsClicked($event)"><img src="assets/threeDots.svg" class="icon" alt="icon"></button>
   <p class="paragraph intervalParagraph">Intervall: <app-interval class="interval" [noMargin]="true" [(from)]="this.canvasElement.from" [(to)]="this.canvasElement.to"></app-interval></p>

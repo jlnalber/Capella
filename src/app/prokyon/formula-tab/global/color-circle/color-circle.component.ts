@@ -1,10 +1,16 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {HoverConfiguration} from "../../../hover-menu/hover-menu.directive";
+import {HoverConfiguration, HoverMenuDirective} from "../../../hover-menu/hover-menu.directive";
 import {ColorStyleComponent} from "../../../../global/style-components/color-style/color-style.component";
 import { BLACK, Color, getColorAsRgbaFunction } from 'src/app/global/interfaces/color';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
   selector: 'app-color-circle',
+  imports: [
+    CommonModule,
+    HoverMenuDirective
+  ],
   templateUrl: './color-circle.component.html',
   styleUrls: ['./color-circle.component.css']
 })

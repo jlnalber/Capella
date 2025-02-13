@@ -1,1 +1,10 @@
 @import url(../../styles/_global.scss);
+@import url(../gradientStylesStyles.scss);
+
+.colorstopsWrapper {
+    margin-top: 7px;
+}
+
+.gradientStopContainer {
+    padding: 7px;
+}

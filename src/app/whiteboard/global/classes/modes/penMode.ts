@@ -104,7 +104,7 @@ export class PenMode extends WhiteboardMode {
             new RibbonButton('Bearbeiten', 'edit', 'Stifte bearbeiten', () => {
               ViewSettingsDialogComponent.openViewSettingsDialogComponent(whiteboardService.dialogService, EditPenQuickActionsComponent);
             }),
-            new RibbonButton('Anzeigen', 'pen', 'Stifte anzeigen', () => {
+            new RibbonButton('Anzeigen', 'view', 'Stifte anzeigen', () => {
               ViewSettingsDialogComponent.openViewSettingsDialogComponent(whiteboardService.dialogService, ViewPensComponent);
             })
           ]

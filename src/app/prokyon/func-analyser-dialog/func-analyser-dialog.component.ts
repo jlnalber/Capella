@@ -9,12 +9,19 @@ import DependencyPointElements from "../global/classes/canvas-elements/dependenc
 import { SnackbarService } from 'src/app/global/snackbar/snackbar.service';
 import { Dialog } from 'src/app/global/dialog/dialog';
 import { Point } from 'src/app/global/interfaces/point';
+import { IntervalComponent } from '../formula-tab/global/interval/interval.component';
+import { FormsModule } from '@angular/forms';
 
 export interface FuncAnalyserDialogData {
   graph?: Graph
 }
 
 @Component({
+  standalone: true,
+  imports: [
+    IntervalComponent,
+    FormsModule
+  ],
   selector: 'app-func-analyser-dialog',
   templateUrl: './func-analyser-dialog.component.html',
   styleUrls: ['./func-analyser-dialog.component.css']

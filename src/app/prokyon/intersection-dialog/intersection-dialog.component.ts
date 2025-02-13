@@ -10,6 +10,8 @@ import { Dialog } from 'src/app/global/dialog/dialog';
 import { Color } from 'src/app/global/interfaces/color';
 import { SnackbarService } from 'src/app/global/snackbar/snackbar.service';
 import { Point } from 'src/app/global/interfaces/point';
+import { IntervalComponent } from '../formula-tab/global/interval/interval.component';
+import { FormsModule } from '@angular/forms';
 
 export interface IntersectionDialogData {
   graph1?: Graph,
@@ -18,6 +20,11 @@ export interface IntersectionDialogData {
 }
 
 @Component({
+  standalone: true,
+  imports: [
+    IntervalComponent,
+    FormsModule
+  ],
   selector: 'app-intersection-dialog',
   templateUrl: './intersection-dialog.component.html',
   styleUrls: ['./intersection-dialog.component.css']

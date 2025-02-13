@@ -1,11 +1,13 @@
 <div class="wrapper">
-        <div class="colorstopsWrapper">
+    <label for="colorStops">Farbstops:</label>
+        <div id="colorStops" class="colorstopsWrapper">
             @for (i of this.picker?.value; track $index) {
-                <div class="gradientStopContainer borderBottom pen">
-
+                <div class="gradientStopContainer borderBottom">
+                    <app-color-circle [color]="i[1]"></app-color-circle>
+                    <input class="input" type="number" [(ngModel)]="i[0]" step="0.1" (change)="this.gradientStopsChange()" title="Farbstop-Wert" min="0" max="1">
                 </div>
             }
-            <div class="add" tabindex="0" (click)="this.addStop()">
+            <div class="add borderBottom" tabindex="0" (click)="this.addStop()">
                 <p>
                     <span><img [src]="'./assets/plus.svg'" class="icon iconInText smallIcon" alt="button"/></span>
                     Hinzufügen

@@ -5,8 +5,13 @@ import LineSegmentElement from "../../global/classes/canvas-elements/lineSegment
 import CircleElement from "../../global/classes/canvas-elements/circleElement";
 import AngleElement from '../../global/classes/canvas-elements/angleElement';
 import ShapeElement from '../../global/classes/canvas-elements/shapeElement';
+import { ColorCircleComponent } from '../global/color-circle/color-circle.component';
 
 @Component({
+  standalone: true,
+  imports: [
+    ColorCircleComponent
+  ],
   selector: 'app-geometric-formula',
   templateUrl: './geometric-formula.component.html',
   styleUrls: ['./geometric-formula.component.css']

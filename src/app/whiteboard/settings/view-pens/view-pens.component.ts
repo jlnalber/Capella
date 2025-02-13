@@ -10,6 +10,7 @@ import { ConfirmationDialogComponent } from 'src/app/global/dialog/confirmation-
 import Picker from 'src/app/global/style-components/pickers/picker';
 import { PickerDialogComponent, PickerDialogData } from '../../dialogs/picker-dialog/picker-dialog.component';
 import { PenStyleComponent } from 'src/app/global/style-components/pen-style/pen-style.component';
+import { RED_FILTER } from 'src/app/global/interfaces/color';
 
 type PenAndEvent = [Pen, CustomEvent<[Point, Event]>]
 
@@ -53,7 +54,7 @@ export class ViewPensComponent extends AbstractSettingsComponent implements OnDe
         header: 'Löschen',
         title: 'Stift löschen',
         disabled: isDefault,
-        color: 'red',
+        filter: RED_FILTER,
         click: () => {
           ConfirmationDialogComponent.confirm(this.whiteboardService.dialogService, {
             yes: () => {

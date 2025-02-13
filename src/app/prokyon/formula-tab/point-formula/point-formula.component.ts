@@ -1,8 +1,15 @@
 import { Component } from '@angular/core';
 import PointElement from "../../global/classes/canvas-elements/pointElement";
 import {FormulaElement} from "../../global/classes/abstract/formulaElement";
+import { ColorCircleComponent } from '../global/color-circle/color-circle.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
+  standalone: true,
+  imports: [
+    ColorCircleComponent,
+    FormsModule
+  ],
   selector: 'app-point-formula',
   templateUrl: './point-formula.component.html',
   styleUrls: ['./point-formula.component.css']

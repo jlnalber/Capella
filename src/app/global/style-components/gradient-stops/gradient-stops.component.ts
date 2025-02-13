@@ -3,12 +3,14 @@ import Picker from '../pickers/picker';
 import AbstractPickerComponent from '../abstractPickerComponent';
 import { GradientColorStop } from '../../interfaces/canvasStyles/colorStyle';
 import { FormsModule } from '@angular/forms';
+import { ColorCircleComponent } from 'src/app/prokyon/formula-tab/global/color-circle/color-circle.component';
 
 @Component({
   selector: 'app-gradient-stops',
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    ColorCircleComponent
   ],
   templateUrl: './gradient-stops.component.html',
   styleUrl: './gradient-stops.component.scss'
@@ -31,6 +33,10 @@ export class GradientStopsComponent extends AbstractPickerComponent<Picker<Gradi
       this.picker.value.splice(index, 1);
       this.picker.triggerChange();
     }
+  }
+
+  public gradientStopsChange() {
+    this.picker?.triggerChange();
   }
 
 }

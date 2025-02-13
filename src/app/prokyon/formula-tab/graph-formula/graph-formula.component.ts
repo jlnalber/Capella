@@ -8,8 +8,17 @@ import DefiniteIntegral from "../../global/classes/canvas-elements/definiteInteg
 import { DialogService } from 'src/app/global/dialog/dialog.service';
 import { getColorAsRgbaFunction } from 'src/app/global/interfaces/color';
 import { IntersectionDialogComponent } from '../../intersection-dialog/intersection-dialog.component';
+import { ColorCircleComponent } from '../global/color-circle/color-circle.component';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
+  imports: [
+    ColorCircleComponent,
+    FormsModule,
+    CommonModule
+  ],
   selector: 'app-graph-formula',
   templateUrl: './graph-formula.component.html',
   styleUrls: ['./graph-formula.component.css']

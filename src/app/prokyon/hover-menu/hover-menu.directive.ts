@@ -4,6 +4,7 @@ import { Point } from 'src/app/global/interfaces/point';
 import { isIn } from 'src/app/global/essentials/utils';
 
 @Directive({
+  standalone: true,
   selector: '[appHoverMenu]'
 })
 export class HoverMenuDirective {

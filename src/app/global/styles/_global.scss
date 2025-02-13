@@ -105,6 +105,16 @@
   font-family: inherit !important;
 }
 
+.input.smallInput {
+  --fontSize: 10pt;
+  --padding: 5px;
+  padding: var(--padding);
+  height: calc(var(--fontSize) + 2 * var(--padding));
+  transition: all 0.1s ease-in-out;
+  font-size: var(--fontSize);
+  font-family: 'Segoe UI', Calibri, 'sans-serif';
+}
+
 .input:hover {
   background: #dfd7d2;
 }

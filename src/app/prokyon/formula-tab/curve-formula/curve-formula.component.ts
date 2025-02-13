@@ -3,8 +3,17 @@ import {FormulaElement} from "../../global/classes/abstract/formulaElement";
 import CurveElement from "../../global/classes/canvas-elements/curveElement";
 import {DrawerService} from "../../services/drawer.service";
 import {ContextMenu, ContextMenuElement} from "../../../global/context-menu/context-menu.directive";
+import { ColorCircleComponent } from '../global/color-circle/color-circle.component';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
+  standalone: true,
+  imports: [
+    ColorCircleComponent,
+    CommonModule,
+    FormsModule
+  ],
   selector: 'app-curve-formula',
   templateUrl: './curve-formula.component.html',
   styleUrls: ['./curve-formula.component.css']

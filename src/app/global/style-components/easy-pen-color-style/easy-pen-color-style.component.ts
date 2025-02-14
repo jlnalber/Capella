@@ -58,6 +58,7 @@ export class EasyPenColorStyleComponent extends AbstractPickerComponent<Picker<E
   public set radialGradient(value: RadialGradient) {
     this._radialGradient = value;
     if (this.selectedType === 'radialgrad' && this.picker) {
+      console.log(value)
       this.picker.value = value;
     }
   }
@@ -87,6 +88,7 @@ export class EasyPenColorStyleComponent extends AbstractPickerComponent<Picker<E
   }
   public set linearGradient(value: LinearGradient) {
     this._linearGradient = value;
+    console.log(value); // TODO: why isn't it saving properly (the gradient stops)
     if (this.selectedType === 'lineargrad' && this.picker) {
       this.picker.value = value;
     }
@@ -110,6 +112,15 @@ export class EasyPenColorStyleComponent extends AbstractPickerComponent<Picker<E
   
   constructor(private readonly whiteboardService: WhiteboardService) {
     super();
+    this.otherPenPicker.onValueChanged.addListener(this.onChangeListener);
+    this.radialGradientPicker.onValueChanged.addListener(this.onChangeListener);
+    this.linearGradientPicker.onValueChanged.addListener(this.onChangeListener);
+    this.conicGradientPicker.onValueChanged.addListener(this.onChangeListener);
+    this.patternPicker.onValueChanged.addListener(this.onChangeListener);
+  }
+
+  private onChangeListener = () => {
+    this.onChange();
   }
 
   public get selectedType(): Types {
@@ -159,20 +170,20 @@ export class EasyPenColorStyleComponent extends AbstractPickerComponent<Picker<E
   }
 
   public ngAfterViewInit(): void {
-    this.otherPenPicker.onValueChanged.addListener((t: any) => {
-      this.picker?.triggerChangeWithValue(t);
+    this.otherPenPicker.onValueChanged.addListener(() => {
+      this.picker?.triggerChange();
     });
-    this.radialGradientPicker.onValueChanged.addListener((t: any) => {
-      this.picker?.triggerChangeWithValue(t);
+    this.radialGradientPicker.onValueChanged.addListener(() => {
+      this.picker?.triggerChange();
     });
-    this.conicGradientPicker.onValueChanged.addListener((t: any) => {
-      this.picker?.triggerChangeWithValue(t);
+    this.conicGradientPicker.onValueChanged.addListener(() => {
+      this.picker?.triggerChange();
     });
-    this.linearGradientPicker.onValueChanged.addListener((t: any) => {
-      this.picker?.triggerChangeWithValue(t);
+    this.linearGradientPicker.onValueChanged.addListener(() => {
+      this.picker?.triggerChange();
     });
-    this.patternPicker.onValueChanged.addListener((t: any) => {
-      this.picker?.triggerChangeWithValue(t);
+    this.patternPicker.onValueChanged.addListener(() => {
+      this.picker?.triggerChange();
     });
   }
 }

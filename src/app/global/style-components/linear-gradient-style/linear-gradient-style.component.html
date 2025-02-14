@@ -3,15 +3,15 @@
         <div class="inputContainer startPoint">
             <label for="startPointInput">Startpunkt:</label>
             <div class="inputWrapper startPointInput" id="startPointInput">
-                <span><input title="x" type="number" step="any" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.startPoint.x"></span>
-                <span><input title="y" type="number" step="any" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.startPoint.y"></span>
+                <span><input title="x" type="number" step="any" (change)="this.onChange()" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.startPoint.x"></span>
+                <span><input title="y" type="number" step="any" (change)="this.onChange()" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.startPoint.y"></span>
             </div>
         </div>
         <div class="inputContainer endPoint">
             <label for="endPointInput">Endpunkt:</label>
             <div class="inputWrapper endPointInput" id="endPointInput">
-                <span><input title="x" type="number" step="any" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.endPoint.x"></span>
-                <span><input title="y" type="number" step="any" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.endPoint.y"></span>
+                <span><input title="x" type="number" step="any" (change)="this.onChange()" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.endPoint.x"></span>
+                <span><input title="y" type="number" step="any" (change)="this.onChange()" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.endPoint.y"></span>
             </div>
         </div>
         <div class="gradientStops">

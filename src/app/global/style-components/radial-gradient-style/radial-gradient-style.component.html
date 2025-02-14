@@ -3,17 +3,17 @@
         <div class="inputContainer startCircle">
             <label for="startCircleInput">Startkreis:</label>
             <div class="inputWrapper startCircleInput" id="startCircleInput">
-                <span><input title="x" type="number" step="any" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.startCircle.x"></span>
-                <span><input title="y" type="number" step="any" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.startCircle.y"></span>
-                <span><input title="Radius" type="number" step="any" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.startCircle.radius"></span>
+                <span><input title="x" type="number" step="any" (change)="this.onChange()" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.startCircle.x"></span>
+                <span><input title="y" type="number" step="any" (change)="this.onChange()" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.startCircle.y"></span>
+                <span><input title="Radius" type="number" step="any" (change)="this.onChange()" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.startCircle.radius"></span>
             </div>
         </div>
         <div class="inputContainer endCircle">
             <label for="endCircleInput">Endkreis:</label>
             <div class="inputWrapper endCircleInput" id="endCircleInput">
-                <span><input title="x" type="number" step="any" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.endCircle.x"></span>
-                <span><input title="y" type="number" step="any" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.endCircle.y"></span>
-                <span><input title="Radius" type="number" step="any" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.endCircle.radius"></span>
+                <span><input title="x" type="number" step="any" (change)="this.onChange()" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.endCircle.x"></span>
+                <span><input title="y" type="number" step="any" (change)="this.onChange()" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.endCircle.y"></span>
+                <span><input title="Radius" type="number" step="any" (change)="this.onChange()" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.endCircle.radius"></span>
             </div>
         </div>
         <div class="gradientStops">

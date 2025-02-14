@@ -24,8 +24,8 @@ export class GradientStopsComponent extends AbstractPickerComponent<Picker<Gradi
     }
     if (this.picker !== undefined && this.picker.value !== undefined) {
       this.picker.value.push([0, {r: 0, g: 0, b: 0, a: 1}]);
-      this.picker.triggerChange();
     }
+    this.picker?.triggerChange();
   }
 
   public removeStop(index: number): void {
@@ -33,10 +33,6 @@ export class GradientStopsComponent extends AbstractPickerComponent<Picker<Gradi
       this.picker.value.splice(index, 1);
       this.picker.triggerChange();
     }
-  }
-
-  public gradientStopsChange() {
-    this.picker?.triggerChange();
   }
 
 }

@@ -3,14 +3,14 @@
         <div class="inputContainer centerPoint">
             <label for="centerPointInput">Mittelpunkt:</label>
             <div class="inputWrapper centerPointInput" id="centerPointInput">
-                <span><input title="x" type="number" step="any" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.center.x"></span>
-                <span><input title="y" type="number" step="any" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.center.y"></span>
+                <span><input title="x" type="number" step="any" (change)="this.onChange()" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.center.x"></span>
+                <span><input title="y" type="number" step="any" (change)="this.onChange()" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.center.y"></span>
             </div>
         </div>
         <div class="inputContainer startAngle">
             <label for="startAngleInput">Startwinkel:</label>
             <div class="inputWrapper startAngleInput" id="startAngleInput">
-                <span><input title="Startwinkel" type="number" step="any" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.startAngle"></span>
+                <span><input title="Startwinkel" type="number" step="any" (change)="this.onChange()" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.startAngle"></span>
             </div>
         </div>
         <div class="gradientStops">

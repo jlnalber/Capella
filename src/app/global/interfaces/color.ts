@@ -6,14 +6,14 @@ export interface Color {
 }
 
 export function getColorAsRgbFunction(color: Color): string {
-  return `rgb(${color.r}, ${color.g}, ${color.b})`;
+  return `rgb(${color.r ?? 0}, ${color.g ?? 0}, ${color.b ?? 0})`;
 }
 
 export function getColorAsRgbaFunction(color: Color): string {
   if (color.a !== undefined) {
-    return `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`;
+    return `rgba(${color.r ?? 0}, ${color.g ?? 0}, ${color.b ?? 0}, ${color.a ?? 0})`;
   }
-  return `rgba(${color.r}, ${color.g}, ${color.b})`;
+  return `rgba(${color.r ?? 0}, ${color.g ?? 0}, ${color.b ?? 0})`;
 }
 
 export function colorAsTransparent(color: Color, ratio: number = 0.5): Color {

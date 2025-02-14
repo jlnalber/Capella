@@ -3,8 +3,8 @@
         <div id="colorStops" class="colorstopsWrapper">
             @for (i of this.picker?.value; track $index) {
                 <div class="gradientStopContainer borderBottom">
-                    <app-color-circle class="colorCircle" [allowMenuAsContextMenu]="true" [allowVisibilityChange]="false" [(color)]="i[1]"></app-color-circle>
-                    <input class="input" type="number" [(ngModel)]="i[0]" step="0.1" (change)="this.gradientStopsChange()" title="Farbstop-Wert" min="0" max="1">
+                    <app-color-circle class="colorCircle" (colorChange)="this.onChange()" [allowMenuAsContextMenu]="true" [allowVisibilityChange]="false" [(color)]="i[1]"></app-color-circle>
+                    <input class="input" type="number" (change)="this.onChange()" [(ngModel)]="i[0]" step="0.1" title="Farbstop-Wert" min="0" max="1">
                 </div>
             }
             <div class="add divButton smallDivButton borderBottom" tabindex="0" (click)="this.addStop()">

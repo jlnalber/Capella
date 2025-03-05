@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 import Picker from '../pickers/picker';
 import { LinearGradient } from '../../interfaces/canvasStyles/colorStyle';
 import { GradientStopsComponent } from "../gradient-stops/gradient-stops.component";
@@ -15,7 +15,10 @@ import GradientStyle from '../gradient-stops/gradientStyle';
   templateUrl: './linear-gradient-style.component.html',
   styleUrl: './linear-gradient-style.component.scss'
 })
-export class LinearGradientStyleComponent extends GradientStyle<LinearGradient> {
+export class LinearGradientStyleComponent extends GradientStyle<LinearGradient> implements AfterViewInit {
   @Input({required: true}) public picker?: Picker<LinearGradient>;
 
+  ngAfterViewInit(): void {
+      this.init();
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 import AbstractPickerComponent from '../abstractPickerComponent';
 import Picker from '../pickers/picker';
 import { ConicGradient, GradientColorStop } from '../../interfaces/canvasStyles/colorStyle';
@@ -16,7 +16,10 @@ import GradientStyle from '../gradient-stops/gradientStyle';
   templateUrl: './conic-gradient-style.component.html',
   styleUrl: './conic-gradient-style.component.scss'
 })
-export class ConicGradientStyleComponent extends GradientStyle<ConicGradient> {
+export class ConicGradientStyleComponent extends GradientStyle<ConicGradient> implements AfterViewInit {
   @Input({required: true}) public picker?: Picker<ConicGradient>;
 
+  ngAfterViewInit(): void {
+    this.init();
+  }
 }

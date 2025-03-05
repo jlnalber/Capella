@@ -88,7 +88,6 @@ export class EasyPenColorStyleComponent extends AbstractPickerComponent<Picker<E
   }
   public set linearGradient(value: LinearGradient) {
     this._linearGradient = value;
-    console.log(value); // TODO: why isn't it saving properly (the gradient stops)
     if (this.selectedType === 'lineargrad' && this.picker) {
       this.picker.value = value;
     }

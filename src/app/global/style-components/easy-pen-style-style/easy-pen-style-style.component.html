@@ -1,1 +1,10 @@
-<p>easy-pen-style-style works!</p>
+<div class="wrapper styleWrapper">
+    <app-easy-stroke-style [picker]="this.easyStrokeStylePicker"></app-easy-stroke-style>
+    <app-object-style [picker]="this.objectStylePicker"></app-object-style>
+    @if (this.picker && this.picker.value) {
+        <div>
+            <input id="useSizesInput" type="checkbox" [(ngModel)]="this.picker.value.useSizes" (change)="this.onChange()">
+            <label for="useSizesInput" title="Die Strichgröße verändert sich abhängig von Geschwindigkeit, Stiftwinkel und Stiftdruck.">Dynamische Stiftgröße verwenden</label>
+        </div>
+    }
+</div>

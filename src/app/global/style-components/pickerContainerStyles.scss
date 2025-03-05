@@ -1,9 +1,9 @@
-.styleWrapper *:not(:first-child) {
+.styleWrapper > *:not(:first-child) {
     margin-top: 10px;
     display: block;
 }
 
-.styleWrapper *:not(:last-child)::after {
+.styleWrapper > *:not(:last-child)::after {
     content: " ";
     display: block;
     height: 0px;

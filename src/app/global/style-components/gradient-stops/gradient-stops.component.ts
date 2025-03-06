@@ -15,7 +15,7 @@ import { ColorCircleComponent } from 'src/app/prokyon/formula-tab/global/color-c
   templateUrl: './gradient-stops.component.html',
   styleUrl: './gradient-stops.component.scss'
 })
-export class GradientStopsComponent extends AbstractPickerComponent<Picker<GradientColorStop[]>, GradientColorStop[]> implements AfterViewInit {
+export class GradientStopsComponent extends AbstractPickerComponent<Picker<GradientColorStop[]>, GradientColorStop[]> {
   @Input({required: true}) public picker?: Picker<GradientColorStop[]>;
 
   public addStop(): void {
@@ -33,10 +33,6 @@ export class GradientStopsComponent extends AbstractPickerComponent<Picker<Gradi
       this.picker.value.splice(index, 1);
       this.picker.triggerChange();
     }
-  }
-
-  ngAfterViewInit(): void {
-      console.log(this.picker, this.picker?.value)
   }
 
 }

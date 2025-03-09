@@ -24,13 +24,16 @@ export function getCopyOfShadow(shadow: Shadow): Shadow {
 }
 
 export type LineCap = CanvasLineCap;
-export const DEFAULT_LINECAP: LineCap = 'butt'
+export const DEFAULT_LINECAP: LineCap = 'butt';
+export const ALL_LINECAP: LineCap[] = ['butt', 'round', 'square']
+
 export const DEFAULT_LINEDASH: number[] = [];
 export const REGULAR_LINEDASH: number[] = [10, 10];
 export const DEFAULT_LINEDASHOFFSET: number = 0.0;
 
 export type LineJoin = CanvasLineJoin;
 export const DEFAULT_LINEJOIN: LineJoin = 'miter';
+export const ALL_LINEJOIN: LineJoin[] = ['bevel', 'miter', 'round']
 
 export type FontSize = LengthMeasurement;
 export const DEFAULT_FONTSIZE: FontSize = [0, 'pt']

@@ -1,1 +1,19 @@
-<p>easy-stroke-style works!</p>
+<div class="wrapper styleWrapper">
+    @if (this.picker) {
+        <div>
+            <!-- line dash und line dash offset -->
+        </div>
+        <div>
+            <label for="lineJoinSelector">Line join:</label>
+            <select title="Wie sollen die Striche miteinander verbunden werden?" id="lineJoinSelector" class="select" [(ngModel)]="this.lineJoin">
+                @for (lineJoin of lineJoins; track $index) {
+                    <option [value]="lineJoin">{{ lineJoin }}</option>
+                }
+            </select>
+            <!-- line join -->
+        </div>
+        <div>
+            <!-- line cap -->
+        </div>
+    }
+</div>

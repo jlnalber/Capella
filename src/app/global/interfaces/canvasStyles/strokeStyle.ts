@@ -9,6 +9,11 @@ export interface EasyStrokeStyle {
     lineCap?: LineCap
 }
 
+export const EMPTY_EASYSTROKESTYLE: EasyStrokeStyle = { }
+export function getEmptyEasyStrokeStyleForCopy(): EasyStrokeStyle {
+    return {};
+}
+
 export type StrokeStyle = EasyStrokeStyle & {
     color: ColorStyle,
     uniformSizeOnZoom?: boolean,

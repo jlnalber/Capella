@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, Input } from '@angular/core';
 import Picker from '../pickers/picker';
 import { EasyPenStyle } from 'src/app/whiteboard/global/interfaces/penStyle';
 import AbstractPickerComponent from '../abstractPickerComponent';
@@ -28,25 +28,27 @@ export class EasyPenStyleStyleComponent extends AbstractPickerComponent<Picker<E
   public objectStylePicker?: Picker<ObjectStyle>;
   
   ngAfterViewInit() {
-    this.easyStrokeStylePicker = new Picker<EasyStrokeStyle>(() => this.picker?.value?.strokeStyle, (style?: EasyStrokeStyle) => {
-      if (style && this.picker !== undefined && this.picker.value !== undefined) {
-        this.picker.value.strokeStyle = style;
-        this.picker.triggerChange();
-      }
-    }, true, () => this.picker?.isDisabled() ?? false);
-    this.easyStrokeStylePicker.onValueChanged.addListener(() => {
+    setTimeout(() => {
+      this.easyStrokeStylePicker = new Picker<EasyStrokeStyle>(() => this.picker?.value?.strokeStyle, (style?: EasyStrokeStyle) => {
+        if (style && this.picker !== undefined && this.picker.value !== undefined) {
+          this.picker.value.strokeStyle = style;
+          this.picker.triggerChange();
+        }
+      }, true, () => this.picker?.isDisabled() ?? false);
+      this.easyStrokeStylePicker.onValueChanged.addListener(() => {
         this.onChange();
-    })
-
-    this.objectStylePicker = new Picker<ObjectStyle>(() => this.picker?.value?.objectStyle, (style?: ObjectStyle) => {
-      if (style && this.picker !== undefined && this.picker.value !== undefined) {
-        this.picker.value.objectStyle = style;
-        this.picker.triggerChange();
-      }
-    }, true, () => this.picker?.isDisabled() ?? false);
-    this.objectStylePicker.onValueChanged.addListener(() => {
+      })
+      
+      this.objectStylePicker = new Picker<ObjectStyle>(() => this.picker?.value?.objectStyle, (style?: ObjectStyle) => {
+        if (style && this.picker !== undefined && this.picker.value !== undefined) {
+          this.picker.value.objectStyle = style;
+          this.picker.triggerChange();
+        }
+      }, true, () => this.picker?.isDisabled() ?? false);
+      this.objectStylePicker.onValueChanged.addListener(() => {
         this.onChange();
-    })
+      })
+    }, 0);
   }
 
 }

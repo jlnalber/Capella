@@ -21,7 +21,7 @@
 }
 
 .notLast {
-  border-bottom: 1px solid #dfd7d2;
+  border-bottom: var(--default-border);
 }
 
 .pointWrappers {

@@ -3,7 +3,6 @@
   --size: 70px;
   --margin: 9px;
   --border: 1px;
-  --borderColor: #dfd7d2;
   --padding: 2px;
   --borderRadius: 5px;
   --width: calc(var(--size) + 2 * var(--margin) + var(--border));
@@ -45,7 +44,7 @@
 }
 
 .tabHeader:active {
-  background: #dfd7d2;
+  background: var(--border-color);
 }
 
 .tabHeader p {
@@ -56,7 +55,7 @@
 }
 
 .tabHeader.active {
-  background: #dfd7d2;
+  background: var(--border-color);
 }
 
 .wrapper {

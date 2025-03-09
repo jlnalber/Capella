@@ -2,7 +2,7 @@
   padding: 15px;
   background: #fff7f2;
   border: 1px solid transparent;
-  border-bottom: 1px solid #dfd7d2;
+  border-bottom: var(--default-border);
 }
 
 .selected {

@@ -53,7 +53,7 @@
 }
 
 .tabHeader:active {
-  background: #dfd7d2;
+  background: var(--borderColor);
 }
 
 .tabHeader p {
@@ -61,7 +61,7 @@
 }
 
 .tabHeader.active {
-  background: #dfd7d2;
+  background: var(--borderColor);
 }
 
 .tabContainer {

@@ -5,7 +5,7 @@
     --padding: 7px;
     padding: var(--padding);
     height: calc(var(--height) - 2 * var(--padding));
-    border-bottom: 1px solid #dfd7d2;
+    border-bottom: var(--default-border);
 }
 
 .pen > .icon {
@@ -39,7 +39,7 @@
 }
   
 .add:active {
-    background: #dfd7d2;
+    background: var(--border-color);
 }
   
 .add p {

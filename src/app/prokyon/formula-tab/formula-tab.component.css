@@ -5,7 +5,7 @@
   background: #fff7f2;
   transition: 0.1s all ease-in-out;
   line-height: 62px;
-  border-bottom: 1px solid #dfd7d2;
+  border-bottom: var(--default-border);
 }
 
 .addDiv:hover {
@@ -13,7 +13,7 @@
 }
 
 .addDiv:active {
-  background: #dfd7d2;
+  background: var(--border-color);
 }
 
 p {

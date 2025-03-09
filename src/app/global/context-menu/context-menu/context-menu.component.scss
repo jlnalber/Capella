@@ -62,7 +62,7 @@
   position: fixed;
   padding: 5px;
   border-radius: var(--borderRadius);
-  border: 1px solid #dfd7d2;
+  border: var(--default-border);
   transform-origin: top left;
   animation: 0.1s start ease-in-out;
   z-index: 1;

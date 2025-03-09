@@ -28,7 +28,7 @@
 }
 
 .divButton:active:not(.disabled), .divButton:focus:not(.disabled) {
-  background: #dfd7d2;
+  background: var(--border-color);
 }
 
 .divButton p {
@@ -65,7 +65,7 @@
 }
 
 .iconButton:active:not(:disabled), .iconButton:focus:not(:disabled) {
-  background: #dfd7d2;
+  background: var(--border-color);
 }
 
 .iconButton.depositionTop {
@@ -176,12 +176,12 @@
 
 .input:focus:not(:disabled), .input:active:not(:disabled) {
   background: #fffbf9;
-  border: 1px solid #dfd7d2;
+  border: var(--default-border);
   color: black;
 }
 
 .input:hover:not(:disabled):not(:focus):not(:active) {
-  background: #dfd7d2;
+  background: var(--border-color);
 }
 
 .select, .button {
@@ -273,7 +273,7 @@
 }
 
 .borderBottom {
-  border-bottom: 1px solid #dfd7d2;
+  border-bottom: var(--default-border);
 }
 
 .selectContainer > .icon {

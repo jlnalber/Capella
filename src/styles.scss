@@ -14,4 +14,6 @@ body, html {
     font-family: 'Trebuchet MS', Calibri, sans-serif;
     -webkit-user-select: none;
     user-select: none;
+
+    --gray-filter: invert(59%) sepia(0%) saturate(93%) hue-rotate(267deg) brightness(86%) contrast(99%);
 }

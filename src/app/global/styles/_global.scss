@@ -15,11 +15,19 @@
   transition: 0.1s all ease-in-out;
 }
 
-.divButton:hover {
+.divButton.disabled, .divButton:disabled {
+  color: gray;
+}
+
+.divButton.disabled img, .divButton:disabled img {
+  filter: var(--gray-filter) !important;
+}
+
+.divButton:hover:not(.disabled) {
   background: #efe7e2;
 }
 
-.divButton:active {
+.divButton:active:not(.disabled), .divButton:focus:not(.disabled) {
   background: #dfd7d2;
 }
 
@@ -48,11 +56,15 @@
   user-select: none;
 }
 
-.iconButton:hover {
+.iconButton:disabled img {
+  filter: var(--gray-filter) !important;
+}
+
+.iconButton:hover:not(:disabled) {
   background: #efe7e2;
 }
 
-.iconButton:active, .iconButton:focus {
+.iconButton:active:not(:disabled), .iconButton:focus:not(:disabled) {
   background: #dfd7d2;
 }
 
@@ -138,6 +150,16 @@
   color: #555;
 }
 
+.input:disabled {
+  background: #f7efea;
+  border: var(--border) solid #e6dfd9;
+  color: gray;
+}
+
+.input.numberInput {
+  width: 50px;
+}
+
 .input.noMath {
   font-family: inherit !important;
 }
@@ -152,14 +174,14 @@
   font-family: 'Segoe UI', Calibri, 'sans-serif';
 }
 
-.input:hover {
-  background: #dfd7d2;
-}
-
-.input:focus {
+.input:focus:not(:disabled), .input:active:not(:disabled) {
   background: #fffbf9;
   border: 1px solid #dfd7d2;
   color: black;
+}
+
+.input:hover:not(:disabled):not(:focus):not(:active) {
+  background: #dfd7d2;
 }
 
 .select, .button {
@@ -197,7 +219,7 @@
   background-color: #ffe7d8;
 }
 
-.button:focus, .button:active {
+.button:focus, .button:active, .select:focus, .select:active {
   background-color: #ffd2b6;
 }
 

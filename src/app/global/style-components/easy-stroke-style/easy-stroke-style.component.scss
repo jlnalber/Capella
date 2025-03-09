@@ -1,1 +1,21 @@
 @import url(../../styles/_global.scss);
+
+td:last-child {
+    padding-left: 14px;
+}
+
+tr:not(:last-child) > td {
+    padding-bottom: 7px;
+}
+
+.lineDashLabelTD {
+    vertical-align: unset;
+}
+
+.lineDashContainer {
+    padding: 7px;
+}
+
+.lineDashContainer .input {
+    display: unset;
+}

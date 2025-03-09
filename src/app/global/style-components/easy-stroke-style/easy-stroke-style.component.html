@@ -1,19 +1,64 @@
 <div class="wrapper styleWrapper">
     @if (this.picker) {
-        <div>
-            <!-- line dash und line dash offset -->
-        </div>
-        <div>
-            <label for="lineJoinSelector">Line join:</label>
-            <select title="Wie sollen die Striche miteinander verbunden werden?" id="lineJoinSelector" class="select" [(ngModel)]="this.lineJoin">
-                @for (lineJoin of lineJoins; track $index) {
-                    <option [value]="lineJoin">{{ lineJoin }}</option>
-                }
-            </select>
-            <!-- line join -->
-        </div>
-        <div>
-            <!-- line cap -->
-        </div>
+        <table>
+            <tr>
+                <td class="lineDashLabelTD">
+                    <label for="lineJoinSelector">Line dash:</label>
+                </td>
+                <td>
+                    <div>
+                        <input type="checkbox" id="lineDashEnabled" title="Verwende gestrichelte Linien" [(ngModel)]="this.lineDashEnabled">
+                        <label for="lineDashEnabled">Gestrichelte Linien verwenden</label>
+                    </div>
+                    <div id="lineDash" class="lineDashWrapper">
+                        @for (i of this.lineDash; track $index) {
+                            <div class="lineDashContainer borderBottom">
+                                <input class="input numberInput" type="number" [disabled]="!this.lineDashEnabled" (change)="this.onChange()" [(ngModel)]="this.lineDash[$index]" title="Line-Dash-Wert">
+                                <button class="iconButton floatRight" [disabled]="!this.lineDashEnabled" (click)="this.removeLineDash($index)"><img src="assets/trash.svg" alt="Icon" class="icon"></button>
+                            </div>
+                        }
+                        <div class="add divButton smallDivButton" [class.disabled]="!this.lineDashEnabled" tabindex="0" (click)="this.addLineDash()">
+                            <p>
+                                <span><img [src]="'./assets/plus.svg'" class="icon iconInText smallIcon" alt="button"/></span>
+                                Hinzufügen
+                            </p>
+                        </div>
+                    </div>
+                </td>
+                <!-- line dash und line dash offset -->
+            </tr>
+            <tr>
+                <td>
+                    <label for="lineDashOffsetInput">Line dash offset:</label>
+                </td>
+                <td>
+                    <input id="lineDashOffsetInput" class="input numberInput" type="number" step="any" [(ngModel)]="this.lineDashOffset">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="lineJoinSelector">Line join:</label>
+                </td>
+                <td>
+                    <select title="Wie sollen die Striche miteinander verbunden werden?" id="lineJoinSelector" class="select" [(ngModel)]="this.lineJoin">
+                        @for (lineJoin of lineJoins; track $index) {
+                            <option [value]="lineJoin">{{ lineJoin }}</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="lineCapSelector">Line cap:</label>
+                </td>
+                <td>
+                    <select title="Wie sollen die Striche aufhören?" id="lineCapSelector" class="select" [(ngModel)]="this.lineCap">
+                        @for (lineCap of lineCaps; track $index) {
+                            <option [value]="lineCap">{{ lineCap }}</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+        </table>
     }
 </div>

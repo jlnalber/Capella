@@ -29,7 +29,7 @@
 }
 
 .element.disabled img {
-  filter: invert(59%) sepia(0%) saturate(93%) hue-rotate(267deg) brightness(86%) contrast(99%) !important;
+  filter: var(--gray-filter) !important;
 }
 
 .element.disabled:hover {

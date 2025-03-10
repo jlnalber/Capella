@@ -23,7 +23,7 @@ export class ColorCircleComponent implements OnInit {
   @Input() public visible: boolean = true;
   @Output() public visibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
   
-  @Input() public allowMenuAsContextMenu: boolean = false;
+  @Input() public allowMenuAsContextMenu: boolean = true;
 
   constructor() { }
 

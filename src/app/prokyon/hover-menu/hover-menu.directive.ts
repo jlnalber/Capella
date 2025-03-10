@@ -20,9 +20,7 @@ export class HoverMenuDirective implements OnDestroy {
   // #region The listeners for context menu
   private contextmenuDocumentEventListener = (e: Event) => {
     // listener that closes the context menu when another one is triggered
-    if ((e instanceof PointerEvent || e instanceof MouseEvent) && e.composedPath().indexOf(this.element) === -1) {
-      this.destroyMenu();
-    }
+    this.destroyMenu();
   }
 
   private keyboardDocumentEventListener = (e: KeyboardEvent) => {
@@ -55,11 +53,13 @@ export class HoverMenuDirective implements OnDestroy {
     // this listener opens the custom context menu instead of the usual one of the browser
     if ((e instanceof PointerEvent || e instanceof MouseEvent) && this.allowAsContextMenu()) {
       e.preventDefault();
-
+      
       this.showMenuAt({
         x: e.x,
         y: e.y
       }, 'context');
+      
+      e.stopImmediatePropagation();
     }
   }
 
@@ -106,10 +106,7 @@ export class HoverMenuDirective implements OnDestroy {
     // register events for context menu
     this.element.addEventListener('contextmenu', this.contextmenuEventListener);
     this.element.addEventListener('click', this.clickEventListener);
-    document.addEventListener('click', this.closeClickContextMenuEventListener);
-    document.addEventListener('wheel', this.closeContextMenuEventListener);
-    document.addEventListener('contextmenu', this.contextmenuDocumentEventListener);
-    document.addEventListener('keydown', this.keyboardDocumentEventListener);
+    this.registerDocumentEvents();
   }
 
   ngOnDestroy() {
@@ -122,10 +119,7 @@ export class HoverMenuDirective implements OnDestroy {
     // register events for context menu
     this.element.removeEventListener('contextmenu', this.contextmenuEventListener);
     this.element.removeEventListener('click', this.clickEventListener);
-    document.removeEventListener('click', this.closeClickContextMenuEventListener);
-    document.removeEventListener('wheel', this.closeContextMenuEventListener);
-    document.removeEventListener('contextmenu', this.contextmenuDocumentEventListener);
-    document.removeEventListener('keydown', this.keyboardDocumentEventListener);
+    this.unregisterDocumentEvents();
   
     this.destroyMenu();
   }
@@ -172,10 +166,7 @@ export class HoverMenuDirective implements OnDestroy {
       
       // register events
       this.menu.location.nativeElement.addEventListener('mouseleave', this.eventListenerEnd);
-      document.addEventListener('click', this.closeClickContextMenuEventListener);
-      document.addEventListener('wheel', this.closeContextMenuEventListener);
-      document.addEventListener('contextmenu', this.contextmenuDocumentEventListener);
-      document.addEventListener('keydown', this.keyboardDocumentEventListener);
+      this.registerDocumentEvents();
     }
   }
 
@@ -204,11 +195,22 @@ export class HoverMenuDirective implements OnDestroy {
       this.menuOpenedType = undefined;
 
       // unregister events
-      document.removeEventListener('click', this.closeClickContextMenuEventListener);
-      document.removeEventListener('wheel', this.closeContextMenuEventListener);
-      document.removeEventListener('contextmenu', this.contextmenuDocumentEventListener);
-      document.removeEventListener('keydown', this.keyboardDocumentEventListener);
+      this.unregisterDocumentEvents();
     }
+  }
+
+  private registerDocumentEvents() {
+    document.addEventListener('click', this.closeClickContextMenuEventListener);
+    document.addEventListener('wheel', this.closeContextMenuEventListener);
+    document.addEventListener('contextmenu', this.contextmenuDocumentEventListener, true);
+    document.addEventListener('keydown', this.keyboardDocumentEventListener);
+  }
+
+  private unregisterDocumentEvents() {
+    document.removeEventListener('click', this.closeClickContextMenuEventListener);
+    document.removeEventListener('wheel', this.closeContextMenuEventListener);
+    document.removeEventListener('contextmenu', this.contextmenuDocumentEventListener, true);
+    document.removeEventListener('keydown', this.keyboardDocumentEventListener);
   }
 
   private allowAsClickMenu(): boolean {

@@ -67,9 +67,7 @@ export class ContextMenuDirective implements OnDestroy {
   // #region The listeners
   private contextmenuDocumentEventListener = (e: Event) => {
     // listener that closes the context menu when another one is triggered
-    if ((e instanceof PointerEvent || e instanceof MouseEvent) && e.composedPath().indexOf(this.element) === -1) {
-      this.destroyContextMenu();
-    }
+    this.destroyContextMenu();
   }
 
   private keyboardDocumentEventListener = (e: Event | KeyboardEvent) => {
@@ -96,6 +94,8 @@ export class ContextMenuDirective implements OnDestroy {
         x: e.x,
         y: e.y
       });
+
+      e.stopImmediatePropagation();
     }
   }
 
@@ -128,7 +128,7 @@ export class ContextMenuDirective implements OnDestroy {
       // register events
       document.addEventListener('click', this.closeContextMenuEventListener);
       document.addEventListener('wheel', this.closeContextMenuEventListener);
-      document.addEventListener('contextmenu', this.contextmenuDocumentEventListener);
+      document.addEventListener('contextmenu', this.contextmenuDocumentEventListener, true);
       document.addEventListener('keydown', this.keyboardDocumentEventListener);
     }
   }
@@ -142,7 +142,7 @@ export class ContextMenuDirective implements OnDestroy {
       // unregister events
       document.removeEventListener('click', this.closeContextMenuEventListener);
       document.removeEventListener('wheel', this.closeContextMenuEventListener);
-      document.removeEventListener('contextmenu', this.contextmenuDocumentEventListener);
+      document.removeEventListener('contextmenu', this.contextmenuDocumentEventListener, true);
       document.removeEventListener('keydown', this.keyboardDocumentEventListener);
     }
   }

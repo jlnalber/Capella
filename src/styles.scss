@@ -17,5 +17,6 @@ body, html {
 
     --gray-filter: invert(59%) sepia(0%) saturate(93%) hue-rotate(267deg) brightness(86%) contrast(99%);
     --border-color: #dfd7d2;
-    --default-border: 1px solid var(--border-color);
+    --default-border: 1px solid var(--border-color);    
+    --iconButtonSize: 46px;
 }

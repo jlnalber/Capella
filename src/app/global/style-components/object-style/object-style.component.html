@@ -1,1 +1,69 @@
-<p>object-style works!</p>
+<div class="wrapper">
+    @if (this.picker) {
+        <table class="styleTable">
+            <tr>
+                <!-- Filter -->
+                <td class="filterLabelCell">
+                    <label>Filter:</label>
+                </td>
+                <td>
+                    <div title="Verwende Filter">
+                        <input type="checkbox" id="filterEnabled" [(ngModel)]="this.filterEnabled">
+                        <label for="filterEnabled">Filter verwenden</label>
+                    </div>
+                    <div id="filter" class="filterWrapper roundBorderWrapper">
+                        @for (i of this.getAllFilterIterators(); track $index) {
+                            <div class="filterContainer loopContainer borderBottom">
+                                <select title="Welcher Filter soll verwendet werden?" class="select" [disabled]="!this.filterEnabled" [(ngModel)]="i.filterName">
+                                    @for (filterName of filterNames; track $index) {
+                                        <option [value]="filterName">{{ filterName }}</option>
+                                    }
+                                </select>
+                                @if (isStringFilterInput(i.filterInput)) {
+                                    <input type="text" [(ngModel)]="i.filterInput.input" [disabled]="!this.filterEnabled" title="Wert" class="input stringFilterInput filterInput"> <!-- TODO: styling, bug fixing, disable etc. -->
+                                }
+                                @else {
+                                    <input type="number" [(ngModel)]="i.filterInput.input" [disabled]="!this.filterEnabled" title="Wert" class="filterInput input numberInput">
+                                    <select title="Welche Einheit soll verwendet werden?" class="select" [disabled]="!this.filterEnabled" [(ngModel)]="i.filterInput.unit">
+                                        @for (unit of i.filterInput.getAllUnits(); track $index) {
+                                            <option [value]="unit">{{ unit }}</option>
+                                        }
+                                    </select>
+                                }
+                                <!-- <input class="input numberInput" type="number" [disabled]="!this.filterEnabled" (change)="this.onChange()" [(ngModel)]="this.lineDash[$index]" title="Line-Dash-Wert"> -->
+                                <button class="iconButton floatRight" [disabled]="!this.filterEnabled" (click)="this.removeFilter($index)"><img src="assets/trash.svg" alt="Icon" class="icon"></button>
+                            </div>
+                        }
+                        <div class="add divButton smallDivButton" [class.disabled]="!this.filterEnabled" tabindex="0" (click)="this.addFilter()">
+                            <p>
+                                <span><img [src]="'./assets/plus.svg'" class="icon iconInText smallIcon" alt="button"/></span>
+                                Hinzufügen
+                            </p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <!-- Shadow -->
+                <td>
+                    <label>Schatten:</label>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <!-- Alpha -->
+                <td>
+                    <label>Alpha:</label>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <!-- uniform size on zoom -->
+                <td>
+                    <label>Zoom:</label>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+    }
+</div>

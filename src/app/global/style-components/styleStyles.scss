@@ -1,0 +1,28 @@
+.styleTable td:last-child {
+    padding-left: 14px;
+}
+
+.styleTable tr:not(:last-child) > td {
+    padding-bottom: 7px;
+}
+
+.roundBorderWrapper {
+    padding: 7px;
+    margin-top: 7px;
+    border-radius: 7px;
+    border: var(--default-border);
+}
+
+.loopContainer {
+    padding: 7px;
+}
+
+.loopContainer .input {
+    display: unset;
+}
+
+.loopContainer .select {
+    --margin: calc((var(--iconButtonSize) - var(--button-height)) / 2);
+    margin-top: var(--margin);
+    margin-bottom: var(--margin);
+}

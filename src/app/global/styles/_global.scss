@@ -44,7 +44,6 @@
 }
 
 .iconButton {
-  --iconButtonSize: 46px;
   height: var(--iconButtonSize);
   width: var(--iconButtonSize);
   border: none;
@@ -215,11 +214,11 @@
   padding-right: var(--button-pading);
 }
 
-.button:hover, .select:hover {
+.button:hover:not(:disabled), .select:hover:not(:disabled) {
   background-color: #ffe7d8;
 }
 
-.button:focus, .button:active, .select:focus, .select:active {
+.button:focus:not(:disabled), .button:active:not(:disabled), .select:focus:not(:disabled), .select:active:not(:disabled) {
   background-color: #ffd2b6;
 }
 
@@ -257,12 +256,12 @@
   color: #fff7f2;
 }
 
-.close:focus {
-  background-color: #6b3714;
+.close:hover:not(:disabled) {
+  background-color: #634734 !important;
 }
 
-.close:hover {
-  background-color: #634734;
+.close:focus:not(:disabled), .close:active:not(:disabled) {
+  background-color: #6b3714 !important;
 }
 
 .selectContainer {

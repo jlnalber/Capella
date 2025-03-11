@@ -1,28 +1,6 @@
 @import url(../../styles/_global.scss);
-
-td:last-child {
-    padding-left: 14px;
-}
-
-tr:not(:last-child) > td {
-    padding-bottom: 7px;
-}
+@import url(../styleStyles.scss);
 
 .lineDashLabelTD {
     vertical-align: unset;
-}
-
-.lineDashContainer {
-    padding: 7px;
-}
-
-.lineDashContainer .input {
-    display: unset;
-}
-
-.lineDashWrapper {
-    padding: 7px;
-    margin-top: 7px;
-    border-radius: 7px;
-    border: var(--default-border);
 }

@@ -4,11 +4,14 @@ import { getCopyOfShadow, Shadow } from "./styleTypes";
 export default interface ObjectStyle {
     filter?: Filter[],
     shadow?: Shadow,
-    uniformSizeOnZoom?: boolean,
-    alpha?: number
+    alpha?: number,
+    uniformSizeOnZoom?: boolean
 }
 
 export const EMPTY_OBJECTSTYLE: ObjectStyle = {}
+export function getEmptyObjectStyleForCopy(): ObjectStyle {
+    return {};
+}
 
 export function getCopyOfObjectStyle(objectStyle: ObjectStyle): ObjectStyle {
     const res = {

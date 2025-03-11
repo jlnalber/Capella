@@ -1,0 +1,18 @@
+@import url(../../styles/_global.scss);
+@import url(../styleStyles.scss);
+
+.filterLabelCell {
+    vertical-align: unset;
+}
+
+.stringFilterInput {
+    max-width: 150px;
+}
+
+.filterWrapper {
+    min-width: 300px;
+}
+
+.filterContainer *:not(:last-child) {
+    margin-right: 7px;
+}

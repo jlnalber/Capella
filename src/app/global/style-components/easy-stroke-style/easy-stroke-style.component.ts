@@ -108,14 +108,19 @@ export class EasyStrokeStyleComponent extends AbstractPickerComponent<Picker<Eas
   }
 
   public set lineDashEnabled(value: boolean) {
-    if (this.picker && this.picker.value && value !== this.lineDashEnabled) {
-      if (value) {
-        this.picker.value.lineDash = this._lineDash;
+    if (this.picker) {
+      if (this.picker.value === undefined) {
+        this.picker.value = getEmptyEasyStrokeStyleForCopy();
       }
-      else {
-        this.picker.value.lineDash = undefined;
+      if (value !== this.lineDashEnabled) {
+        if (value) {
+          this.picker.value.lineDash = this._lineDash;
+        }
+        else {
+          this.picker.value.lineDash = undefined;
+        }
+        this.onChange();
       }
-      this.onChange();
     }
   }
 }

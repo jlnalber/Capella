@@ -1,18 +1,18 @@
-<div class="wrapper styleWrapper">
+<div class="wrapper">
     @if (this.picker) {
-        <table>
+        <table class="styleTable">
             <tr>
                 <td class="lineDashLabelTD">
-                    <label for="lineJoinSelector">Line dash:</label>
+                    <label>Line dash:</label>
                 </td>
                 <td>
-                    <div>
-                        <input type="checkbox" id="lineDashEnabled" title="Verwende gestrichelte Linien" [(ngModel)]="this.lineDashEnabled">
+                    <div title="Verwende gestrichelte Linien">
+                        <input type="checkbox" id="lineDashEnabled" [(ngModel)]="this.lineDashEnabled">
                         <label for="lineDashEnabled">Gestrichelte Linien verwenden</label>
                     </div>
-                    <div id="lineDash" class="lineDashWrapper">
+                    <div id="lineDash" class="lineDashWrapper roundBorderWrapper">
                         @for (i of this.lineDash; track $index) {
-                            <div class="lineDashContainer borderBottom">
+                            <div class="lineDashContainer loopContainer borderBottom">
                                 <input class="input numberInput" type="number" [disabled]="!this.lineDashEnabled" (change)="this.onChange()" [(ngModel)]="this.lineDash[$index]" title="Line-Dash-Wert">
                                 <button class="iconButton floatRight" [disabled]="!this.lineDashEnabled" (click)="this.removeLineDash($index)"><img src="assets/trash.svg" alt="Icon" class="icon"></button>
                             </div>

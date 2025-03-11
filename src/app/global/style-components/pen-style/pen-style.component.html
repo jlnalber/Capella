@@ -8,4 +8,7 @@
         <app-easy-pen-color-style [picker]="this.easyPenColorStylePicker"></app-easy-pen-color-style>
         <app-easy-pen-style-style [picker]="this.easyPenStylePicker"></app-easy-pen-style-style>
     }
+    @else {
+        <app-loading></app-loading>
+    }
 </div>

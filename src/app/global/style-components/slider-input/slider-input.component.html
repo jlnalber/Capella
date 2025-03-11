@@ -5,4 +5,7 @@
         <br>
         <input class="input" id="slider" type="range" [(ngModel)]="this.picker.value" [min]="this.min" [max]="this.max">
     }
+    @else {
+        <app-loading></app-loading>
+    }
 </div>

@@ -19,6 +19,7 @@ import { Event } from '../../essentials/event';
 import PenElement from 'src/app/whiteboard/global/classes/canvas-elements/penElement';
 import StringInputPicker from '../pickers/stringInputPicker';
 import SliderInputPicker from '../pickers/sliderInputPicker';
+import { LoadingComponent } from "../../loading/loading.component";
 
 @Component({
   selector: 'app-pen-style',
@@ -30,7 +31,8 @@ import SliderInputPicker from '../pickers/sliderInputPicker';
     IconPickerComponent,
     SliderInputComponent,
     EasyPenColorStyleComponent,
-    PreviewCanvasComponent
+    PreviewCanvasComponent,
+    LoadingComponent
 ],
   templateUrl: './pen-style.component.html',
   styleUrl: './pen-style.component.scss'

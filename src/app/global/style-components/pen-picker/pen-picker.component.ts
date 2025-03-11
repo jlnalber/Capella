@@ -4,11 +4,12 @@ import RibbonPenPicker from 'src/app/global/classes/ribbon/ribbonPenPicker';
 import { Pen } from 'src/app/whiteboard/global/interfaces/penStyle';
 import { WhiteboardService } from 'src/app/whiteboard/services/whiteboard.service';
 import AbstractPickerComponent from '../abstractPickerComponent';
+import { LoadingComponent } from "../../loading/loading.component";
 
 @Component({
   selector: 'app-pen-picker',
   standalone: true,
-  imports: [],
+  imports: [LoadingComponent],
   templateUrl: './pen-picker.component.html',
   styleUrl: './pen-picker.component.scss'
 })

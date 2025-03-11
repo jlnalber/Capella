@@ -3,11 +3,12 @@ import ColorPicker from '../pickers/colorPicker';
 import { Color, getColorAsRgbaFunction } from '../../interfaces/color';
 import { sameColors } from '../../essentials/utils';
 import AbstractPickerComponent from '../abstractPickerComponent';
+import { LoadingComponent } from "../../loading/loading.component";
 
 @Component({
   selector: 'app-color-picker',
   standalone: true,
-  imports: [],
+  imports: [LoadingComponent],
   templateUrl: './color-picker.component.html',
   styleUrl: './color-picker.component.scss'
 })

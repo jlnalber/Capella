@@ -2,13 +2,15 @@ import { Component, Input } from '@angular/core';
 import AbstractPickerComponent from '../abstractPickerComponent';
 import { FormsModule } from '@angular/forms';
 import SliderInputPicker from '../pickers/sliderInputPicker';
+import { LoadingComponent } from "../../loading/loading.component";
 
 @Component({
   selector: 'app-slider-input',
   standalone: true,
   imports: [
-    FormsModule
-  ],
+    FormsModule,
+    LoadingComponent
+],
   templateUrl: './slider-input.component.html',
   styleUrl: './slider-input.component.scss'
 })

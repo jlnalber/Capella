@@ -4,13 +4,15 @@ import { EasyStrokeStyle, getEmptyEasyStrokeStyleForCopy } from '../../interface
 import AbstractPickerComponent from '../abstractPickerComponent';
 import { ALL_LINECAP, ALL_LINEJOIN, DEFAULT_LINECAP, DEFAULT_LINEJOIN, LineCap, LineJoin } from '../../interfaces/canvasStyles/styleTypes';
 import { FormsModule } from '@angular/forms';
+import { LoadingComponent } from "../../loading/loading.component";
 
 @Component({
   selector: 'app-easy-stroke-style',
   standalone: true,
   imports: [
-    FormsModule
-  ],
+    FormsModule,
+    LoadingComponent
+],
   templateUrl: './easy-stroke-style.component.html',
   styleUrl: './easy-stroke-style.component.scss'
 })

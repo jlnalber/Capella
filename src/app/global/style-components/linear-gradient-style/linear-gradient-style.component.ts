@@ -4,14 +4,16 @@ import { LinearGradient } from '../../interfaces/canvasStyles/colorStyle';
 import { GradientStopsComponent } from "../gradient-stops/gradient-stops.component";
 import { FormsModule } from '@angular/forms';
 import GradientStyle from '../gradient-stops/gradientStyle';
+import { LoadingComponent } from "../../loading/loading.component";
 
 @Component({
   selector: 'app-linear-gradient-style',
   standalone: true,
   imports: [
     GradientStopsComponent,
-    FormsModule
-  ],
+    FormsModule,
+    LoadingComponent
+],
   templateUrl: './linear-gradient-style.component.html',
   styleUrl: './linear-gradient-style.component.scss'
 })

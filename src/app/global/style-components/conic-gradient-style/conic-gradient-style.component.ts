@@ -5,14 +5,16 @@ import { ConicGradient, GradientColorStop } from '../../interfaces/canvasStyles/
 import { FormsModule } from '@angular/forms';
 import { GradientStopsComponent } from '../gradient-stops/gradient-stops.component';
 import GradientStyle from '../gradient-stops/gradientStyle';
+import { LoadingComponent } from "../../loading/loading.component";
 
 @Component({
   selector: 'app-conic-gradient-style',
   standalone: true,
   imports: [
     FormsModule,
-    GradientStopsComponent
-  ],
+    GradientStopsComponent,
+    LoadingComponent
+],
   templateUrl: './conic-gradient-style.component.html',
   styleUrl: './conic-gradient-style.component.scss'
 })

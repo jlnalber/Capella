@@ -3,13 +3,15 @@ import Picker from '../pickers/picker';
 import AbstractPickerComponent from '../abstractPickerComponent';
 import { PenIcon, IconObj, PEN_ICONS_LIST } from '../../interfaces/icon';
 import { FormsModule } from '@angular/forms';
+import { LoadingComponent } from "../../loading/loading.component";
 
 @Component({
   selector: 'app-icon-picker',
   standalone: true,
   imports: [
-    FormsModule
-  ],
+    FormsModule,
+    LoadingComponent
+],
   templateUrl: './icon-picker.component.html',
   styleUrl: './icon-picker.component.scss'
 })

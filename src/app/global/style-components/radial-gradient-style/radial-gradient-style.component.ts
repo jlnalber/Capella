@@ -4,14 +4,16 @@ import { RadialGradient } from '../../interfaces/canvasStyles/colorStyle';
 import { FormsModule } from '@angular/forms';
 import { GradientStopsComponent } from '../gradient-stops/gradient-stops.component';
 import GradientStyle from '../gradient-stops/gradientStyle';
+import { LoadingComponent } from "../../loading/loading.component";
 
 @Component({
   selector: 'app-radial-gradient-style',
   standalone: true,
   imports: [
     FormsModule,
-    GradientStopsComponent
-  ],
+    GradientStopsComponent,
+    LoadingComponent
+],
   templateUrl: './radial-gradient-style.component.html',
   styleUrl: './radial-gradient-style.component.scss'
 })

@@ -11,13 +11,15 @@ import { BLACK, Color } from '../../interfaces/color';
 import { ColorPickerComponent } from "../color-picker/color-picker.component";
 import ColorPicker from '../pickers/colorPicker';
 import { WhiteboardService } from 'src/app/whiteboard/services/whiteboard.service';
+import { LoadingComponent } from "../../loading/loading.component";
 
 @Component({
   selector: 'app-object-style',
   standalone: true,
   imports: [
     FormsModule,
-    ColorPickerComponent
+    ColorPickerComponent,
+    LoadingComponent
 ],
   templateUrl: './object-style.component.html',
   styleUrl: './object-style.component.scss'

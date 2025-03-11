@@ -12,7 +12,7 @@
 
 .divButton {
   background: #fff7f2;
-  transition: 0.1s all ease-in-out;
+  transition: var(--default-transition);
 }
 
 .divButton.disabled, .divButton:disabled {
@@ -49,7 +49,7 @@
   border: none;
   outline: none;
   background: #fff7f2;
-  transition: all 0.1s ease-in-out;
+  transition: var(--default-transition);
   border-radius: 50%;
   -webkit-user-select: none;
   user-select: none;
@@ -145,7 +145,7 @@
   border-radius: 5px;
   outline: none;
   background: #efe7e2;
-  transition: 0.1s all ease-in-out;
+  transition: var(--default-transition);
   color: #555;
 }
 
@@ -168,7 +168,7 @@
   --padding: 5px;
   padding: var(--padding);
   height: calc(var(--fontSize) + 2 * var(--padding));
-  transition: all 0.1s ease-in-out;
+  transition: var(--default-transition);
   font-size: var(--fontSize);
   font-family: 'Segoe UI', Calibri, 'sans-serif';
 }
@@ -185,7 +185,7 @@
 
 .select, .button {
   outline: none;
-  transition: all 0.1s ease-in-out;
+  transition: var(--default-transition);
   font-family: "Trebuchet MS", 'Segoe UI', Calibri, 'sans-serif';
   font-size: 12pt;
   color: #885739;

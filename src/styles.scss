@@ -19,4 +19,6 @@ body, html {
     --border-color: #dfd7d2;
     --default-border: 1px solid var(--border-color);    
     --iconButtonSize: 46px;
+    --slow-transition: all 0.2s linear;
+    --default-transition: all 0.1s ease-in-out;
 }

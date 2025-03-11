@@ -61,21 +61,49 @@ export class EasyStrokeStyleComponent extends AbstractPickerComponent<Picker<Eas
   get lineCaps(): LineCap[] {
     return ALL_LINECAP
   }
+  
+
+  public get lineDashOffsetEnabled(): boolean {
+    return this.picker?.value?.lineDashOffset !== undefined;
+  }
+  
+  public set lineDashOffsetEnabled(value: boolean) {
+    if (this.picker) {
+      if (this.picker.value === undefined) {
+        this.picker.value = getEmptyEasyStrokeStyleForCopy();
+      }
+      if (value !== this.lineDashOffsetEnabled) {
+        if (value) {
+          this.picker.value.lineDashOffset = this._lineDashOffset;
+        }
+        else {
+          this.picker.value.lineDashOffset = undefined;
+        }
+        this.onChange();
+      }
+    }
+  }
+
+  private _lineDashOffset: number = 0;
 
   public get lineDashOffset(): number {
-    return this.picker?.value?.lineDashOffset ?? 0;
+    if (this.picker && this.picker.value && this.picker.value.lineDashOffset !== undefined) {
+      this._lineDashOffset = this.picker.value.lineDashOffset;
+    }
+    return this._lineDashOffset;
   }
 
   public set lineDashOffset(value: number) {
     if (this.picker) {
-      if (this.picker.value === undefined) {
-        const ess = getEmptyEasyStrokeStyleForCopy();
-        ess.lineDashOffset = value;
-        this.picker.value = ess;
-      }
-      else {
+      this._lineDashOffset = value;
+
+      if (this.lineDashOffsetEnabled) {
+        if (this.picker.value === undefined) {
+          this.picker.value = getEmptyEasyStrokeStyleForCopy();
+        }
         this.picker.value.lineDashOffset = value;
       }
+
       this.onChange();
     }
   }

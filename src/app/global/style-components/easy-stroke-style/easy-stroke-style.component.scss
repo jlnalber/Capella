@@ -1,6 +1,10 @@
 @import url(../../styles/_global.scss);
 @import url(../styleStyles.scss);
 
-.lineDashLabelTD {
+.lineDashLabelTD, .lineDashOffsetLabelTD {
     vertical-align: unset;
+}
+
+#lineDashOffsetInput {
+    margin-top: 7px;
 }

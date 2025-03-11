@@ -1,9 +1,9 @@
-<div class="divider">
+<div class="divider" [class.disabled]="this.picker?.isDisabled()">
     <label class="dividerLabel accentColor" [class.dividerLabelWhite]="this.picker?.whiteBackground">Farbe auswählen</label>
     <div class="colorWrapper">
         @if (this.picker) {
             @for (color of this.picker.getAllColors(); track $index) {
-                <div class="color" [class.activeColor]="this.isActiveColor(color)" (click)="this.picker.value = color">
+                <div class="color" [class.activeColor]="this.isActiveColor(color)" (click)="click(color)">
                     <div class="bg" [style.background]="this.getStyleToColor(color)"></div>
                 </div>
             }

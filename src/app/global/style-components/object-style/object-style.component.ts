@@ -1,5 +1,4 @@
 import { ANGLE_MEASUREMENT_UNITS, AngleUnit, LENGTH_MEASUREMENT_UNITS, LengthUnit, PERCENTAGE_MEASUREMENT_UNITS, PercentageUnit } from './../../interfaces/canvasStyles/unitTypes';
-import { LengthMeasurementFilter } from './../../interfaces/canvasStyles/filterTypes';
 import { Component, Input } from '@angular/core';
 import AbstractPickerComponent from '../abstractPickerComponent';
 import ObjectStyle, { getEmptyObjectStyleForCopy } from '../../interfaces/canvasStyles/objectStyle';
@@ -7,18 +6,239 @@ import Picker from '../pickers/picker';
 import { ALL_FILTERS, Filter, FilterName, getDefaultFilter, isAngleMeasurementFilter, isAngleMeasurementFilterName, isLengthMeasurementFilter, isLengthMeasurementFilterName, isPercentageMeasurementFilter, isPercentageMeasurementFilterName, isStringFilter, isStringFilterName, LengthMeasurementFilterName, MeasurementFilter, MeasurementFilterName, StringFilter } from '../../interfaces/canvasStyles/filterTypes';
 import { FormsModule } from '@angular/forms';
 import { Unit } from '../../interfaces/canvasStyles/unitTypes';
+import { DEFAULT_ALPHA, DEFAULT_SHADOW, getCopyOfShadow, Shadow } from '../../interfaces/canvasStyles/styleTypes';
+import { BLACK, Color } from '../../interfaces/color';
+import { ColorPickerComponent } from "../color-picker/color-picker.component";
+import ColorPicker from '../pickers/colorPicker';
+import { WhiteboardService } from 'src/app/whiteboard/services/whiteboard.service';
 
 @Component({
   selector: 'app-object-style',
   standalone: true,
   imports: [
-    FormsModule
-  ],
+    FormsModule,
+    ColorPickerComponent
+],
   templateUrl: './object-style.component.html',
   styleUrl: './object-style.component.scss'
 })
 export class ObjectStyleComponent extends AbstractPickerComponent<Picker<ObjectStyle>, ObjectStyle> {
   @Input({required: true}) public picker?: Picker<ObjectStyle>;
+
+  constructor(protected readonly whiteboardService: WhiteboardService) {
+    super();
+  }
+
+  private _shadow: Shadow = getCopyOfShadow(DEFAULT_SHADOW);
+
+  public get shadowEnabled(): boolean {
+    return this.picker?.value?.shadow !== undefined;
+  }
+
+  public set shadowEnabled(value: boolean) {
+    if (this.picker) {
+      if (this.picker.value === undefined) {
+        this.picker.value = getEmptyObjectStyleForCopy();
+      }
+      if (value !== this.shadowEnabled) {
+        if (value) {
+          this.picker.value.shadow = this._shadow;
+        }
+        else {
+          this.picker.value.shadow = undefined;
+        }
+        this.onChange();
+      }
+    }
+  }
+  
+  public get shadow(): Shadow {
+    if (this.picker && this.picker.value && this.picker.value.shadow !== undefined) {
+      this._shadow = this.picker.value.shadow;
+    }
+    return this._shadow;
+  }
+
+  public set shadow(value: Shadow) {
+    if (this.picker) {
+      this._shadow = value;
+
+      if (this.shadowEnabled) {
+        if (this.picker.value === undefined) {
+          this.picker.value = getEmptyObjectStyleForCopy();
+        }
+        this.picker.value.shadow = value;
+      }
+
+      this.onChange();
+    }
+  }
+
+  public get shadowBlur(): number {
+    if (this.picker && this.picker.value && this.picker.value.shadow !== undefined) {
+      this._shadow = this.picker.value.shadow;
+    }
+    return this._shadow.blur;
+  }
+
+  public set shadowBlur(value: number) {
+    if (this.picker) {
+      this._shadow.blur = value;
+
+      if (this.shadowEnabled) {
+        if (this.picker.value === undefined) {
+          this.picker.value = getEmptyObjectStyleForCopy();
+        }
+        if (this.picker.value.shadow === undefined) {
+          this.picker.value.shadow = this._shadow;
+        }
+        this.picker.value.shadow.blur = value;
+      }
+
+      this.onChange();
+    }
+  }
+
+  public get shadowOffsetX(): number {
+    if (this.picker && this.picker.value && this.picker.value.shadow !== undefined) {
+      this._shadow = this.picker.value.shadow;
+    }
+    return this._shadow.offsetX;
+  }
+
+  public set shadowOffsetX(value: number) {
+    if (this.picker) {
+      this._shadow.offsetX = value;
+
+      if (this.shadowEnabled) {
+        if (this.picker.value === undefined) {
+          this.picker.value = getEmptyObjectStyleForCopy();
+        }
+        if (this.picker.value.shadow === undefined) {
+          this.picker.value.shadow = this._shadow;
+        }
+        this.picker.value.shadow.offsetX = value;
+      }
+
+      this.onChange();
+    }
+  }
+
+  public get shadowOffsetY(): number {
+    if (this.picker && this.picker.value && this.picker.value.shadow !== undefined) {
+      this._shadow = this.picker.value.shadow;
+    }
+    return this._shadow.offsetY;
+  }
+
+  public set shadowOffsetY(value: number) {
+    if (this.picker) {
+      this._shadow.offsetY = value;
+
+      if (this.shadowEnabled) {
+        if (this.picker.value === undefined) {
+          this.picker.value = getEmptyObjectStyleForCopy();
+        }
+        if (this.picker.value.shadow === undefined) {
+          this.picker.value.shadow = this._shadow;
+        }
+        this.picker.value.shadow.offsetY = value;
+      }
+
+      this.onChange();
+    }
+  }
+
+  public get shadowColor(): Color {
+    if (this.picker && this.picker.value && this.picker.value.shadow !== undefined) {
+      this._shadow = this.picker.value.shadow;
+    }
+    return this._shadow.color;
+  }
+
+  public set shadowColor(value: Color) {
+    if (this.picker) {
+      this._shadow.color = value;
+
+      if (this.shadowEnabled) {
+        if (this.picker.value === undefined) {
+          this.picker.value = getEmptyObjectStyleForCopy();
+        }
+        if (this.picker.value.shadow === undefined) {
+          this.picker.value.shadow = this._shadow;
+        }
+        this.picker.value.shadow.color = value;
+      }
+
+      this.onChange();
+    }
+  }
+
+  public shadowColorPicker: ColorPicker = new ColorPicker(this.whiteboardService.settings.getColors(), () => this.shadowColor, (val?: Color) => this.shadowColor = val ?? BLACK, () => !this.shadowEnabled, true);
+
+
+  private _alpha: number = DEFAULT_ALPHA;
+
+  public get alphaEnabled(): boolean {
+    return this.picker?.value?.alpha !== undefined;
+  }
+  
+  public set alphaEnabled(value: boolean) {
+    if (this.picker) {
+      if (this.picker.value === undefined) {
+        this.picker.value = getEmptyObjectStyleForCopy();
+      }
+      if (value !== this.alphaEnabled) {
+        if (value) {
+          this.picker.value.alpha = this._alpha;
+        }
+        else {
+          this.picker.value.alpha = undefined;
+        }
+        this.onChange();
+      }
+    }
+  }
+
+  public get alpha(): number {
+    if (this.picker && this.picker.value && this.picker.value.alpha !== undefined) {
+      this._alpha = this.picker.value.alpha;
+    }
+    return this._alpha;
+  }
+
+  public set alpha(value: number) {
+    if (this.picker) {
+      this._alpha = value;
+
+      if (this.alphaEnabled) {
+        if (this.picker.value === undefined) {
+          this.picker.value = getEmptyObjectStyleForCopy();
+        }
+        this.picker.value.alpha = value;
+      }
+
+      this.onChange();
+    }
+  }
+
+  
+  public get uniformSizeOnZoom(): boolean {
+    return this.picker?.value?.uniformSizeOnZoom === true;
+  }
+
+  public set uniformSizeOnZoom(value: boolean) {
+    if (this.picker) {
+      if (this.picker.value === undefined) {
+        this.picker.value = getEmptyObjectStyleForCopy();
+      }
+      if (value !== this.uniformSizeOnZoom) {
+        this.picker.value.uniformSizeOnZoom = value;
+        this.onChange();
+      }
+    }
+  }
+
 
   private _filter: Filter[] = [];
 

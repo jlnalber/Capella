@@ -1,8 +1,8 @@
-.styleTable td:last-child {
+.styleTable > tr > td:last-child {
     padding-left: 14px;
 }
 
-.styleTable tr:not(:last-child) > td {
+.styleTable > tr:not(:last-child) > td {
     padding-bottom: 7px;
 }
 

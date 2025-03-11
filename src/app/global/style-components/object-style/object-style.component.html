@@ -3,7 +3,7 @@
         <table class="styleTable">
             <tr>
                 <!-- Filter -->
-                <td class="filterLabelCell">
+                <td class="filterLabelTD">
                     <label>Filter:</label>
                 </td>
                 <td>
@@ -30,7 +30,6 @@
                                         }
                                     </select>
                                 }
-                                <!-- <input class="input numberInput" type="number" [disabled]="!this.filterEnabled" (change)="this.onChange()" [(ngModel)]="this.lineDash[$index]" title="Line-Dash-Wert"> -->
                                 <button class="iconButton floatRight" [disabled]="!this.filterEnabled" (click)="this.removeFilter($index)"><img src="assets/trash.svg" alt="Icon" class="icon"></button>
                             </div>
                         }
@@ -45,24 +44,70 @@
             </tr>
             <tr>
                 <!-- Shadow -->
-                <td>
+                <td class="shadowLabelTD">
                     <label>Schatten:</label>
                 </td>
-                <td></td>
+                <td>
+                    <div title="Verwende Schatten">
+                        <input type="checkbox" id="shadowEnabled" [(ngModel)]="this.shadowEnabled">
+                        <label for="shadowEnabled">Schatten verwenden</label>
+                    </div>
+                    <div class="shadowWrapper" [class.disabled]="!this.shadowEnabled">
+                        <table class="styleTable">
+                            <tr>
+                                <td class="shadowColorLabelTD"><label for="shadowColor">Farbe:</label></td>
+                                <td>
+                                    <app-color-picker id="shadowColor" [picker]="this.shadowColorPicker"></app-color-picker>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="shadowBlur">Blur:</label></td>
+                                <td>
+                                    <input id="shadowBlur" type="number" [(ngModel)]="this.shadowBlur" [disabled]="!this.shadowEnabled" title="Blur" class="shadowInput input numberInput">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="shadowOffsetX">Offset x:</label></td>
+                                <td>
+                                    <input id="shadowOffsetX" type="number" [(ngModel)]="this.shadowOffsetX" [disabled]="!this.shadowEnabled" title="Offset x" class="filterInput input numberInput">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="shadowOffsetY">Offset y:</label></td>
+                                <td>
+                                    <input id="shadowOffsetY" type="number" [(ngModel)]="this.shadowOffsetY" [disabled]="!this.shadowEnabled" title="Offset y" class="filterInput input numberInput">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <!-- Alpha -->
-                <td>
-                    <label>Alpha:</label>
+                <td class="alphaLabelTD">
+                    <label for="alphaInput">Alpha:</label>
                 </td>
-                <td></td>
+                <td>
+                    <div title="Verwende Alpha">
+                        <input type="checkbox" id="alphaEnabled" [(ngModel)]="this.alphaEnabled">
+                        <label for="alphaEnabled">Alpha verwenden</label>
+                    </div>
+                    <div class="alphaWrapper">
+                        <input id="alphaInput" [disabled]="!this.alphaEnabled" class="input numberInput" type="number" step="0.1" [(ngModel)]="this.alpha">
+                    </div>
+                </td>
             </tr>
             <tr>
                 <!-- uniform size on zoom -->
                 <td>
                     <label>Zoom:</label>
                 </td>
-                <td></td>
+                <td>
+                    <div title="Beim Zoomen soll sich die sichtbare Größe nicht verändern">
+                        <input type="checkbox" id="useUniformSizeOnZoom" [(ngModel)]="this.uniformSizeOnZoom">
+                        <label for="useUniformSizeOnZoom">Einheitliche Größe beim Zoom verwenden</label>
+                    </div>
+                </td>
             </tr>
         </table>
     }

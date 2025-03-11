@@ -3,7 +3,7 @@
 .addDiv {
   height: 62px;
   background: #fff7f2;
-  transition: 0.1s all ease-in-out;
+  transition: var(--default-transition);
   line-height: 62px;
   border-bottom: var(--default-border);
 }

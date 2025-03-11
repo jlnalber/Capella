@@ -13,7 +13,7 @@
   font-family: "Segoe UI", sans-serif;
   border-radius: var(--borderRadius);
   background: #fff7f2;
-  transition: 0.1s all ease-in-out;
+  transition: var(--default-transition);
 }
 
 .element:hover {

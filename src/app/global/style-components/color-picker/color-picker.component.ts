@@ -22,4 +22,10 @@ export class ColorPickerComponent extends AbstractPickerComponent<ColorPicker, C
   getStyleToColor(c: Color): string {
     return getColorAsRgbaFunction(c);
   }
+
+  click(c: Color): void {
+    if (this.picker && !this.picker.isDisabled()) {
+      this.picker.value = c;
+    }
+  }
 }

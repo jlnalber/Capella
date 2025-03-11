@@ -2,9 +2,8 @@
 
 $size: 30px;
 $borderStandard: 2px;
-$activeBorder: 3px;
+$activeBorder: 2px;
 $pad: 2px;
-$whn: calc($size - 2 * $activeBorder + 2 * $borderStandard - 2 * $pad);
 $margin: 7px;
 
 .colorWrapper .color {
@@ -14,29 +13,40 @@ $margin: 7px;
     display: inline-block;
     margin: $margin;
     overflow: hidden;
-    transition: all 0.2s linear; /* not working because it is constantly checking for new ones and thus reloading, Sirius? */
+    transition: var(--slow-transition); /* not working because it is constantly checking for new ones and thus reloading, Sirius? */
     border: $borderStandard solid #00000028;
     padding: 0px;
 }
 
 .colorWrapper {
-    transition: all 0.2s linear;
+    transition: var(--slow-transition);
     max-width: 300px;
 }
 
+.divider.disabled .color {
+    filter: opacity(50%);
+}
+
+.divider.disabled .dividerLabel {
+    color: gray !important;
+}
+
 .bg {
-    width: 100%;
-    height: 100%;
+    height: -webkit-fill-available;
     border-radius: 50%;
-    transition: all 0.2s linear;
+    transition: var(--slow-transition);
 }
 
 .activeColor {
-    transition: all 0.2s linear;
+    transition: var(--slow-transition);
     border: $activeBorder solid #000000cc !important;
-    width: $whn !important;
-    height: $whn !important;
-    padding: $pad !important;
+    /*padding: $pad !important;*/
+}
+
+.activeColor .bg {
+    --activeBorder: 3px;
+    border: var(--activeBorder) solid white;
+    display: flex;
 }
 
 .dividerLabelWhite {

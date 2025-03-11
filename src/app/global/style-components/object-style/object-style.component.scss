@@ -1,7 +1,7 @@
 @import url(../../styles/_global.scss);
 @import url(../styleStyles.scss);
 
-.filterLabelCell {
+.filterLabelTD, .alphaLabelTD, .shadowLabelTD, .shadowColorLabelTD {
     vertical-align: unset;
 }
 
@@ -15,4 +15,13 @@
 
 .filterContainer *:not(:last-child) {
     margin-right: 7px;
+}
+
+.alphaWrapper, .shadowWrapper {
+    margin-top: 7px;
+    transition: var(--default-transition);
+}
+
+.shadowWrapper.disabled {
+    color: gray;
 }

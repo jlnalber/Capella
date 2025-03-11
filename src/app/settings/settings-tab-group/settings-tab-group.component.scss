@@ -41,7 +41,7 @@
     text-align: center;
     line-height: var(--sizeHeight);
     border-radius: var(--borderRadius);
-    transition: 0.1s all ease-in-out;
+    transition: var(--default-transition);
     font-family: 'Segoe UI', Calibri, 'sans-serif';
 }
   

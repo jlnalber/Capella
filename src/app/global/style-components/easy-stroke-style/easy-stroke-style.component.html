@@ -28,11 +28,15 @@
                 <!-- line dash und line dash offset -->
             </tr>
             <tr>
-                <td>
+                <td class="lineDashOffsetLabelTD">
                     <label for="lineDashOffsetInput">Line dash offset:</label>
                 </td>
                 <td>
-                    <input id="lineDashOffsetInput" class="input numberInput" type="number" step="any" [(ngModel)]="this.lineDashOffset">
+                    <div title="Verwende Offset für gestrichelte Linien">
+                        <input type="checkbox" id="lineDashOffsetEnabled" [(ngModel)]="this.lineDashOffsetEnabled">
+                        <label for="lineDashOffsetEnabled">Offset für gestrichelte Linien verwenden</label>
+                    </div>
+                    <input id="lineDashOffsetInput" [disabled]="!this.lineDashOffsetEnabled" class="input numberInput" type="number" step="any" [(ngModel)]="this.lineDashOffset">
                 </td>
             </tr>
             <tr>

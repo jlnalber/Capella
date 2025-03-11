@@ -36,6 +36,8 @@ export class ViewPensComponent extends AbstractSettingsComponent implements OnDe
         disabled: isDefault,
         click: () => {
           const picker = new Picker<Pen>(() => {
+            const a = getCopyOfPen(p[0]);
+            console.log(a);
             return getCopyOfPen(p[0]);
           }, (pen?: Pen) => p[0] = pen ?? p[0]);
           const pickerDialogData: PickerDialogData<PenStyleComponent, Pen> = {
@@ -91,6 +93,7 @@ export class ViewPensComponent extends AbstractSettingsComponent implements OnDe
   }
 
   protected save() {
+    console.log(this.additionalPens.map(p => p[0]));
     this.whiteboardService.settings.setAdditionalPens(this.additionalPens.map(p => p[0]));
   }
 

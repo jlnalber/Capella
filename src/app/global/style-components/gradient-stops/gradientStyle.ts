@@ -1,4 +1,3 @@
-import { AfterViewInit } from "@angular/core";
 import { Gradient, GradientColorStop } from "../../interfaces/canvasStyles/colorStyle";
 import AbstractPickerComponent from "../abstractPickerComponent";
 import Picker from "../pickers/picker";
@@ -9,7 +8,10 @@ export default abstract class GradientStyle<T extends Gradient> extends Abstract
   
   protected init() {
     setTimeout(() => {
-      this.gradientStopPicker = new Picker<GradientColorStop[]>(() => this.picker?.value?.stops, (stops?: GradientColorStop[]) => {
+      this.gradientStopPicker = new Picker<GradientColorStop[]>(() => {
+        console.log(this.picker, this.picker?.value)
+        return this.picker?.value?.stops;
+      }, (stops?: GradientColorStop[]) => {
         if (stops && this.picker !== undefined && this.picker.value !== undefined) {
           this.picker.value.stops = stops;
           this.picker.triggerChange();

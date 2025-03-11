@@ -14,10 +14,13 @@
                 <span><input title="y" type="number" step="any" (change)="this.onChange()" class="input" [disabled]="this.picker.isDisabled()" [(ngModel)]="this.picker.value.endPoint.y"></span>
             </div>
         </div>
-        @if (this.gradientStopPicker) {
+        @if (this.gradientStopPicker && this.gradientStopPicker.value) {
             <div class="gradientStops">
                 <app-gradient-stops [picker]="this.gradientStopPicker"></app-gradient-stops>
             </div>
+        }
+        @else {
+            <app-loading></app-loading>
         }
     }
     @else {

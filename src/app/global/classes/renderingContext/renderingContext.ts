@@ -99,10 +99,10 @@ export class RenderingContext extends AbstractRenderingContext {
         // conic gradient
         gradient = this.ctx.createConicGradient(colorStyle.startAngle, colorStyle.center.x, colorStyle.center.y);
       }
-
+      
       // add the stops
       for (let stop of colorStyle.stops) {
-        gradient.addColorStop(stop[0], getColorAsRgbaFunction(this.getRightColor(stop[1], this.config)));
+        gradient.addColorStop(Math.max(0, Math.min(stop[0], 1)), getColorAsRgbaFunction(this.getRightColor(stop[1], this.config)));
       }
       return gradient;
     }

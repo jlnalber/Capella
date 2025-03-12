@@ -51,8 +51,8 @@ export class QuickActionsComponent {
 
   private setPenStyleForPointerType(p: Pen, pointerType: PointerType): void {
     const dict = {
-      'touch': 'mouse',
-      'mouse': 'pen',
+      'touch': 'pen',
+      'mouse': 'touch',
       'pen': 'mouse'
     }
 

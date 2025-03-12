@@ -53,7 +53,7 @@ export type EasyPenColorStyle = Gradient | Pattern | number;
 
 function getColorStyleOfPen(p: Pen, pens: Pen[], c?: Color): ColorStyle {
     if (p.colorStyle === undefined) {
-        return c ?? p.color;
+        return p.color;
     }
     else if (typeof p.colorStyle === 'number') {
         return getColorStyleOfPen(pens[p.colorStyle], pens, c ?? p.color);
@@ -68,6 +68,7 @@ function getColorStyleOfPen(p: Pen, pens: Pen[], c?: Color): ColorStyle {
 
 export function getPenStyleOfPen(pen: Pen, pens: Pen[]): PenStyle {
     const color: ColorStyle = getColorStyleOfPen(pen, pens);
+    console.log(color, pen, pens)
 
     const strokeStyle: StrokeStyle = {
         ...pen.penStyle.strokeStyle,

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChoosePenStyleComponent } from './choose-pen-style.component';
+import { ChoosePenComponent } from './choose-pen.component';
 
 describe('ChoosePenStyleComponent', () => {
-  let component: ChoosePenStyleComponent;
-  let fixture: ComponentFixture<ChoosePenStyleComponent>;
+  let component: ChoosePenComponent;
+  let fixture: ComponentFixture<ChoosePenComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ChoosePenStyleComponent]
+      imports: [ChoosePenComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(ChoosePenStyleComponent);
+    fixture = TestBed.createComponent(ChoosePenComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

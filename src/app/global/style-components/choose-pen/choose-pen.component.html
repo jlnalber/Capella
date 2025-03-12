@@ -1,0 +1,13 @@
+<div class="wrapper selectContainer">
+    @if (this.picker !== undefined && this.value !== undefined) {
+        <img [src]="'./assets/' + getPenFor(this.value)!.icon + '.svg'" class="icon" alt="icon">
+        <select class="select" [(ngModel)]="this.value" title="Stift auswählen">
+            @for (pen of this.picker.penList; track $index) {
+                <option [value]="$index">{{ pen.name }}</option>
+            }
+        </select>
+    }
+    @else {
+        <app-loading></app-loading>
+    }
+</div>

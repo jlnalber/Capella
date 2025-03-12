@@ -1,5 +1,5 @@
 <div class="wrapper">
-    @if (this.picker && this.picker.value) {
+    @if (this.picker) {
         <label class="paragraph">Stiftart auswählen:</label><br>
 
         <input type="radio" id="color" value="color" [(ngModel)]="this.selectedType">
@@ -10,7 +10,7 @@
         @if (this.selectedType === "otherpen") {
             @if (this.otherPenPicker) {
                 <div class="wrapperForStyle">
-                    <app-choose-pen-style [picker]="this.otherPenPicker"></app-choose-pen-style>
+                    <app-choose-pen [picker]="this.otherPenPicker"></app-choose-pen>
                 </div>
             }
             @else {

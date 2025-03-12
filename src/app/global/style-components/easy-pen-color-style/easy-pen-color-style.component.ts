@@ -9,7 +9,7 @@ import { RadialGradientStyleComponent } from "../radial-gradient-style/radial-gr
 import { ConicGradientStyleComponent } from "../conic-gradient-style/conic-gradient-style.component";
 import { LinearGradientStyleComponent } from "../linear-gradient-style/linear-gradient-style.component";
 import { PatternStyleComponent } from "../pattern-style/pattern-style.component";
-import { ChoosePenStyleComponent } from "../choose-pen-style/choose-pen-style.component";
+import { ChoosePenComponent } from "../choose-pen/choose-pen.component";
 import PenPicker from '../pickers/penPicker';
 import { WhiteboardService } from 'src/app/whiteboard/services/whiteboard.service';
 import { LoadingComponent } from "../../loading/loading.component";
@@ -25,7 +25,7 @@ type Types = 'color' | 'otherpen' | 'radialgrad' | 'conicgrad' | 'lineargrad' | 
     ConicGradientStyleComponent,
     LinearGradientStyleComponent,
     PatternStyleComponent,
-    ChoosePenStyleComponent,
+    ChoosePenComponent,
     LoadingComponent
 ],
   templateUrl: './easy-pen-color-style.component.html',

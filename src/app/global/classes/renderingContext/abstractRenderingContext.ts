@@ -8,8 +8,9 @@ import FillStyle from "src/app/global/interfaces/canvasStyles/fillStyle";
 import ObjectStyle from "src/app/global/interfaces/canvasStyles/objectStyle";
 import TextStyle from "src/app/global/interfaces/canvasStyles/textStyle";
 import ImageStyle from "src/app/global/interfaces/canvasStyles/imageStyle";
-import { Path, PenPoint, ThicknessSettings } from "../../interfaces/penPoint";
+import { PenPoint, ThicknessSettings } from "../../interfaces/penPoint";
 import { QuadraticBezier } from "./renderingUtils";
+import { Circle } from "../../interfaces/circle";
 
 export const LINE_DASH = [10, 10]
 
@@ -118,6 +119,41 @@ export default abstract class AbstractRenderingContext {
       y: r.y * this.resolutionFactor,
       width: r.width * this.resolutionFactor,
       height: r.height * this.resolutionFactor
+    }
+  }
+
+  public transformCircleFromCanvasToField(circle: Circle): Circle {
+    let center = this.transformPointFromCanvasToField(circle);
+    return {
+      x: center.x,
+      y: center.y,
+      radius: circle.radius / this.transformations.zoom
+    }
+  }
+
+  public transformCircleFromCanvasToFieldWithResolutionFactor(circle: Circle): Circle {
+    return this.transformCircleFromCanvasToField({
+      x: circle.x / this.resolutionFactor,
+      y: circle.y / this.resolutionFactor,
+      radius: circle.radius / this.resolutionFactor
+    });
+  }
+
+  public transformCircleFromFieldToCanvas(circle: Circle): Circle {
+    let center = this.transformPointFromFieldToCanvas(circle);
+    return {
+      x: center.x,
+      y: center.y,
+      radius: circle.radius * this.transformations.zoom
+    }
+  }
+
+  public transformCircleFromFieldToCanvasWithResolutionFactor(circle: Circle): Circle {
+    let c = this.transformCircleFromFieldToCanvas(circle);
+    return {
+      x: c.x * this.resolutionFactor,
+      y: c.y * this.resolutionFactor,
+      radius: c.radius * this.resolutionFactor
     }
   }
 

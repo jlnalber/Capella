@@ -89,15 +89,20 @@ export class RenderingContext extends AbstractRenderingContext {
       let gradient: CanvasGradient;
       if (instanceOfLinearGradient(colorStyle)) {
         // linear gradient
-        gradient = this.ctx.createLinearGradient(colorStyle.startPoint.x, colorStyle.startPoint.y, colorStyle.endPoint.x, colorStyle.endPoint.y);
+        const realStartPoint = this.transformPointFromFieldToCanvasWithResolutionFactor(colorStyle.startPoint);
+        const realEndPoint = this.transformPointFromFieldToCanvasWithResolutionFactor(colorStyle.endPoint);
+        gradient = this.ctx.createLinearGradient(realStartPoint.x, realStartPoint.y, realEndPoint.x, realEndPoint.y);
       }
       else if (instanceOfRadialGradient(colorStyle)) {
         // radial gradient
-        gradient = this.ctx.createRadialGradient(colorStyle.startCircle.x, colorStyle.startCircle.y, colorStyle.startCircle.radius, colorStyle.endCircle.x, colorStyle.endCircle.y, colorStyle.endCircle.radius);
+        const realStartCircle = this.transformCircleFromFieldToCanvasWithResolutionFactor(colorStyle.startCircle)
+        const realEndCircle = this.transformCircleFromFieldToCanvasWithResolutionFactor(colorStyle.endCircle)
+        gradient = this.ctx.createRadialGradient(realStartCircle.x, realStartCircle.y, realStartCircle.radius, realEndCircle.x, realEndCircle.y, realEndCircle.radius);
       }
       else {
         // conic gradient
-        gradient = this.ctx.createConicGradient(colorStyle.startAngle, colorStyle.center.x, colorStyle.center.y);
+        const realCenter = this.transformPointFromFieldToCanvasWithResolutionFactor(colorStyle.center);
+        gradient = this.ctx.createConicGradient(colorStyle.startAngle, realCenter.x, realCenter.y);
       }
       
       // add the stops

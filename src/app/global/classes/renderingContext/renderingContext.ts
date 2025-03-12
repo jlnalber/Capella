@@ -34,6 +34,7 @@ import { measurementToString } from '../../interfaces/canvasStyles/unitTypes';
 import { ColorStyle, instanceOfColor, instanceOfLinearGradient, instanceOfPattern, instanceOfRadialGradient } from '../../interfaces/canvasStyles/colorStyle';
 import { copyPointToPenPoint, getStrokePointPathFromPenPointPath, Path, PenPoint, StrokePoint, ThicknessSettings } from '../../interfaces/penPoint';
 import { getControlPointInQuadraticBezier, getPointInQuadraticBezier, getThicknessSettings, QuadraticBezier } from './renderingUtils';
+import { getImageToBase64 } from '../../essentials/imageUtils';
 
 // export interface Config {
 //   showGrid?: boolean,
@@ -78,11 +79,13 @@ export class RenderingContext extends AbstractRenderingContext {
     else if (instanceOfPattern(colorStyle)) {
       // a pattern
       const base64 = colorStyle.picture;
-      const image = new Image();
-      image.src = base64;
-      const pattern = this.ctx.createPattern(image, 'repeat');
-      pattern?.setTransform(new DOMMatrixReadOnly().scale(this.zoom * this.resolutionFactor).translate(this.transformations.translateX, -this.transformations.translateY))
-      return pattern;
+      const image = getImageToBase64(base64);
+      if (image) {
+        const pattern = this.ctx.createPattern(image, 'repeat');
+        pattern?.setTransform(new DOMMatrixReadOnly().scale(this.zoom * this.resolutionFactor).translate(this.transformations.translateX, -this.transformations.translateY))
+        return pattern;
+      }
+      return null;
     }
     else {
       // gradient
@@ -111,6 +114,8 @@ export class RenderingContext extends AbstractRenderingContext {
       }
       return gradient;
     }
+
+    return null
   }
 
   private strokeStyleSet: boolean = true;

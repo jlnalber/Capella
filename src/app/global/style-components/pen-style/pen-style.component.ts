@@ -1,7 +1,7 @@
 import { Component, Input, AfterViewInit } from '@angular/core';
 import AbstractPickerComponent from '../abstractPickerComponent';
 import Picker from '../pickers/picker';
-import { DEFAULT_MAX_PEN_SIZE, DEFAULT_MIN_PEN_SIZE, EasyPenColorStyle, EasyPenStyle, getCopyOfPen, getPenStyleOfPen, Pen } from 'src/app/whiteboard/global/interfaces/penStyle';
+import { DEFAULT_MAX_PEN_SIZE, DEFAULT_MIN_PEN_SIZE, EasyPenColorStyle, EasyPenStyle, getColorStyleOfPen, getCopyOfPen, getPenStyleOfPen, Pen } from 'src/app/whiteboard/global/interfaces/penStyle';
 import { StringInputComponent } from '../string-input/string-input.component';
 import { EasyPenStyleStyleComponent } from "../easy-pen-style-style/easy-pen-style-style.component";
 import { ColorPickerComponent } from "../color-picker/color-picker.component";
@@ -48,7 +48,12 @@ export class PenStyleComponent extends AbstractPickerComponent<Picker<Pen>, Pen>
   private _picker?: Picker<Pen>;
   
   private _redrawListener = () => {
-    this.redrawEvent.emit();
+    if (this.picker && this.picker.value) {
+      getColorStyleOfPen(this.picker.value, this.whiteboardService.settings.getPens(), undefined, () => {
+        this.redrawEvent.emit();
+      }); // Load the image already and then redraw again
+      this.redrawEvent.emit();
+    }
   }
 
   public namePicker?: StringInputPicker;
@@ -77,9 +82,19 @@ export class PenStyleComponent extends AbstractPickerComponent<Picker<Pen>, Pen>
                         true);
       this.sliderInputPicker.onValueChanged.addListener(this._redrawListener);
       // TODO: disable color picker when needed
-      this.colorPicker = new ColorPicker(this.whiteboardService.settings.getColors(), () => this.picker?.value?.color, (t?: Color) => { if (t && this.picker?.value) this.picker.value.color = t }, () => false, true);
+      this.colorPicker = new ColorPicker(this.whiteboardService.settings.getColors(), () => this.picker?.value?.color, (t?: Color) => {
+        if (t && this.picker?.value) {
+          this.picker.value.color = t
+          this._redrawListener();
+        }
+      }, () => false, true);
       this.colorPicker.onValueChanged.addListener(this._redrawListener);
-      this.easyPenColorStylePicker = new Picker<EasyPenColorStyle>(() => this.picker?.value?.colorStyle as EasyPenColorStyle | undefined, (t?: EasyPenColorStyle) => { if (this.picker?.value) this.picker.value.colorStyle = t; }, true);
+      this.easyPenColorStylePicker = new Picker<EasyPenColorStyle>(() => this.picker?.value?.colorStyle as EasyPenColorStyle | undefined, (t?: EasyPenColorStyle) => {
+        if (this.picker?.value) {
+          this.picker.value.colorStyle = t; 
+          this._redrawListener();
+        }
+      }, true);
       this.easyPenColorStylePicker.onValueChanged.addListener(this._redrawListener);
       this.easyPenStylePicker = new Picker<EasyPenStyle>(() => this.picker?.value?.penStyle, (t?: EasyPenStyle) => { if (this.picker?.value && t) this.picker.value.penStyle = t }, true);
       this.easyPenStylePicker.onValueChanged.addListener(this._redrawListener);
@@ -100,7 +115,6 @@ export class PenStyleComponent extends AbstractPickerComponent<Picker<Pen>, Pen>
         const val = this.picker.value;
         if (val) {
           const style = getPenStyleOfPen(val, this.whiteboardService.settings.getPens())
-          console.log(style, val, this.whiteboardService.settings.getPens()); // TODO: why is it of the wrong pen
           const penElement = new PenElement(this.whiteboardService.settings, style);
 
           const funcX = (i: number) => i / (this.stepsPreviewCanvas - 1) * (this.widthPreviewCanvas - 2 * this.marginPreviewCanvas) + this.marginPreviewCanvas;

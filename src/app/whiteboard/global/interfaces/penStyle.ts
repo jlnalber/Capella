@@ -2,8 +2,9 @@ import { ColorStyle, getCopyOfGradient, getCopyOfPattern, Gradient, instanceOfGr
 import ObjectStyle, { getCopyOfObjectStyle } from "src/app/global/interfaces/canvasStyles/objectStyle"
 import { EasyStrokeStyle, getCopyOfEasyStrokeStyle, getCopyOfStrokeStyle, StrokeStyle } from "src/app/global/interfaces/canvasStyles/strokeStyle"
 import { BLACK, Color, DEEPBLUE, getColorAsRgbaFunction, getCopyOfColor, YELLOW } from "src/app/global/interfaces/color"
-import { PenIcon } from "src/app/global/interfaces/icon"
-import { PX_PER_MM } from "../../services/page"
+import { PenIcon } from "src/app/global/interfaces/icon";
+import { PX_PER_MM } from "../../services/page";
+import { getImageToBase64 } from "src/app/global/essentials/imageUtils";
 
 export type PenStyle = {
     objectStyle?: ObjectStyle,
@@ -48,18 +49,18 @@ export type Pen = {
     lineWidth: number
 }
 
-export type PenColorStyle = EasyPenColorStyle | ((c: Color) => ColorStyle);
+export type PenColorStyle = EasyPenColorStyle | ((c: Color, then?: () => void) => ColorStyle);
 export type EasyPenColorStyle = Gradient | Pattern | number;
 
-function getColorStyleOfPen(p: Pen, pens: Pen[], c?: Color): ColorStyle {
+export function getColorStyleOfPen(p: Pen, pens: Pen[], c?: Color, then?: () => void): ColorStyle {
     if (p.colorStyle === undefined) {
         return p.color;
     }
     else if (typeof p.colorStyle === 'number') {
-        return getColorStyleOfPen(pens[p.colorStyle], pens, c ?? p.color);
+        return getColorStyleOfPen(pens[p.colorStyle], pens, c ?? p.color, then);
     }
     else if (typeof p.colorStyle === 'function') {
-        return p.colorStyle(c ?? p.color);
+        return p.colorStyle(c ?? p.color, then);
     }
     else {
         return p.colorStyle;
@@ -68,7 +69,6 @@ function getColorStyleOfPen(p: Pen, pens: Pen[], c?: Color): ColorStyle {
 
 export function getPenStyleOfPen(pen: Pen, pens: Pen[]): PenStyle {
     const color: ColorStyle = getColorStyleOfPen(pen, pens);
-    console.log(color, pen, pens)
 
     const strokeStyle: StrokeStyle = {
         ...pen.penStyle.strokeStyle,
@@ -139,9 +139,9 @@ export const DEFAULT_PENS: Pen[] = [{
         }
     },
     color: BLACK,
-    colorStyle: (c: Color) => {
+    colorStyle: (c: Color, then?: () => void) => {
         return {
-            picture: createNoisePattern(c)
+            picture: createNoisePattern(c, then)
         }
     },
     lineWidth: 0.6 * PX_PER_MM,
@@ -175,7 +175,7 @@ export const DEFAULT_MIN_PEN_SIZE: number = 0.1 * PX_PER_MM;
 export const DEFAULT_MAX_PEN_SIZE: number = 8 * PX_PER_MM;
 
 
-function createNoisePattern(color: Color): string {
+function createNoisePattern(color: Color, then?: () => void): string {
     const rgbStr = getColorAsRgbaFunction(color);
     if (dict[rgbStr] === undefined) {
         const width = 50;
@@ -200,6 +200,7 @@ function createNoisePattern(color: Color): string {
             noiseCtx.putImageData(imageData, 0, 0);
         }
         dict[rgbStr] = noiseCanvas.toDataURL();
+        getImageToBase64(dict[rgbStr], then);
     }
     return dict[rgbStr];
 }

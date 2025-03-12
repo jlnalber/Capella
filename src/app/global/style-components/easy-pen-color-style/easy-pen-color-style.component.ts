@@ -1,7 +1,7 @@
 import { ConicGradient, DEFAULT_CONIC_GRADIENT, DEFAULT_LINEARGRADIENT, DEFAULT_PATTERN, DEFAULT_RADIAL_GRADIENT, getCopyOfConicGradient, getCopyOfGradient, getCopyOfLinearGradient, getCopyOfPattern, getCopyOfRadialGradient, Gradient, LinearGradient, Pattern, RadialGradient } from './../../interfaces/canvasStyles/colorStyle';
 import { AfterViewInit, Component, Input } from '@angular/core';
 import AbstractPickerComponent from '../abstractPickerComponent';
-import { EasyPenColorStyle, getCopyOfPen } from 'src/app/whiteboard/global/interfaces/penStyle';
+import { EasyPenColorStyle, getColorStyleOfPen, getCopyOfPen } from 'src/app/whiteboard/global/interfaces/penStyle';
 import Picker from '../pickers/picker';
 import { instanceOfConicGradient, instanceOfLinearGradient, instanceOfPattern, instanceOfRadialGradient } from '../../interfaces/canvasStyles/colorStyle';
 import { FormsModule } from '@angular/forms';
@@ -13,6 +13,7 @@ import { ChoosePenComponent } from "../choose-pen/choose-pen.component";
 import PenPicker from '../pickers/penPicker';
 import { WhiteboardService } from 'src/app/whiteboard/services/whiteboard.service';
 import { LoadingComponent } from "../../loading/loading.component";
+import { getImageToBase64 } from '../../essentials/imageUtils';
 
 type Types = 'color' | 'otherpen' | 'radialgrad' | 'conicgrad' | 'lineargrad' | 'pattern' | undefined
 
@@ -168,24 +169,28 @@ export class EasyPenColorStyleComponent extends AbstractPickerComponent<Picker<E
   }
 
   public ngAfterViewInit(): void {
-    this.loadPickerValue();
+    setTimeout(() => {
+      this.loadPickerValue();
 
-    this.otherPenPicker = new PenPicker(() => this.otherPen, (value) => this.otherPen = value ?? this.otherPen, this.whiteboardService.settings.getDefaultPens(), true, () => this.selectedType !== 'otherpen');
-    this.otherPenPicker.onValueChanged.addListener(this.onChangeListener);
-    
-    this.radialGradientPicker = new Picker<RadialGradient>(() => this.radialGradient, (value) => this.radialGradient = value ?? this.radialGradient, true, () => this.selectedType !== 'radialgrad');
-    this.radialGradientPicker.onValueChanged.addListener(this.onChangeListener);
-    
-    this.conicGradientPicker = new Picker<ConicGradient>(() => this.conicGradient, (value) => this.conicGradient = value ?? this.conicGradient, true, () => this.selectedType !== 'conicgrad');
-    this.conicGradientPicker.onValueChanged.addListener(this.onChangeListener);
-    
-    this.linearGradientPicker = new Picker<LinearGradient>(() => this.linearGradient, (value) => {
-      this.linearGradient = value ?? this.linearGradient;
-    }, true, () => this.selectedType !== 'lineargrad');
-    this.linearGradientPicker.onValueChanged.addListener(this.onChangeListener);
-    
-    this.patternPicker = new Picker<Pattern>(() => this.pattern, (value) => this.pattern = value ?? this.pattern, true, () => this.selectedType !== 'pattern');
-    this.patternPicker.onValueChanged.addListener(this.onChangeListener);
+      this.otherPenPicker = new PenPicker(() => this.otherPen, (value) => {
+        this.otherPen = value ?? this.otherPen;
+      }, this.whiteboardService.settings.getDefaultPens(), true, () => this.selectedType !== 'otherpen');
+      this.otherPenPicker.onValueChanged.addListener(this.onChangeListener);
+      
+      this.radialGradientPicker = new Picker<RadialGradient>(() => this.radialGradient, (value) => this.radialGradient = value ?? this.radialGradient, true, () => this.selectedType !== 'radialgrad');
+      this.radialGradientPicker.onValueChanged.addListener(this.onChangeListener);
+      
+      this.conicGradientPicker = new Picker<ConicGradient>(() => this.conicGradient, (value) => this.conicGradient = value ?? this.conicGradient, true, () => this.selectedType !== 'conicgrad');
+      this.conicGradientPicker.onValueChanged.addListener(this.onChangeListener);
+      
+      this.linearGradientPicker = new Picker<LinearGradient>(() => this.linearGradient, (value) => {
+        this.linearGradient = value ?? this.linearGradient;
+      }, true, () => this.selectedType !== 'lineargrad');
+      this.linearGradientPicker.onValueChanged.addListener(this.onChangeListener);
+      
+      this.patternPicker = new Picker<Pattern>(() => this.pattern, (value) => this.pattern = value ?? this.pattern, true, () => this.selectedType !== 'pattern');
+      this.patternPicker.onValueChanged.addListener(this.onChangeListener);
+    }, 0);
   }
 
   private loadPickerValue() {

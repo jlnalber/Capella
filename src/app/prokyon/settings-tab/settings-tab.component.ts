@@ -14,7 +14,7 @@ const STORAGE_CACHE = 'serialized';
     FormsModule
   ],
   templateUrl: './settings-tab.component.html',
-  styleUrls: ['./settings-tab.component.css']
+  styleUrls: ['./settings-tab.component.scss']
 })
 export class SettingsTabComponent implements OnInit {
 

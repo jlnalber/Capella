@@ -1,1 +1,11 @@
-<p>pattern-style works!</p>
+<div class="wrapper">
+    @if (this.picker && this.picker.value) {
+        <img [src]="this.picker.value.picture" class="uploadedPicture">
+    }
+    <div class="openDiv settingsContainer">
+        <button class="button inpButton" title="Bild auswählen">
+            Laden
+            <input #inp title="Lade aus einer Datei" type="file" (change)="this.fileOpened()" accept="image/*">
+        </button>
+    </div>
+</div>

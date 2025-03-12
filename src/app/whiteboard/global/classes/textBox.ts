@@ -41,16 +41,16 @@ export default class TextBox extends WhiteboardCanvasIdElement {
     private _tempX: undefined | number = undefined;
     private _specialActions: Action[] = [{
         key: 'arrowUp',
-        action: (ev: KeyboardEvent, inp: HTMLTextAreaElement, renderingContext: AbstractRenderingContext, up: boolean) => {
+        action: async (ev: KeyboardEvent, inp: HTMLTextAreaElement, renderingContext: AbstractRenderingContext, up: boolean) => {
             if (!up) {
-                this.moveCursorThroughLines(renderingContext, -1, inp, ev.shiftKey);
+                await this.moveCursorThroughLines(renderingContext, -1, inp, ev.shiftKey);
             }
         }
     }, {
         key: 'arrowDown',
-        action: (ev: KeyboardEvent, inp: HTMLTextAreaElement, renderingContext: AbstractRenderingContext, up: boolean) => {
+        action: async (ev: KeyboardEvent, inp: HTMLTextAreaElement, renderingContext: AbstractRenderingContext, up: boolean) => {
             if (!up) {
-                this.moveCursorThroughLines(renderingContext, 1, inp, ev.shiftKey);
+                await this.moveCursorThroughLines(renderingContext, 1, inp, ev.shiftKey);
             }
         }
     }];
@@ -115,7 +115,7 @@ export default class TextBox extends WhiteboardCanvasIdElement {
         return p.lines.map(line => line.map(span => span.text).join("")).join("");
     }
 
-    public setText(str: string, textSelection: TextSelection, renderingContext: AbstractRenderingContext): void {
+    public async setText(str: string, textSelection: TextSelection, renderingContext: AbstractRenderingContext): Promise<void> {
         const thisText = this.getText();
         this._selection = textSelection;
         str = str.replace("\r\n", '\n').replace("\r", '\n');
@@ -287,7 +287,7 @@ export default class TextBox extends WhiteboardCanvasIdElement {
                 }
             }
             for (let par of psWithoutDoubling) {
-                this.relayoutParagraph(par, renderingContext, width);
+                await this.relayoutParagraph(par, renderingContext, width);
             }
         }
 
@@ -304,25 +304,25 @@ export default class TextBox extends WhiteboardCanvasIdElement {
         return width;
     }
 
-    public setRect(rect: Rect | undefined, renderingContext: AbstractRenderingContext) {
+    public async setRect(rect: Rect | undefined, renderingContext: AbstractRenderingContext) {
         this._rect = rect;
-        this.relayoutText(renderingContext);
+        await this.relayoutText(renderingContext);
         this.onChange.emit(this);
     }
 
-    public setPadding(padding: Padding, renderingContext: AbstractRenderingContext) {
+    public async setPadding(padding: Padding, renderingContext: AbstractRenderingContext) {
         this._padding = padding;
-        this.relayoutText(renderingContext);
+        await this.relayoutText(renderingContext);
         this.onChange.emit(this);
     }
 
-    private relayoutText(renderingContext: AbstractRenderingContext): void {
+    private async relayoutText(renderingContext: AbstractRenderingContext): Promise<void> {
         for (let par of this._paragraphs) {
-            this.relayoutParagraph(par, renderingContext, this.getWidth())
+            await this.relayoutParagraph(par, renderingContext, this.getWidth())
         }
     }
 
-    private relayoutParagraph(paragraph: Paragraph,
+    private async relayoutParagraph(paragraph: Paragraph,
             renderingContext: AbstractRenderingContext,
             width: number | undefined,
             removeEmptySpans: boolean = true,
@@ -356,7 +356,7 @@ export default class TextBox extends WhiteboardCanvasIdElement {
                 counter += word.length;
                 const endIndex = counter;
 
-                const width = TextBox.getWidthOfRange(paragraph, startIndex, endIndex, renderingContext);
+                const width = await TextBox.getWidthOfRange(paragraph, startIndex, endIndex, renderingContext);
                 ws.push({
                     start: startIndex,
                     end: endIndex,
@@ -442,7 +442,7 @@ export default class TextBox extends WhiteboardCanvasIdElement {
 
     }
 
-    public draw(renderingContext: AbstractRenderingContext, drawCursor: boolean = true) {
+    public async draw(renderingContext: AbstractRenderingContext, drawCursor: boolean = true) {
 
         const x = (this._rect?.x ?? 0) + this._padding.left
         let y = (this._rect?.y ?? 0) - this._padding.top
@@ -453,8 +453,8 @@ export default class TextBox extends WhiteboardCanvasIdElement {
                 y -= this._lineDist;
                 let xSpan = x;
                 for (let span of line) {
-                    const m = TextBox.measureTextOfSpan(span, renderingContext);
-                    renderingContext.drawText(span.text, {
+                    const m = await TextBox.measureTextOfSpan(span, renderingContext);
+                    await renderingContext.drawText(span.text, {
                         x: xSpan,
                         y
                     }, {
@@ -493,15 +493,19 @@ export default class TextBox extends WhiteboardCanvasIdElement {
                 yCursor += this._lineDist * (linesBefore + 1);
     
                 const spansBefore = line.slice(0, this._cursorPosition.span);
-                xCursor += spansBefore.map(s => TextBox.measureTextOfSpan(s, renderingContext)).reduce((a, b) => a + b, 0); // width of spans before
-                xCursor += TextBox.measureTextOfSpan(span, renderingContext, span.text.substring(0, column))
+                let dx = 0;
+                for (let i of spansBefore) {
+                    dx += await TextBox.measureTextOfSpan(i, renderingContext);
+                }
+                xCursor += dx; // width of spans before
+                xCursor += await TextBox.measureTextOfSpan(span, renderingContext, span.text.substring(0, column)); // TODO: correct?
             }
             else {
                 yCursor += this._lineDist;
             }
 
 
-            renderingContext.drawLine({
+            await renderingContext.drawLine({
                 x: xCursor,
                 y: -yCursor
             }, {
@@ -514,7 +518,7 @@ export default class TextBox extends WhiteboardCanvasIdElement {
         }
     }
 
-    public moveCursorThroughLines(renderingContext: AbstractRenderingContext, dline: number, area: HTMLTextAreaElement, shiftKey: boolean): boolean {
+    public async moveCursorThroughLines(renderingContext: AbstractRenderingContext, dline: number, area: HTMLTextAreaElement, shiftKey: boolean): Promise<boolean> {
         if (this._cursorPosition) {
             
             // 0, falls ganz am Anfang
@@ -563,13 +567,13 @@ export default class TextBox extends WhiteboardCanvasIdElement {
             }
             else {
                 if (this._tempX === undefined) {
-                    this._tempX = this.getXCoordinateToCursorPosition(this._cursorPosition, renderingContext);
+                    this._tempX = await this.getXCoordinateToCursorPosition(this._cursorPosition, renderingContext);
                 }
                 if (this._tempX === undefined) {
                     return false;
                 }
 
-                this.setCursorPosition(this.getCursorPositionToXCoordinate(this._tempX, paragraphAndLine[0], paragraphAndLine[1], renderingContext), area, shiftKey);
+                this.setCursorPosition(await this.getCursorPositionToXCoordinate(this._tempX, paragraphAndLine[0], paragraphAndLine[1], renderingContext), area, shiftKey);
             }
 
             return this._cursorPosition !== undefined;
@@ -579,15 +583,15 @@ export default class TextBox extends WhiteboardCanvasIdElement {
         }
     }
 
-    private static measureTextOfSpan(span: Span, renderingContext: AbstractRenderingContext, altText?: string): number {
-        return renderingContext.measureText(altText ?? span.text, {
+    private static async measureTextOfSpan(span: Span, renderingContext: AbstractRenderingContext, altText?: string): Promise<number> {
+        return (await renderingContext.measureText(altText ?? span.text, {
             color: BLACK,
             fontSize: [TextBox.getFontSizeInPX(span.fontSize), 'px'],
             fontFamily: span.font,
             textAlign: 'left',
             textBaseline: 'bottom',
             direction: 'ltr'
-        }).width / renderingContext.zoom;
+        })).width / renderingContext.zoom;
     }
 
     private static getFontSizeInPX(fontSize: number): number {
@@ -763,8 +767,13 @@ export default class TextBox extends WhiteboardCanvasIdElement {
         return allSpans;
     }
         
-    private static getWidthOfRange(paragraph: Paragraph, start: number, end: number, renderingContext: AbstractRenderingContext): number {
-        return TextBox.getRangeAsSpans(paragraph, start, end).map(s => TextBox.measureTextOfSpan(s, renderingContext)).reduce((a, b) => a + b, 0);
+    private static async getWidthOfRange(paragraph: Paragraph, start: number, end: number, renderingContext: AbstractRenderingContext): Promise<number> {
+        const arr = TextBox.getRangeAsSpans(paragraph, start, end);
+        let res = 0;
+        for (let s of arr) {
+            res += await TextBox.measureTextOfSpan(s, renderingContext);
+        }
+        return res;
     }
 
     private static getFirstCursorPosition(paragraphs: Paragraph[]): CursorPosition | undefined {
@@ -797,8 +806,8 @@ export default class TextBox extends WhiteboardCanvasIdElement {
         }
     }
 
-    public click(renderingContext: AbstractRenderingContext, point: Point, area: HTMLTextAreaElement, shiftKey: boolean): void {
-        this.setCursorPosition(this.getCursorPositionToPoint(point, renderingContext), area, shiftKey);
+    public async click(renderingContext: AbstractRenderingContext, point: Point, area: HTMLTextAreaElement, shiftKey: boolean): Promise<void> {
+        this.setCursorPosition(await this.getCursorPositionToPoint(point, renderingContext), area, shiftKey);
     }
 
     public onKey(ev: KeyboardEvent, inp: HTMLTextAreaElement, renderingContext: AbstractRenderingContext, up: boolean) {
@@ -879,7 +888,7 @@ export default class TextBox extends WhiteboardCanvasIdElement {
         this.onChange.emit(this);
     }
 
-    private getCursorPositionToXCoordinate(x: number, paragraph: number, line: number, renderingContext: AbstractRenderingContext): CursorPosition | undefined {
+    private async getCursorPositionToXCoordinate(x: number, paragraph: number, line: number, renderingContext: AbstractRenderingContext): Promise<CursorPosition | undefined> {
         if (paragraph >= this._paragraphs.length || line >= this._paragraphs[paragraph].lines.length) {
             return undefined;
         }
@@ -891,7 +900,7 @@ export default class TextBox extends WhiteboardCanvasIdElement {
         let span = 0;
         let width = 0;
         while (span < l.length 
-                && pos + (width = TextBox.measureTextOfSpan(l[span], renderingContext)) < x) {
+                && pos + (width = await TextBox.measureTextOfSpan(l[span], renderingContext)) < x) {
             span++;
             pos += width;
         }
@@ -909,7 +918,7 @@ export default class TextBox extends WhiteboardCanvasIdElement {
         const s = l[span]; // the span in question
         let column = 0;
         while (column < s.text.length 
-                && pos + (width = TextBox.measureTextOfSpan(TextBox.getSimilarSpan(s, s.text.charAt(column)), renderingContext)) < x) {
+                && pos + (width = await TextBox.measureTextOfSpan(TextBox.getSimilarSpan(s, s.text.charAt(column)), renderingContext)) < x) {
             column++;
             pos += width;
         }
@@ -956,15 +965,15 @@ export default class TextBox extends WhiteboardCanvasIdElement {
         // TODO: wechseln soll es erst bei der Mitte
     }
 
-    private getCursorPositionToPoint(p: Point, renderingContext: AbstractRenderingContext): CursorPosition | undefined {
+    private async getCursorPositionToPoint(p: Point, renderingContext: AbstractRenderingContext): Promise<CursorPosition | undefined> {
         const paragraphAndLine = this.getParagraphAndLineToYCoordinate(p.y);
         if (paragraphAndLine === undefined) {
             return undefined;
         }
-        return this.getCursorPositionToXCoordinate(p.x, paragraphAndLine[0], paragraphAndLine[1], renderingContext);
+        return await this.getCursorPositionToXCoordinate(p.x, paragraphAndLine[0], paragraphAndLine[1], renderingContext);
     }
 
-    private getXCoordinateToCursorPosition(cursorPosition: CursorPosition, renderingContext: AbstractRenderingContext): number | undefined {
+    private async getXCoordinateToCursorPosition(cursorPosition: CursorPosition, renderingContext: AbstractRenderingContext): Promise<number | undefined> {
 
         if (cursorPosition.paragraph >= this._paragraphs.length || cursorPosition.line >= this._paragraphs[cursorPosition.paragraph].lines.length) return undefined;
 
@@ -974,7 +983,11 @@ export default class TextBox extends WhiteboardCanvasIdElement {
         const copySpan = TextBox.getSimilarSpan(span, span.text.substring(0, cursorPosition.column));
         const spansUpUntil = line.slice(0, cursorPosition.span);
         spansUpUntil.push(copySpan);
-        const widthOfAllSpans = spansUpUntil.map(s => TextBox.measureTextOfSpan(s, renderingContext)).reduce((a, b) => a + b, 0);
+
+        let widthOfAllSpans = 0; 
+        for (let s of spansUpUntil) {
+            widthOfAllSpans += await TextBox.measureTextOfSpan(s, renderingContext);
+        }
 
         const x = (this._rect?.x ?? 0) + this._padding.left
 
@@ -992,8 +1005,8 @@ export default class TextBox extends WhiteboardCanvasIdElement {
         return y + lineHeights;
     }
 
-    private getPointToCursorPosition(cursorPosition: CursorPosition, renderingContext: AbstractRenderingContext): Point | undefined {
-        const x = this.getXCoordinateToCursorPosition(cursorPosition, renderingContext);
+    private async getPointToCursorPosition(cursorPosition: CursorPosition, renderingContext: AbstractRenderingContext): Promise<Point | undefined> {
+        const x = await this.getXCoordinateToCursorPosition(cursorPosition, renderingContext);
         const y = this.getYCoordinateToCursorPosition(cursorPosition);
         if (x === undefined || y === undefined) {
             return undefined;

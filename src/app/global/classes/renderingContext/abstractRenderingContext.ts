@@ -193,24 +193,24 @@ export default abstract class AbstractRenderingContext {
 
   //public abstract drawQuadraticPath(points: PenPoint[], strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void;
 
-  public abstract drawPath(path: Point[], strokeStyle: StrokeStyle, fill?: FillStyle, objectStyle?: ObjectStyle): void;
+  public abstract drawPath(path: Point[], strokeStyle: StrokeStyle, fill?: FillStyle, objectStyle?: ObjectStyle): Promise<void>;
 
-  public abstract drawSmoothPath(path: PenPoint[], changeThickness: boolean | undefined, strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void;
+  public abstract drawSmoothPath(path: PenPoint[], changeThickness: boolean | undefined, strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): Promise<void>;
 
-  public abstract drawSmoothPathSegment(qbz: QuadraticBezier, thicknessSettings: ThicknessSettings | undefined, strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void;
+  public abstract drawSmoothPathSegment(qbz: QuadraticBezier, thicknessSettings: ThicknessSettings | undefined, strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): Promise<void>;
 
-  public drawLine(from: Point, to: Point, strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void {
-    this.drawPath([from, to], strokeStyle, undefined, objectStyle);
+  public async drawLine(from: Point, to: Point, strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): Promise<void> {
+    await this.drawPath([from, to], strokeStyle, undefined, objectStyle);
   }
 
   public abstract drawText(text: string, p: Point,
     textStyle: TextStyle,
     strokeStyle?: StrokeStyle,
     fillStyle?: FillStyle,
-    objectStyle?: ObjectStyle): void;
+    objectStyle?: ObjectStyle): Promise<void>;
 
   public abstract measureText(text: string,
-    textStyle: TextStyle): TextMetrics;
+    textStyle: TextStyle): Promise<TextMetrics>;
 
   public abstract drawEllipse(center: Point,
     radiusX: number,
@@ -219,15 +219,15 @@ export default abstract class AbstractRenderingContext {
     useUniformSize?: boolean,
     fill?: FillStyle,
     strokeStyle?: StrokeStyle,
-    objectStyle?: ObjectStyle): void;
+    objectStyle?: ObjectStyle): Promise<void>;
 
-  public drawCircle(center: Point,
+  public async drawCircle(center: Point,
     radius: number,
     useUniformSize?: boolean,
     fill?: FillStyle,
     strokeStyle?: StrokeStyle,
-    objectStyle?: ObjectStyle): void {
-    this.drawEllipse(center, radius, radius, 0, useUniformSize, fill, strokeStyle, objectStyle);
+    objectStyle?: ObjectStyle): Promise<void> {
+    await this.drawEllipse(center, radius, radius, 0, useUniformSize, fill, strokeStyle, objectStyle);
   }
 
   public abstract drawCircleSector(center: Point,
@@ -237,13 +237,13 @@ export default abstract class AbstractRenderingContext {
     useUniformSize: boolean,
     fillStyle?: FillStyle,
     stroke?: StrokeStyle,
-    objectStyle?: ObjectStyle): void;
+    objectStyle?: ObjectStyle): Promise<void>;
 
   public abstract drawRect(rect: Rect,
     useUniformSize: boolean,
     fillStyle?: FillStyle,
     strokeStyle?: StrokeStyle,
-    objectStyle?: ObjectStyle): void;
+    objectStyle?: ObjectStyle): Promise<void>;
 
   public abstract drawImage(image: CanvasImageSource,
     p: Point,
@@ -251,9 +251,9 @@ export default abstract class AbstractRenderingContext {
     dh: number,
     useUniformSize: boolean,
     imageStyle?: ImageStyle,
-    objectStyle?: ObjectStyle): void;
+    objectStyle?: ObjectStyle): Promise<void>;
 
-    public requestForeignDrawing(element: CanvasIdElement<any>, drawing: () => void): boolean {
+    public requestForeignDrawing(element: CanvasIdElement<any>, drawing: () => void | Promise<void>): boolean {
       drawing();
       return true;
     }

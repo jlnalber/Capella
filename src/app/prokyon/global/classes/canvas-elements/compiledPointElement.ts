@@ -175,9 +175,9 @@ export default class CompiledPointElement extends DynamicPointElement {
 
 
 
-  public override draw(ctx: AbstractRenderingContext) {
+  public override async draw(ctx: AbstractRenderingContext) {
     //this._tempVariables = ctx.variables ?? {};
-    super.draw(ctx);
+    await super.draw(ctx);
   }
 
   protected override resetTempListener = (ctx?: AbstractRenderingContext) => {

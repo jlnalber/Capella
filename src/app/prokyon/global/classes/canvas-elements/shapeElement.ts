@@ -111,7 +111,7 @@ export default class ShapeElement extends DynamicElement {
         this.lineWidth = canvasElementSerialized.style.strokeWidth ?? this.lineWidth
     }
 
-    public override draw(ctx: AbstractRenderingContext): void {
+    public override async draw(ctx: AbstractRenderingContext): Promise<void> {
         const ps = this.points;
         if (ps.length === 0) {
             return;
@@ -128,7 +128,7 @@ export default class ShapeElement extends DynamicElement {
         const selected = ctx.selection.indexOf(this) !== -1;
         const fillColor = colorAsTransparent(this.color, selected ? 0.5 : 0.3)
         
-        ctx.drawPath(ps as Point[], {
+        await ctx.drawPath(ps as Point[], {
             lineWidth: this.lineWidth,
             color: this.color,
             lineDash: getRegularLineDash(this.configuration.dashed),
@@ -138,7 +138,7 @@ export default class ShapeElement extends DynamicElement {
         })
 
         if (ctx.selection.indexOf(this) !== -1) {
-            ctx.drawPath(ps as Point[], {
+            await ctx.drawPath(ps as Point[], {
                 lineWidth: this.lineWidth * LINE_WIDTH_SELECTED_RATIO,
                 color: colorAsTransparent(this.color, 0.3),
                 uniformSizeOnZoom: true,

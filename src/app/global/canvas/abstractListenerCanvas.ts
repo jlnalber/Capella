@@ -20,8 +20,8 @@ export default abstract class AbstractListenerCanvas extends AbstractCanvas {
       // window.onresize = () => {
       //   this.whiteboardService.redraw();
       // }
-      new ResizeObserver(() => {
-        this.service.redraw();
+      new ResizeObserver(async () => {
+        await this.service.redraw();
       }).observe(this.wrapperEl)
 
       // Listen for resizing

@@ -15,8 +15,8 @@ export default abstract class TwoPointsOrLineSegmentSelectMode extends TwoElemen
 
   protected abstract addCanvasElementFromLineSegment(drawerService: DrawerService, lineSegment: LineSegmentElement): void;
 
-  override click(drawerService: DrawerService, renderingContext: AbstractRenderingContext, point: Point, pointerContext: PointerContext): void {
-    const clickedElement = drawerService.getSelection(point, (c: ProkyonCanvasElement) => c instanceof LineSegmentElement);
+  override async click(drawerService: DrawerService, renderingContext: AbstractRenderingContext, point: Point, pointerContext: PointerContext): Promise<void> {
+    const clickedElement = await drawerService.getSelection(point, (c: ProkyonCanvasElement) => c instanceof LineSegmentElement);
     if (clickedElement !== undefined) {
       this.addCanvasElementFromLineSegment(drawerService, clickedElement as LineSegmentElement);
     }

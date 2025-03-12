@@ -163,8 +163,8 @@ export class WhiteboardService extends AbstractDrawerService {
     this.onTransformationsChanged.addListener(this.redrawListener);
   }
 
-  public redraw() {
-    this.activePage.redraw();
+  public async redraw() {
+    await this.activePage.redraw();
   }
 
   public addCanvasElements(silent: boolean, ...canvasElements: WhiteboardCanvasIdElement[]) {

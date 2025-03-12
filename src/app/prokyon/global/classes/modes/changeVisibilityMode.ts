@@ -6,8 +6,8 @@ import { PointerContext } from "src/app/global/classes/pointerController";
 import { Color, colorAsTransparent } from "src/app/global/interfaces/color";
 
 export default class ChangeVisibilityMode extends MoveMode {
-  override click(drawerService: DrawerService, renderingContext: AbstractRenderingContext, point: Point, pointerContext: PointerContext) {
-    const clickedElement = drawerService.getSelection(point, () => true, false);
+  override async click(drawerService: DrawerService, renderingContext: AbstractRenderingContext, point: Point, pointerContext: PointerContext) {
+    const clickedElement = await drawerService.getSelection(point, () => true, false);
     if (clickedElement !== undefined) {
       clickedElement.visible = !clickedElement.visible;
     }

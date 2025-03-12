@@ -19,20 +19,20 @@ type Data = {
 export default class LineSegmentElement extends AbstractLine {
   readonly componentType: Type<GeometricFormulaComponent> = GeometricFormulaComponent;
 
-  public draw(ctx: AbstractRenderingContext): void {
+  public async draw(ctx: AbstractRenderingContext): Promise<void> {
     const point1 = this.point1;
     const point2 = this.point2;
 
     if (point1 !== undefined && point2 !== undefined && !areEqualPoints(point1, point2)) {
       if (ctx.selection.indexOf(this) !== -1) {
-        ctx.drawPath([point1, point2], {
+        await ctx.drawPath([point1, point2], {
           lineWidth: this.lineWidth * LINE_WIDTH_SELECTED_RATIO, 
           color: colorAsTransparent(this._color, TRANSPARENCY_RATIO),
           uniformSizeOnZoom: true,
           lineDash: getRegularLineDash(this.configuration.dashed)
         })
       }
-      ctx.drawPath([point1, point2], {
+      await ctx.drawPath([point1, point2], {
         lineWidth: this.lineWidth,
         color: this.color,
         uniformSizeOnZoom: true,

@@ -115,16 +115,16 @@ export default class PointElement extends DynamicElement {
     this.configuration.showLabel = showLabel;
   }
 
-  public override draw(ctx: AbstractRenderingContext): void {
+  public override async draw(ctx: AbstractRenderingContext): Promise<void> {
     const selectionRadiusFactor = 1.75;
     const point = this.point;
     if (point !== undefined && isIn(point, ctx.range, selectionRadiusFactor * this.radius / ctx.zoom)) {
       if (this.selected || ctx.selection.indexOf(this) !== -1) {
-        ctx.drawCircle(point, selectionRadiusFactor * this.radius, true, {
+        await ctx.drawCircle(point, selectionRadiusFactor * this.radius, true, {
           color: colorAsTransparent(this.color, 0.3)
         })
       }
-      ctx.drawCircle(point, this.radius, true, {
+      await ctx.drawCircle(point, this.radius, true, {
         color: this.color
       }, {
         color: this.stroke,

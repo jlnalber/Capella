@@ -253,7 +253,7 @@ export default class CurveElement extends ProkyonCanvasElement {
   }
 
 
-  public draw(ctx: AbstractRenderingContext): void {
+  public async draw(ctx: AbstractRenderingContext): Promise<void> {
     const points = this.getPoints(ctx);
 
     if (points !== undefined) {
@@ -261,14 +261,14 @@ export default class CurveElement extends ProkyonCanvasElement {
       const lineWidthSelected = this.lineWidth * LINE_WIDTH_SELECTED_RATIO;
 
       // draw the curve
-      ctx.drawPath(points, {
+      await ctx.drawPath(points, {
         lineWidth: this.lineWidth, 
         color: this.color,
         uniformSizeOnZoom: true,
         lineDash: getRegularLineDash(this.dashed)
       });
       if (ctx.selection.indexOf(this) !== -1) {
-        ctx.drawPath(points, {
+        await ctx.drawPath(points, {
           lineWidth: lineWidthSelected,
           color: colorSelected,
           uniformSizeOnZoom: true,

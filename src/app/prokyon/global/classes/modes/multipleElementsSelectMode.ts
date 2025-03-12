@@ -16,8 +16,8 @@ export default abstract class MultipleElementsSelectMode<T extends ProkyonCanvas
 
   private clickedElements: T[] = [];
 
-  public override click(drawerService: DrawerService, renderingContext: AbstractRenderingContext, point: Point, pointerContext: PointerContext) {
-    const clickedElement = drawerService.getSelection(point, (c) => ofType(c, ...this.types)) as T | undefined;
+  public override async click(drawerService: DrawerService, renderingContext: AbstractRenderingContext, point: Point, pointerContext: PointerContext) {
+    const clickedElement = await drawerService.getSelection(point, (c) => ofType(c, ...this.types)) as T | undefined;
 
     if (clickedElement !== undefined) {
       if (this.clickedElements.length === 0) {

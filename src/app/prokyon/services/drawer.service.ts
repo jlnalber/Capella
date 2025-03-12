@@ -315,12 +315,12 @@ export class DrawerService extends AbstractDrawerService {
     }, this.getVariables(), this.canvasConfig);
   }
 
-  public redraw(): void {
+  public async redraw(): Promise<void> {
     if (this.canvas && this.canvas.canvasAndCTX && this.canvas.wrapperEl) {
       this.onBeforeRedraw.emit();
 
       // draw to canvas
-      this.drawToCanvas(this.canvas.canvasAndCTX[0].canvas, this.canvas.wrapperEl.getBoundingClientRect(), this._transformations, true);
+      await this.drawToCanvas(this.canvas.canvasAndCTX[0].canvas, this.canvas.wrapperEl.getBoundingClientRect(), this._transformations, true);
 
       this.onAfterRedraw.emit();
     }
@@ -332,7 +332,7 @@ export class DrawerService extends AbstractDrawerService {
     return svg;
   }
 
-  public drawToCanvas(canvas: HTMLCanvasElement, boundingRect: Rect, transformations: Transformations, withTransformColor: boolean = false): void {
+  public async drawToCanvas(canvas: HTMLCanvasElement, boundingRect: Rect, transformations: Transformations, withTransformColor: boolean = false): Promise<void> {
     const resolution = this.resolutionFactor;
 
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
@@ -349,7 +349,7 @@ export class DrawerService extends AbstractDrawerService {
     let renderingContext = this.getRenderingContextFor(ctx, transformations);
     this.onBeforeElementsDraw.emit(renderingContext);
     for (let metaDrawer of this._metaDrawers) {
-      metaDrawer.draw(renderingContext);
+      await metaDrawer.draw(renderingContext);
     }
 
     let cs: ProkyonCanvasElement[];
@@ -372,7 +372,7 @@ export class DrawerService extends AbstractDrawerService {
 
       if (canvasElement.visible || renderingContext.config?.transformColor) {
         // draw canvasElement
-        canvasElement.draw(renderingContext);
+        await canvasElement.draw(renderingContext);
 
         // draw label
         const labelPoint = this.getLabelPoint(canvasElement, renderingContext);
@@ -382,9 +382,9 @@ export class DrawerService extends AbstractDrawerService {
           const useLaTeX = !(canvasElement.configuration.dontUseLaTeX ?? false);
           const labelFactor = canvasElement.configuration.labelSizeFactor ?? 1;
 
-          const drawRegularLabel = () => {
+          const drawRegularLabel = async () => {
             // draw a regular label
-            renderingContext.drawText(label, labelPoint, {
+            await renderingContext.drawText(label, labelPoint, {
               fontSize: [LABEL_FONT_SIZE * labelFactor, 'pt'],
               fontFamily: LABEL_FONT_FAMILY,
               color,
@@ -399,10 +399,10 @@ export class DrawerService extends AbstractDrawerService {
           if (MathJax && useLaTeX) {
             try {
               // draw a LaTeX label
-              const drawImage = (img: HTMLImageElement) => {
+              const drawImage = async (img: HTMLImageElement) => {
                 let tempWidth = img.naturalWidth * labelFactor;
                 let tempHeight = img.naturalHeight * labelFactor;
-                renderingContext.drawImage(img, labelPoint, tempWidth, tempHeight, true)
+                await renderingContext.drawImage(img, labelPoint, tempWidth, tempHeight, true)
               }
 
               // do I have to reload?
@@ -411,31 +411,36 @@ export class DrawerService extends AbstractDrawerService {
 
                 // Erstelle das Bild
                 let img = document.createElement('img');
-                img.src = 'data:image/svg+xml;base64,' + btoa('<?xml version="1.0" encoding="UTF-8" standalone="no" ?>\n' + svg.outerHTML);
-                img.onload = (e: any) => {
-                  canvasElement.svgLabel = e.target as HTMLImageElement | null ?? undefined;
-                  if (canvasElement.svgLabel) {
-                    drawImage(canvasElement.svgLabel);
-                  }
-                  else {
-                    drawRegularLabel();
-                  }
+                
+                const imageLoadPromise = new Promise(resolve => {
+                  img.onload = resolve;
+                  img.src = 'data:image/svg+xml;base64,' + btoa('<?xml version="1.0" encoding="UTF-8" standalone="no" ?>\n' + svg.outerHTML);
+                });
+                await imageLoadPromise;
+                
+                // then draw image
+                canvasElement.svgLabel = img as HTMLImageElement | null ?? undefined;
+                if (canvasElement.svgLabel) {
+                  await drawImage(canvasElement.svgLabel);
+                }
+                else {
+                  await drawRegularLabel();
                 }
               }
               else {
                 // then, draw the label:
-                drawImage(canvasElement.svgLabel);
+                await drawImage(canvasElement.svgLabel);
               }
 
             }
             catch {
               // Falls was schiefläuft, dann nochmal neu, aber mit einem regulären Bild
               canvasElement.svgLabel = undefined;
-              drawRegularLabel();
+              await drawRegularLabel();
             }
           }
           else {
-            drawRegularLabel();
+            await drawRegularLabel();
           }
         }
       }
@@ -676,12 +681,12 @@ export class DrawerService extends AbstractDrawerService {
     return undefined;
   }
 
-  public getSelection(p: Point, filter: (cE: ProkyonCanvasElement) => boolean = () => true, omitInvisible: boolean = true): ProkyonCanvasElement | undefined {
+  public async getSelection(p: Point, filter: (cE: ProkyonCanvasElement) => boolean = () => true, omitInvisible: boolean = true): Promise<ProkyonCanvasElement | undefined> {
     let ctx = this.renderingContext;
     let minDist: number | undefined = undefined;
     let minCanvasElement: ProkyonCanvasElement | undefined;
 
-    const getDistToLabel = (canvasElement: ProkyonCanvasElement): number | undefined => {
+    const getDistToLabel = async (canvasElement: ProkyonCanvasElement): Promise<number | undefined> => {
       const labelPoint = this.getLabelPoint(canvasElement, ctx);
       if (canvasElement.configuration.label === undefined || labelPoint === undefined) {
         return undefined;
@@ -692,7 +697,7 @@ export class DrawerService extends AbstractDrawerService {
       let fieldHeight = 0;
       if (canvasElement.configuration.dontUseLaTeX || canvasElement.svgLabel === undefined) {
         // Bei einem regulären Label
-        const measureText = ctx.measureText(canvasElement.configuration.label, {
+        const measureText = await ctx.measureText(canvasElement.configuration.label, {
           fontSize: [ LABEL_FONT_SIZE, 'pt' ],
           fontFamily: LABEL_FONT_FAMILY,
           color: BLACK,
@@ -716,7 +721,7 @@ export class DrawerService extends AbstractDrawerService {
 
     // find out the element with the minimal distance
     for (let canvasElement of this.canvasElements) {
-      const dist = getMinUndef(canvasElement.getDistance(p, ctx), getDistToLabel(canvasElement));
+      const dist = getMinUndef(canvasElement.getDistance(p, ctx), await getDistToLabel(canvasElement));
       if (dist !== undefined && dist !== null && isFinite(dist) && filter(canvasElement) && (canvasElement.visible || !omitInvisible)) {
         let closer = minDist === undefined;
         closer = closer || dist <= minDist!;
@@ -737,8 +742,8 @@ export class DrawerService extends AbstractDrawerService {
     return minCanvasElement;
   }
 
-  public setSelection(p: Point, empty: boolean = true, filter: (cE: ProkyonCanvasElement) => boolean = () => true) {
-    const minCanvasElement = this.getSelection(p, filter);
+  public async setSelection(p: Point, empty: boolean = true, filter: (cE: ProkyonCanvasElement) => boolean = () => true) {
+    const minCanvasElement = await this.getSelection(p, filter);
 
     // set the selection, or alternate the element, e.g. when ctrl is pressed
     if (empty) {

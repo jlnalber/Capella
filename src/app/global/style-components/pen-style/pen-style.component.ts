@@ -95,12 +95,11 @@ export class PenStyleComponent extends AbstractPickerComponent<Picker<Pen>, Pen>
   public data: PreviewCanvasData = {
     width: this.widthPreviewCanvas,
     height: this.heightPreviewCanvas,
-    redraw: (ctx: AbstractRenderingContext) => {
+    redraw: async (ctx: AbstractRenderingContext) => {
       if (this.picker) {
         const val = this.picker.value;
         if (val) {
           const style = getPenStyleOfPen(val, this.whiteboardService.settings.getPens())
-          console.log(style, val, this.whiteboardService.settings.getPens()); // TODO: why is it of the wrong pen
           const penElement = new PenElement(this.whiteboardService.settings, style);
 
           const funcX = (i: number) => i / (this.stepsPreviewCanvas - 1) * (this.widthPreviewCanvas - 2 * this.marginPreviewCanvas) + this.marginPreviewCanvas;
@@ -117,7 +116,7 @@ export class PenStyleComponent extends AbstractPickerComponent<Picker<Pen>, Pen>
             });
           }
 
-          penElement.draw(ctx);
+          await penElement.draw(ctx);
         }
       }
     },

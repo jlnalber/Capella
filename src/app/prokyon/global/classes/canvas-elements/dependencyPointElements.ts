@@ -212,7 +212,7 @@ export default class DependencyPointElements extends ProkyonCanvasElement {
     return pointElement;
   }
 
-  public override draw(ctx: AbstractRenderingContext): void {
+  public override async draw(ctx: AbstractRenderingContext): Promise<void> {
     // Draw, but only if the version is up-to-date, meaning there is no execution still running.
     if (this.correctVersion === this.drawnVersion) {
       const selected = ctx.selection.indexOf(this) !== -1;
@@ -222,7 +222,7 @@ export default class DependencyPointElements extends ProkyonCanvasElement {
         pointElement.stroke = this.stroke;
         pointElement.strokeWidth = this.strokeWidth;
         pointElement.selected = selected;
-        pointElement.draw(ctx);
+        await pointElement.draw(ctx);
       }
     }
   }

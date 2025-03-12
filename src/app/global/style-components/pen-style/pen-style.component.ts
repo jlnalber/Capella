@@ -1,7 +1,7 @@
 import { Component, Input, AfterViewInit } from '@angular/core';
 import AbstractPickerComponent from '../abstractPickerComponent';
 import Picker from '../pickers/picker';
-import { DEFAULT_MAX_PEN_SIZE, DEFAULT_MIN_PEN_SIZE, EasyPenColorStyle, EasyPenStyle, getPenStyleOfPen, Pen } from 'src/app/whiteboard/global/interfaces/penStyle';
+import { DEFAULT_MAX_PEN_SIZE, DEFAULT_MIN_PEN_SIZE, EasyPenColorStyle, EasyPenStyle, getCopyOfPen, getPenStyleOfPen, Pen } from 'src/app/whiteboard/global/interfaces/penStyle';
 import { StringInputComponent } from '../string-input/string-input.component';
 import { EasyPenStyleStyleComponent } from "../easy-pen-style-style/easy-pen-style-style.component";
 import { ColorPickerComponent } from "../color-picker/color-picker.component";

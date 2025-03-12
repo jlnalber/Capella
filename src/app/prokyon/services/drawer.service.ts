@@ -431,7 +431,6 @@ export class DrawerService extends AbstractDrawerService {
             catch {
               // Falls was schiefläuft, dann nochmal neu, aber mit einem regulären Bild
               canvasElement.svgLabel = undefined;
-              console.log('nenenenenene')
               drawRegularLabel();
             }
           }

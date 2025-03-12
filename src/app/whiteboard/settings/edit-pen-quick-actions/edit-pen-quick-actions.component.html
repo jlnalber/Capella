@@ -2,13 +2,10 @@
     <p class="paragraph heading">Reihenfolge der Stifte verändern</p>
     <div class="penWrapper">
         @for (i of this.order; track $index) {
-            <div class="selectContainer borderBottom pen">
-                <img [src]="'./assets/' + this.pens[i].icon + '.svg'" class="icon" alt="icon">
-                <select class="select" [(ngModel)]="this.order[$index]" title="Stift auswählen">
-                    @for (pen of this.pens; track $index) {
-                        <option [value]="$index">{{ pen.name }}</option>
-                    }
-                </select>
+            <div class="outerSelectContainer borderBottom pen">
+                <div class="choosePenContainer">
+                    <app-choose-pen [picker]="i.picker"></app-choose-pen>
+                </div>
                 @if (this.order.length !== 1) {
                     <button class="iconButton floatRight" title="Stift aus Ansicht entfernen" (click)="this.removePen($index)"><img src="assets/trash.svg" class="icon" alt="button"></button>
                 }

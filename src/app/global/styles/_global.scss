@@ -265,10 +265,8 @@
 }
 
 .selectContainer {
-  --height: 60px;
-  --padding: 7px;
-  padding: var(--padding);
-  height: calc(var(--height) - 2 * var(--padding));
+  padding: var(--select-container-padding);
+  height: calc(var(--select-container-height) - 2 * var(--select-container-padding));
 }
 
 .borderBottom {
@@ -276,14 +274,15 @@
 }
 
 .selectContainer > .icon {
-  --iconSize: calc(var(--height) - 2 * var(--padding));
+  --iconSize: calc(var(--select-container-height) - 2 * var(--select-container-padding));
   height: var(--iconSize);
   width: var(--iconSize);
   border-radius: 50%;
 }
 
-.selectContainer .iconButton {
-  margin-top: calc((var(--height) - var(--iconButtonSize)) / 2 - var(--padding));
+.outerSelectContainer .iconButton, .selectContainer .iconButton {
+  --mtop: calc((var(--iconButtonSize) + var(--select-container-padding)) * (-1));
+  margin-top: var(--mtop);
 }
 
 .selectContainer .select {

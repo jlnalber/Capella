@@ -1,0 +1,59 @@
+@import url(../../global/styles/_global.scss);
+
+.object {
+    --height: 60px;
+    --padding: 7px;
+    padding: var(--padding);
+    height: calc(var(--height) - 2 * var(--padding));
+    border-bottom: var(--default-border);
+}
+
+.object > .icon {
+    --iconSize: calc(var(--height) - 2 * var(--padding));
+    height: var(--iconSize);
+    width: var(--iconSize);
+    border-radius: 50%;
+}
+
+.object .iconButton {
+    margin-top: calc((var(--height) - var(--iconButtonSize)) / 2 - var(--padding));
+}
+
+.object .objectName {
+    --innerHeight: calc(var(--height) - 2 * var(--padding));
+    height: var(--innerHeight);
+    position: absolute;
+    line-height: var(--innerHeight);
+    display: inline-block;
+}
+
+.add {
+    height: 60px;
+    background: #fff7f2;
+    transition: var(--default-transition);
+    line-height: 60px;
+}
+  
+.add:hover {
+    background: #efe7e2;
+}
+  
+.add:active {
+    background: var(--border-color);
+}
+  
+.add p {
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    user-select: none;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    display: inline-block;
+    /* font-family: 'Segoe UI', Calibri, 'sans-serif'; */
+}
+
+.wrapper {
+    position: relative;
+}

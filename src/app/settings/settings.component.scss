@@ -82,7 +82,7 @@
 
 .tabHeader.active {
     font-weight: bold;
-    background: var(--borderColor);
+    background: #dfd7d2;
 }
  
 .tabContainer {
@@ -132,11 +132,6 @@
 }
 
 .settingsViewWrapper:not(:last-child)::after {
-    content: " ";
-    display: block;
-    height: 0px;
-    border: 0.5px solid var(--border-color);
-    margin-top: 7px;
     margin-left: -10px;
     width: calc(100% + 20px);
 }

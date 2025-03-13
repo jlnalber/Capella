@@ -14,7 +14,7 @@
             <div class="tabContainer">
                 <div class="tabPage">
                     @for (i of this.currentTab.componentTypes; track i) {
-                        <div class="settingsViewWrapper">
+                        <div class="settingsViewWrapper afterBorder">
                             <app-view-settings [componentType]="i" [onCreated]="this.onCreated"></app-view-settings>
                         </div>
                     }

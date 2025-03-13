@@ -10,6 +10,7 @@ import { SnackbarService } from '../global/snackbar/snackbar.service';
 import { getColorAsRgbFunction } from '../global/interfaces/color';
 import { ERROR_COLOR } from '../global/styles/colors';
 import { openErrorSnackbar } from '../prokyon/global/essentials/analysingFunctionsUtils';
+import { ViewObjectStylesComponent } from './view-object-styles/view-object-styles.component';
 
 @Component({
   selector: 'app-settings',
@@ -27,6 +28,7 @@ export class SettingsComponent {
   save() {
     try {
       this.saveEvent.emit()
+      this.snackbarService.openSnackbar('Einstellungen gespeichert');
     } catch (e) {
       console.error(e);
       openErrorSnackbar(this.snackbarService, 'Fehler beim Speichern der Einstellungen');
@@ -69,7 +71,9 @@ export class SettingsComponent {
     text: 'Stile',
     title: 'Verschiedene Stile einstellen, hinzufügen und entfernen',
     url: 'styles',
-    componentTypes: []
+    componentTypes: [
+      ViewObjectStylesComponent
+    ]
   }];
 }
 

@@ -307,3 +307,11 @@
 .mainBGColor {
   background-color: #fff7f2;
 }
+
+.afterBorderContainer > *:not(:last-child)::after, .afterBorder:not(:last-child)::after {
+  content: " ";
+  display: block;
+  height: 0px;
+  border: 0.5px solid var(--border-color);
+  margin-top: 7px;
+}

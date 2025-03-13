@@ -1,14 +1,14 @@
 import { Component, OnDestroy } from '@angular/core';
 import AbstractSettingsComponent from '../abstractSettingComponent';
-import { WhiteboardService } from '../../services/whiteboard.service';
-import { DEFAULT_PEN, getCopyOfPen, Pen } from '../../global/interfaces/penStyle';
+import { WhiteboardService } from '../../whiteboard/services/whiteboard.service';
+import { DEFAULT_PEN, getCopyOfPen, Pen } from '../../whiteboard/global/interfaces/penStyle';
 import { Event as CustomEvent } from 'src/app/global/essentials/event';
 import { Point } from 'src/app/global/interfaces/point';
 import { ContextMenu, ContextMenuDirective } from 'src/app/global/context-menu/context-menu.directive';
 import { FormulaElement } from 'src/app/prokyon/global/classes/abstract/formulaElement';
 import { ConfirmationDialogComponent } from 'src/app/global/dialog/confirmation-dialog/confirmation-dialog.component';
 import Picker from 'src/app/global/style-components/pickers/picker';
-import { PickerDialogComponent, PickerDialogData } from '../../dialogs/picker-dialog/picker-dialog.component';
+import { PickerDialogComponent, PickerDialogData } from '../../whiteboard/dialogs/picker-dialog/picker-dialog.component';
 import { PenStyleComponent } from 'src/app/global/style-components/pen-style/pen-style.component';
 import { RED_FILTER } from 'src/app/global/interfaces/color';
 

@@ -1,10 +1,10 @@
 import { Component, OnDestroy } from '@angular/core';
-import { WhiteboardService } from '../../services/whiteboard.service';
-import { Pen } from '../../global/interfaces/penStyle';
+import { WhiteboardService } from '../../whiteboard/services/whiteboard.service';
+import { Pen } from '../../whiteboard/global/interfaces/penStyle';
 import { FormsModule } from '@angular/forms';
 import AbstractSettingsComponent from '../abstractSettingComponent';
 import PenPicker from 'src/app/global/style-components/pickers/penPicker';
-import { ChoosePenComponent } from "../../../global/style-components/choose-pen/choose-pen.component";
+import { ChoosePenComponent } from "../../global/style-components/choose-pen/choose-pen.component";
 
 type NumAndPicker = { num: number, picker?: PenPicker };
 

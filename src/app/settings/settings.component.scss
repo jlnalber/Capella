@@ -75,12 +75,13 @@
 .tabHeader:active {
     background: var(--borderColor);
 }
-  
+
 .tabHeader p {
     margin: 0;
 }
-  
+
 .tabHeader.active {
+    font-weight: bold;
     background: var(--borderColor);
 }
  

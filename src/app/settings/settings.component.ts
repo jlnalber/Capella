@@ -1,11 +1,11 @@
 import { Component, ComponentRef, Type } from '@angular/core';
-import AbstractSettingsComponent from '../whiteboard/settings/abstractSettingComponent';
-import { EditPenQuickActionsComponent } from '../whiteboard/settings/edit-pen-quick-actions/edit-pen-quick-actions.component';
+import AbstractSettingsComponent from './abstractSettingComponent';
+import { EditPenQuickActionsComponent } from './edit-pen-quick-actions/edit-pen-quick-actions.component';
 import { ViewSettingsComponent } from "./view-settings/view-settings.component";
 import { Event } from '../global/essentials/event';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
-import { ViewPensComponent } from '../whiteboard/settings/view-pens/view-pens.component';
+import { ViewPensComponent } from './view-pens/view-pens.component';
 import { SnackbarService } from '../global/snackbar/snackbar.service';
 import { getColorAsRgbFunction } from '../global/interfaces/color';
 import { ERROR_COLOR } from '../global/styles/colors';
@@ -65,6 +65,11 @@ export class SettingsComponent {
       EditPenQuickActionsComponent,
       ViewPensComponent
     ]
+  }, {
+    text: 'Stile',
+    title: 'Verschiedene Stile einstellen, hinzufügen und entfernen',
+    url: 'styles',
+    componentTypes: []
   }];
 }
 

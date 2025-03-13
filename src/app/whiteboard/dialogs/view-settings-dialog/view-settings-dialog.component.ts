@@ -2,7 +2,7 @@ import { DialogService } from 'src/app/global/dialog/dialog.service';
 import { Component, ComponentRef, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { Dialog } from 'src/app/global/dialog/dialog';
 import { Event } from 'src/app/global/essentials/event';
-import AbstractSettingsComponent from '../../settings/abstractSettingComponent';
+import AbstractSettingsComponent from '../../../settings/abstractSettingComponent';
 import { ViewSettingsComponent } from "../../../settings/view-settings/view-settings.component";
 import { LoadingComponent } from "../../../global/loading/loading.component";
 

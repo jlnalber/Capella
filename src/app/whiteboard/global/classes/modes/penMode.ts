@@ -10,8 +10,8 @@ import { DEFAULT_PENS, getColorStyleOfPen, getPenStyleOfPen, Pen, PenStyle } fro
 import ColorPicker from "src/app/global/style-components/pickers/colorPicker";
 import RibbonButton from "src/app/global/classes/ribbon/ribbonButton";
 import { ViewSettingsDialogComponent } from "src/app/whiteboard/dialogs/view-settings-dialog/view-settings-dialog.component";
-import { EditPenQuickActionsComponent } from "src/app/whiteboard/settings/edit-pen-quick-actions/edit-pen-quick-actions.component";
-import { ViewPensComponent } from "src/app/whiteboard/settings/view-pens/view-pens.component";
+import { EditPenQuickActionsComponent } from "src/app/settings/edit-pen-quick-actions/edit-pen-quick-actions.component";
+import { ViewPensComponent } from "src/app/settings/view-pens/view-pens.component";
 import { instanceOfColor } from "src/app/global/interfaces/canvasStyles/colorStyle";
 import { getPenPointFromPreviousPoint } from "src/app/global/interfaces/penPoint";
 

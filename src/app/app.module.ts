@@ -38,7 +38,7 @@ import { ViewAngleElementComponent } from './prokyon/formula-dialogs/view-angle-
 import { ViewAbstractLineElementComponent } from './prokyon/formula-dialogs/view-abstract-line-element/view-abstract-line-element.component';
 import { ColorStyleComponent } from './global/style-components/color-style/color-style.component';
 import { QuickActionsComponent } from "./whiteboard/quick-actions/quick-actions.component";
-import { ViewPensComponent } from './whiteboard/settings/view-pens/view-pens.component';
+import { ViewPensComponent } from './settings/view-pens/view-pens.component';
 
 @NgModule({
   declarations: [

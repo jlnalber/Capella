@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ComponentRef, Input, OnDestroy, Type, ViewChild, ViewContainerRef } from '@angular/core';
-import AbstractSettingsComponent from 'src/app/whiteboard/settings/abstractSettingComponent';
+import AbstractSettingsComponent from 'src/app/settings/abstractSettingComponent';
 
 @Component({
   selector: 'app-view-settings',

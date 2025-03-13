@@ -1,6 +1,11 @@
 <div class="wrapper">
     @if (this.dialogData) {
-        <app-view-settings [componentType]="this.dialogData.componentType" [onCreated]="this.onCreated"></app-view-settings>
+        <div class="settingsWrapper">
+            <app-view-settings [componentType]="this.dialogData.componentType" [onCreated]="this.onCreated"></app-view-settings>
+        </div>
+    }
+    @else {
+        <app-loading></app-loading>
     }
 
     <div class="buttons">

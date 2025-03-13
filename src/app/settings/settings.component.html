@@ -2,7 +2,27 @@
     <div class="headingWrapper">
         <h1 class="heading">Einstellungen</h1>
     </div>
-    <div class="tabWrapper">
-        <app-settings-tab-group [tabs]="this.tabs"></app-settings-tab-group>
+    <div class="tabWrapper" [ngClass]="{ 'empty': this.currentTab === undefined }">
+        <div class="table">
+            <div class="tabHeaders">
+            @for (tab of this.tabs; track $index) {
+                <div class="tabHeader" tabindex="0" [routerLink]="['/settings', tab.url]" (keydown)="this.onTabKeyboard($event, tab)" [title]="tab.title" [ngClass]="{ 'active': this.currentTab == tab }">
+                    <p>{{tab.text}}</p>
+                </div>
+            }
+            </div>
+            <div class="tabContainer">
+                <div class="tabPage">
+                    @for (i of this.currentTab.componentTypes; track i) {
+                        <div class="settingsViewWrapper">
+                            <app-view-settings [componentType]="i" [onCreated]="this.onCreated"></app-view-settings>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="buttonDiv footerDiv">
+        <button (click)="this.save()" class="button close floatRight saveButton" title="Diese Einstellungsseite speichern">Speichern</button><!-- TODO: speichern nochmal woanders -->
     </div>
 </div>

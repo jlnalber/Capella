@@ -5,3 +5,10 @@
     margin-top: 7px;
     width: 120px;
 }
+
+.settingsWrapper {
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    display: block;
+    padding: 3px;
+}

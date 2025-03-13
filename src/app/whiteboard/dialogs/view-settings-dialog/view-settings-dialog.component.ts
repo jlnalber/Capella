@@ -4,13 +4,15 @@ import { Dialog } from 'src/app/global/dialog/dialog';
 import { Event } from 'src/app/global/essentials/event';
 import AbstractSettingsComponent from '../../settings/abstractSettingComponent';
 import { ViewSettingsComponent } from "../../../settings/view-settings/view-settings.component";
+import { LoadingComponent } from "../../../global/loading/loading.component";
 
 @Component({
   selector: 'app-view-settings-dialog',
   standalone: true,
   imports: [
-    ViewSettingsComponent
-  ],
+    ViewSettingsComponent,
+    LoadingComponent
+],
   templateUrl: './view-settings-dialog.component.html',
   styleUrl: './view-settings-dialog.component.scss'
 })

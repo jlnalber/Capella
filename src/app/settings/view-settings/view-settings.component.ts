@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ComponentRef, Input, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, ComponentRef, Input, OnDestroy, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import AbstractSettingsComponent from 'src/app/whiteboard/settings/abstractSettingComponent';
 
 @Component({
@@ -8,7 +8,7 @@ import AbstractSettingsComponent from 'src/app/whiteboard/settings/abstractSetti
   templateUrl: './view-settings.component.html',
   styleUrl: './view-settings.component.scss'
 })
-export class ViewSettingsComponent<T extends AbstractSettingsComponent> implements AfterViewInit {
+export class ViewSettingsComponent<T extends AbstractSettingsComponent> implements AfterViewInit, OnDestroy {
 
   @ViewChild('contentDiv', { read: ViewContainerRef }) contentDiv!: ViewContainerRef;
 
@@ -18,6 +18,7 @@ export class ViewSettingsComponent<T extends AbstractSettingsComponent> implemen
 
   @Input({ required: true }) public componentType?: Type<T>;
   @Input() public onCreated?: (component: ComponentRef<T>) => void;
+  @Input() public onDestroyed?: () => void;
   public component?: ComponentRef<T>;
 
   public ngAfterViewInit(): void {
@@ -29,6 +30,12 @@ export class ViewSettingsComponent<T extends AbstractSettingsComponent> implemen
         }
       }
     }, 0);
+  }
+
+  public ngOnDestroy(): void {
+    if (this.onDestroyed) {
+      this.onDestroyed();
+    }
   }
 
 }

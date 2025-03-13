@@ -1,6 +1,8 @@
 import { SnackbarService } from "src/app/global/snackbar/snackbar.service";
 import {DrawerService} from "../../services/drawer.service";
 import {Graph} from "../classes/canvas-elements/graph";
+import { getColorAsRgbFunction } from "src/app/global/interfaces/color";
+import { ERROR_COLOR } from "src/app/global/styles/colors";
 
 export function getMessageForSpecialPoints(name: string, count: number): string {
   if (count !== 1) {
@@ -21,10 +23,11 @@ export function openSnackbarWithMessageForSpecialPoints(snackbarService: Snackba
   snackbarService.openSnackbar(getMessageForSpecialPoints(name, count));
 }
 
-export function openErrorSnackbar(snackbarService: SnackbarService, errorMessage: string = 'Ein unerwarteter Fehler ist aufgetreten!'): void {
+export function openErrorSnackbar(snackbarService: SnackbarService, errorMessage: string = 'Ein unerwarteter Fehler ist aufgetreten!', duration?: number): void {
   snackbarService.openSnackbar(errorMessage, {
+    duration,
     color: 'white',
-    background: '#c44'
+    background: getColorAsRgbFunction(ERROR_COLOR)
   })
 }
 

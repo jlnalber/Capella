@@ -1,17 +1,20 @@
 import { DialogService } from 'src/app/global/dialog/dialog.service';
-import { AfterViewInit, Component, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ComponentRef, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { Dialog } from 'src/app/global/dialog/dialog';
 import { Event } from 'src/app/global/essentials/event';
 import AbstractSettingsComponent from '../../settings/abstractSettingComponent';
+import { ViewSettingsComponent } from "../../../settings/view-settings/view-settings.component";
 
 @Component({
   selector: 'app-view-settings-dialog',
   standalone: true,
-  imports: [],
+  imports: [
+    ViewSettingsComponent
+  ],
   templateUrl: './view-settings-dialog.component.html',
   styleUrl: './view-settings-dialog.component.scss'
 })
-export class ViewSettingsDialogComponent<T extends AbstractSettingsComponent> implements AfterViewInit {
+export class ViewSettingsDialogComponent<T extends AbstractSettingsComponent> {
 
   @ViewChild('contentDiv', { read: ViewContainerRef }) contentDiv!: ViewContainerRef;
 
@@ -28,14 +31,8 @@ export class ViewSettingsDialogComponent<T extends AbstractSettingsComponent> im
 
   public dialogData?: DialogData<T>;
   public dialog!: Dialog<ViewSettingsDialogComponent<T>>;
-
-  public ngAfterViewInit(): void {
-    setTimeout(() => {
-      if (this.dialogData) {
-        const component = this.contentDiv.createComponent(this.dialogData.componentType);
-        this.saveEvent.addListener(component.instance.saveListener);
-      }
-    }, 0);
+  public onCreated = (component: ComponentRef<T>) => {
+    this.saveEvent.addListener(component.instance.saveListener);
   }
 
   public static openViewSettingsDialogComponent<T extends AbstractSettingsComponent>(dialogService: DialogService, componentType: Type<T>): void {

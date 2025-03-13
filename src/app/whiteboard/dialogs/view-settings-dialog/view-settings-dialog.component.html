@@ -1,5 +1,7 @@
 <div class="wrapper">
-    <div class="settingsWrapper" #contentDiv></div>
+    @if (this.dialogData) {
+        <app-view-settings [componentType]="this.dialogData.componentType" [onCreated]="this.onCreated"></app-view-settings>
+    }
 
     <div class="buttons">
         <button class="button close floatRight" (click)="this.save()">Speichern</button>

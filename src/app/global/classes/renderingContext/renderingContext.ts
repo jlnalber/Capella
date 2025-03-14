@@ -31,7 +31,7 @@ import TextStyle, { EMPTY_TEXTSTYLE } from "src/app/global/interfaces/canvasStyl
 import ImageStyle, { EMPTY_IMAGESTYLE } from 'src/app/global/interfaces/canvasStyles/imageStyle';
 import { DEFAULT_FILTERS, filterToCssFunctionString } from '../../interfaces/canvasStyles/filterTypes';
 import { measurementToString } from '../../interfaces/canvasStyles/unitTypes';
-import { ColorStyle, instanceOfColor, instanceOfLinearGradient, instanceOfPattern, instanceOfRadialGradient } from '../../interfaces/canvasStyles/colorStyle';
+import { ColorStyle, DEFAULT_ZOOMFACTOR, instanceOfColor, instanceOfLinearGradient, instanceOfPattern, instanceOfRadialGradient } from '../../interfaces/canvasStyles/colorStyle';
 import { copyPointToPenPoint, getStrokePointPathFromPenPointPath, Path, PenPoint, StrokePoint, ThicknessSettings } from '../../interfaces/penPoint';
 import { getControlPointInQuadraticBezier, getPointInQuadraticBezier, getThicknessSettings, QuadraticBezier } from './renderingUtils';
 import { getImageToBase64 } from '../../essentials/imageUtils';
@@ -82,7 +82,8 @@ export class RenderingContext extends AbstractRenderingContext {
       const image = getImageToBase64(base64);
       if (image) {
         const pattern = this.ctx.createPattern(image, 'repeat');
-        pattern?.setTransform(new DOMMatrixReadOnly().scale(this.zoom * this.resolutionFactor).translate(this.transformations.translateX, -this.transformations.translateY))
+        const zoomFactor = colorStyle.zoomFactor ?? DEFAULT_ZOOMFACTOR;
+        pattern?.setTransform(new DOMMatrixReadOnly().scale(this.zoom * this.resolutionFactor * zoomFactor).translate(this.transformations.translateX, -this.transformations.translateY))
         return pattern;
       }
       return null;

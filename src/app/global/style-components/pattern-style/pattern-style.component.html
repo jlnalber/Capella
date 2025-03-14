@@ -1,5 +1,5 @@
 <div class="wrapper">
-    @if (this.picker && this.picker.value) {
+    @if (this.picker && this.picker.value && this.picker.value.picture !== '') {
         <img [src]="this.picker.value.picture" class="uploadedPicture">
     }
     <div class="openDiv settingsContainer">
@@ -7,5 +7,9 @@
             Laden
             <input #inp title="Lade aus einer Datei" type="file" (change)="this.fileOpened()" accept="image/*">
         </button>
+        <div class="zoomFactor">
+            <label for="zoomFactor" title="Soll das Bild gestreckt bzw. gestaucht werden?">Zoomfaktor:</label>
+            <input id="zoomFactor" type="number" class="input numberInput" min="0" step="any" [(ngModel)]="this.zoomFactor">
+        </div>
     </div>
 </div>

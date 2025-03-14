@@ -3,11 +3,13 @@ import { Color, getCopyOfColor } from "../color";
 import { getCopyOfPoint, Point } from "../point";
 
 export type Pattern = {
-    picture: string
+    picture: string,
+    zoomFactor?: number
 }
 export const DEFAULT_PATTERN: Pattern = {
     picture: ''
 }
+export const DEFAULT_ZOOMFACTOR = 1;
 
 export type Gradient = LinearGradient | RadialGradient | ConicGradient;
 export type LinearGradient = {

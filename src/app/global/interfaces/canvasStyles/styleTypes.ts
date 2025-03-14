@@ -24,7 +24,7 @@ export function getCopyOfShadow(shadow: Shadow): Shadow {
 }
 
 export type LineCap = CanvasLineCap;
-export const DEFAULT_LINECAP: LineCap = 'butt';
+export const DEFAULT_LINECAP: LineCap = 'round';
 export const ALL_LINECAP: LineCap[] = ['butt', 'round', 'square']
 
 export const DEFAULT_LINEDASH: number[] = [];

@@ -8,6 +8,7 @@ import { ObjectStyleComponent } from "../object-style/object-style.component";
 import ObjectStyle from '../../interfaces/canvasStyles/objectStyle';
 import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from "../../loading/loading.component";
+import { SelectObjectStyleComponent } from "../select-object-style/select-object-style.component";
 
 @Component({
   selector: 'app-easy-pen-style-style',
@@ -16,7 +17,8 @@ import { LoadingComponent } from "../../loading/loading.component";
     EasyStrokeStyleComponent,
     ObjectStyleComponent,
     FormsModule,
-    LoadingComponent
+    LoadingComponent,
+    SelectObjectStyleComponent
 ],
   templateUrl: './easy-pen-style-style.component.html',
   styleUrl: './easy-pen-style-style.component.scss'

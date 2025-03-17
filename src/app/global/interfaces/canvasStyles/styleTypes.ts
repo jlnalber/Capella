@@ -1,4 +1,4 @@
-import { Color, getCopyOfColor, TRANSPARENT } from "../color";
+import { areEqualColors, Color, getCopyOfColor, TRANSPARENT } from "../color";
 import { LengthMeasurement } from "./unitTypes";
 
 export type Shadow = {
@@ -21,6 +21,31 @@ export function getCopyOfShadow(shadow: Shadow): Shadow {
     }
     res.color = getCopyOfColor(res.color);
     return res;
+}
+
+export function areEqualObjectStyleShadows(f1: Shadow | undefined, f2: Shadow | undefined): boolean {
+    return (isDefaultObjectStyleShadow(f1) && isDefaultObjectStyleShadow(f2)) ||
+        (f1?.blur === f2?.blur && f1?.offsetX === f2?.offsetX && f1?.offsetY === f2?.offsetY && areEqualColors(f1?.color, f2?.color));
+}
+
+export function isDefaultObjectStyleShadow(o: Shadow | undefined): boolean {
+    return o === undefined
+}
+
+export function areEqualObjectStyleAlpha(f1: number | undefined, f2: number | undefined): boolean {
+    return f1 === f2 || (isDefaultObjectStyleAlpha(f1) && isDefaultObjectStyleAlpha(f2));
+}
+
+export function isDefaultObjectStyleAlpha(o: number | undefined): boolean {
+    return o === undefined || o === DEFAULT_ALPHA;
+}
+
+export function areEqualObjectStyleUniformSizeOnZoom(f1: boolean | undefined, f2: boolean | undefined): boolean {
+    return f1 === f2 || (isDefaultObjectStyleUniformSizeOnZoom(f1) && isDefaultObjectStyleUniformSizeOnZoom(f2));
+}
+
+export function isDefaultObjectStyleUniformSizeOnZoom(o: boolean | undefined): boolean {
+    return o === undefined || o === false;
 }
 
 export type LineCap = CanvasLineCap;

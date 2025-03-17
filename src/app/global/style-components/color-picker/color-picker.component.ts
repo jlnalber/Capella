@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import ColorPicker from '../pickers/colorPicker';
-import { Color, getColorAsRgbaFunction } from '../../interfaces/color';
-import { sameColors } from '../../essentials/utils';
+import { areEqualColors, Color, getColorAsRgbaFunction } from '../../interfaces/color';
 import AbstractPickerComponent from '../abstractPickerComponent';
 import { LoadingComponent } from "../../loading/loading.component";
 
@@ -17,7 +16,7 @@ export class ColorPickerComponent extends AbstractPickerComponent<ColorPicker, C
 
 
   isActiveColor(c: Color): boolean {
-    return sameColors(c, this.picker?.getActive());
+    return areEqualColors(c, this.picker?.getActive());
   }
 
   getStyleToColor(c: Color): string {

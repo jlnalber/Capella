@@ -315,3 +315,13 @@
   border: 0.5px solid var(--border-color);
   margin-top: 7px;
 }
+
+.wrapper input[type=radio]:not(:first-child) {
+  margin-top: 16px;
+}
+
+.wrapperForStyle {
+  padding-left: 16px;
+  padding-bottom: 7px;
+  padding-top: 7px;
+}

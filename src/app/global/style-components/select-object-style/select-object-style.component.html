@@ -1,0 +1,33 @@
+<div class="wrapper">
+    @if (this.picker) {
+        <label class="paragraph">Objektstil:</label><br>
+
+        <input type="radio" id="saved" value="saved" [(ngModel)]="this.isCustom">
+        <label for="saved">Gespeicherten Objektstil auswählen</label><br>
+        @if (this.isCustom === 'saved') {
+            <div class="wrapperForStyle">
+                <select [(ngModel)]="this.selectedSavedObjectStyle" title="Gespeicherten Objektstil auswählen" class="select">
+                    @for (o of this.savedObjectStyles; track $index) {
+                        <option [ngValue]="o">{{o.name}}</option>
+                    }
+                </select>
+            </div>
+        }
+
+        <input type="radio" id="custom" value="custom" [(ngModel)]="this.isCustom">
+        <label for="custom">Eigenen Objektstil verwenden</label><br>
+        @if (this.isCustom === 'custom') {
+            @if (this.customPicker) {
+                <div class="wrapperForStyle">
+                    <app-object-style [picker]="this.customPicker"></app-object-style>
+                </div>
+            }
+            @else {
+                <app-loading></app-loading>
+            }
+        }
+    }   
+    @else {
+        <app-loading></app-loading>
+    } 
+</div>

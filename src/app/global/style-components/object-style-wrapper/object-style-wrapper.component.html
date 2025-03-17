@@ -5,6 +5,7 @@
     </div>
 
     @if (this.objectStylePicker) {
+        <label class="paragraph">Objektstil:</label><br>
         <app-object-style [picker]="this.objectStylePicker"></app-object-style>
     } @else {
         <app-loading></app-loading>

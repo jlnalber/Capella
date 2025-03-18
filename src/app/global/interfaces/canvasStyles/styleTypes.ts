@@ -144,4 +144,17 @@ export type WordSpacing = LengthMeasurement;
 export const DEFAULT_WORDSPACING: WordSpacing = [0, 'px']
 
 export const DEFAULT_IMAGESMOOTHINGENABLED: boolean = true;
+export function areEqualImageStyleImageSmoothingEnabled(f1: boolean | undefined, f2: boolean | undefined): boolean {
+    return (isDefaultImageStyleImageSmoothingEnabled(f1) && isDefaultImageStyleImageSmoothingEnabled(f2)) || (f1 === f2);
+}
+export function isDefaultImageStyleImageSmoothingEnabled(o: boolean | undefined): boolean {
+    return o === undefined || o === DEFAULT_IMAGESMOOTHINGENABLED;
+}
+
 export const DEFAULT_IMAGESMOOTHINGQUALITY: ImageSmoothingQuality = 'low'
+export function areEqualImageStyleImageSmoothingQuality(f1: ImageSmoothingQuality | undefined, f2: ImageSmoothingQuality | undefined): boolean {
+    return (isDefaultImageStyleImageSmoothingQuality(f1) && isDefaultImageStyleImageSmoothingQuality(f2)) || (f1 === f2);
+}
+export function isDefaultImageStyleImageSmoothingQuality(o: ImageSmoothingQuality | undefined): boolean {
+    return o === undefined || o === DEFAULT_IMAGESMOOTHINGQUALITY;
+}

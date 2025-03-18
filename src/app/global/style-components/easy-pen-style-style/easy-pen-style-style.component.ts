@@ -31,7 +31,7 @@ export class EasyPenStyleStyleComponent extends AbstractPickerComponent<Picker<E
   public objectStylePicker?: Picker<ObjectStyle>;
   
   ngAfterViewInit() {
-    setTimeout(() => {
+    setTimeout(() => { // TODO: doesn't load
       this.easyStrokeStylePicker = new Picker<EasyStrokeStyle>(() => this.picker?.value?.strokeStyle, (style?: EasyStrokeStyle) => {
         if (style && this.picker !== undefined && this.picker.value !== undefined) {
           this.picker.value.strokeStyle = style;

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GeneralSettingsComponent } from './general-settings.component';
+import { ViewObjectsComponent } from './view-objects.component';
 
-describe('GeneralSettingsComponent', () => {
-  let component: GeneralSettingsComponent;
-  let fixture: ComponentFixture<GeneralSettingsComponent>;
+describe('ViewObjectsComponent', () => {
+  let component: ViewObjectsComponent;
+  let fixture: ComponentFixture<ViewObjectsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GeneralSettingsComponent]
+      imports: [ViewObjectsComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(GeneralSettingsComponent);
+    fixture = TestBed.createComponent(ViewObjectsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

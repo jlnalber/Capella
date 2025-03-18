@@ -1,0 +1,25 @@
+<div class="wrapper">
+    @if (this.data) {
+        <p class="paragraph heading">{{ this.data.title }}</p>
+        <div class="objectWrapper">
+            @for (p of this.data.objects; track p) {
+                <div class="object" [appContextMenu]="p.getContextMenu()">
+                    @if (p.icon) {
+                        <img [src]="'./assets/' + p.icon + '.svg'" class="icon" alt="icon">
+                    }
+                    <div class="objectName">{{ p.name }}</div>
+                    <button class="iconButton floatRight" title="Zusätzliche Einstellunge" (click)="p.threePointsClicked($event)"><img src="assets/threeDots.svg" class="icon" alt="icon"></button>
+                </div>
+            }
+            <div class="add" tabindex="0" (click)="this.data.add()">
+                <p>
+                <span><img [src]="'./assets/plus.svg'" class="icon iconInText smallIcon" alt="button"/></span>
+                Hinzufügen
+                </p>
+            </div>
+        </div>
+    }
+    @else {
+        <app-loading></app-loading>
+    }
+</div>

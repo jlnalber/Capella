@@ -43,7 +43,7 @@ export function isPercentageMeasurementFilterName(str: FilterName): str is Perce
 export type MeasurementFilterName = LengthMeasurementFilterName | AngleMeasurementFilterName | PercentageMeasurementFilterName;
 export const MEASUREMENT_FILTERS: FilterName[] = [...ANGLE_MEASUREMENT_FILTERS, ...PERCENTAGE_MEASUREMENT_FILTERS, ...LENGTH_MEASUREMENT_FILTERS];
 export type MeasurementFilter = LengthMeasurementFilter | AngleMeasurementFilter | PercentageMeasurementFilter;
-export function isMeasurementFilter(f: Filter): f is PercentageMeasurementFilter {
+export function isMeasurementFilter(f: Filter): f is MeasurementFilter {
     return MEASUREMENT_FILTERS.indexOf(f[0]) !== -1;
 }
 export function isMeasurementFilterName(str: FilterName): str is MeasurementFilterName {
@@ -83,4 +83,32 @@ export function getCopyOfFilter(filter: Filter): Filter {
     else {
         return [filter[0], getCopyOfMeasurement(filter[1])] as MeasurementFilter;
     }
+}
+
+export function areEqualObjectStyleFilters(f1: Filter[] | undefined, f2: Filter[] | undefined): boolean {
+    if (isDefaultObjectStyleFilter(f1) && isDefaultObjectStyleFilter(f2)) {
+        return true;
+    }
+    else if (f1 === undefined || f2 === undefined) {
+        return false;
+    }
+    else if (f1.length !== f2.length) {
+        return false;
+    }
+    for (let i = 0; i < f1.length; i++) {
+        if (f1[i][0] !== f2[i][0]) {
+            return false;
+        }
+        if ((isStringFilter(f1[i]) || isStringFilter(f2[i])) && f1[i][1] !== f2[i][1]) {
+            return false;
+        }
+        if (isMeasurementFilter(f1[i]) && isMeasurementFilter(f2[i]) && (f1[i][1][0] !== f2[i][1][0] || f1[i][1][1] !== f2[i][1][1])) {
+            return false;
+        }
+    }
+    return true;
+}
+
+export function isDefaultObjectStyleFilter(o: Filter[] | undefined): boolean {
+    return o === undefined || o.length === 0;
 }

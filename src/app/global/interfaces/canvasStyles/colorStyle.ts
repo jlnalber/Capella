@@ -1,52 +1,43 @@
-import { Circle, getCopyOfCircle } from "../circle";
-import { Color, getCopyOfColor } from "../color";
-import { getCopyOfPoint, Point } from "../point";
+import { areEqualColors, Color, getCopyOfColor, TRANSPARENT } from "../color";
+import { areEqualGradients, getCopyOfGradient, Gradient, instanceOfGradient } from "./gradientStyle";
 
 export type Pattern = {
-    picture: string
+    picture: string,
+    zoomFactor?: number
 }
+export const DEFAULT_PATTERN_PICTURE = '';
 export const DEFAULT_PATTERN: Pattern = {
-    picture: ''
+    picture: DEFAULT_PATTERN_PICTURE
 }
+export const DEFAULT_PATTERN_ZOOMFACTOR = 1;
 
-export type Gradient = LinearGradient | RadialGradient | ConicGradient;
-export type LinearGradient = {
-    startPoint: Point,
-    endPoint: Point,
-    stops: GradientColorStop[]
-};
-export const DEFAULT_LINEARGRADIENT: LinearGradient = {
-    startPoint: {x: 0, y: 0},
-    endPoint: {x: 0, y: 0},
-    stops: []
-}
-export type RadialGradient = {
-    startCircle: Circle,
-    endCircle: Circle,
-    stops: GradientColorStop[]
-};
-export const DEFAULT_RADIAL_GRADIENT: RadialGradient = {
-    startCircle: { x: 0, y: 0, radius: 0 },
-    endCircle: { x: 0, y: 0, radius: 0 },
-    stops: []
-};
-export type ConicGradient = {
-    center: Point,
-    startAngle: number,
-    stops: GradientColorStop[]
-};
-export const DEFAULT_CONIC_GRADIENT: ConicGradient = {
-    center: { x: 0, y: 0 },
-    startAngle: 0,
-    stops: []
-};
-export type GradientColorStop = [number, Color];
 
-export function getCopyOfGradientColorStop(gcs: GradientColorStop): GradientColorStop {
-    return [gcs[0], getCopyOfColor(gcs[1])];
-}
+export const DEFAULT_COLORSTYLE = TRANSPARENT;
 
 export type ColorStyle = Color | Pattern | Gradient;
+
+export function areEqualColorStyles(f1: ColorStyle | undefined, f2: ColorStyle | undefined): boolean {
+    if (isDefaultColorStyle(f1) && isDefaultColorStyle(f2)){
+        return true;
+    }
+    else if (f1 === undefined || f2 === undefined) {
+        return false;
+    }
+    else if (instanceOfColor(f1) && instanceOfColor(f2) && areEqualColors(f1, f2)) {
+        return true;
+    }
+    else if (instanceOfPattern(f1) && instanceOfPattern(f2) && areEqualPatterns(f1, f2)) {
+        return true;
+    }
+    else if (instanceOfGradient(f1) && instanceOfGradient(f2) && areEqualGradients(f1, f2)) {
+        return true;
+    }
+    return false;
+}
+
+export function isDefaultColorStyle(o: ColorStyle | undefined): boolean {
+    return o === undefined || (instanceOfColor(o) && areEqualColors(DEFAULT_COLORSTYLE, o));
+}
 
 export function getCopyOfColorStyle(colorStyle: ColorStyle): ColorStyle {
     if (instanceOfColor(colorStyle)) {
@@ -66,46 +57,30 @@ export function getCopyOfPattern(pattern: Pattern): Pattern {
     }
 }
 
-export function getCopyOfGradient(gradient: Gradient): Gradient {
-    if (instanceOfLinearGradient(gradient)) {
-        return getCopyOfLinearGradient(gradient);
-    }
-    else if (instanceOfRadialGradient(gradient)) {
-        return getCopyOfRadialGradient(gradient);
-    }
-    else {
-        return getCopyOfConicGradient(gradient);
-    }
+export function areEqualPatterns(f1: Pattern | undefined, f2: Pattern | undefined): boolean {
+    return (isDefaultPattern(f1) && isDefaultPattern(f2)) || (areEqualPatternZoomFactors(f1?.zoomFactor, f2?.zoomFactor) && areEqualPatternPictures(f1?.picture, f2?.picture));
 }
 
-export function getCopyOfRadialGradient(g: RadialGradient): RadialGradient {
-    const res = {
-        ...g
-    }
-    res.startCircle = getCopyOfCircle(g.startCircle);
-    res.endCircle = getCopyOfCircle(g.endCircle);
-    res.stops = res.stops.map(gcs => getCopyOfGradientColorStop(gcs));
-    return res;
+export function isDefaultPattern(o: Pattern | undefined): boolean {
+    return o === undefined || (isDefaultPatternPicture(o.picture) && isDefaultPatternZoomFactor(o.zoomFactor));
 }
 
-export function getCopyOfLinearGradient(g: LinearGradient): LinearGradient {
-    const res = {
-        ...g
-    }
-    res.startPoint = getCopyOfPoint(g.startPoint);
-    res.endPoint = getCopyOfPoint(g.endPoint);
-    res.stops = res.stops.map(gcs => getCopyOfGradientColorStop(gcs));
-    return res;
+export function areEqualPatternZoomFactors(f1: number | undefined, f2: number | undefined): boolean {
+    return (isDefaultPatternZoomFactor(f1) && isDefaultPatternZoomFactor(f2)) || (f1 === f2);
 }
 
-export function getCopyOfConicGradient(g: ConicGradient): ConicGradient {
-    const res = {
-        ...g
-    }
-    res.center = getCopyOfPoint(g.center);
-    res.stops = res.stops.map(gcs => getCopyOfGradientColorStop(gcs));
-    return res;
+export function isDefaultPatternZoomFactor(o: number | undefined): boolean {
+    return o === undefined || o === DEFAULT_PATTERN_ZOOMFACTOR;
 }
+
+export function areEqualPatternPictures(f1: string | undefined, f2: string | undefined): boolean {
+    return (isDefaultPatternPicture(f1) && isDefaultPatternPicture(f2)) || (f1 === f2);
+}
+
+export function isDefaultPatternPicture(o: string | undefined): boolean {
+    return o === undefined || o === DEFAULT_PATTERN_PICTURE;
+}
+
 
 
 export function instanceOfColor(colorStyle: ColorStyle): colorStyle is Color {
@@ -114,20 +89,4 @@ export function instanceOfColor(colorStyle: ColorStyle): colorStyle is Color {
 
 export function instanceOfPattern(colorStyle: ColorStyle): colorStyle is Pattern {
     return 'picture' in colorStyle;
-}
-
-export function instanceOfLinearGradient(colorStyle: ColorStyle): colorStyle is LinearGradient {
-    return 'startPoint' in colorStyle;
-}
-
-export function instanceOfRadialGradient(colorStyle: ColorStyle): colorStyle is RadialGradient {
-    return 'startCircle' in colorStyle;
-}
-
-export function instanceOfConicGradient(colorStyle: ColorStyle): colorStyle is ConicGradient {
-    return 'center' in colorStyle;
-}
-
-export function instanceOfGradient(colorStyle: ColorStyle): colorStyle is Gradient {
-    return 'stops' in colorStyle;
 }

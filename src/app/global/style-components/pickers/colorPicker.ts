@@ -1,6 +1,5 @@
-import { sameColors } from 'src/app/global/essentials/utils';
 import { hasWhereApplies } from 'src/app/global/essentials/utils';
-import { Color } from "src/app/global/interfaces/color";
+import { areEqualColors, Color } from "src/app/global/interfaces/color";
 import Picker from './picker';
 
 export default class ColorPicker extends Picker<Color> {
@@ -15,7 +14,7 @@ export default class ColorPicker extends Picker<Color> {
 
     public getAllColors(): Color[] {
         const activeColor = this.getActive();
-        if (activeColor === undefined || hasWhereApplies(this.colors, c => sameColors(c, activeColor))) {
+        if (activeColor === undefined || hasWhereApplies(this.colors, c => areEqualColors(c, activeColor))) {
             return this.colors;
         }
         return [activeColor, ...this.colors];

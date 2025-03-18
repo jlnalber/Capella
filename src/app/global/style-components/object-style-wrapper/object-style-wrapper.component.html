@@ -1,0 +1,13 @@
+<div class="wrapper">
+    <div class="afterBorder">
+        <label class="paragraph">Name:</label><br>
+        <input type="text" [(ngModel)]="this.name" title="Name" class="input noMath nameInput" placeholder="Name">
+    </div>
+
+    @if (this.objectStylePicker) {
+        <label class="paragraph">Objektstil:</label><br>
+        <app-object-style [picker]="this.objectStylePicker"></app-object-style>
+    } @else {
+        <app-loading></app-loading>
+    }
+</div>

@@ -1,4 +1,4 @@
-<div class="wrapper styleWrapper">
+<div class="wrapper styleWrapper afterBorderContainer">
     @if (this.picker && this.picker.value) {
         @if (this.easyStrokeStylePicker) {
             <app-easy-stroke-style [picker]="this.easyStrokeStylePicker"></app-easy-stroke-style>
@@ -7,7 +7,7 @@
             <app-loading></app-loading>
         }
         @if (this.objectStylePicker) {
-            <app-object-style [picker]="this.objectStylePicker"></app-object-style>
+            <app-select-object-style [picker]="this.objectStylePicker"></app-select-object-style>
         }
         @else {
             <app-loading></app-loading>

@@ -1,6 +1,10 @@
 import { CanvasConfig } from 'src/app/global/classes/renderingContext/abstractRenderingContext';
 import { DEFAULT_PENS, Pen } from '../global/interfaces/penStyle';
 import { BLACK, BLUE, Color, GREEN, GREY, RED, WHITE, YELLOW } from 'src/app/global/interfaces/color';
+import { ObjectStyleWrapper } from 'src/app/global/interfaces/canvasStyles/objectStyle';
+
+const OBJECT_STYLES_LOCALSTORAGE = 'OBJECT_STYLES_LOCSTOR';
+const OBJECT_STYLES_DEFAULT: ObjectStyleWrapper[] = [];
 
 const ADD_COLORS_LOCALSTORAGE = 'ADD_COLORS_LOCSTOR';
 const ADD_COLORS_DEFAULT: Color[] = [];
@@ -84,22 +88,40 @@ export class WhiteboardSettings {
     return this.getPensOrder().filter(i => i < pens.length).map(i => pens[i]);
   }
 
-  // colors
-  private addColors: Color[] | undefined;
+  // object styles
+  private objectStyles: ObjectStyleWrapper[] | undefined;
 
-  public getAdditionalColors(): Color[] {
-    if (this.addColors === undefined) {
-      const p = localStorage.getItem(ADD_COLORS_LOCALSTORAGE);
+  public getObjectStyles(): ObjectStyleWrapper[] {
+    if (this.objectStyles === undefined) {
+      const p = localStorage.getItem(OBJECT_STYLES_LOCALSTORAGE);
       if (p !== null) {
-        this.addColors = JSON.parse(p) as Color[];
+        this.objectStyles = JSON.parse(p) as ObjectStyleWrapper[];
       }
     }
-    return this.addColors ?? ADD_COLORS_DEFAULT;
+    return this.objectStyles ?? OBJECT_STYLES_DEFAULT;
+  }
+
+  public setObjectStyles(objectStyles: ObjectStyleWrapper[]): void {
+    this.objectStyles = objectStyles;
+    localStorage.setItem(OBJECT_STYLES_LOCALSTORAGE, JSON.stringify(this.objectStyles));
+  }
+
+  // colors
+  private colors: Color[] | undefined;
+
+  public getAdditionalColors(): Color[] {
+    if (this.colors === undefined) {
+      const p = localStorage.getItem(ADD_COLORS_LOCALSTORAGE);
+      if (p !== null) {
+        this.colors = JSON.parse(p) as Color[];
+      }
+    }
+    return this.colors ?? ADD_COLORS_DEFAULT;
   }
 
   public setAdditionalColors(colors: Color[]): void {
-    this.addColors = colors;
-    localStorage.setItem(ADD_COLORS_LOCALSTORAGE, JSON.stringify(this.addColors));
+    this.colors = colors;
+    localStorage.setItem(ADD_COLORS_LOCALSTORAGE, JSON.stringify(this.colors));
   }
 
   public getColors(): Color[] {

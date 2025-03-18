@@ -1,12 +1,16 @@
 import { Component, ElementRef, Input, ViewChild, ViewRef } from '@angular/core';
 import AbstractPickerComponent from '../abstractPickerComponent';
 import Picker from '../pickers/picker';
-import { Pattern } from '../../interfaces/canvasStyles/colorStyle';
+import { DEFAULT_PATTERN_ZOOMFACTOR, Pattern } from '../../interfaces/canvasStyles/colorStyle';
+import { getImageToBase64 } from '../../essentials/imageUtils';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-pattern-style',
   standalone: true,
-  imports: [],
+  imports: [
+    FormsModule
+  ],
   templateUrl: './pattern-style.component.html',
   styleUrl: './pattern-style.component.scss'
 })
@@ -14,6 +18,17 @@ export class PatternStyleComponent extends AbstractPickerComponent<Picker<Patter
   @Input({required: true}) public picker?: Picker<Pattern>;
   
   @ViewChild('inp') contentDiv?: ElementRef;
+
+  public get zoomFactor(): number {
+    return this.picker?.value?.zoomFactor ?? DEFAULT_PATTERN_ZOOMFACTOR
+  }
+
+  public set zoomFactor(value: number) {
+    if (this.picker && this.picker.value) {
+      this.picker.value.zoomFactor = value;
+      this.onChange();
+    }
+  }
 
   public fileOpened() {
     
@@ -26,9 +41,14 @@ export class PatternStyleComponent extends AbstractPickerComponent<Picker<Patter
         reader.onload = (e) => {
           if (typeof e.target?.result === 'string' && this.picker) {
             const base64String = e.target.result;
-            this.picker.value = {
-              picture: base64String
-            };
+            getImageToBase64(base64String, () => {
+              if (this.picker) {
+                this.picker.value = {
+                  picture: base64String,
+                  zoomFactor: this.zoomFactor
+                };
+              }
+            })
           }
         };
         reader.readAsDataURL(file);

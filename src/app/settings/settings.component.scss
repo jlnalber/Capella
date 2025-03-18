@@ -5,16 +5,133 @@
     height: 100%;
     display: flex;
     flex-flow: column;
+
+    --border-color-light: #ffe7d8;
 }
 
 .headingWrapper {
     padding-left: 16px;
     padding-right: 16px;
     padding-top: 16px;
-    border-bottom: 1px solid #ffe7d8;
+    border-bottom: 1px solid var(--border-color-light);
+    flex: 0 1 auto;
 }
 
 .tabWrapper {
-    height: 100%;
     width: 100%;
+    flex: 1 1 auto;
+    display: contents;
+
+    /* variables */
+    --sizeH: 45px;
+    --sizeW: 150px;
+    --margin: 3px;
+    --border: 1px;
+    --borderColor: #afa7a2;
+    --padding: 2px;
+    --borderRadius: 7px;
+    --width: calc(var(--sizeW) + 2 * var(--margin) + var(--border));
+    --background: #fff7f2;
+}
+  
+.tabHeaders {
+    left: 0;
+    top: 0;
+    bottom: 0;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    width: var(--width);
+    padding: var(--padding);
+    float: left;
+    border-right: var(--border) solid var(--border-color-light);
+    -webkit-user-select: none;
+    user-select: none;
+    overflow: auto;
+    scrollbar-width: none;
+}
+  
+.tabHeaders::-webkit-scrollbar {
+    display: none;
+}
+  
+.tabHeader {
+    --sizeHeight: calc(var(--sizeH) - 2 * var(--border));
+    --sizeWidth: calc(var(--sizeW) - 2 * var(--border));
+    width: var(--sizeWidth);
+    height: var(--sizeHeight);
+    margin: var(--margin);
+    border: 1px solid transparent;
+    text-align: center;
+    line-height: var(--sizeHeight);
+    border-radius: var(--borderRadius);
+    transition: var(--default-transition);
+    font-family: 'Segoe UI', Calibri, 'sans-serif';
+}
+  
+.tabHeader:hover {
+    background: #efe7e2;
+}
+  
+.tabHeader:active {
+    background: var(--borderColor);
+}
+
+.tabHeader p {
+    margin: 0;
+}
+
+.tabHeader.active {
+    font-weight: bold;
+    background: #dfd7d2;
+}
+ 
+.tabContainer {
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    float: right;
+    height: 100%;
+    width: calc(100% - var(--width) - 2 * var(--padding));
+    background: var(--background);
+    overflow: auto;
+}
+  
+.empty .tabContainer {
+    display: none;
+}
+  
+.wrapper {
+    width: 100%;
+    background: var(--background);
+}
+  
+.empty.wrapper {
+    width: calc(var(--width) + 2 * var(--padding));
+}
+  
+.table {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    margin: 0;
+    clear: both;
+    box-sizing: border-box;
+    background-color: transparent;
+    overflow: hidden;
+}
+
+.footerDiv {
+    flex: 0 1 auto;
+    padding: 16px;
+    border-top: 1px solid var(--border-color-light);
+}
+
+.settingsViewWrapper {
+    margin: 16px;
+}
+
+.settingsViewWrapper:not(:last-child)::after {
+    margin-left: -10px;
+    width: calc(100% + 20px);
 }

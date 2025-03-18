@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import Picker from '../pickers/picker';
 import AbstractPickerComponent from '../abstractPickerComponent';
-import { GradientColorStop } from '../../interfaces/canvasStyles/colorStyle';
 import { FormsModule } from '@angular/forms';
 import { ColorCircleComponent } from 'src/app/prokyon/formula-tab/global/color-circle/color-circle.component';
+import { GradientColorStop } from '../../interfaces/canvasStyles/gradientStyle';
 
 @Component({
   selector: 'app-gradient-stops',

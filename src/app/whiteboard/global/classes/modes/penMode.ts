@@ -6,12 +6,12 @@ import PenElement from '../canvas-elements/penElement';
 import { BLACK, Color, getColorAsRgbaFunction } from 'src/app/global/interfaces/color';
 import { WhiteboardService } from "src/app/whiteboard/services/whiteboard.service";
 import { RibbonTab } from "../../../../global/classes/ribbon/ribbon";
-import { DEFAULT_PENS, getPenStyleOfPen, Pen, PenStyle } from "../../interfaces/penStyle";
+import { DEFAULT_PENS, getColorStyleOfPen, getPenStyleOfPen, Pen, PenStyle } from "../../interfaces/penStyle";
 import ColorPicker from "src/app/global/style-components/pickers/colorPicker";
 import RibbonButton from "src/app/global/classes/ribbon/ribbonButton";
 import { ViewSettingsDialogComponent } from "src/app/whiteboard/dialogs/view-settings-dialog/view-settings-dialog.component";
-import { EditPenQuickActionsComponent } from "src/app/whiteboard/settings/edit-pen-quick-actions/edit-pen-quick-actions.component";
-import { ViewPensComponent } from "src/app/whiteboard/settings/view-pens/view-pens.component";
+import { EditPenQuickActionsComponent } from "src/app/settings/edit-pen-quick-actions/edit-pen-quick-actions.component";
+import { ViewPensComponent } from "src/app/settings/view-pens/view-pens.component";
 import { instanceOfColor } from "src/app/global/interfaces/canvasStyles/colorStyle";
 import { getPenPointFromPreviousPoint } from "src/app/global/interfaces/penPoint";
 
@@ -97,7 +97,10 @@ export class PenMode extends WhiteboardMode {
       color: colors[0],
       underlineColor: colors[1],
       content: [
-        new ColorPicker(whiteboardService.settings.getColors(), () => this.pen.color, (c?: Color) => this.pen.color = c ?? this.pen.color, () => false, true, true),
+        new ColorPicker(whiteboardService.settings.getColors(), () => this.pen.color, (c?: Color) => {
+            this.pen.color = c ?? this.pen.color
+            getColorStyleOfPen(this.pen, whiteboardService.settings.getPens()); // Load the image
+        }, () => false, true, true),
         {
           title: 'Stifte verwalten',
           content: [

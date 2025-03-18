@@ -12,6 +12,9 @@ const routes: Routes = [{
   path: 'prokyon',
   component: ProkyonComponent
 }, {
+  path: 'settings/:settingsurl',
+  component: SettingsComponent
+}, {
   path: 'settings',
   component: SettingsComponent
 }, {

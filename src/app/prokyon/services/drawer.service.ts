@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BLACK, Color, colorAsTransparent, getColorAsRgbaFunction, WHITE } from "src/app/global/interfaces/color";
+import { areEqualColors, BLACK, Color, colorAsTransparent, getColorAsRgbaFunction, WHITE } from "src/app/global/interfaces/color";
 import { Event } from "src/app/global/essentials/event";
 import { RenderingContext } from "src/app/global/classes/renderingContext/renderingContext";
 import { getResolution, Transformations } from "src/app/global/interfaces/transformations";
@@ -7,7 +7,7 @@ import { Point, Vector } from "src/app/global/interfaces/point";
 import { CanvasDrawer } from 'src/app/global/classes/abstract/canvasDrawer';
 import { Grid } from "src/app/prokyon/global/classes/grid";
 import { Graph, ParseAndValidateProviderGraph } from "../global/classes/canvas-elements/graph";
-import { getDistanceToRect, getMinUndef, getNew, sameColors } from "src/app/global/essentials/utils";
+import { getDistanceToRect, getMinUndef, getNew } from "src/app/global/essentials/utils";
 import { FuncProvider } from "../global/classes/func/operations/externalFunction";
 import { Func } from "../global/classes/func/func";
 import { FuncParser } from "../global/classes/func/funcParser";
@@ -621,7 +621,7 @@ export class DrawerService extends AbstractDrawerService {
     return getNew(colors,
       this.canvasElements.map(c => c.color),
       (c1, c2) => {
-        return sameColors(c1, c2)
+        return areEqualColors(c1, c2)
       })
   }
 

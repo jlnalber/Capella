@@ -57,3 +57,5 @@ export const colors: Color[] = [
     b: 103
   }
 ]
+
+export const ERROR_COLOR = colors[1];

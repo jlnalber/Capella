@@ -2,10 +2,8 @@ import { Point } from "src/app/global/interfaces/point";
 import { Rect } from "src/app/global/interfaces/rect";
 import AbstractRenderingContext from "../../../global/classes/renderingContext/abstractRenderingContext";
 import { Line, Paragraph, Span } from "./textElements";
-import { BLACK } from "src/app/global/interfaces/color";
+import { areEqualColors, BLACK } from "src/app/global/interfaces/color";
 import Padding from "src/app/global/interfaces/padding";
-import { sameColors } from "../../../global/essentials/utils";
-import { CanvasIdElement } from "../../../global/classes/abstract/canvasIdElement";
 import { PX_PER_MM } from "../../services/page";
 import WhiteboardCanvasIdElement from "./abstract/whiteboardCanvasIdElement";
 
@@ -679,7 +677,7 @@ export default class TextBox extends WhiteboardCanvasIdElement {
         }
         
         return similarArrays(s1.attributes, s2.attributes)
-            && sameColors(s1.color, s2.color)
+            && areEqualColors(s1.color, s2.color)
             && s1.font === s2.font
             && s1.fontSize === s2.fontSize;
     }

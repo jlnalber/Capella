@@ -1,6 +1,6 @@
-@import url(../../../global/styles/_global.scss);
+@import url(../../global/styles/_global.scss);
 
-.pen {
+.object {
     --height: 60px;
     --padding: 7px;
     padding: var(--padding);
@@ -8,18 +8,18 @@
     border-bottom: var(--default-border);
 }
 
-.pen > .icon {
+.object > .icon {
     --iconSize: calc(var(--height) - 2 * var(--padding));
     height: var(--iconSize);
     width: var(--iconSize);
     border-radius: 50%;
 }
 
-.pen .iconButton {
+.object .iconButton {
     margin-top: calc((var(--height) - var(--iconButtonSize)) / 2 - var(--padding));
 }
 
-.pen .penName {
+.object .objectName {
     --innerHeight: calc(var(--height) - 2 * var(--padding));
     height: var(--innerHeight);
     position: absolute;
@@ -52,4 +52,8 @@
     width: 100%;
     display: inline-block;
     /* font-family: 'Segoe UI', Calibri, 'sans-serif'; */
+}
+
+.wrapper {
+    position: relative;
 }

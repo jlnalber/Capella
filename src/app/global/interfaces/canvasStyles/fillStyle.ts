@@ -1,9 +1,17 @@
-import { areEqualColorStyles, ColorStyle, DEFAULT_COLORSTYLE, isDefaultColorStyle } from "./colorStyle";
+import { areEqualColorStyles, ColorStyle, DEFAULT_COLORSTYLE, getCopyOfColorStyle, isDefaultColorStyle } from "./colorStyle";
 import { areEqualFillStyleUniformSizeOnZoom, isDefaultFillStyleUniformSizeOnZoom } from "./styleTypes";
 
 export default interface FillStyle {
     color: ColorStyle,
     uniformSizeOnZoom?: boolean
+}
+
+export function getCopyOfFillStyle(f: FillStyle): FillStyle {
+    const res = {
+        ...f
+    }
+    res.color = getCopyOfColorStyle(res.color);
+    return res;
 }
 
 export const EMPTY_FILLSTYLE: FillStyle = {

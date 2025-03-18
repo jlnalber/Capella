@@ -6,10 +6,12 @@ import { PenIcon } from "src/app/global/interfaces/icon";
 import { PX_PER_MM } from "../../services/page";
 import { getImageToBase64 } from "src/app/global/essentials/imageUtils";
 import { getCopyOfGradient, Gradient, instanceOfGradient } from "src/app/global/interfaces/canvasStyles/gradientStyle";
+import FillStyle, { getCopyOfFillStyle } from "src/app/global/interfaces/canvasStyles/fillStyle";
 
 export type PenStyle = {
     objectStyle?: ObjectStyle,
     strokeStyle: StrokeStyle,
+    fillStyle?: FillStyle,
     useSizes?: boolean
 }
 
@@ -20,12 +22,16 @@ export function getCopyOfPenStyle(penStyle: PenStyle): PenStyle {
     if (res.objectStyle !== undefined) {
         res.objectStyle = getCopyOfObjectStyle(res.objectStyle);
     }
+    if (res.fillStyle !== undefined) {
+        res.fillStyle = getCopyOfFillStyle(res.fillStyle);
+    }
     res.strokeStyle = getCopyOfStrokeStyle(res.strokeStyle);
     return res;
 }
 
 export type EasyPenStyle = {
     objectStyle?: ObjectStyle,
+    fillStyle?: FillStyle,
     strokeStyle: EasyStrokeStyle,
     useSizes?: boolean
 }
@@ -36,6 +42,9 @@ export function getCopyOfEasyPenStyle(penStyle: EasyPenStyle): EasyPenStyle {
     }
     if (res.objectStyle !== undefined) {
         res.objectStyle = getCopyOfObjectStyle(res.objectStyle);
+    }
+    if (res.fillStyle !== undefined) {
+        res.fillStyle = getCopyOfFillStyle(res.fillStyle);
     }
     res.strokeStyle = getCopyOfEasyStrokeStyle(res.strokeStyle);
     return res;
@@ -81,6 +90,7 @@ export function getPenStyleOfPen(pen: Pen, pens: Pen[]): PenStyle {
     return {
         objectStyle: pen.penStyle.objectStyle,
         strokeStyle: strokeStyle,
+        fillStyle: pen.penStyle.fillStyle,
         useSizes: pen.penStyle.useSizes
     }
 }

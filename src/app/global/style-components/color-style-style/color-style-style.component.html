@@ -1,1 +1,71 @@
-<p>color-style-style works!</p>
+<div class="wrapper">
+    @if (this.picker) {
+        <input type="radio" id="color" value="color" [(ngModel)]="this.selectedType">
+        <label for="color">Farbe verwenden</label><br>
+        @if (this.selectedType === "color") {
+            @if (this.colorPicker) {
+                <div class="wrapperForStyle">
+                    <app-color-picker [picker]="this.colorPicker"></app-color-picker>
+                </div>
+            }
+            @else {
+                <app-loading></app-loading>
+            }
+        }
+
+        <input type="radio" id="radial" value="radialgrad" [(ngModel)]="this.selectedType">
+        <label for="radial">Radialverlauf verwenden</label><br>
+        @if (this.selectedType === "radialgrad") {
+            @if (this.radialGradientPicker) {
+                <div class="wrapperForStyle">
+                    <app-radial-gradient-style [picker]="this.radialGradientPicker"></app-radial-gradient-style>
+                </div>
+            }
+            @else {
+                <app-loading></app-loading>
+            }
+        }
+
+        <input type="radio" id="conic" value="conicgrad" [(ngModel)]="this.selectedType">
+        <label for="conic">Kreisverlauf verwenden</label><br>
+        @if (this.selectedType === "conicgrad") {
+            @if (this.conicGradientPicker) {
+                <div class="wrapperForStyle">
+                    <app-conic-gradient-style [picker]="this.conicGradientPicker"></app-conic-gradient-style>
+                </div>
+            }
+            @else {
+                <app-loading></app-loading>
+            }
+        }
+
+        <input type="radio" id="linear" value="lineargrad" [(ngModel)]="this.selectedType">
+        <label for="linear">Linearverlauf verwenden</label><br>
+        @if (this.selectedType === "lineargrad") {
+            @if (this.linearGradientPicker) {
+                <div class="wrapperForStyle">
+                    <app-linear-gradient-style [picker]="this.linearGradientPicker"></app-linear-gradient-style>
+                </div>
+            }
+            @else {
+                <app-loading></app-loading>
+            }
+        }
+
+        <input type="radio" id="pattern" value="pattern" [(ngModel)]="this.selectedType">
+        <label for="pattern">Muster verwenden</label><br>
+        @if (this.selectedType === "pattern") {
+            @if (this.patternPicker) {
+                <div class="wrapperForStyle">
+                    <app-pattern-style [picker]="this.patternPicker"></app-pattern-style>
+                </div>
+            }
+            @else {
+                <app-loading></app-loading>
+            }
+        }
+    }
+    @else {
+        <app-loading></app-loading>
+    }
+</div>

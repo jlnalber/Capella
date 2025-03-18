@@ -83,6 +83,9 @@ export class EasyPenColorStyleComponent extends AbstractPickerComponent<Picker<E
   
   private _linearGradient: LinearGradient = getCopyOfLinearGradient(DEFAULT_LINEARGRADIENT);
   public get linearGradient(): LinearGradient {
+    if (this.picker && this.picker.value !== undefined && typeof this.picker.value !== 'number' && instanceOfLinearGradient(this.picker.value)) {
+      return this.picker.value;
+    }
     return this._linearGradient;
   }
   public set linearGradient(value: LinearGradient) {

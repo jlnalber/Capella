@@ -1,1 +1,17 @@
-<p>fill-style works!</p>
+<div class="wrapper styleWrapper afterBorderContainer">
+    @if (this.picker && this.picker.value) {
+        @if (this.colorStylePicker) {
+            <app-color-style-style [picker]="this.colorStylePicker"></app-color-style-style>
+        }
+        @else {
+            <app-loading></app-loading>
+        }
+        <div>
+            <input id="useUniformSizeOnZoomInput" type="checkbox" [(ngModel)]="this.picker.value.uniformSizeOnZoom" (change)="this.onChange()">
+            <label for="useUniformSizeOnZoomInput" title="Die Größen der Füllung sind einheitlich, auch beim Zoom.">Einheitliche Größe verwenden</label>
+        </div>
+    }
+    @else {
+        <app-loading></app-loading>
+    }
+</div>

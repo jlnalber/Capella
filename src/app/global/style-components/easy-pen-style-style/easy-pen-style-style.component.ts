@@ -15,7 +15,6 @@ import { SelectObjectStyleComponent } from "../select-object-style/select-object
   standalone: true,
   imports: [
     EasyStrokeStyleComponent,
-    ObjectStyleComponent,
     FormsModule,
     LoadingComponent,
     SelectObjectStyleComponent

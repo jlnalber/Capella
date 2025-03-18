@@ -19,6 +19,18 @@ export type StrokeStyle = EasyStrokeStyle & {
     lineWidth: number
 }
 
+export interface StrokeStyleWrapper {
+    style: StrokeStyle,
+    name: string
+}
+
+export function getCopyOfStrokeStyleWrapper(strokeStyle: StrokeStyleWrapper): StrokeStyleWrapper {
+    return {
+        style: getCopyOfStrokeStyle(strokeStyle.style),
+        name: strokeStyle.name
+    }
+}
+
 export const DEFAULT_LINEWIDTH = 0;
 export function areEqualLineWidths(f1: number | undefined, f2: number | undefined): boolean {
     return (isDefaultLineWidth(f1) && isDefaultLineWidth(f2)) || (f1 === f2);
@@ -30,6 +42,15 @@ export function isDefaultLineWidth(o: number | undefined): boolean {
 export const EMPTY_STROKESTYLE: StrokeStyle = {
     color: DEFAULT_COLORSTYLE,
     lineWidth: DEFAULT_LINEWIDTH
+}
+
+export const EMPTY_STROKESTYLEWRAPPER: StrokeStyleWrapper = {
+    style: EMPTY_STROKESTYLE,
+    name: 'Leerer Strichstil'
+};
+
+export function getEmptyStrokeStyleWrapperForCopy(): StrokeStyleWrapper {
+    return getCopyOfStrokeStyleWrapper(EMPTY_STROKESTYLEWRAPPER);
 }
 
 export function getEmptyStrokeStyleForCopy(): StrokeStyle {

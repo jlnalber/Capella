@@ -16,7 +16,7 @@ export default interface ObjectStyle {
 export const EMPTY_OBJECTSTYLE: ObjectStyle = {}
 export const EMPTY_OBJECTSTYLEWRAPPER: ObjectStyleWrapper = {
     style: EMPTY_OBJECTSTYLE,
-    name: 'Objektstil'
+    name: 'Leerer Objektstil'
 };
 export function getEmptyObjectStyleForCopy(): ObjectStyle {
     return {};

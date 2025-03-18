@@ -5,14 +5,36 @@ export default interface ImageStyle {
     imageSmoothingQuality?: ImageSmoothingQuality
 }
 
+export interface ImageStyleWrapper {
+    style: ImageStyle,
+    name: string
+}
+
 export const EMPTY_IMAGESTYLE: ImageStyle = {}
+
+export const EMPTY_IMAGESTYLEWRAPPER: ImageStyleWrapper = {
+    style: EMPTY_IMAGESTYLE,
+    name: 'Leerer Bildstil'
+};
+
 export function getEmptyImageStyleForCopy(): ImageStyle {
     return {};
 }
 
-export function copyImageStyle(i: ImageStyle): ImageStyle {
+export function getEmptyImageStyleWrapperForCopy(): ImageStyleWrapper {
+    return getCopyOfImageStyleWrapper(EMPTY_IMAGESTYLEWRAPPER);
+}
+
+export function getCopyOfImageStyle(i: ImageStyle): ImageStyle {
     return {
         ...i
+    }
+}
+
+export function getCopyOfImageStyleWrapper(objectStyle: ImageStyleWrapper): ImageStyleWrapper {
+    return {
+        style: getCopyOfImageStyle(objectStyle.style),
+        name: objectStyle.name
     }
 }
 

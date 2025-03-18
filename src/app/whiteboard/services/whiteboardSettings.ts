@@ -2,9 +2,21 @@ import { CanvasConfig } from 'src/app/global/classes/renderingContext/abstractRe
 import { DEFAULT_PENS, Pen } from '../global/interfaces/penStyle';
 import { BLACK, BLUE, Color, GREEN, GREY, RED, WHITE, YELLOW } from 'src/app/global/interfaces/color';
 import { ObjectStyleWrapper } from 'src/app/global/interfaces/canvasStyles/objectStyle';
+import { FillStyleWrapper } from 'src/app/global/interfaces/canvasStyles/fillStyle';
+import { StrokeStyleWrapper } from 'src/app/global/interfaces/canvasStyles/strokeStyle';
+import { ImageStyleWrapper } from 'src/app/global/interfaces/canvasStyles/imageStyle';
 
 const OBJECT_STYLES_LOCALSTORAGE = 'OBJECT_STYLES_LOCSTOR';
 const OBJECT_STYLES_DEFAULT: ObjectStyleWrapper[] = [];
+
+const FILL_STYLES_LOCALSTORAGE = 'FILL_STYLES_LOCSTOR';
+const FILL_STYLES_DEFAULT: FillStyleWrapper[] = [];
+
+const STROKE_STYLES_LOCALSTORAGE = 'STROKE_STYLES_LOCSTOR';
+const STROKE_STYLES_DEFAULT: StrokeStyleWrapper[] = [];
+
+const IMAGE_STYLES_LOCALSTORAGE = 'IMAGE_STYLES_LOCSTOR';
+const IMAGE_STYLES_DEFAULT: ImageStyleWrapper[] = [];
 
 const ADD_COLORS_LOCALSTORAGE = 'ADD_COLORS_LOCSTOR';
 const ADD_COLORS_DEFAULT: Color[] = [];
@@ -104,6 +116,60 @@ export class WhiteboardSettings {
   public setObjectStyles(objectStyles: ObjectStyleWrapper[]): void {
     this.objectStyles = objectStyles;
     localStorage.setItem(OBJECT_STYLES_LOCALSTORAGE, JSON.stringify(this.objectStyles));
+  }
+
+  // fill styles
+  private fillStyles: FillStyleWrapper[] | undefined;
+
+  public getFillStyles(): FillStyleWrapper[] {
+    if (this.fillStyles === undefined) {
+      const p = localStorage.getItem(FILL_STYLES_LOCALSTORAGE);
+      if (p !== null) {
+        this.fillStyles = JSON.parse(p) as FillStyleWrapper[];
+      }
+    }
+    return this.fillStyles ?? FILL_STYLES_DEFAULT;
+  }
+
+  public setFillStyles(fillStyles: FillStyleWrapper[]): void {
+    this.fillStyles = fillStyles;
+    localStorage.setItem(FILL_STYLES_LOCALSTORAGE, JSON.stringify(this.fillStyles));
+  }
+
+  // stroke styles
+  private strokeStyles: StrokeStyleWrapper[] | undefined;
+  
+  public getStrokeStyles(): StrokeStyleWrapper[] {
+    if (this.strokeStyles === undefined) {
+      const p = localStorage.getItem(STROKE_STYLES_LOCALSTORAGE);
+      if (p !== null) {
+        this.strokeStyles = JSON.parse(p) as StrokeStyleWrapper[];
+      }
+    }
+    return this.strokeStyles ?? STROKE_STYLES_DEFAULT;
+  }
+
+  public setStrokeStyles(strokeStyles: StrokeStyleWrapper[]): void {
+    this.strokeStyles = strokeStyles;
+    localStorage.setItem(STROKE_STYLES_LOCALSTORAGE, JSON.stringify(this.strokeStyles));
+  }
+
+  // image styles
+  private imageStyles: ImageStyleWrapper[] | undefined;
+
+  public getImageStyles(): ImageStyleWrapper[] {
+    if (this.imageStyles === undefined) {
+      const p = localStorage.getItem(IMAGE_STYLES_LOCALSTORAGE);
+      if (p !== null) {
+        this.imageStyles = JSON.parse(p) as ImageStyleWrapper[];
+      }
+    }
+    return this.imageStyles ?? IMAGE_STYLES_DEFAULT;
+  }
+
+  public setImageStyles(imageStyles: ImageStyleWrapper[]): void {
+    this.imageStyles = imageStyles;
+    localStorage.setItem(IMAGE_STYLES_LOCALSTORAGE, JSON.stringify(this.imageStyles));
   }
 
   // colors

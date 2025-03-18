@@ -6,6 +6,11 @@ export default interface FillStyle {
     uniformSizeOnZoom?: boolean
 }
 
+export interface FillStyleWrapper {
+    style: FillStyle,
+    name: string
+}
+
 export function getCopyOfFillStyle(f: FillStyle): FillStyle {
     const res = {
         ...f
@@ -14,8 +19,24 @@ export function getCopyOfFillStyle(f: FillStyle): FillStyle {
     return res;
 }
 
+export function getCopyOfFillStyleWrapper(fillStyle: FillStyleWrapper): FillStyleWrapper {
+    return {
+        style: getCopyOfFillStyle(fillStyle.style),
+        name: fillStyle.name
+    }
+}
+
 export const EMPTY_FILLSTYLE: FillStyle = {
     color: DEFAULT_COLORSTYLE
+}
+
+export const EMPTY_FILLSTYLEWRAPPER: FillStyleWrapper = {
+    style: EMPTY_FILLSTYLE,
+    name: 'Leerer Füllungsstil'
+};
+
+export function getEmptyImageStyleWrapperForCopy(): FillStyleWrapper {
+    return getCopyOfFillStyleWrapper(EMPTY_FILLSTYLEWRAPPER);
 }
 
 export function areEqualFillStyles(f1: FillStyle | undefined, f2: FillStyle | undefined): boolean {

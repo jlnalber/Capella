@@ -53,7 +53,7 @@ export function getCopyOfEasyPenStyle(penStyle: EasyPenStyle): EasyPenStyle {
 export type Pen = {
     name: string,
     icon?: PenIcon,
-    penStyle: EasyPenStyle,
+    style: EasyPenStyle,
     color: Color,
     colorStyle?: PenColorStyle,
     lineWidth: number
@@ -81,17 +81,17 @@ export function getPenStyleOfPen(pen: Pen, pens: Pen[]): PenStyle {
     const color: ColorStyle = getColorStyleOfPen(pen, pens);
 
     const strokeStyle: StrokeStyle = {
-        ...pen.penStyle.strokeStyle,
+        ...pen.style.strokeStyle,
         lineWidth: pen.lineWidth,
         uniformSizeOnZoom: false,
         color: color
     }
 
     return {
-        objectStyle: pen.penStyle.objectStyle,
+        objectStyle: pen.style.objectStyle,
         strokeStyle: strokeStyle,
-        fillStyle: pen.penStyle.fillStyle,
-        useSizes: pen.penStyle.useSizes
+        fillStyle: pen.style.fillStyle,
+        useSizes: pen.style.useSizes
     }
 }
 
@@ -111,13 +111,13 @@ export function getCopyOfPen(pen: Pen, index?: number): Pen {
     else if (typeof p.colorStyle === 'function' && index !== undefined) {
         p.colorStyle = index;
     }
-    p.penStyle = getCopyOfEasyPenStyle(p.penStyle);
+    p.style = getCopyOfEasyPenStyle(p.style);
     return p;
 }
 
 export const DEFAULT_PENS: Pen[] = [{
     name: 'Füller',
-    penStyle: {
+    style: {
         strokeStyle: {
             lineCap: 'round'
         },
@@ -128,7 +128,7 @@ export const DEFAULT_PENS: Pen[] = [{
     icon: 'fueller'
 }, {
     name: 'Kugelschreiber',
-    penStyle: {
+    style: {
         strokeStyle: {
             lineCap: 'round'
         },
@@ -139,7 +139,7 @@ export const DEFAULT_PENS: Pen[] = [{
     icon: 'ballpoint'
 }, {
     name: 'Bleistift',
-    penStyle: {
+    style: {
         strokeStyle: {
             lineCap: 'round'
         },
@@ -159,7 +159,7 @@ export const DEFAULT_PENS: Pen[] = [{
     icon: 'pencil'
 }, {
     name: 'Textmarker',
-    penStyle: {
+    style: {
         strokeStyle: {
             lineCap: 'butt'
         },
@@ -174,7 +174,7 @@ export const DEFAULT_PENS: Pen[] = [{
 
 export const DEFAULT_PEN: Pen = {
     name: 'Stift',
-    penStyle: {
+    style: {
         strokeStyle: {}
     },
     color: BLACK,

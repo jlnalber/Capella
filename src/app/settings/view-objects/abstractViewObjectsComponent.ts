@@ -12,19 +12,20 @@ import { RED_FILTER } from "src/app/global/interfaces/color";
 import { ConfirmationDialogComponent } from "src/app/global/dialog/confirmation-dialog/confirmation-dialog.component";
 import { ViewObjectsData, ViewObjectsDataObject } from "./view-objects.component";
 
-type ObjectAndEvent<T extends TWrapper> = [T, CustomEvent<[Point, Event]>];
+type ObjectAndEvent<T extends StyleWrapper<S>, S> = [T, CustomEvent<[Point, Event]>];
 
-type TWrapper = {
+export type StyleWrapper<T> = {
     name: string,
+    style: T,
     icon?: string
 }
 
-export default abstract class AbstractViewObjectsComponent<T extends TWrapper, E extends AbstractPickerComponent<Picker<T>, T>> extends AbstractSettingsComponent {
-    public threePointsClicked(event: MouseEvent, p: ObjectAndEvent<T>) {
+export default abstract class AbstractViewObjectsComponent<T extends StyleWrapper<S>, S, E extends AbstractPickerComponent<Picker<T>, T>> extends AbstractSettingsComponent {
+    public threePointsClicked(event: MouseEvent, p: ObjectAndEvent<T, S>) {
         ContextMenuDirective.threePointsClicked(event, FormulaElement.getDOMRectOfIconButton(event), p[1]);
     }
     
-    public getContextMenuForPen(p: ObjectAndEvent<T>, isDefault: boolean): ContextMenu {
+    public getContextMenuForPen(p: ObjectAndEvent<T, S>, isDefault: boolean): ContextMenu {
         return {
             elements: () => [{
                 header: 'Bearbeiten',
@@ -82,7 +83,7 @@ export default abstract class AbstractViewObjectsComponent<T extends TWrapper, E
     }
     
     protected resetData() {
-        const objects: ViewObjectsDataObject<ObjectAndEvent<T>>[] = this.defaultObjects.map(p => ({
+        const objects: ViewObjectsDataObject<ObjectAndEvent<T, S>>[] = this.defaultObjects.map(p => ({
             object: p,
             getContextMenu: () => this.getContextMenuForPen(p, true),
             threePointsClicked: (event: MouseEvent) => this.threePointsClicked(event, p),
@@ -103,10 +104,10 @@ export default abstract class AbstractViewObjectsComponent<T extends TWrapper, E
         }
     }
     
-    public data?: ViewObjectsData<ObjectAndEvent<T>>;
+    public data?: ViewObjectsData<ObjectAndEvent<T, S>>;
     
-    public readonly defaultObjects: ObjectAndEvent<T>[];
-    public readonly additionalObjects: ObjectAndEvent<T>[];
+    public readonly defaultObjects: ObjectAndEvent<T, S>[];
+    public readonly additionalObjects: ObjectAndEvent<T, S>[];
 
 
     constructor(public readonly whiteboardService: WhiteboardService,
@@ -120,7 +121,9 @@ export default abstract class AbstractViewObjectsComponent<T extends TWrapper, E
         this.resetData();
     }
 
-    protected abstract getDefaultObjects(): T[];
+    protected getDefaultObjects(): T[] {
+        return [];
+    }
     protected abstract getAdditionalObjects(): T[];
     protected abstract saveAdditionObjects(objs: T[]): void;
 

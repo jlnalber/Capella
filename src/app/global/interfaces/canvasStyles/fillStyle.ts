@@ -35,8 +35,12 @@ export const EMPTY_FILLSTYLEWRAPPER: FillStyleWrapper = {
     name: 'Leerer Füllungsstil'
 };
 
-export function getEmptyImageStyleWrapperForCopy(): FillStyleWrapper {
+export function getEmptyFillStyleWrapperForCopy(): FillStyleWrapper {
     return getCopyOfFillStyleWrapper(EMPTY_FILLSTYLEWRAPPER);
+}
+
+export function getEmptyFillStyleForCopy(): FillStyle {
+    return getCopyOfFillStyle(EMPTY_FILLSTYLE);
 }
 
 export function areEqualFillStyles(f1: FillStyle | undefined, f2: FillStyle | undefined): boolean {

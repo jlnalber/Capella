@@ -1,7 +1,7 @@
 import { Component, Input, AfterViewInit } from '@angular/core';
 import AbstractPickerComponent from '../abstractPickerComponent';
 import Picker from '../pickers/picker';
-import { DEFAULT_MAX_PEN_SIZE, DEFAULT_MIN_PEN_SIZE, EasyPenColorStyle, EasyPenStyle, getColorStyleOfPen, getCopyOfPen, getPenStyleOfPen, Pen } from 'src/app/whiteboard/global/interfaces/penStyle';
+import { DEFAULT_MAX_PEN_SIZE, DEFAULT_MIN_PEN_SIZE, EasyPenColorStyle, EasyPenStyle, getColorStyleOfPen, getPenStyleOfPen, Pen } from 'src/app/whiteboard/global/interfaces/penStyle';
 import { StringInputComponent } from '../string-input/string-input.component';
 import { EasyPenStyleStyleComponent } from "../easy-pen-style-style/easy-pen-style-style.component";
 import { ColorPickerComponent } from "../color-picker/color-picker.component";
@@ -96,7 +96,7 @@ export class PenStyleComponent extends AbstractPickerComponent<Picker<Pen>, Pen>
         }
       }, true);
       this.easyPenColorStylePicker.onValueChanged.addListener(this._redrawListener);
-      this.easyPenStylePicker = new Picker<EasyPenStyle>(() => this.picker?.value?.penStyle, (t?: EasyPenStyle) => { if (this.picker?.value && t) this.picker.value.penStyle = t }, true);
+      this.easyPenStylePicker = new Picker<EasyPenStyle>(() => this.picker?.value?.style, (t?: EasyPenStyle) => { if (this.picker?.value && t) this.picker.value.style = t }, true);
       this.easyPenStylePicker.onValueChanged.addListener(this._redrawListener);
     }, 0)
   }

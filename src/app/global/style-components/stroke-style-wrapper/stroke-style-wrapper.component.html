@@ -5,8 +5,8 @@
     </div>
 
     @if (this.stylePicker) {
-        <label class="paragraph">Objektstil:</label><br>
-        <app-object-style [picker]="this.stylePicker"></app-object-style>
+        <label class="paragraph">Strichstil:</label><br>
+        <app-stroke-style [picker]="this.stylePicker"></app-stroke-style>
     } @else {
         <app-loading></app-loading>
     }

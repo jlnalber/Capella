@@ -11,6 +11,9 @@ import { getColorAsRgbFunction } from '../global/interfaces/color';
 import { ERROR_COLOR } from '../global/styles/colors';
 import { openErrorSnackbar } from '../prokyon/global/essentials/analysingFunctionsUtils';
 import { ViewObjectStylesComponent } from './view-object-styles/view-object-styles.component';
+import { ViewStrokeStylesComponent } from './view-stroke-styles/view-stroke-styles.component';
+import { ViewFillStylesComponent } from './view-fill-styles/view-fill-styles.component';
+import { ViewImageStylesComponent } from './view-image-styles/view-image-styles.component';
 
 @Component({
   selector: 'app-settings',
@@ -72,7 +75,10 @@ export class SettingsComponent {
     title: 'Verschiedene Stile einstellen, hinzufügen und entfernen',
     url: 'styles',
     componentTypes: [
-      ViewObjectStylesComponent
+      ViewObjectStylesComponent,
+      ViewStrokeStylesComponent,
+      ViewFillStylesComponent,
+      ViewImageStylesComponent
     ]
   }];
 }

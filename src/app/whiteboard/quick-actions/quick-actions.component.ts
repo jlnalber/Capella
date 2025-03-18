@@ -19,13 +19,13 @@ export class QuickActionsComponent {
 
   private getPenModes(p?: Pen): PenMode[] {
     const res: PenMode[] = [];
-    if (this.whiteboardService.mouseMode instanceof PenMode && (p === undefined || this.whiteboardService.mouseMode.pen.penStyle === p.penStyle)) {
+    if (this.whiteboardService.mouseMode instanceof PenMode && (p === undefined || this.whiteboardService.mouseMode.pen.style === p.style)) {
       res.push(this.whiteboardService.mouseMode);
     }
-    if (this.whiteboardService.penMode instanceof PenMode && (p === undefined || this.whiteboardService.penMode.pen.penStyle === p.penStyle)) {
+    if (this.whiteboardService.penMode instanceof PenMode && (p === undefined || this.whiteboardService.penMode.pen.style === p.style)) {
       res.push(this.whiteboardService.penMode);
     }
-    if (this.whiteboardService.touchMode instanceof PenMode && (p === undefined || this.whiteboardService.touchMode.pen.penStyle === p.penStyle)) {
+    if (this.whiteboardService.touchMode instanceof PenMode && (p === undefined || this.whiteboardService.touchMode.pen.style === p.style)) {
       res.push(this.whiteboardService.touchMode);
     }
     return res;

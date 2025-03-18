@@ -25,6 +25,7 @@ export interface ViewObjectsData<T> {
 export interface ViewObjectsDataObject<T> {
   object: T,
   icon?: string,
+  picture?: string,
   name: string,
   getContextMenu: () => ContextMenu,
   threePointsClicked: (event: MouseEvent) => void

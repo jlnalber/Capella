@@ -1,20 +1,10 @@
 import { Component, OnDestroy } from '@angular/core';
-import AbstractSettingsComponent from '../abstractSettingComponent';
 import { WhiteboardService } from '../../whiteboard/services/whiteboard.service';
 import { DEFAULT_PEN, getCopyOfPen, Pen } from '../../whiteboard/global/interfaces/penStyle';
-import { Event as CustomEvent } from 'src/app/global/essentials/event';
-import { Point } from 'src/app/global/interfaces/point';
-import { ContextMenu, ContextMenuDirective } from 'src/app/global/context-menu/context-menu.directive';
-import { FormulaElement } from 'src/app/prokyon/global/classes/abstract/formulaElement';
-import { ConfirmationDialogComponent } from 'src/app/global/dialog/confirmation-dialog/confirmation-dialog.component';
-import Picker from 'src/app/global/style-components/pickers/picker';
-import { PickerDialogComponent, PickerDialogData } from '../../whiteboard/dialogs/picker-dialog/picker-dialog.component';
 import { PenStyleComponent } from 'src/app/global/style-components/pen-style/pen-style.component';
-import { RED_FILTER } from 'src/app/global/interfaces/color';
-import { ViewObjectsComponent, ViewObjectsData, ViewObjectsDataObject } from "../view-objects/view-objects.component";
+import { ViewObjectsComponent } from "../view-objects/view-objects.component";
 import { LoadingComponent } from "../../global/loading/loading.component";
-
-type PenAndEvent = [Pen, CustomEvent<[Point, Event]>]
+import AbstractViewObjectsComponent from '../view-objects/abstractViewObjectsComponent';
 
 @Component({
   standalone: true,
@@ -26,107 +16,30 @@ type PenAndEvent = [Pen, CustomEvent<[Point, Event]>]
   templateUrl: './view-pens.component.html',
   styleUrl: './view-pens.component.scss'
 })
-export class ViewPensComponent extends AbstractSettingsComponent implements OnDestroy {
-  threePointsClicked(event: MouseEvent, p: PenAndEvent) {
-    ContextMenuDirective.threePointsClicked(event, FormulaElement.getDOMRectOfIconButton(event), p[1]);
+export class ViewPensComponent extends AbstractViewObjectsComponent<Pen, PenStyleComponent> implements OnDestroy {
+
+  constructor (whiteboardService: WhiteboardService) {
+    super(whiteboardService,
+          ['Stift', 'Stifte'],
+          (p: Pen, index?: number) => getCopyOfPen(p, index),
+          PenStyleComponent,
+          DEFAULT_PEN);
   }
 
-  public getContextMenuForPen(p: PenAndEvent, isDefault: boolean): ContextMenu {
-    return {
-      elements: () => [{
-        header: 'Bearbeiten',
-        title: 'Stift bearbeiten',
-        disabled: isDefault,
-        click: () => {
-          const picker = new Picker<Pen>(() => getCopyOfPen(p[0]), (pen?: Pen) => {
-            p[0] = pen ?? p[0];
-            this.resetData();
-          });
-          const pickerDialogData: PickerDialogData<PenStyleComponent, Pen> = {
-            componentType: PenStyleComponent,
-            title: 'Stift bearbeiten',
-            picker: picker
-          }
-          PickerDialogComponent.openPickerDialogComponent(this.whiteboardService.dialogService, pickerDialogData)
-        },
-        icon: 'edit'
-      }, {
-        header: 'Duplizieren',
-        title: 'Stift duplizieren',
-        click: () => {
-          const index = this.defaultPens.indexOf(p);
-          this.additionalPens.push([getCopyOfPen(p[0], index === -1 ? undefined : index), new CustomEvent<[Point, Event]>()])
-          this.resetData();
-        },
-        icon: 'copy'
-      }, {
-        header: 'Löschen',
-        title: 'Stift löschen',
-        disabled: isDefault,
-        filter: RED_FILTER,
-        click: () => {
-          ConfirmationDialogComponent.confirm(this.whiteboardService.dialogService, {
-            yes: () => {
-              const index = this.additionalPens.indexOf(p);
-              if (index !== -1) {
-                this.additionalPens.splice(index, 1);
-                this.resetData();
-              }
-            },
-            title: `Stift "${p[0].name}" löschen?`,
-            text: 'Diese Aktion kann nicht mehr rückgängig gemacht werden.'
-          })
-        },
-        icon: 'trash'
-      }],
-      additionalEvent: p[1]
-    }
+  protected saveAdditionObjects(p: Pen[]) {
+    this.whiteboardService.settings.setAdditionalPens(p);
   }
 
-  add() {
-    this.additionalPens.push([DEFAULT_PEN, new CustomEvent<[Point, Event]>()]);
-    this.resetData();
+  protected override getDefaultObjects(): Pen[] {
+    return this.whiteboardService.settings.getDefaultPens();
   }
 
-  private resetData() {
-    const objects: ViewObjectsDataObject<PenAndEvent>[] = this.defaultPens.map(p => ({
-      object: p,
-      getContextMenu: () => this.getContextMenuForPen(p, true),
-      threePointsClicked: (event: MouseEvent) => this.threePointsClicked(event, p),
-      name: p[0].name,
-      icon: p[0].icon
-    })).concat(this.additionalPens.map(p => ({
-      object: p,
-      getContextMenu: () => this.getContextMenuForPen(p, false),
-      threePointsClicked: (event: MouseEvent) => this.threePointsClicked(event, p),
-      name: p[0].name,
-      icon: p[0].icon
-    })));
-
-    this.data = {
-      title: 'Stifte bearbeiten',
-      add: () => this.add(),
-      objects: objects
-    }
-  }
-
-  public data?: ViewObjectsData<PenAndEvent>;
-
-  public readonly defaultPens: PenAndEvent[];
-  public readonly additionalPens: PenAndEvent[];
-
-  constructor (private readonly whiteboardService: WhiteboardService) {
-    super();
-    this.defaultPens = this.whiteboardService.settings.getDefaultPens().map(p => [p, new CustomEvent<[Point, Event]>()]);
-    this.additionalPens = this.whiteboardService.settings.getAdditionalPens().map(p => [getCopyOfPen(p), new CustomEvent<[Point, Event]>()]);
-    this.resetData();
-  }
-
-  protected save() {
-    this.whiteboardService.settings.setAdditionalPens(this.additionalPens.map(p => p[0]));
+  protected override getAdditionalObjects(): Pen[] {
+    return this.whiteboardService.settings.getAdditionalPens();
   }
 
   ngOnDestroy(): void {
-      this.closed = true;
+    this.destroy();
   }
 }
+

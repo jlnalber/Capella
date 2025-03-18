@@ -1,4 +1,6 @@
-<app-formula-element *ngFor="let canvasElement of this.drawerService.canvasElements" [canvasElement]="canvasElement"></app-formula-element>
+@for (canvasElement of this.drawerService.canvasElements; track canvasElement) {
+  <app-formula-element [canvasElement]="canvasElement"></app-formula-element>
+}
 <div class="addDiv" [appContextMenu]="this.contextMenu" (click)="addClick()" (keydown)="keyboardAdd($event)" tabindex="0">
   <p>
     <span><img [src]="'./assets/plus.svg'" class="icon iconInText mediumIcon" alt="button"/></span>

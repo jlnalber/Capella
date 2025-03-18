@@ -15,22 +15,26 @@
     <label for="lsi">Labelgröße:</label><br>
     <input min="0" max="5" step="any" id="lsi" type="range" [(ngModel)]="this.labelSize">
   </div>
-  <table *ngIf="this.isDefined()">
-    <tr>
-      <td><p class="paragraph">Radius:</p></td>
-      <td>
-        <p class="paragraph maths centered">
-          <span>{{ this.radius }}</span>
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td><p class="paragraph">Mittelpunkt:</p></td>
-      <td><p class="paragraph maths centered">( {{ this.pointX }} | {{ this.pointY }} )</p></td>
-    </tr>
-  </table>
-  <div *ngIf="!this.isDefined()">
-    <p class="paragraph maths centered">Kreis konnte nicht konstruiert werden.</p>
-  </div>
+  @if (this.isDefined()) {
+    <table>
+      <tr>
+        <td><p class="paragraph">Radius:</p></td>
+        <td>
+          <p class="paragraph maths centered">
+            <span>{{ this.radius }}</span>
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td><p class="paragraph">Mittelpunkt:</p></td>
+        <td><p class="paragraph maths centered">( {{ this.pointX }} | {{ this.pointY }} )</p></td>
+      </tr>
+    </table>
+  }
+  @if (!this.isDefined()) {
+    <div>
+      <p class="paragraph maths centered">Kreis konnte nicht konstruiert werden.</p>
+    </div>
+  }
   <button class="button floatRight close" (click)="this.dialog.close()" title="Dialog schließen">Schließen</button>
 </div>

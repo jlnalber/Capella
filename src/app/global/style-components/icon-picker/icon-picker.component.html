@@ -5,7 +5,7 @@
             <img [src]="'./assets/' + this.activeIconObj?.fileName + '.svg'" class="icon" alt="icon">
             <select class="select" [(ngModel)]="this.activeIcon" title="Icon auswählen">
                 @for (pen of this.icons; track $index) {
-                    <option [value]="$index">{{ pen.name }}</option>
+                    <option [ngValue]="$index">{{ pen.name }}</option>
                 }
             </select>
         }

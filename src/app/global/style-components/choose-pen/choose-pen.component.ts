@@ -34,7 +34,7 @@ export class ChoosePenComponent extends AbstractPickerComponent<PenPicker, numbe
   public set value(num: number | undefined) {
     if (num !== undefined && this.picker !== undefined) {
       if (typeof num === "string") {
-        num = Number.parseInt(num);
+        num = Number.parseInt(num); // i guess this is obsolete now
       }
       this.picker.value = num;
     }

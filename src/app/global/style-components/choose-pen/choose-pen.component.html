@@ -3,7 +3,7 @@
         <img [src]="'./assets/' + getPenFor(this.value)!.icon + '.svg'" class="icon" alt="icon">
         <select class="select" [(ngModel)]="this.value" title="Stift auswählen">
             @for (pen of this.picker.penList; track $index) {
-                <option [value]="$index">{{ pen.name }}</option>
+                <option [ngValue]="$index">{{ pen.name }}</option>
             }
         </select>
     }

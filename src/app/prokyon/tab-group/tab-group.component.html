@@ -1,14 +1,16 @@
 <div class="wrapper" [ngClass]="{ 'empty': this.currentTab == undefined }">
   <div class="table">
     <div class="tabHeaders">
-      <div class="tabHeader" *ngFor="let tab of this.tabs" (click)="this.onTabClick(tab)" tabindex="0" (keydown)="this.onTabKeyboard($event, tab)" [title]="tab.title" [ngClass]="{ 'active': this.currentTab == tab }">
-        @if (tab.icon) {
-          <span><img [src]="'./assets/' + tab.icon + '.svg'" class="icon bigIcon" alt="button"/></span>
-        }
-        @else {
-          <p>{{tab.title}}</p>
-        }
-      </div>
+      @for (tab of this.tabs; track tab) {
+        <div class="tabHeader" (click)="this.onTabClick(tab)" tabindex="0" (keydown)="this.onTabKeyboard($event, tab)" [title]="tab.title" [ngClass]="{ 'active': this.currentTab == tab }">
+          @if (tab.icon) {
+            <span><img [src]="'./assets/' + tab.icon + '.svg'" class="icon bigIcon" alt="button"/></span>
+          }
+          @else {
+            <p>{{tab.title}}</p>
+          }
+        </div>
+      }
     </div>
     <div class="tabContainer">
       <div class="tabPage" #tabPage></div>

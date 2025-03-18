@@ -48,7 +48,7 @@
                 <td>
                     <select title="Wie sollen die Striche miteinander verbunden werden?" id="lineJoinSelector" class="select" [(ngModel)]="this.lineJoin">
                         @for (lineJoin of lineJoins; track $index) {
-                            <option [value]="lineJoin">{{ lineJoin }}</option>
+                            <option [ngValue]="lineJoin">{{ lineJoin }}</option>
                         }
                     </select>
                 </td>
@@ -60,7 +60,7 @@
                 <td>
                     <select title="Wie sollen die Striche aufhören?" id="lineCapSelector" class="select" [(ngModel)]="this.lineCap">
                         @for (lineCap of lineCaps; track $index) {
-                            <option [value]="lineCap">{{ lineCap }}</option>
+                            <option [ngValue]="lineCap">{{ lineCap }}</option>
                         }
                     </select>
                 </td>

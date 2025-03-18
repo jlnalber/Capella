@@ -17,8 +17,8 @@ export default abstract class AbstractSelectStyleComponent<W extends StyleWrappe
         if (value === 'custom' && this.customPicker && this.picker) {
         this.picker.value = this.customPicker.value;
         }
-        if (value === 'saved' && this._selectedSavedObjectStyle && this.picker) {
-        this.picker.value = this._selectedSavedObjectStyle.style;
+        if (value === 'saved' && this._selectedSavedStyle && this.picker) {
+        this.picker.value = this._selectedSavedStyle.style;
         }
     }
   
@@ -40,23 +40,23 @@ export default abstract class AbstractSelectStyleComponent<W extends StyleWrappe
     
     public readonly savedObjectStyles: W[];
     
-    private _selectedSavedObjectStyle: W;
+    private _selectedSavedStyle: W;
 
-    public get selectedSavedObjectStyle(): W {
-        return this._selectedSavedObjectStyle;
+    public get selectedSavedStyle(): W {
+        return this._selectedSavedStyle;
     }
 
-    public set selectedSavedObjectStyle(value: W) {
-        this._selectedSavedObjectStyle = value;
-        if (this.isCustom === 'saved' && this.picker && this._selectedSavedObjectStyle) {
-            this.picker.value = this._selectedSavedObjectStyle.style;
+    public set selectedSavedStyle(value: W) {
+        this._selectedSavedStyle = value;
+        if (this.isCustom === 'saved' && this.picker && this._selectedSavedStyle) {
+            this.picker.value = this._selectedSavedStyle.style;
         }
     }
 
     constructor(protected readonly whiteboardService: WhiteboardService, protected readonly areEqualStyles: (s1: S | undefined, s2: S | undefined) => boolean, protected readonly getEmptyStyle: () => W, protected readonly getSavedStyles: (whiteboardService: WhiteboardService) => W[]) {
         super();
         this.savedObjectStyles = [ this.getEmptyStyle(), ...this.getSavedStyles(whiteboardService) ]
-        this._selectedSavedObjectStyle = this.savedObjectStyles[0];
+        this._selectedSavedStyle = this.savedObjectStyles[0];
     }
 
     public customPicker?: Picker<S>;
@@ -68,7 +68,7 @@ export default abstract class AbstractSelectStyleComponent<W extends StyleWrappe
                 this.isCustom = 'custom';
             }
             else {
-                this._selectedSavedObjectStyle = c;
+                this._selectedSavedStyle = c;
                 this.isCustom = 'saved';
             }
     

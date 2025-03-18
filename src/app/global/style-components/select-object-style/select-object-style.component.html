@@ -6,7 +6,7 @@
         <label for="saved">Gespeicherten Objektstil auswählen</label><br>
         @if (this.isCustom === 'saved') {
             <div class="wrapperForStyle">
-                <select [(ngModel)]="this.selectedSavedObjectStyle" title="Gespeicherten Objektstil auswählen" class="select">
+                <select [(ngModel)]="this.selectedSavedStyle" title="Gespeicherten Objektstil auswählen" class="select">
                     @for (o of this.savedObjectStyles; track $index) {
                         <option [ngValue]="o">{{o.name}}</option>
                     }

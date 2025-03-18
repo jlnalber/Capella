@@ -1,1 +1,33 @@
-<p>select-stroke-style works!</p>
+<div class="wrapper">
+    @if (this.picker) {
+        <label class="paragraph">Strichstil:</label><br>
+
+        <input type="radio" id="saved" value="saved" [(ngModel)]="this.isCustom">
+        <label for="saved">Gespeicherten Strichstil auswählen</label><br>
+        @if (this.isCustom === 'saved') {
+            <div class="wrapperForStyle">
+                <select [(ngModel)]="this.selectedSavedStyle" title="Gespeicherten Strichstil auswählen" class="select">
+                    @for (o of this.savedObjectStyles; track $index) {
+                        <option [ngValue]="o">{{o.name}}</option>
+                    }
+                </select>
+            </div>
+        }
+
+        <input type="radio" id="custom" value="custom" [(ngModel)]="this.isCustom">
+        <label for="custom">Eigenen Strichstil verwenden</label><br>
+        @if (this.isCustom === 'custom') {
+            @if (this.customPicker) {
+                <div class="wrapperForStyle">
+                    <app-stroke-style [picker]="this.customPicker"></app-stroke-style>
+                </div>
+            }
+            @else {
+                <app-loading></app-loading>
+            }
+        }
+    }   
+    @else {
+        <app-loading></app-loading>
+    } 
+</div>

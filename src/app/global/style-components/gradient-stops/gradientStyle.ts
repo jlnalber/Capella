@@ -1,4 +1,4 @@
-import { Gradient, GradientColorStop } from "../../interfaces/canvasStyles/colorStyle";
+import { Gradient, GradientColorStop } from "../../interfaces/canvasStyles/gradientStyle";
 import AbstractPickerComponent from "../abstractPickerComponent";
 import Picker from "../pickers/picker";
 

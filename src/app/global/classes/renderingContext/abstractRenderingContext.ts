@@ -53,7 +53,6 @@ export default abstract class AbstractRenderingContext {
     return { ... this._variables };
   }
 
-  // TODO: Test when there is a resolution factor in the regular canvas
   public transformPointFromCanvasToField(p: Point): Point {
     return {
       x: p.x / this.transformations.zoom - this.transformations.translateX,

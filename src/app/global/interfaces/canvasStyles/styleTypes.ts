@@ -48,6 +48,14 @@ export function isDefaultObjectStyleUniformSizeOnZoom(o: boolean | undefined): b
     return o === undefined || o === false;
 }
 
+export function areEqualFillStyleUniformSizeOnZoom(f1: boolean | undefined, f2: boolean | undefined): boolean {
+    return f1 === f2 || (isDefaultFillStyleUniformSizeOnZoom(f1) && isDefaultFillStyleUniformSizeOnZoom(f2));
+}
+
+export function isDefaultFillStyleUniformSizeOnZoom(o: boolean | undefined): boolean {
+    return o === undefined || o === false;
+}
+
 export type LineCap = CanvasLineCap;
 export const DEFAULT_LINECAP: LineCap = 'round';
 export const ALL_LINECAP: LineCap[] = ['butt', 'round', 'square']

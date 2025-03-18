@@ -1,10 +1,11 @@
-import { ColorStyle, getCopyOfGradient, getCopyOfPattern, Gradient, instanceOfGradient, instanceOfPattern, Pattern } from "src/app/global/interfaces/canvasStyles/colorStyle"
+import { ColorStyle, getCopyOfPattern, instanceOfPattern, Pattern } from "src/app/global/interfaces/canvasStyles/colorStyle"
 import ObjectStyle, { getCopyOfObjectStyle } from "src/app/global/interfaces/canvasStyles/objectStyle"
 import { EasyStrokeStyle, getCopyOfEasyStrokeStyle, getCopyOfStrokeStyle, StrokeStyle } from "src/app/global/interfaces/canvasStyles/strokeStyle"
 import { BLACK, Color, DEEPBLUE, getColorAsRgbaFunction, getCopyOfColor, YELLOW } from "src/app/global/interfaces/color"
 import { PenIcon } from "src/app/global/interfaces/icon";
 import { PX_PER_MM } from "../../services/page";
 import { getImageToBase64 } from "src/app/global/essentials/imageUtils";
+import { getCopyOfGradient, Gradient, instanceOfGradient } from "src/app/global/interfaces/canvasStyles/gradientStyle";
 
 export type PenStyle = {
     objectStyle?: ObjectStyle,

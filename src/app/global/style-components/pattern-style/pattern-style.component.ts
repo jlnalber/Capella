@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, ViewChild, ViewRef } from '@angular/core';
 import AbstractPickerComponent from '../abstractPickerComponent';
 import Picker from '../pickers/picker';
-import { DEFAULT_ZOOMFACTOR, Pattern } from '../../interfaces/canvasStyles/colorStyle';
+import { DEFAULT_PATTERN_ZOOMFACTOR, Pattern } from '../../interfaces/canvasStyles/colorStyle';
 import { getImageToBase64 } from '../../essentials/imageUtils';
 import { FormsModule } from '@angular/forms';
 
@@ -20,7 +20,7 @@ export class PatternStyleComponent extends AbstractPickerComponent<Picker<Patter
   @ViewChild('inp') contentDiv?: ElementRef;
 
   public get zoomFactor(): number {
-    return this.picker?.value?.zoomFactor ?? DEFAULT_ZOOMFACTOR
+    return this.picker?.value?.zoomFactor ?? DEFAULT_PATTERN_ZOOMFACTOR
   }
 
   public set zoomFactor(value: number) {

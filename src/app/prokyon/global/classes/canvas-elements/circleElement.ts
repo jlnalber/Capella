@@ -80,13 +80,13 @@ export default class CircleElement extends DynamicElement {
     this._radiusProvider = radiusProvider;
   }
 
-  public async draw(ctx: AbstractRenderingContext): Promise<void> {
+  public draw(ctx: AbstractRenderingContext): void {
     const point = this.point;
     const radius = this.radius;
 
     if (point !== undefined && radius !== undefined) {
       if (ctx.selection.indexOf(this) !== -1) {
-        await ctx.drawCircle(point, radius, true, {
+        ctx.drawCircle(point, radius, true, {
           color: TRANSPARENT
         }, {
           color: colorAsTransparent(this._color, TRANSPARENCY_RATIO),
@@ -95,7 +95,7 @@ export default class CircleElement extends DynamicElement {
           lineDash: getRegularLineDash(this.configuration.dashed)
         })
       }
-      await ctx.drawCircle(point, radius, true, {
+      ctx.drawCircle(point, radius, true, {
         color: TRANSPARENT
       }, {
         color: this.color,

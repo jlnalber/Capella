@@ -165,8 +165,8 @@ export class ScreenshotDialogComponent implements OnInit, AfterViewInit {
     sessionStorage[SESSION_RESOLUTION] = JSON.stringify(this._resolution);
   }
 
-  private drawToCanvas(canvas: HTMLCanvasElement): void {
-    this.drawerService.drawToCanvas(canvas, {
+  private async drawToCanvas(canvas: HTMLCanvasElement): Promise<void> {
+    await this.drawerService.drawToCanvas(canvas, {
       x: 0,
       y: 0,
       width: this.width * this.zoom * this.resolution,

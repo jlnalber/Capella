@@ -71,7 +71,7 @@ export class RenderingContext extends AbstractRenderingContext {
     return this.ctx.canvas.height;
   }
 
-  private async colorStyleToCanvasStyle(colorStyle: ColorStyle, uniformSizeOnZoom?: boolean): Promise<string | CanvasPattern | CanvasGradient | null> {
+  private colorStyleToCanvasStyle(colorStyle: ColorStyle, uniformSizeOnZoom?: boolean): string | CanvasPattern | CanvasGradient | null {
 
     if (instanceOfColor(colorStyle)) {
       // just a color
@@ -121,7 +121,7 @@ export class RenderingContext extends AbstractRenderingContext {
   }
 
   private strokeStyleSet: boolean = true;
-  private async useStrokeStyle(strokeStyle?: StrokeStyle) {
+  private useStrokeStyle(strokeStyle?: StrokeStyle) {
     if (strokeStyle === undefined) {
       if (!this.strokeStyleSet && !this.canvasConfig?.alwaysSetStyles) {
         return;
@@ -138,7 +138,7 @@ export class RenderingContext extends AbstractRenderingContext {
     const resFactor = this.resolutionFactor;
     const zoom = this.zoom;
     // color
-    const colorStyle = await this.colorStyleToCanvasStyle(strokeStyle.color, strokeStyle.uniformSizeOnZoom);
+    const colorStyle = this.colorStyleToCanvasStyle(strokeStyle.color, strokeStyle.uniformSizeOnZoom);
     if (colorStyle !== null) {
       this.ctx.strokeStyle = colorStyle;
     }
@@ -173,7 +173,7 @@ export class RenderingContext extends AbstractRenderingContext {
   }
 
   private fillStyleSet: boolean = false;
-  private async useFillStyle(fillStyle?: FillStyle) {
+  private useFillStyle(fillStyle?: FillStyle) {
     if (fillStyle === undefined) {
       if (!this.fillStyleSet && !this.canvasConfig?.alwaysSetStyles) {
         return;
@@ -188,7 +188,7 @@ export class RenderingContext extends AbstractRenderingContext {
     }
 
     // color
-    const colorStyle = await this.colorStyleToCanvasStyle(fillStyle.color, fillStyle.uniformSizeOnZoom);
+    const colorStyle = this.colorStyleToCanvasStyle(fillStyle.color, fillStyle.uniformSizeOnZoom);
     if (colorStyle !== null) {
       this.ctx.fillStyle = colorStyle;
     }
@@ -238,7 +238,7 @@ export class RenderingContext extends AbstractRenderingContext {
   }
 
   private textStyleSet: boolean = false;
-  private async useTextStyle(textStyle?: TextStyle) {
+  private useTextStyle(textStyle?: TextStyle) {
     if (textStyle === undefined) {
       if (!this.textStyleSet && !this.canvasConfig?.alwaysSetStyles) {
         return;
@@ -256,7 +256,7 @@ export class RenderingContext extends AbstractRenderingContext {
     const zoom = this.zoom;
 
     // color
-    const colorStyle = await this.colorStyleToCanvasStyle(textStyle.color, textStyle.uniformSizeOnZoom);
+    const colorStyle = this.colorStyleToCanvasStyle(textStyle.color, textStyle.uniformSizeOnZoom);
     if (colorStyle !== null) {
       this.ctx.fillStyle = colorStyle;
     }
@@ -319,7 +319,7 @@ export class RenderingContext extends AbstractRenderingContext {
   }
 
   // path: just lines
-  public async drawPath(points: Point[], strokeStyle: StrokeStyle, fill?: FillStyle, objectStyle?: ObjectStyle): Promise<void> {
+  public drawPath(points: Point[], strokeStyle: StrokeStyle, fill?: FillStyle, objectStyle?: ObjectStyle): void {
     const realPoints = points.map(p => {
       return this.transformPointFromFieldToCanvasWithResolutionFactor(p);
     });
@@ -330,9 +330,9 @@ export class RenderingContext extends AbstractRenderingContext {
     }*/
 
     this.ctx.beginPath();
-    await this.useStrokeStyle(strokeStyle);
-    await this.useObjectStyle(objectStyle);
-    await this.useFillStyle(fill);
+    this.useStrokeStyle(strokeStyle);
+    this.useObjectStyle(objectStyle);
+    this.useFillStyle(fill);
 
     if (realPoints.length !== 0) {
       let firstP = realPoints[0];
@@ -354,7 +354,7 @@ export class RenderingContext extends AbstractRenderingContext {
   }
 
   // smooth path: quadratic beziers
-  public override async drawSmoothPath(path: PenPoint[], changeThickness: boolean | undefined, strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): Promise<void> {
+  public override drawSmoothPath(path: PenPoint[], changeThickness: boolean | undefined, strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void {
 
     const baseLineWidth = strokeStyle.lineWidth;
 
@@ -362,14 +362,14 @@ export class RenderingContext extends AbstractRenderingContext {
       return;
     }
     else if (path.length === 1) {
-      await this.drawCircle(path[0], getStrokePointPathFromPenPointPath(path)[0].thickness * baseLineWidth / 2, strokeStyle.uniformSizeOnZoom, {
+      this.drawCircle(path[0], getStrokePointPathFromPenPointPath(path)[0].thickness * baseLineWidth / 2, strokeStyle.uniformSizeOnZoom, {
         color: strokeStyle.color
       }, undefined, objectStyle)
     }
     else {
       
-      await this.useStrokeStyle(strokeStyle);
-      await this.useObjectStyle(objectStyle);
+      this.useStrokeStyle(strokeStyle);
+      this.useObjectStyle(objectStyle);
 
       const pathStroke = getStrokePointPathFromPenPointPath(path);
 
@@ -420,10 +420,10 @@ export class RenderingContext extends AbstractRenderingContext {
     }
   }
 
-  public override async drawSmoothPathSegment(qbz: QuadraticBezier, thicknessSettings: ThicknessSettings | undefined, strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): Promise<void> {
+  public override drawSmoothPathSegment(qbz: QuadraticBezier, thicknessSettings: ThicknessSettings | undefined, strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void {
   
-    await this.useStrokeStyle(strokeStyle);
-    await this.useObjectStyle(objectStyle);
+    this.useStrokeStyle(strokeStyle);
+    this.useObjectStyle(objectStyle);
 
     this.drawSmoothPathSegmentWithoutSettings(qbz, true, thicknessSettings);
 
@@ -476,14 +476,14 @@ export class RenderingContext extends AbstractRenderingContext {
 
   }
 
-  public async drawContinousQuadraticPath(points: Point[], stroke: StrokeStyle, fill?: FillStyle, objectStyle?: ObjectStyle): Promise<void> {
+  public drawContinousQuadraticPath(points: Point[], stroke: StrokeStyle, fill?: FillStyle, objectStyle?: ObjectStyle): void {
     const realPoints = points.map(p => {
       return this.transformPointFromFieldToCanvasWithResolutionFactor(p);
     });
 
-    await this.useStrokeStyle(stroke);
-    await this.useFillStyle(fill);
-    await this.useObjectStyle(objectStyle);
+    this.useStrokeStyle(stroke);
+    this.useFillStyle(fill);
+    this.useObjectStyle(objectStyle);
 
     if (realPoints.length !== 0) {
       
@@ -521,7 +521,7 @@ export class RenderingContext extends AbstractRenderingContext {
     }
   }
 
-  public async drawQuadraticPath(points: PenPoint[], stroke: StrokeStyle, objectStyle?: ObjectStyle): Promise<void> {
+  public drawQuadraticPath(points: PenPoint[], stroke: StrokeStyle, objectStyle?: ObjectStyle): void {
     const realPoints: PenPoint[] = points.map(p => copyPointToPenPoint(this.transformPointFromFieldToCanvasWithResolutionFactor(p), p));
 
     /*for (let p of realPoints) {
@@ -530,8 +530,8 @@ export class RenderingContext extends AbstractRenderingContext {
     }*/
     const zoom = this.zoom;
 
-    await this.useStrokeStyle(stroke);
-    await this.useObjectStyle(objectStyle);
+    this.useStrokeStyle(stroke);
+    this.useObjectStyle(objectStyle);
 
     if (realPoints.length !== 0) {
       
@@ -579,11 +579,11 @@ export class RenderingContext extends AbstractRenderingContext {
     }
   }
 
-  public async drawText(text: string, p: Point,
+  public drawText(text: string, p: Point,
                   textStyle: TextStyle,
                   strokeStyle?: StrokeStyle,
                   fillStyle?: FillStyle,
-                  objectStyle?: ObjectStyle): Promise<void> {
+                  objectStyle?: ObjectStyle): void {
     let realP = this.transformPointFromFieldToCanvasWithResolutionFactor(p);
    
     // set the ctx up
@@ -607,39 +607,39 @@ export class RenderingContext extends AbstractRenderingContext {
     // }
 
     // set global text properties
-    await this.useStrokeStyle(strokeStyle);
-    await this.useFillStyle(fillStyle);
-    await this.useObjectStyle(objectStyle);
-    await this.useTextStyle(textStyle);
+    this.useStrokeStyle(strokeStyle);
+    this.useFillStyle(fillStyle);
+    this.useObjectStyle(objectStyle);
+    this.useTextStyle(textStyle);
 
     // draw the text
     ctx.strokeText(text, realP.x, realP.y);
     ctx.fillText(text, realP.x, realP.y);
   }
 
-  public async measureText(text: string,
-                  textStyle: TextStyle): Promise<TextMetrics> {
-    await this.useTextStyle(textStyle);
+  public measureText(text: string,
+                  textStyle: TextStyle): TextMetrics {
+    this.useTextStyle(textStyle);
 
     // draw the text
     return this.ctx.measureText(text);
   }
 
-  public async drawEllipse(center: Point,
+  public drawEllipse(center: Point,
                      radiusX: number,
                      radiusY: number,
                      rotation: number,
                      useUniformSize?: boolean,
                      fillStyle?: FillStyle,
                      strokeStyle?: StrokeStyle,
-                     objectStyle?: ObjectStyle): Promise<void> {
+                     objectStyle?: ObjectStyle): void {
     // draw an ellipse around the center point
     const resFactor = this.resolutionFactor;
     const zoom = !useUniformSize ? this.zoom : 1;
 
-    await this.useStrokeStyle(strokeStyle);
-    await this.useFillStyle(fillStyle);
-    await this.useObjectStyle(objectStyle);
+    this.useStrokeStyle(strokeStyle);
+    this.useFillStyle(fillStyle);
+    this.useObjectStyle(objectStyle);
     const realCenter = this.transformPointFromFieldToCanvasWithResolutionFactor(center)
     const realRadiusX = radiusX * zoom * resFactor;
     const realRadiusY = radiusY * zoom * resFactor;
@@ -651,20 +651,20 @@ export class RenderingContext extends AbstractRenderingContext {
     this.ctx.closePath();
   }
 
-  public async drawCircleSector(center: Point,
+  public drawCircleSector(center: Point,
                     radius: number,
                     startAngle: number,
                     endAngle: number,
                     useUniformSize: boolean,
                     fillStyle?: FillStyle,
                     strokeStyle?: StrokeStyle,
-                    objectStyle?: ObjectStyle): Promise<void> {
+                    objectStyle?: ObjectStyle): void {
     const zoom = !useUniformSize ? this.zoom : 1;
 
     // draw an ellipse around the center point
-    await this.useStrokeStyle(strokeStyle);
-    await this.useFillStyle(fillStyle);
-    await this.useObjectStyle(objectStyle);
+    this.useStrokeStyle(strokeStyle);
+    this.useFillStyle(fillStyle);
+    this.useObjectStyle(objectStyle);
     const realCenter = this.transformPointFromFieldToCanvasWithResolutionFactor(center)
     const realRadius = radius * zoom * this.resolutionFactor;
 
@@ -678,33 +678,33 @@ export class RenderingContext extends AbstractRenderingContext {
     this.ctx.closePath();
   }
 
-  public async drawRect(rect: Rect,
+  public drawRect(rect: Rect,
       useUniformSize: boolean,
       fillStyle?: FillStyle,
       strokeStyle?: StrokeStyle,
-      objectStyle?: ObjectStyle): Promise<void> {
+      objectStyle?: ObjectStyle): void {
     const zoom = useUniformSize ? this.zoom : 1;
 
-    await this.useStrokeStyle(strokeStyle);
-    await this.useFillStyle(fillStyle);
-    await this.useObjectStyle(objectStyle);
+    this.useStrokeStyle(strokeStyle);
+    this.useFillStyle(fillStyle);
+    this.useObjectStyle(objectStyle);
     const realRect = this.transformRectFromFieldToCanvasWithResolutionFactor(rect);
     this.ctx.fillRect(realRect.x, realRect.y, realRect.width / zoom, realRect.height / zoom);
     this.ctx.strokeRect(realRect.x, realRect.y, realRect.width / zoom, realRect.height / zoom);
   }
 
-  public async drawImage(image: CanvasImageSource,
+  public drawImage(image: CanvasImageSource,
       p: Point,
       dw: number,
       dh: number,
       useUniformSize: boolean,
       imageStyle?: ImageStyle,
-      objectStyle?: ObjectStyle): Promise<void> {
+      objectStyle?: ObjectStyle): void {
     let realP = this.transformPointFromFieldToCanvasWithResolutionFactor(p);
 
     // set the ctx up
-    await this.useImageStyle(imageStyle);
-    await this.useObjectStyle(objectStyle);
+    this.useImageStyle(imageStyle);
+    this.useObjectStyle(objectStyle);
     let ctx = this.ctx;
     const resFactor = this.resolutionFactor;
     const zoom = !useUniformSize ? this.zoom : 1;

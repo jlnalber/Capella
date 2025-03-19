@@ -12,6 +12,12 @@
         @else {
             <app-loading></app-loading>
         }
+        @if (this.objectStylePicker) {
+            <app-select-fill-style [picker]="this.fillStylePicker"></app-select-fill-style>
+        }
+        @else {
+            <app-loading></app-loading>
+        }
         <div>
             <input id="useSizesInput" type="checkbox" [(ngModel)]="this.picker.value.useSizes" (change)="this.onChange()">
             <label for="useSizesInput" title="Die Strichgröße verändert sich abhängig von Geschwindigkeit, Stiftwinkel und Stiftdruck.">Dynamische Stiftgröße verwenden</label>

@@ -5,7 +5,7 @@ import { BLACK, Color } from "src/app/global/interfaces/color";
 import { Point } from "src/app/global/interfaces/point";
 
 export class Grid extends CanvasDrawer {
-  public override async draw(ctx: AbstractRenderingContext) {
+  public override draw(ctx: AbstractRenderingContext) {
     if (ctx.config?.showGrid === undefined || ctx.config.showGrid) {
       // get metadata about the canvas
       const range = correctRect(ctx.range);
@@ -37,7 +37,7 @@ export class Grid extends CanvasDrawer {
       for (let x = range.x - range.x % (unit / base); x < range.x + range.width; x += unit / base) {
         // draw line
         let big: boolean = x % unit === 0;
-        await ctx.drawLine({
+        ctx.drawLine({
           x: x,
           y: range.y
         }, {
@@ -66,7 +66,7 @@ export class Grid extends CanvasDrawer {
             x: x + height / 4 + offset,
             y: range.y + range.height - height
           };
-          await ctx.drawPath([p1, p2, p3, p1], {
+          ctx.drawPath([p1, p2, p3, p1], {
             lineWidth: 0,
             color: stroke,
             uniformSizeOnZoom: true
@@ -76,7 +76,7 @@ export class Grid extends CanvasDrawer {
         }
         // draw the text
         else if (big && drawText) {
-          await ctx.drawText(x.toLocaleString(), {
+          ctx.drawText(x.toLocaleString(), {
             x: x,
             y: yPos
           }, {
@@ -94,7 +94,7 @@ export class Grid extends CanvasDrawer {
       for (let y = range.y - range.y % (unit / base); y < range.y + range.height; y += unit / base) {
         // draw line
         let big: boolean = y % unit === 0;
-        await ctx.drawLine({
+        ctx.drawLine({
           x: range.x,
           y: y
         }, {
@@ -123,7 +123,7 @@ export class Grid extends CanvasDrawer {
             x: range.x + range.width - width,
             y: y + width / 4 + offset
           }
-          await ctx.drawPath([p1, p2, p3, p1], {
+          ctx.drawPath([p1, p2, p3, p1], {
             lineWidth: 0,
             color: stroke,
             uniformSizeOnZoom: true
@@ -133,7 +133,7 @@ export class Grid extends CanvasDrawer {
         }
         // draw the text
         else if (big && drawText) {
-          await ctx.drawText(y.toLocaleString(), {
+          ctx.drawText(y.toLocaleString(), {
             x: xPos,
             y: y
           }, {
@@ -153,7 +153,7 @@ export class Grid extends CanvasDrawer {
         && range.x <= -offsetText
         && range.x + range.width >= -offsetText
         && drawText) {
-        await ctx.drawText('0', {
+        ctx.drawText('0', {
           x: -offsetText,
           y: -offsetText
         }, {

@@ -13,7 +13,7 @@ export default class VariableElement extends ProkyonCanvasElement {
   public readonly componentType: Type<FormulaElement> = VariableFormulaComponent;
   public override formulaDialogType = undefined;
 
-  public override async draw(): Promise<void> {
+  public override draw(): void {
     return;
   }
 

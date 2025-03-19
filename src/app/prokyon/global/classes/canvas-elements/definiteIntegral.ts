@@ -165,7 +165,7 @@ export default class DefiniteIntegral extends ProkyonCanvasElement {
     this.value = sum;
   }
 
-  public override async draw(ctx: AbstractRenderingContext): Promise<void> {
+  public override draw(ctx: AbstractRenderingContext): void {
     // Reload the data.
     this.reload(ctx.variables);
 
@@ -178,7 +178,7 @@ export default class DefiniteIntegral extends ProkyonCanvasElement {
     for (let rect of this.rects) {
       const correctRect = correctRectTo(rect, range);
       if (correctRect) {
-        await ctx.drawRect(correctRect, false, {
+        ctx.drawRect(correctRect, false, {
           color
         }, {
           color: this.stroke,

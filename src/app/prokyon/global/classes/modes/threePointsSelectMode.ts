@@ -11,8 +11,8 @@ export default abstract class ThreePointsSelectMode extends MoveMode {
   private clickedElement1: PointElement | undefined;
   private clickedElement2: PointElement | undefined;
 
-  public override async click(drawerService: DrawerService, renderingContext: AbstractRenderingContext, point: Point, pointerContext: PointerContext) {
-    const clickedElement = await drawerService.getSelection(point, (c) => c instanceof PointElement) as PointElement | undefined;
+  public override click(drawerService: DrawerService, renderingContext: AbstractRenderingContext, point: Point, pointerContext: PointerContext) {
+    const clickedElement = drawerService.getSelection(point, (c) => c instanceof PointElement) as PointElement | undefined;
 
     if (clickedElement !== undefined) {
       if (clickedElement === this.clickedElement1) {

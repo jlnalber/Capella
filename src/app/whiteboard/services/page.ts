@@ -308,7 +308,7 @@ export default class Page {
       return svg;
     }*/
 
-    public async redrawLevels(levels: number[]): Promise<void> {
+    public redrawLevels(levels: number[]): void {
         if (this.whiteboardService.canvas && this.whiteboardService.canvas.canvasAndCTX && this.whiteboardService.canvas.wrapperEl) {
             this.onBeforeRedraw.emit();
 
@@ -320,14 +320,14 @@ export default class Page {
             // draw to canvas
             for (let level of levels) {
                 const cac = canvasAndCTXs[level + LOWEST_ELEMENT_LAYER];
-                await this._redrawLevelWithProperties(level, renderingContext, cac, resolution, boundingRect);
+                this._redrawLevelWithProperties(level, renderingContext, cac, resolution, boundingRect);
             }
 
             this.onAfterRedraw.emit();
         }
     }
 
-    private async _redrawLevelWithProperties(level: number, renderingContext: MultiLayerRenderingContext, cac: CanvasAndCTX, resolution: Resolution, boundingRect: Rect): Promise<void> {
+    private _redrawLevelWithProperties(level: number, renderingContext: MultiLayerRenderingContext, cac: CanvasAndCTX, resolution: Resolution, boundingRect: Rect): void {
         // resize canvas and clear
         const rightLevel = level + LOWEST_ELEMENT_LAYER;
         const res = getResolution(resolution, rightLevel);
@@ -337,7 +337,7 @@ export default class Page {
 
         if (level === 1) {
             // draw the text when level is right
-            await this.text.draw(renderingContext);
+            this.text.draw(renderingContext);
         }
 
         let cs: WhiteboardCanvasIdElement[] = this._canvasElements.filter(cE => cE.level === level);
@@ -353,7 +353,7 @@ export default class Page {
 
             //if (canvasElement.visible || renderingContext.config?.transformColor) {
             // draw canvasElement
-            await canvasElement.draw(renderingContext);
+            canvasElement.draw(renderingContext);
 
             //}
         }
@@ -366,7 +366,7 @@ export default class Page {
         cac.ctx.clearRect(0, 0, cac.canvas.width, cac.canvas.height);
     }
 
-    public async drawToCanvas(canvasAndCTX: CanvasAndCTX[], boundingRect: Rect, transformations: Transformations): Promise<void> {
+    public drawToCanvas(canvasAndCTX: CanvasAndCTX[], boundingRect: Rect, transformations: Transformations): void {
         
         const resolution = transformations.resolutionFactor ?? DEFAULT_RESOLUTIONFACTOR;
 
@@ -389,7 +389,7 @@ export default class Page {
 
         for (let i = 0; i < 3; i++) {
 
-            await this._redrawLevelWithProperties(i, renderingContext, canvasAndCTX[i + LOWEST_ELEMENT_LAYER], resolution, boundingRect);
+            this._redrawLevelWithProperties(i, renderingContext, canvasAndCTX[i + LOWEST_ELEMENT_LAYER], resolution, boundingRect);
 
         }
 
@@ -427,19 +427,19 @@ export default class Page {
                 color: BACKGROUND_COLOR
             }
             if (rectLeft.width > 0) {
-                await renderingContext.drawRect(rectLeft, false, fillStyle)
+                renderingContext.drawRect(rectLeft, false, fillStyle)
             }
             if (rectBottom.height > 0) {
-                await renderingContext.drawRect(rectBottom, false, fillStyle)
+                renderingContext.drawRect(rectBottom, false, fillStyle)
             }
             if (rectTop.height > 0) {
-                await renderingContext.drawRect(rectTop, false, fillStyle)
+                renderingContext.drawRect(rectTop, false, fillStyle)
             }
             if (rectRight.width > 0) {
-                await renderingContext.drawRect(rectRight, false, fillStyle)
+                renderingContext.drawRect(rectRight, false, fillStyle)
             }
 
-            await renderingContext.drawRect({
+            renderingContext.drawRect({
                 x: 0,
                 y: 0,
                 height: -format.height,

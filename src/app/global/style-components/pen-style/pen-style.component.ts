@@ -110,7 +110,7 @@ export class PenStyleComponent extends AbstractPickerComponent<Picker<Pen>, Pen>
   public data: PreviewCanvasData = {
     width: this.widthPreviewCanvas,
     height: this.heightPreviewCanvas,
-    redraw: async (ctx: AbstractRenderingContext) => {
+    redraw: (ctx: AbstractRenderingContext) => {
       if (this.picker) {
         const val = this.picker.value;
         if (val) {
@@ -131,7 +131,7 @@ export class PenStyleComponent extends AbstractPickerComponent<Picker<Pen>, Pen>
             });
           }
 
-          await penElement.draw(ctx);
+          penElement.draw(ctx);
         }
       }
     },

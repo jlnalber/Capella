@@ -39,7 +39,7 @@ type Data = {
 export default class LineElement extends AbstractLine {
   readonly componentType: Type<GeometricFormulaComponent> = GeometricFormulaComponent;
 
-  public async draw(ctx: AbstractRenderingContext): Promise<void> {
+  public draw(ctx: AbstractRenderingContext): void {
     const point1 = this.point1;
     const point2 = this.point2;
 
@@ -80,14 +80,14 @@ export default class LineElement extends AbstractLine {
       }
 
       if (ctx.selection.indexOf(this) !== -1) {
-        await ctx.drawPath([pS, pE], {
+        ctx.drawPath([pS, pE], {
           lineWidth: this.lineWidth * LINE_WIDTH_SELECTED_RATIO,
           uniformSizeOnZoom: true,
           color: colorAsTransparent(this._color, TRANSPARENCY_RATIO),
           lineDash: getRegularLineDash(this.configuration.dashed)
         });
       }
-      await ctx.drawPath([pS, pE], {
+      ctx.drawPath([pS, pE], {
         lineWidth: this.lineWidth,
         uniformSizeOnZoom: true,
         color: this._color,

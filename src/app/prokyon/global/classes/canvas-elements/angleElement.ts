@@ -171,13 +171,13 @@ export default class AngleElement extends ProkyonCanvasElement {
         this.size = canvasElementSerialized.style.size ?? this.size;
     }
 
-    public override async draw(ctx: AbstractRenderingContext): Promise<void> {
+    public override draw(ctx: AbstractRenderingContext): void {
         const angles = this.angles;
         const ps = this._points;
         if (angles && ps.length === 3) {
             const c = ps[1].point;
             if (c !== undefined) {
-                await ctx.drawCircleSector(c, 
+                ctx.drawCircleSector(c, 
                     this.size,
                     angles[1], angles[0],
                     true,
@@ -193,7 +193,7 @@ export default class AngleElement extends ProkyonCanvasElement {
                     })
 
                 if (ctx.selection.indexOf(this) !== -1) {
-                    await ctx.drawCircleSector(c, 
+                    ctx.drawCircleSector(c, 
                         this.size / ctx.zoom,
                         angles[1], angles[0],
                         true,

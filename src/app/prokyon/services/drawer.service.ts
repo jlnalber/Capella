@@ -349,7 +349,7 @@ export class DrawerService extends AbstractDrawerService {
     let renderingContext = this.getRenderingContextFor(ctx, transformations);
     this.onBeforeElementsDraw.emit(renderingContext);
     for (let metaDrawer of this._metaDrawers) {
-      await metaDrawer.draw(renderingContext);
+      metaDrawer.draw(renderingContext);
     }
 
     let cs: ProkyonCanvasElement[];
@@ -372,7 +372,7 @@ export class DrawerService extends AbstractDrawerService {
 
       if (canvasElement.visible || renderingContext.config?.transformColor) {
         // draw canvasElement
-        await canvasElement.draw(renderingContext);
+        canvasElement.draw(renderingContext);
 
         // draw label
         const labelPoint = this.getLabelPoint(canvasElement, renderingContext);
@@ -382,9 +382,9 @@ export class DrawerService extends AbstractDrawerService {
           const useLaTeX = !(canvasElement.configuration.dontUseLaTeX ?? false);
           const labelFactor = canvasElement.configuration.labelSizeFactor ?? 1;
 
-          const drawRegularLabel = async () => {
+          const drawRegularLabel = () => {
             // draw a regular label
-            await renderingContext.drawText(label, labelPoint, {
+            renderingContext.drawText(label, labelPoint, {
               fontSize: [LABEL_FONT_SIZE * labelFactor, 'pt'],
               fontFamily: LABEL_FONT_FAMILY,
               color,
@@ -399,10 +399,10 @@ export class DrawerService extends AbstractDrawerService {
           if (MathJax && useLaTeX) {
             try {
               // draw a LaTeX label
-              const drawImage = async (img: HTMLImageElement) => {
+              const drawImage = (img: HTMLImageElement) => {
                 let tempWidth = img.naturalWidth * labelFactor;
                 let tempHeight = img.naturalHeight * labelFactor;
-                await renderingContext.drawImage(img, labelPoint, tempWidth, tempHeight, true)
+                renderingContext.drawImage(img, labelPoint, tempWidth, tempHeight, true)
               }
 
               // do I have to reload?
@@ -421,26 +421,26 @@ export class DrawerService extends AbstractDrawerService {
                 // then draw image
                 canvasElement.svgLabel = img as HTMLImageElement | null ?? undefined;
                 if (canvasElement.svgLabel) {
-                  await drawImage(canvasElement.svgLabel);
+                  drawImage(canvasElement.svgLabel);
                 }
                 else {
-                  await drawRegularLabel();
+                  drawRegularLabel();
                 }
               }
               else {
                 // then, draw the label:
-                await drawImage(canvasElement.svgLabel);
+                drawImage(canvasElement.svgLabel);
               }
 
             }
             catch {
               // Falls was schiefläuft, dann nochmal neu, aber mit einem regulären Bild
               canvasElement.svgLabel = undefined;
-              await drawRegularLabel();
+              drawRegularLabel();
             }
           }
           else {
-            await drawRegularLabel();
+            drawRegularLabel();
           }
         }
       }
@@ -681,12 +681,12 @@ export class DrawerService extends AbstractDrawerService {
     return undefined;
   }
 
-  public async getSelection(p: Point, filter: (cE: ProkyonCanvasElement) => boolean = () => true, omitInvisible: boolean = true): Promise<ProkyonCanvasElement | undefined> {
+  public getSelection(p: Point, filter: (cE: ProkyonCanvasElement) => boolean = () => true, omitInvisible: boolean = true): ProkyonCanvasElement | undefined {
     let ctx = this.renderingContext;
     let minDist: number | undefined = undefined;
     let minCanvasElement: ProkyonCanvasElement | undefined;
 
-    const getDistToLabel = async (canvasElement: ProkyonCanvasElement): Promise<number | undefined> => {
+    const getDistToLabel = (canvasElement: ProkyonCanvasElement): number | undefined => {
       const labelPoint = this.getLabelPoint(canvasElement, ctx);
       if (canvasElement.configuration.label === undefined || labelPoint === undefined) {
         return undefined;
@@ -697,7 +697,7 @@ export class DrawerService extends AbstractDrawerService {
       let fieldHeight = 0;
       if (canvasElement.configuration.dontUseLaTeX || canvasElement.svgLabel === undefined) {
         // Bei einem regulären Label
-        const measureText = await ctx.measureText(canvasElement.configuration.label, {
+        const measureText = ctx.measureText(canvasElement.configuration.label, {
           fontSize: [ LABEL_FONT_SIZE, 'pt' ],
           fontFamily: LABEL_FONT_FAMILY,
           color: BLACK,
@@ -721,7 +721,7 @@ export class DrawerService extends AbstractDrawerService {
 
     // find out the element with the minimal distance
     for (let canvasElement of this.canvasElements) {
-      const dist = getMinUndef(canvasElement.getDistance(p, ctx), await getDistToLabel(canvasElement));
+      const dist = getMinUndef(canvasElement.getDistance(p, ctx), getDistToLabel(canvasElement));
       if (dist !== undefined && dist !== null && isFinite(dist) && filter(canvasElement) && (canvasElement.visible || !omitInvisible)) {
         let closer = minDist === undefined;
         closer = closer || dist <= minDist!;
@@ -742,8 +742,8 @@ export class DrawerService extends AbstractDrawerService {
     return minCanvasElement;
   }
 
-  public async setSelection(p: Point, empty: boolean = true, filter: (cE: ProkyonCanvasElement) => boolean = () => true) {
-    const minCanvasElement = await this.getSelection(p, filter);
+  public setSelection(p: Point, empty: boolean = true, filter: (cE: ProkyonCanvasElement) => boolean = () => true) {
+    const minCanvasElement = this.getSelection(p, filter);
 
     // set the selection, or alternate the element, e.g. when ctrl is pressed
     if (empty) {

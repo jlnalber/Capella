@@ -9,6 +9,8 @@ import ObjectStyle from '../../interfaces/canvasStyles/objectStyle';
 import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from "../../loading/loading.component";
 import { SelectObjectStyleComponent } from "../select-object-style/select-object-style.component";
+import FillStyle from '../../interfaces/canvasStyles/fillStyle';
+import { SelectFillStyleComponent } from "../select-fill-style/select-fill-style.component";
 
 @Component({
   selector: 'app-easy-pen-style-style',
@@ -17,7 +19,8 @@ import { SelectObjectStyleComponent } from "../select-object-style/select-object
     EasyStrokeStyleComponent,
     FormsModule,
     LoadingComponent,
-    SelectObjectStyleComponent
+    SelectObjectStyleComponent,
+    SelectFillStyleComponent
 ],
   templateUrl: './easy-pen-style-style.component.html',
   styleUrl: './easy-pen-style-style.component.scss'
@@ -29,6 +32,7 @@ export class EasyPenStyleStyleComponent extends AbstractPickerComponent<Picker<E
   
   public easyStrokeStylePicker?: Picker<EasyStrokeStyle>;
   public objectStylePicker?: Picker<ObjectStyle>;
+  public fillStylePicker?: Picker<FillStyle>;
   
   ngAfterViewInit() {
     setTimeout(() => { // TODO: doesn't load
@@ -49,6 +53,16 @@ export class EasyPenStyleStyleComponent extends AbstractPickerComponent<Picker<E
         }
       }, true, () => this.picker?.isDisabled() ?? false);
       this.objectStylePicker.onValueChanged.addListener(() => {
+        this.onChange();
+      })
+      
+      this.fillStylePicker = new Picker<FillStyle>(() => this.picker?.value?.fillStyle, (style?: FillStyle) => {
+        if (style && this.picker !== undefined && this.picker.value !== undefined) {
+          this.picker.value.fillStyle = style;
+          this.picker.triggerChange();
+        }
+      }, true, () => this.picker?.isDisabled() ?? false);
+      this.fillStylePicker.onValueChanged.addListener(() => {
         this.onChange();
       })
     }, 0);

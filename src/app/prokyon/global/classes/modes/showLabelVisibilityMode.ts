@@ -5,8 +5,8 @@ import AbstractRenderingContext from "src/app/global/classes/renderingContext/ab
 import { PointerContext } from "src/app/global/classes/pointerController";
 
 export default class ShowLabelVisibilityMode extends MoveMode {
-  public override async click(drawerService: DrawerService, renderingContext: AbstractRenderingContext, point: Point, pointerContext: PointerContext) {
-    const clickedElement = await drawerService.getSelection(point);
+  public override click(drawerService: DrawerService, renderingContext: AbstractRenderingContext, point: Point, pointerContext: PointerContext) {
+    const clickedElement = drawerService.getSelection(point);
     if (clickedElement !== undefined) {
       clickedElement.configuration.showLabel = clickedElement.configuration.showLabel !== true;
       drawerService.onCanvasElementChanged.emit(clickedElement);

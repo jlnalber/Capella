@@ -39,15 +39,16 @@ export default class PenElement extends WhiteboardCanvasMinorChangeElement<PenPo
         }
         this._points.push(p);
 
+        // decide whether draw all because of filling
         if (renderingContext) {
-            renderingContext.requestForeignDrawing(this, async () => {
-                await this.drawNextPoint(renderingContext);
+            renderingContext.requestForeignDrawing(this, () => {
+                this.drawNextPoint(renderingContext);
             });
             this.onMinorChange.emit([this, renderingContext, p]);
         }
     }
 
-    private async drawNextPoint(ctx: AbstractRenderingContext): Promise<void> {
+    private drawNextPoint(ctx: AbstractRenderingContext): void {
         if (this._points.length > 2) {
             // try to replicate the rendering in one stroke as precisely as possible
             let lastP: StrokePoint;
@@ -64,7 +65,7 @@ export default class PenElement extends WhiteboardCanvasMinorChangeElement<PenPo
             const thisP = getStrokePointMiddle(this._points[this._points.length - 2], this._points[this._points.length - 1], this._points, 2);
             const control = getStrokePointFromPenPoint(this._points[this._points.length - 2], getAverageFromLastPoints(this._points, 2));
 
-            await ctx.drawSmoothPathSegment({
+            ctx.drawSmoothPathSegment({
                 from: lastP,
                 control: control,
                 to: thisP
@@ -83,8 +84,8 @@ export default class PenElement extends WhiteboardCanvasMinorChangeElement<PenPo
         return this._points[this._points.length - 1];
     }
 
-    public override async draw(ctx: AbstractRenderingContext): Promise<void> {
-        await ctx.drawSmoothPath(this._points, this.changeThickness, this._penStyle.strokeStyle, this._penStyle.objectStyle);
+    public override draw(ctx: AbstractRenderingContext): void {
+        ctx.drawSmoothPath(this._points, this.changeThickness, this._penStyle.strokeStyle, this._penStyle.objectStyle);
     }
 
     private get changeThickness(): boolean | undefined {

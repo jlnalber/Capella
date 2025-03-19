@@ -68,7 +68,7 @@ export class Graph extends ProkyonCanvasElement {
     this._visible = visible;
   }
 
-  public override async draw(ctx: AbstractRenderingContext) {
+  public override draw(ctx: AbstractRenderingContext) {
     if (this.funcError || this.func === undefined) {
       this.reparse();
     }
@@ -200,14 +200,14 @@ export class Graph extends ProkyonCanvasElement {
 
     // Then, draw all paths.
     for (let path of paths) {
-      await ctx.drawPath(path, {
+      ctx.drawPath(path, {
         lineWidth: this.lineWidth,
         color: this._color,
         uniformSizeOnZoom: true,
         lineDash: getRegularLineDash(this.configuration.dashed)
       });
       if (selected) {
-        await ctx.drawPath(path, {
+        ctx.drawPath(path, {
           lineWidth: lineWidthSelected,
           color: colorSelected,
           uniformSizeOnZoom: true,

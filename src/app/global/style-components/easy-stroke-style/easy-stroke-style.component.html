@@ -1,71 +1,8 @@
 <div class="wrapper">
     @if (this.picker) {
         <label class="paragraph">Strichstil:</label><br>
-        
-        <table class="styleTable">
-            <tr>
-                <td class="lineDashLabelTD">
-                    <label>Line dash:</label>
-                </td>
-                <td>
-                    <div title="Verwende gestrichelte Linien">
-                        <input type="checkbox" id="lineDashEnabled" [(ngModel)]="this.lineDashEnabled">
-                        <label for="lineDashEnabled">Gestrichelte Linien verwenden</label>
-                    </div>
-                    <div id="lineDash" class="lineDashWrapper roundBorderWrapper">
-                        @for (i of this.lineDash; track $index) {
-                            <div class="lineDashContainer loopContainer borderBottom">
-                                <input class="input numberInput" type="number" [disabled]="!this.lineDashEnabled" (change)="this.onChange()" [(ngModel)]="this.lineDash[$index]" title="Line-Dash-Wert">
-                                <button class="iconButton floatRight" [disabled]="!this.lineDashEnabled" (click)="this.removeLineDash($index)"><img src="assets/trash.svg" alt="Icon" class="icon"></button>
-                            </div>
-                        }
-                        <div class="add divButton smallDivButton" [class.disabled]="!this.lineDashEnabled" tabindex="0" (click)="this.addLineDash()">
-                            <p>
-                                <span><img [src]="'./assets/plus.svg'" class="icon iconInText smallIcon" alt="button"/></span>
-                                Hinzufügen
-                            </p>
-                        </div>
-                    </div>
-                </td>
-                <!-- line dash und line dash offset -->
-            </tr>
-            <tr>
-                <td class="lineDashOffsetLabelTD">
-                    <label for="lineDashOffsetInput">Line dash offset:</label>
-                </td>
-                <td>
-                    <div title="Verwende Offset für gestrichelte Linien">
-                        <input type="checkbox" id="lineDashOffsetEnabled" [(ngModel)]="this.lineDashOffsetEnabled">
-                        <label for="lineDashOffsetEnabled">Offset für gestrichelte Linien verwenden</label>
-                    </div>
-                    <input id="lineDashOffsetInput" [disabled]="!this.lineDashOffsetEnabled" class="input numberInput" type="number" step="any" [(ngModel)]="this.lineDashOffset">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="lineJoinSelector">Line join:</label>
-                </td>
-                <td>
-                    <select title="Wie sollen die Striche miteinander verbunden werden?" id="lineJoinSelector" class="select" [(ngModel)]="this.lineJoin">
-                        @for (lineJoin of lineJoins; track $index) {
-                            <option [ngValue]="lineJoin">{{ lineJoin }}</option>
-                        }
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="lineCapSelector">Line cap:</label>
-                </td>
-                <td>
-                    <select title="Wie sollen die Striche aufhören?" id="lineCapSelector" class="select" [(ngModel)]="this.lineCap">
-                        @for (lineCap of lineCaps; track $index) {
-                            <option [ngValue]="lineCap">{{ lineCap }}</option>
-                        }
-                    </select>
-                </td>
-            </tr>
-        </table>
+
+        <app-universal-stroke-style [picker]="this.strokeStylePicker" [isComplete]="false"></app-universal-stroke-style>
     }
     @else {
         <app-loading></app-loading>

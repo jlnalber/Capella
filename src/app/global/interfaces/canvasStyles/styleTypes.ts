@@ -44,20 +44,23 @@ export function areEqualObjectStyleUniformSizeOnZoom(f1: boolean | undefined, f2
     return f1 === f2 || (isDefaultObjectStyleUniformSizeOnZoom(f1) && isDefaultObjectStyleUniformSizeOnZoom(f2));
 }
 export function isDefaultObjectStyleUniformSizeOnZoom(o: boolean | undefined): boolean {
-    return o === undefined || o === false;
+    return o === undefined || o === DEFAULT_OBJECT_STYLE_UNIFORMSIZEONZOOM;
 }
+export const DEFAULT_OBJECT_STYLE_UNIFORMSIZEONZOOM = false;
 export function areEqualFillStyleUniformSizeOnZoom(f1: boolean | undefined, f2: boolean | undefined): boolean {
     return f1 === f2 || (isDefaultFillStyleUniformSizeOnZoom(f1) && isDefaultFillStyleUniformSizeOnZoom(f2));
 }
 export function isDefaultFillStyleUniformSizeOnZoom(o: boolean | undefined): boolean {
-    return o === undefined || o === false;
+    return o === undefined || o === DEFAULT_FILL_STYLE_UNIFORMSIZEONZOOM;
 }
+export const DEFAULT_FILL_STYLE_UNIFORMSIZEONZOOM = false;
 export function areEqualStrokeStyleUniformSizeOnZoom(f1: boolean | undefined, f2: boolean | undefined): boolean {
     return f1 === f2 || (isDefaultStrokeStyleUniformSizeOnZoom(f1) && isDefaultStrokeStyleUniformSizeOnZoom(f2));
 }
 export function isDefaultStrokeStyleUniformSizeOnZoom(o: boolean | undefined): boolean {
-    return o === undefined || o === false;
+    return o === undefined || o === DEFAULT_STROKE_STYLE_UNIFORMSIZEONZOOM;
 }
+export const DEFAULT_STROKE_STYLE_UNIFORMSIZEONZOOM = false;
 
 export type LineCap = CanvasLineCap;
 export const DEFAULT_LINECAP: LineCap = 'round';

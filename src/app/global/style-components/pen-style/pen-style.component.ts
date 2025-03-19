@@ -1,7 +1,7 @@
 import { Component, Input, AfterViewInit } from '@angular/core';
 import AbstractPickerComponent from '../abstractPickerComponent';
 import Picker from '../pickers/picker';
-import { DEFAULT_MAX_PEN_SIZE, DEFAULT_MIN_PEN_SIZE, EasyPenColorStyle, EasyPenStyle, getColorStyleOfPen, getPenStyleOfPen, Pen } from 'src/app/whiteboard/global/interfaces/penStyle';
+import { DEFAULT_MAX_PEN_SIZE, DEFAULT_MIN_PEN_SIZE, EasyPenColorStyle, EasyPenStyle, getColorStyleOfPen, getPenStyleOfPen, Pen, PEN_SIZE_TO_STRING } from 'src/app/whiteboard/global/interfaces/penStyle';
 import { StringInputComponent } from '../string-input/string-input.component';
 import { EasyPenStyleStyleComponent } from "../easy-pen-style-style/easy-pen-style-style.component";
 import { ColorPickerComponent } from "../color-picker/color-picker.component";
@@ -75,9 +75,9 @@ export class PenStyleComponent extends AbstractPickerComponent<Picker<Pen>, Pen>
       // TODO: global max and min (settings)
       this.sliderInputPicker = new SliderInputPicker(() => this.picker?.value?.lineWidth,
                         (t?: number) => { if (t && this.picker?.value) this.picker.value.lineWidth = t },
-                        DEFAULT_MIN_PEN_SIZE, 
-                        DEFAULT_MAX_PEN_SIZE, 
-                        (n: number | undefined) => `${Math.round((n ?? 0) / PX_PER_MM * 100) / 100} mm`,
+                        DEFAULT_MIN_PEN_SIZE,
+                        DEFAULT_MAX_PEN_SIZE,
+                        PEN_SIZE_TO_STRING,
                         'Stiftgröße:',
                         true);
       this.sliderInputPicker.onValueChanged.addListener(this._redrawListener);

@@ -1,1 +1,6 @@
-<p>stroke-style works!</p>
+@if (this.picker && this.strokeStylePicker) {
+    <app-universal-stroke-style [picker]="this.strokeStylePicker" [isComplete]="true"></app-universal-stroke-style>
+}
+@else {
+    <app-loading></app-loading>
+}

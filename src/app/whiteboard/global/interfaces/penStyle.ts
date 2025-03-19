@@ -184,6 +184,7 @@ export const DEFAULT_PEN: Pen = {
 
 export const DEFAULT_MIN_PEN_SIZE: number = 0.1 * PX_PER_MM;
 export const DEFAULT_MAX_PEN_SIZE: number = 8 * PX_PER_MM;
+export const PEN_SIZE_TO_STRING: (n: number | undefined) => string = (n: number | undefined) => `${Math.round((n ?? 0) / PX_PER_MM * 100) / 100} mm`;
 
 
 function createNoisePattern(color: Color, then?: () => void): string {

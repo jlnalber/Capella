@@ -1,3 +1,4 @@
+import { instanceOfPattern, ColorStyle } from './../../global/interfaces/canvasStyles/colorStyle';
 import { CanvasConfig } from 'src/app/global/classes/renderingContext/abstractRenderingContext';
 import { DEFAULT_PENS, Pen } from '../global/interfaces/penStyle';
 import { BLACK, BLUE, Color, GREEN, GREY, RED, WHITE, YELLOW } from 'src/app/global/interfaces/color';
@@ -5,6 +6,7 @@ import { ObjectStyleWrapper } from 'src/app/global/interfaces/canvasStyles/objec
 import { FillStyleWrapper } from 'src/app/global/interfaces/canvasStyles/fillStyle';
 import { StrokeStyleWrapper } from 'src/app/global/interfaces/canvasStyles/strokeStyle';
 import { ImageStyleWrapper } from 'src/app/global/interfaces/canvasStyles/imageStyle';
+import { getImageToBase64 } from 'src/app/global/essentials/imageUtils';
 
 const OBJECT_STYLES_LOCALSTORAGE = 'OBJECT_STYLES_LOCSTOR';
 const OBJECT_STYLES_DEFAULT: ObjectStyleWrapper[] = [];
@@ -60,6 +62,8 @@ export class WhiteboardSettings {
       const p = localStorage.getItem(ADD_PENS_LOCALSTORAGE);
       if (p !== null) {
         this.addPens = JSON.parse(p) as Pen[];
+
+        this.loadImages(this.addPens.filter(p => p.colorStyle !== undefined && typeof p.colorStyle !== 'number' && typeof p.colorStyle !== 'function').map(p => p.colorStyle as ColorStyle | undefined))
       }
     }
     return this.addPens ?? ADD_PENS_DEFAULT;
@@ -101,6 +105,16 @@ export class WhiteboardSettings {
   }
 
   // object styles
+  private loadImages(cs: (ColorStyle | undefined)[]): void {
+    for (let c of cs) {
+      if (c !== undefined && instanceOfPattern(c)) {
+        try {
+          getImageToBase64(c.picture); // load the image in the cache!
+        } catch { }
+      }
+    }
+  }
+
   private objectStyles: ObjectStyleWrapper[] | undefined;
 
   public getObjectStyles(): ObjectStyleWrapper[] {
@@ -126,6 +140,8 @@ export class WhiteboardSettings {
       const p = localStorage.getItem(FILL_STYLES_LOCALSTORAGE);
       if (p !== null) {
         this.fillStyles = JSON.parse(p) as FillStyleWrapper[];
+        
+        this.loadImages(this.fillStyles.map(f => f.style.color));
       }
     }
     return this.fillStyles ?? FILL_STYLES_DEFAULT;
@@ -144,6 +160,8 @@ export class WhiteboardSettings {
       const p = localStorage.getItem(STROKE_STYLES_LOCALSTORAGE);
       if (p !== null) {
         this.strokeStyles = JSON.parse(p) as StrokeStyleWrapper[];
+
+        this.loadImages(this.strokeStyles.map(s => s.style.color));
       }
     }
     return this.strokeStyles ?? STROKE_STYLES_DEFAULT;

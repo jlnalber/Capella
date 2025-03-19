@@ -1,1 +1,32 @@
-<p>image-style works!</p>
+<div class="wrapper">
+    @if (this.picker) {
+        <table class="styleTable">
+            <tr>
+                <td>
+                    <label>Smoothing:</label>
+                </td>
+                <td>
+                    <div title="Verwende Image Smoothing">
+                        <input type="checkbox" id="imageSmoothingEnabled" [(ngModel)]="this.imageSmoothingEnabled">
+                        <label for="imageSmoothingEnabled">Image Smoothing verwenden</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="imageSmoothingQualitySelector">Smoothing Qualität:</label>
+                </td>
+                <td>
+                    <select title="Wie hoch soll die Qualität des Image Smoothings sein?" id="imageSmoothingQualitySelector" class="select" [(ngModel)]="this.imageSmoothingQuality">
+                        @for (q of imageSmoothingQualities; track $index) {
+                            <option [ngValue]="q">{{ q }}</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+        </table>
+    }
+    @else {
+        <app-loading></app-loading>
+    }
+</div>

@@ -5,6 +5,8 @@ export default interface ImageStyle {
     imageSmoothingQuality?: ImageSmoothingQuality
 }
 
+export const ALL_IMAGESMOOTHINGQUALITY: ImageSmoothingQuality[] = [ 'low', 'medium', 'high' ]
+
 export interface ImageStyleWrapper {
     style: ImageStyle,
     name: string

@@ -40,7 +40,7 @@ export class ProkyonComponent {
 
   tabs: Tab[] = [
     {
-      title: 'Formeln',
+      title: 'Funktionen',
       icon: 'sigma',
       componentType: FormulaTabComponent
     },

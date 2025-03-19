@@ -1,5 +1,7 @@
 import {Injectable, ViewContainerRef} from '@angular/core';
 import {SnackbarComponent} from "./snackbar/snackbar.component";
+import { getColorAsRgbFunction } from '../interfaces/color';
+import { ERROR_COLOR } from '../styles/colors';
 
 export interface SnackbarConfig {
   color?: string,
@@ -38,6 +40,14 @@ export class SnackbarService {
         snackbar.destroy();
         resolve();
       }, duration);
+    })
+  }
+  
+  public openErrorSnackbar(errorMessage: string = 'Ein unerwarteter Fehler ist aufgetreten!', duration?: number): void {
+    this.openSnackbar(errorMessage, {
+      duration,
+      color: 'white',
+      background: getColorAsRgbFunction(ERROR_COLOR)
     })
   }
 }

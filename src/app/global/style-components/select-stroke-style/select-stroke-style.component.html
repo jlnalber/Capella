@@ -2,8 +2,8 @@
     @if (this.picker) {
         <label class="paragraph">Strichstil:</label><br>
 
-        <input type="radio" id="saved" value="saved" [(ngModel)]="this.isCustom">
-        <label for="saved">Gespeicherten Strichstil auswählen</label><br>
+        <input type="radio" id="savedStrokeStyle" value="saved" [(ngModel)]="this.isCustom">
+        <label for="savedStrokeStyle">Gespeicherten Strichstil auswählen</label><br>
         @if (this.isCustom === 'saved') {
             <div class="wrapperForStyle">
                 <select [(ngModel)]="this.selectedSavedStyle" title="Gespeicherten Strichstil auswählen" class="select">
@@ -14,8 +14,8 @@
             </div>
         }
 
-        <input type="radio" id="custom" value="custom" [(ngModel)]="this.isCustom">
-        <label for="custom">Eigenen Strichstil verwenden</label><br>
+        <input type="radio" id="customStrokeStyle" value="custom" [(ngModel)]="this.isCustom">
+        <label for="customStrokeStyle">Eigenen Strichstil verwenden</label><br>
         @if (this.isCustom === 'custom') {
             @if (this.customPicker) {
                 <div class="wrapperForStyle">

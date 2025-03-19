@@ -354,7 +354,7 @@ export class RenderingContext extends AbstractRenderingContext {
   }
 
   // smooth path: quadratic beziers
-  public override drawSmoothPath(path: PenPoint[], changeThickness: boolean | undefined, strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void {
+  public override drawSmoothPath(path: PenPoint[], changeThickness: boolean | undefined, strokeStyle: StrokeStyle, fillStyle?: FillStyle, objectStyle?: ObjectStyle): void {
 
     const baseLineWidth = strokeStyle.lineWidth;
 
@@ -377,6 +377,14 @@ export class RenderingContext extends AbstractRenderingContext {
 
       // begin
       const beginAndClosePathIfContinousOnMyOwn = changeThickness !== true;
+
+      if (beginAndClosePathIfContinousOnMyOwn) {
+        this.useFillStyle(fillStyle);
+      }
+      else if (fillStyle) {
+        this.drawSmoothPath(path, false, EMPTY_STROKESTYLE, fillStyle, objectStyle);
+      }
+
       if (beginAndClosePathIfContinousOnMyOwn) {
         this.ctx.beginPath();
       }
@@ -399,7 +407,7 @@ export class RenderingContext extends AbstractRenderingContext {
             from: lastP,
             control: point,
             to: to
-          }, !beginAndClosePathIfContinousOnMyOwn, getThicknessSettings(lastP, point, baseLineWidth, changeThickness, this))
+          }, !beginAndClosePathIfContinousOnMyOwn, getThicknessSettings(lastP, point, baseLineWidth, changeThickness, this), false)
 
           lastP = to;
         }
@@ -410,10 +418,13 @@ export class RenderingContext extends AbstractRenderingContext {
         from: lastP,
         control: lastP,
         to: endP
-      }, !beginAndClosePathIfContinousOnMyOwn, getThicknessSettings(lastP, lastP, baseLineWidth, changeThickness, this));
+      }, !beginAndClosePathIfContinousOnMyOwn, getThicknessSettings(lastP, lastP, baseLineWidth, changeThickness, this), false);
 
       // close path if needed
       if (beginAndClosePathIfContinousOnMyOwn) {
+        if (fillStyle) {
+          this.ctx.fill();
+        }
         this.ctx.stroke();
         this.ctx.closePath();
       }
@@ -429,7 +440,7 @@ export class RenderingContext extends AbstractRenderingContext {
 
   }
 
-  private drawSmoothPathSegmentWithoutSettings(qbz: QuadraticBezier, beginAndClosePathIfContinous: boolean, thicknessSettings?: ThicknessSettings): void {
+  private drawSmoothPathSegmentWithoutSettings(qbz: QuadraticBezier, beginAndClosePathIfContinous: boolean, thicknessSettings?: ThicknessSettings, moveTo: boolean = true): void {
     const realQBZ: QuadraticBezier = {
       from: this.transformPointFromFieldToCanvasWithResolutionFactor(qbz.from),
       control: this.transformPointFromFieldToCanvasWithResolutionFactor(qbz.control),
@@ -441,7 +452,9 @@ export class RenderingContext extends AbstractRenderingContext {
         this.ctx.beginPath();
       }
 
-      this.ctx.moveTo(realQBZ.from.x, realQBZ.from.y);
+      if (moveTo) {
+        this.ctx.moveTo(realQBZ.from.x, realQBZ.from.y);
+      }
       this.ctx.quadraticCurveTo(realQBZ.control.x, realQBZ.control.y, realQBZ.to.x, realQBZ.to.y);
       
       if (beginAndClosePathIfContinous) {

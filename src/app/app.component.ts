@@ -1,9 +1,6 @@
 import { Component, ViewContainerRef, AfterViewInit } from '@angular/core';
 import { SnackbarService } from './global/snackbar/snackbar.service';
 import { DialogService } from './global/dialog/dialog.service';
-import { getColorAsRgbFunction } from './global/interfaces/color';
-import { colors, ERROR_COLOR } from './global/styles/colors';
-import { openErrorSnackbar } from './prokyon/global/essentials/analysingFunctionsUtils';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +15,6 @@ export class AppComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    openErrorSnackbar(this.snackbarService, 'Instabile Version in der Entwicklung. Einige Features sind möglicherweise unvollständig.', 5000);
+    this.snackbarService.openErrorSnackbar('Instabile Version in der Entwicklung. Einige Features sind möglicherweise unvollständig.', 5000);
   }
 }

@@ -194,7 +194,7 @@ export default abstract class AbstractRenderingContext {
 
   public abstract drawPath(path: Point[], strokeStyle: StrokeStyle, fill?: FillStyle, objectStyle?: ObjectStyle): void;
 
-  public abstract drawSmoothPath(path: PenPoint[], changeThickness: boolean | undefined, strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void;
+  public abstract drawSmoothPath(path: PenPoint[], changeThickness: boolean | undefined, strokeStyle: StrokeStyle, fill?: FillStyle, objectStyle?: ObjectStyle): void;
 
   public abstract drawSmoothPathSegment(qbz: QuadraticBezier, thicknessSettings: ThicknessSettings | undefined, strokeStyle: StrokeStyle, objectStyle?: ObjectStyle): void;
 

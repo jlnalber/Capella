@@ -1,7 +1,7 @@
 <div class="wrapper">
     @if (this.picker) {
-        <input type="radio" id="color" value="color" [(ngModel)]="this.selectedType">
-        <label for="color">Farbe verwenden</label><br>
+        <input type="radio" id="colorCSSC" value="color" [(ngModel)]="this.selectedType">
+        <label for="colorCSSC">Farbe verwenden</label><br>
         @if (this.selectedType === "color") {
             @if (this.colorPicker) {
                 <div class="wrapperForStyle">
@@ -13,8 +13,8 @@
             }
         }
 
-        <input type="radio" id="radial" value="radialgrad" [(ngModel)]="this.selectedType">
-        <label for="radial">Radialverlauf verwenden</label><br>
+        <input type="radio" id="radialCSSC" value="radialgrad" [(ngModel)]="this.selectedType">
+        <label for="radialCSSC">Radialverlauf verwenden</label><br>
         @if (this.selectedType === "radialgrad") {
             @if (this.radialGradientPicker) {
                 <div class="wrapperForStyle">
@@ -26,8 +26,8 @@
             }
         }
 
-        <input type="radio" id="conic" value="conicgrad" [(ngModel)]="this.selectedType">
-        <label for="conic">Kreisverlauf verwenden</label><br>
+        <input type="radio" id="conicCSSC" value="conicgrad" [(ngModel)]="this.selectedType">
+        <label for="conicCSSC">Kreisverlauf verwenden</label><br>
         @if (this.selectedType === "conicgrad") {
             @if (this.conicGradientPicker) {
                 <div class="wrapperForStyle">
@@ -39,8 +39,8 @@
             }
         }
 
-        <input type="radio" id="linear" value="lineargrad" [(ngModel)]="this.selectedType">
-        <label for="linear">Linearverlauf verwenden</label><br>
+        <input type="radio" id="linearCSSC" value="lineargrad" [(ngModel)]="this.selectedType">
+        <label for="linearCSSC">Linearverlauf verwenden</label><br>
         @if (this.selectedType === "lineargrad") {
             @if (this.linearGradientPicker) {
                 <div class="wrapperForStyle">
@@ -52,8 +52,8 @@
             }
         }
 
-        <input type="radio" id="pattern" value="pattern" [(ngModel)]="this.selectedType">
-        <label for="pattern">Muster verwenden</label><br>
+        <input type="radio" id="patternCSSC" value="pattern" [(ngModel)]="this.selectedType">
+        <label for="patternCSSC">Muster verwenden</label><br>
         @if (this.selectedType === "pattern") {
             @if (this.patternPicker) {
                 <div class="wrapperForStyle">

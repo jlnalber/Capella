@@ -7,9 +7,6 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 import { ViewPensComponent } from './view-pens/view-pens.component';
 import { SnackbarService } from '../global/snackbar/snackbar.service';
-import { getColorAsRgbFunction } from '../global/interfaces/color';
-import { ERROR_COLOR } from '../global/styles/colors';
-import { openErrorSnackbar } from '../prokyon/global/essentials/analysingFunctionsUtils';
 import { ViewObjectStylesComponent } from './view-object-styles/view-object-styles.component';
 import { ViewStrokeStylesComponent } from './view-stroke-styles/view-stroke-styles.component';
 import { ViewFillStylesComponent } from './view-fill-styles/view-fill-styles.component';
@@ -34,7 +31,7 @@ export class SettingsComponent {
       this.snackbarService.openSnackbar('Einstellungen gespeichert');
     } catch (e) {
       console.error(e);
-      openErrorSnackbar(this.snackbarService, 'Fehler beim Speichern der Einstellungen');
+      this.snackbarService.openErrorSnackbar('Fehler beim Speichern der Einstellungen');
     }
   }
 

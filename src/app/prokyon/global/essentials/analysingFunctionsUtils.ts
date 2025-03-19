@@ -23,14 +23,6 @@ export function openSnackbarWithMessageForSpecialPoints(snackbarService: Snackba
   snackbarService.openSnackbar(getMessageForSpecialPoints(name, count));
 }
 
-export function openErrorSnackbar(snackbarService: SnackbarService, errorMessage: string = 'Ein unerwarteter Fehler ist aufgetreten!', duration?: number): void {
-  snackbarService.openSnackbar(errorMessage, {
-    duration,
-    color: 'white',
-    background: getColorAsRgbFunction(ERROR_COLOR)
-  })
-}
-
 export function getDependencyStillActiveListenerForGraphDependency(drawerService: DrawerService, graph: Graph): () => boolean {
   return () => {
     for (let canvasElement of drawerService.canvasElements) {

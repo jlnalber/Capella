@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import {DrawerService} from "../services/drawer.service";
-import {
-  openErrorSnackbar,
-  openSnackbarWithMessageForSpecialPoints
-} from "../global/essentials/analysingFunctionsUtils";
+import { openSnackbarWithMessageForSpecialPoints } from "../global/essentials/analysingFunctionsUtils";
 import {Graph} from "../global/classes/canvas-elements/graph";
 import DependencyPointElements from "../global/classes/canvas-elements/dependencyPointElements";
 import { SnackbarService } from 'src/app/global/snackbar/snackbar.service';
@@ -54,7 +51,7 @@ export class FuncAnalyserDialogComponent {
           }));
       }
     } catch {
-      openErrorSnackbar(this.snackbarService);
+      this.snackbarService.openErrorSnackbar();
     }
     this.dialog.close();
   }
@@ -69,7 +66,7 @@ export class FuncAnalyserDialogComponent {
           }));
       }
     } catch {
-      openErrorSnackbar(this.snackbarService);
+      this.snackbarService.openErrorSnackbar();
     }
     this.dialog.close();
   }
@@ -85,7 +82,7 @@ export class FuncAnalyserDialogComponent {
         this.drawerService.addCanvasElements(d);
       }
     } catch {
-      openErrorSnackbar(this.snackbarService);
+      this.snackbarService.openErrorSnackbar();
     }
     this.dialog.close();
   }

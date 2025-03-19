@@ -4,6 +4,7 @@ import { WhiteboardSettings } from 'src/app/whiteboard/services/whiteboardSettin
 import { getStrokePointMiddle, PenPoint, StrokePoint, getStrokePointFromPenPoint, getAverageFromLastPoints } from 'src/app/global/interfaces/penPoint';
 import WhiteboardCanvasMinorChangeElement from '../abstract/whiteboardCanvasMinorChangeElement';
 import { getThicknessSettings } from 'src/app/global/classes/renderingContext/renderingUtils';
+import { isDefaultFillStyle } from 'src/app/global/interfaces/canvasStyles/fillStyle';
 
 export default class PenElement extends WhiteboardCanvasMinorChangeElement<PenPoint> {
 
@@ -40,7 +41,11 @@ export default class PenElement extends WhiteboardCanvasMinorChangeElement<PenPo
         this._points.push(p);
 
         // decide whether draw all because of filling
-        if (renderingContext) {
+        const realFillStyle = this.hasRealFillStyle();
+        if (realFillStyle) {
+            this.onChange.emit(this);
+        }
+        else if (renderingContext) {
             renderingContext.requestForeignDrawing(this, () => {
                 this.drawNextPoint(renderingContext);
             });
@@ -85,11 +90,15 @@ export default class PenElement extends WhiteboardCanvasMinorChangeElement<PenPo
     }
 
     public override draw(ctx: AbstractRenderingContext): void {
-        ctx.drawSmoothPath(this._points, this.changeThickness, this._penStyle.strokeStyle, this._penStyle.objectStyle);
+        ctx.drawSmoothPath(this._points, this.changeThickness, this._penStyle.strokeStyle, this.hasRealFillStyle() ? this._penStyle.fillStyle : undefined, this._penStyle.objectStyle);
     }
 
     private get changeThickness(): boolean | undefined {
         return this._penStyle.useSizes && !this.settings.getGlobalConfig().neverUseSizesForPen;
+    }
+
+    public hasRealFillStyle(): boolean {
+        return !isDefaultFillStyle(this._penStyle.fillStyle);
     }
 
 }

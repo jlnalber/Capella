@@ -4,6 +4,7 @@ import Picker from '../pickers/picker';
 import { DEFAULT_PATTERN_ZOOMFACTOR, Pattern } from '../../interfaces/canvasStyles/colorStyle';
 import { getImageToBase64 } from '../../essentials/imageUtils';
 import { FormsModule } from '@angular/forms';
+import { SnackbarService } from '../../snackbar/snackbar.service';
 
 @Component({
   selector: 'app-pattern-style',
@@ -51,8 +52,15 @@ export class PatternStyleComponent extends AbstractPickerComponent<Picker<Patter
             })
           }
         };
+        reader.onerror = ev => {
+          this.snackbarService.openErrorSnackbar(ev.type)
+        }
         reader.readAsDataURL(file);
       }
     }
+  }
+
+  constructor(private readonly snackbarService: SnackbarService) {
+    super();
   }
 }
